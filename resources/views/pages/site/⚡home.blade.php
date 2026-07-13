@@ -67,13 +67,59 @@ new #[Layout('layouts::main')] class extends Component {
             ],
         );
     }
+
+    public function rendering(\Illuminate\View\View $view): void
+    {
+        $view->title('Accueil');
+        
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'NGO',
+            'name' => 'CADERSA ASBL',
+            'url' => url('/'),
+            'logo' => asset('images/logo.png'),
+            'description' => "CADERSA accompagne les communautés rurales et périurbaines à travers des projets agricoles, sociaux et environnementaux.",
+            'sameAs' => [
+                'https://facebook.com/cadersa',
+                'https://twitter.com/cadersa',
+                'https://linkedin.com/company/cadersa'
+            ]
+        ];
+
+        $view->layoutData([
+            'seoDescription' => "CADERSA (Cercle d'Actions pour le Développement Économique et Social de la Région) accompagne les communautés rurales et périurbaines à travers des projets agricoles, sociaux et environnementaux.",
+            'seoKeywords' => ['CADERSA', 'ASBL', 'RDC', 'développement rural', 'agriculture', 'environnement', 'social', 'Goma'],
+            'schema' => '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>'
+        ]);
+    }
 };
 ?>
 
 <div class="bg-white text-zinc-700 antialiased dark:bg-zinc-950 dark:text-zinc-300">
 
     {{-- ==================== HERO (Accueil) ==================== --}}
-    <section class="relative flex min-h-[95svh] items-center overflow-hidden">
+    <section x-cloak class="relative flex min-h-[95svh] items-center overflow-hidden" x-data="{
+        init() {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: $el,
+                    start: 'top 80%',
+                    once: true,
+                },
+            });
+    
+            // Zoom subtle image de fond
+            tl.from($refs.bgImage, { scale: 1.1, duration: 2.5, ease: 'power3.out' }, 0);
+    
+            const quoteSplit = new SplitText($refs.quote, { type: 'words' });
+            
+            tl.from($refs.badge, { opacity: 0, y: 20, duration: 0.4, ease: 'power2.out' }, 0)
+              .from(quoteSplit.words, { opacity: 0, y: 20, duration: 0.4, stagger: 0.015, ease: 'back.out(1.2)' }, '-=0.2')
+              .from($refs.author, { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' }, '-=0.3')
+              .from($refs.subtitle, { opacity: 0, y: 15, duration: 0.4, ease: 'power2.out' }, '-=0.3')
+              .from($refs.buttons, { opacity: 0, y: 15, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+        }
+    }">
         {{-- Image d’arrière‑plan adoucie --}}
         @php
             $heroImage = $this->about->hero_image_url
@@ -83,7 +129,7 @@ new #[Layout('layouts::main')] class extends Component {
 
         {{-- Background dynamique --}}
         <div class="absolute inset-0">
-            <img src="{{ $heroImage }}" alt="Paysage rural de la RDC" class="h-full w-full object-cover" />
+            <img x-ref="bgImage" src="{{ $heroImage }}" alt="Paysage rural de la RDC" class="h-full w-full object-cover origin-center" />
             <div class="absolute inset-0 bg-linear-to-br from-zinc-950/90 via-zinc-900/70 to-emerald-950/70"></div>
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,.20),transparent_45%)]">
             </div>
@@ -93,32 +139,7 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
 
         {{-- Contenu --}}
-        <div x-cloak class="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 lg:px-12" x-data="{
-            init() {
-                const badge = $refs.badge;
-                const quote = $refs.quote;
-                const author = $refs.author;
-                const subtitle = $refs.subtitle;
-                const buttons = $refs.buttons;
-        
-                const quoteSplit = new SplitText(quote, { type: 'words' });
-                const quoteWords = quoteSplit.words;
-        
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: $el,
-                        start: 'top 80%',
-                        toggleActions: 'play none none none',
-                    },
-                });
-        
-                tl.from(badge, { opacity: 0, y: 20, duration: 0.6, ease: 'power2.out' })
-                    .from(quoteWords, { opacity: 0, y: 30, duration: 0.5, stagger: 0.03, ease: 'back.out(1.2)' }, '-=0.2')
-                    .from(author, { opacity: 0, y: 15, duration: 0.5, ease: 'power2.out' }, '-=0.1')
-                    .from(subtitle, { opacity: 0, y: 20, duration: 0.5, ease: 'power2.out' }, '-=0.1')
-                    .from(buttons, { opacity: 0, y: 20, duration: 0.6, ease: 'power2.out' }, '-=0.2');
-            }
-        }">
+        <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 lg:px-12">
             <div class="max-w-4xl text-left">
 
                 {{-- Badge --}}

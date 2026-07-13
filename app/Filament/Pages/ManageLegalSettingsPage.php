@@ -48,6 +48,7 @@ class ManageLegalSettingsPage extends SettingsPage
                 Section::make('Mentions Légales')
                     ->description('Modifiez le contenu des mentions légales du site.')
                     ->icon('heroicon-o-document-text')
+                    ->columnSpanFull()
                     ->schema([
                         RichEditor::make('content')
                             ->label('Contenu')

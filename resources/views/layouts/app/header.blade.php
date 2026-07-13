@@ -157,6 +157,7 @@
 
     <livewire:footer.footer />
     
+    <livewire:cookie-consent />
     <livewire:scroll-to-top />
 
     @persist('toast')

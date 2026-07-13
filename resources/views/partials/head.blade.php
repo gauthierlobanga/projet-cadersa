@@ -2,25 +2,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 @php
-    $tenant = function_exists('tenant') ? tenant() : null;
-    $appDisplayName = $tenant?->raison_sociale;
-
-    if (blank($appDisplayName)) {
-        try {
-            $appDisplayName = app(\App\Settings\SettingApp::class)->name;
-        } catch (\Throwable) {
-            $appDisplayName = null;
-        }
-    }
-
-    $appDisplayName = $appDisplayName ?: config('app.name', 'Laravel');
     $faviconUrl = \App\Support\Branding\Favicon::currentUrl();
 @endphp
+<x-seo 
+    :title="$title ?? null" 
+    :description="$seoDescription ?? null" 
+    :image="$seoImage ?? null"
+    :url="$seoUrl ?? null"
+    :type="$seoType ?? 'website'"
+    :keywords="$seoKeywords ?? null"
+>
+    {!! $schema ?? '' !!}
+</x-seo>
 
-<title>
-    {{ filled($title ?? null) ? $title . ' - ' . config('app.name', 'Laravel') : config('app.name', 'Laravel') }}
-</title>
+{{-- Google Analytics (ne se chargera que si "Analytiques" est accepté) --}}
+<x-cookie-script type="analytics">
+    <!-- Remplacez G-XXXXXXX par votre vrai code Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXX');
+    </script>
+</x-cookie-script>
 
+{{-- Pixel Facebook / Autres trackers publicitaires (ne se chargera que si "Marketing" est accepté) --}}
+<x-cookie-script type="marketing">
+    <!-- Insérez ici votre code de suivi publicitaire (Pixel FB, LinkedIn Insight, etc.) -->
+    <script>
+      // Code de suivi marketing...
+    </script>
+</x-cookie-script>
+
+@include('feed::links')
 {{-- Favicon --}}
 <link id="favicon" rel="icon" href="{{ $faviconUrl }}" data-favicon-href="{{ $faviconUrl }}">
 <link id="apple-touch-icon" rel="apple-touch-icon" href="{{ $faviconUrl }}">
@@ -48,3 +63,4 @@
 @fonts
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
+@filamentStyles

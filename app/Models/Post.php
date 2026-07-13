@@ -5,9 +5,9 @@ namespace App\Models;
 // use App\Concerns\Traits\HasTiptapContent;
 use App\Traits\HasComments;
 use Carbon\Carbon;
+use Database\Factories\PostFactory;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
-use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,7 +28,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
 use Spatie\Tags\HasTags;
-use Tiptap\Editor;
+use Tiptap\Nodes\Image;
 
 #[Fillable([
     'user_id',
@@ -54,9 +54,25 @@ use Tiptap\Editor;
 ])]
 class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapable
 {
-    use HasComments, HasFactory, HasTags, InteractsWithMedia , SoftDeletes;
+    use HasComments;
+
+    /** @use HasFactory<PostFactory> */
+    use HasFactory;
+
+    use HasTags;
     use HasUuids;
+    use InteractsWithMedia;
     use InteractsWithRichContent;
+    use SoftDeletes;
+
+    public function setUpRichContent(): void
+    {
+        $this->registerRichContent('content')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('excerpt')
+            ->fileAttachmentsDisk('media');
+    }
 
     /**
      * Indique que les clés primaires sont de type string (UUID)
@@ -71,14 +87,6 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
      * @var bool
      */
     public $incrementing = false;
-
-    public function setUpRichContent(): void
-    {
-        $this->registerRichContent('content')
-            ->fileAttachmentsDisk('public')   // ou s3 si vous utilisez
-            ->fileAttachmentsVisibility('public');
-        // Ajoutez ici vos blocs, mentions, etc.
-    }
 
     /**
      * Convertit un article en élément de flux.
@@ -940,51 +948,6 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
         $plainText = strip_tags($text);
 
         return $limit ? Str::limit($plainText, $limit) : $plainText;
-    }
-
-    /**
-     * Renders rich content from a JSON/array or string field.
-     */
-    public function renderRichContent(string $field = 'content'): string
-    {
-        $data = $this->{$field};
-
-        if (is_string($data)) {
-            // Si c'est déjà du HTML
-            if ($data !== strip_tags($data)) {
-                return $data;
-            }
-            // Convertir le texte brut en paragraphes
-            $paragraphs = explode("\n\n", str_replace("\r", '', $data));
-            $html = '';
-            foreach ($paragraphs as $p) {
-                if (trim($p) !== '') {
-                    $html .= '<p>'.nl2br(e(trim($p))).'</p>';
-                }
-            }
-
-            return $html;
-        }
-
-        if (is_array($data)) {
-            if (isset($data['type']) && $data['type'] === 'doc') {
-                if (class_exists(Editor::class)) {
-                    return (new Editor)->setContent($data)->getHTML();
-                }
-
-                if (class_exists(RichContentRenderer::class)) {
-                    return RichContentRenderer::make($data)->toHtml();
-                }
-
-                return function_exists('tiptap_converter')
-                    ? tiptap_converter()->asHTML($data)
-                    : nl2br(e($this->extractTextFromTiptap($data)));
-            }
-
-            return $data['body'] ?? $data['text'] ?? '';
-        }
-
-        return '';
     }
 
     /**

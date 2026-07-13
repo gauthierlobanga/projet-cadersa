@@ -56,8 +56,10 @@ class ServiceForm
                             ->required()
                             ->columnSpanFull()
                             ->json()
-                            ->fileAttachmentsDisk('public')
+                            ->fileAttachmentsDisk('media')
                             ->fileAttachmentsDirectory('services/content')
+                            ->fileAttachmentsAcceptedFileTypes(['image/png', 'image/jpeg'])
+                            ->resizableImages()
                             ->toolbarButtons([
                                 ['bold', 'italic', 'underline', 'strike', 'link', 'attachFiles'],
                                 [ToolbarButtonGroup::make('Heading', ['h1', 'h2', 'h3'])->textualButtons()->icon('fi-o-heading')],

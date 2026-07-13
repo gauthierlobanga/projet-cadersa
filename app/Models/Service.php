@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\HasComments;
+use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
+use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,14 +15,34 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Tiptap\Editor;
+use Spatie\Sitemap\Contracts\Sitemapable;
+use Spatie\Sitemap\Tags\Url;
+use Tiptap\Nodes\Image;
 
-class Service extends Model implements HasMedia
+class Service extends Model implements HasMedia, HasRichContent, Sitemapable
 {
     use HasComments, HasUuids;
     use HasFactory;
     use InteractsWithMedia;
+    use InteractsWithRichContent;
     use SoftDeletes;
+
+    public function setUpRichContent(): void
+    {
+        $this->registerRichContent('content')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('excerpt')
+            ->fileAttachmentsDisk('media');
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -284,40 +306,12 @@ class Service extends Model implements HasMedia
         return route('services.show', $this->slug);
     }
 
-    public function renderRichContent(string $field = 'content'): string
+    public function toSitemapTag(): Url|string|array
     {
-        $data = $this->{$field};
-        if (is_string($data)) {
-            // Si c'est déjà du HTML
-            if ($data !== strip_tags($data)) {
-                return $data;
-            }
-            // Convertir le texte brut en paragraphes
-            $paragraphs = explode("\n\n", str_replace("\r", '', $data));
-            $html = '';
-            foreach ($paragraphs as $p) {
-                if (trim($p) !== '') {
-                    $html .= '<p>'.nl2br(e(trim($p))).'</p>';
-                }
-            }
-
-            return $html;
-        }
-        if (is_array($data)) {
-            if (isset($data['type']) && $data['type'] === 'doc') {
-                if (class_exists(Editor::class)) {
-                    return (new Editor)->setContent($data)->getHTML();
-                }
-
-                return function_exists('tiptap_converter')
-                    ? tiptap_converter()->asHTML($data)
-                    : nl2br(e($this->extractTextFromTiptap($data)));
-            }
-
-            return $data['body'] ?? $data['text'] ?? '';
-        }
-
-        return '';
+        return Url::create(route('services.show', $this->slug))
+            ->setLastModificationDate($this->updated_at)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+            ->setPriority(0.7);
     }
 
     private function extractTextFromTiptap(array $node): string

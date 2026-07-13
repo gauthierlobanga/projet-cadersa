@@ -48,6 +48,7 @@ class ManageTermsSettingsPage extends SettingsPage
                 Section::make('Conditions d\'utilisation')
                     ->description('Modifiez les conditions générales d\'utilisation (CGU).')
                     ->icon('heroicon-o-document-check')
+                    ->columnSpanFull()
                     ->schema([
                         RichEditor::make('content')
                             ->label('Contenu')

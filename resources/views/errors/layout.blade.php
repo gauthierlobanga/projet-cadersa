@@ -5,13 +5,21 @@
     $statusDescription = trim(
         $__env->yieldContent('description', __('La requête n’a pas pu être traitée correctement.')),
     );
-    $tenant = function_exists('tenant') ? tenant() : null;
-    $appName = $tenant ? $tenant->raison_sociale : config('app.name', 'Yetu');
+    try {
+        $appSettings = app(\App\Settings\SettingApp::class);
+        $appName = $appSettings->name;
+        $appLogo = $appSettings->logoUrl();
+    } catch (\Throwable) {
+        $appName = null;
+        $appLogo = null;
+    }
+    $appName = $appName ?: config('app.name', 'CADERSA ASBL');
+    $appLogo = $appLogo ?: asset('images/logo.png');
     $homeUrl = url('/');
     $refreshUrl = request()->fullUrl();
     $previousUrl = url()->previous();
     $canGoBack = $previousUrl && $previousUrl !== $refreshUrl;
-    $supportEmail = 'support@yetu.cd';
+    $supportEmail = 'contact@cadersa.org';
 
     $statusLabel = match ($statusCode) {
         '401' => __('Accès sécurisé'),
@@ -104,8 +112,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 
 <head>
- 
- @include('partials.head')
+    @include('partials.head')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
 <body
@@ -122,8 +130,20 @@
     </div>
 
     <!-- Conteneur principal (Design Figma Split Card) -->
-    <div
-        class="relative z-10 max-w-5xl w-full glass-panel rounded-[2rem] shadow-[0_3px_10px_rgb(0,0,0,0.04)] border border-white overflow-hidden flex flex-col md:flex-row">
+    <div x-data="{
+        init() {
+            gsap.from($refs.card, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' });
+            gsap.from($refs.illustration, { scale: 0.8, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(1.5)' });
+            gsap.from($refs.errorCode, { y: 20, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power2.out' });
+            gsap.from($refs.errorTitle, { y: 20, opacity: 0, duration: 0.6, delay: 0.5, ease: 'power2.out' });
+            gsap.from($refs.content, { x: 30, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+            
+            // Floating animation for SVG
+            gsap.to($refs.floatingSvg, { y: -15, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        }
+    }"
+        x-ref="card"
+        class="relative z-10 max-w-5xl w-full glass-panel rounded-[2rem] shadow-2xl border border-white/20 overflow-hidden flex flex-col md:flex-row">
 
         <!-- Colonne Gauche : Code d'erreur et Visuel -->
         <div
@@ -133,43 +153,77 @@
                 class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4xNSkiLz48L3N2Zz4=')] opacity-50 mask-image:linear-gradient(to_bottom,white,transparent)">
             </div>
 
-            <div class="relative z-10 w-full">
+            <div class="relative z-10 w-full flex flex-col items-center">
+                <!-- SVG Animé -->
+                <div x-ref="illustration" class="mb-8 h-40 w-40 flex items-center justify-center">
+                    <div x-ref="floatingSvg" class="w-full h-full text-current">
+                        @if($statusCode === '404')
+                            <!-- 404 Illustration: Lost Radar/Planet -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                                <path d="M2 12h20"></path>
+                                <path d="M12 2v20"></path>
+                                <circle cx="16" cy="8" r="1" fill="currentColor"></circle>
+                            </svg>
+                        @elseif(in_array($statusCode, ['401', '403']))
+                            <!-- 403/401 Illustration: Locked -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                <circle cx="12" cy="16" r="1" fill="currentColor"></circle>
+                            </svg>
+                        @elseif(in_array($statusCode, ['500', '503']))
+                            <!-- 500/503 Illustration: Broken Server/Gears -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                                <path d="M22 12H2"></path>
+                            </svg>
+                        @else
+                            <!-- Generic Alert -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        @endif
+                    </div>
+                </div>
+
                 <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border {{ $badgeClass }} mb-6">
-                    <span class="w-1.5 h-1.5 rounded-full bg-current mr-2"></span>
+                    class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border {{ $badgeClass }} mb-4">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current mr-2 animate-pulse"></span>
                     {{ $statusLabel }}
                 </span>
 
-                <h1 class="text-8xl lg:text-9xl font-black tracking-tighter mb-4">
+                <h1 x-ref="errorCode" class="text-8xl font-black tracking-tighter mb-2 drop-shadow-sm">
                     {{ $statusCode }}
                 </h1>
 
-                <p class="font-medium text-lg opacity-80 max-w-62.5 mx-auto leading-tight">
+                <p x-ref="errorTitle" class="font-medium text-lg opacity-80 max-w-62.5 mx-auto leading-tight">
                     {{ $statusTitle }}
                 </p>
             </div>
         </div>
 
         <!-- Colonne Droite : Message et Actions -->
-        <div class="md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col bg-white/60">
+        <div x-ref="content" class="md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl">
             <!-- En-tête marque -->
-            <div class="mb-12">
+            <div class="mb-10 flex items-center">
                 <a href="{{ $homeUrl }}" wire:navigate
-                    class="inline-flex items-center gap-3 text-slate-800 hover:opacity-80 transition-opacity">
-                    <div
-                        class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg">
-                        {{ mb_substr($appName, 0, 1) }}
-                    </div>
-                    <span class="font-bold text-xl tracking-tight">{{ $appName }}</span>
+                    class="inline-block hover:opacity-80 transition-transform hover:scale-105 duration-300">
+                    <img src="{{ $appLogo }}" alt="{{ $appName }}" class="h-24 w-auto object-contain drop-shadow-xl">
                 </a>
             </div>
 
             <!-- Contenu d'erreur -->
             <div class="grow">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
+                <h2 class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight leading-tight">
                     {{ $statusMessage }}
                 </h2>
-                <p class="text-slate-500 text-base sm:text-lg mb-10 leading-relaxed max-w-lg">
+                <p class="text-slate-500 dark:text-zinc-400 text-lg sm:text-xl mb-12 leading-relaxed max-w-lg font-medium">
                     {{ $statusDescription }}
                 </p>
 

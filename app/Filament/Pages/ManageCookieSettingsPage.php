@@ -8,6 +8,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Tiptap\Editor;
 use UnitEnum;
 
@@ -47,7 +48,8 @@ class ManageCookieSettingsPage extends SettingsPage
             ->components([
                 Section::make('Gestion des Cookies')
                     ->description('Modifiez la politique et gestion des cookies.')
-                    ->icon('heroicon-o-cookie')
+                    ->icon(Heroicon::OutlinedShieldCheck)
+                    ->columnSpanFull()
                     ->schema([
                         RichEditor::make('content')
                             ->label('Contenu')

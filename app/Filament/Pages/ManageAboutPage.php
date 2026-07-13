@@ -18,7 +18,7 @@ class ManageAboutPage extends SettingsPage
 {
     protected static string $settings = AboutSettings::class;
 
-    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::About;
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Settings;
 
     protected static ?string $navigationLabel = 'Page À propos';
 

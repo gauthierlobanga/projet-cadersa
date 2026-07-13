@@ -12,7 +12,35 @@ new #[Layout('layouts::main')] class extends Component
     public function mount(Service $service)
     {
         $this->service = $service;
-        view()->share('title', $service->title);
+    }
+
+    public function rendering(\Illuminate\View\View $view): void
+    {
+        $view->title($this->service->title);
+
+        $imageUrl = $this->service->getFirstMediaUrl('featured') ?: asset('images/logo.png');
+        $description = $this->service->getPlainTextContent(160);
+        
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => $this->service->title,
+            'description' => $description,
+            'image' => $imageUrl,
+            'url' => route('services.show', $this->service->slug),
+            'provider' => [
+                '@type' => 'Organization',
+                'name' => 'CADERSA ASBL',
+                'url' => url('/'),
+            ]
+        ];
+
+        $view->layoutData([
+            'seoDescription' => $description,
+            'seoImage' => $imageUrl,
+            'seoType' => 'article',
+            'schema' => '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>'
+        ]);
     }
 
     #[Computed]
@@ -69,10 +97,9 @@ new #[Layout('layouts::main')] class extends Component
                 {{ $service->title }}
             </h1>
             @if($service->excerpt)
-                <p x-ref="excerpt" class="mt-8 text-xl text-zinc-300 leading-relaxed font-light max-w-2xl mx-auto">
-                    {{-- {!! $service->excerpt !!} --}}
+                <div x-ref="excerpt" class="mt-8 fi-prose max-w-2xl mx-auto text-xl text-zinc-300 leading-relaxed font-light">
                     {!! $service->renderRichContent('excerpt') !!}
-                </p>
+                </div>
             @endif
         </div>
     </section>
@@ -84,16 +111,8 @@ new #[Layout('layouts::main')] class extends Component
             {{-- Contenu Prose --}}
             <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
                  :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                 class="prose prose-lg md:prose-xl max-w-none dark:prose-invert transition-all duration-1000 ease-out
-                        prose-headings:font-bold prose-headings:tracking-tight 
-                        prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-3xl
-                        prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-2xl
-                        prose-p:leading-relaxed prose-p:text-zinc-600 dark:prose-p:text-zinc-300
-                        prose-a:text-emerald-600 hover:prose-a:text-emerald-500 hover:prose-a:underline dark:prose-a:text-emerald-400
-                        prose-img:rounded-2xl prose-img:shadow-xl prose-img:shadow-zinc-200/20 dark:prose-img:shadow-black/40
-                        prose-strong:text-zinc-900 dark:prose-strong:text-white
-                        prose-ul:list-disc prose-ul:pl-6 prose-li:my-2
-                        bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                 class="fi-prose max-w-none transition-all duration-1000 ease-out
+                        bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl p-8 md:p-12 w-full">
                 {!! $service->renderRichContent('content') !!}
             </div>
 

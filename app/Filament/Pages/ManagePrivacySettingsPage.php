@@ -48,6 +48,7 @@ class ManagePrivacySettingsPage extends SettingsPage
                 Section::make('Politique de Confidentialité')
                     ->description('Modifiez le contenu de la politique de confidentialité.')
                     ->icon('heroicon-o-shield-check')
+                    ->columnSpanFull()
                     ->schema([
                         RichEditor::make('content')
                             ->label('Contenu')

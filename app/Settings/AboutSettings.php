@@ -12,11 +12,11 @@ class AboutSettings extends Settings
 
     public string $hero_badge = 'Depuis 2010';
 
-    public string $about_text = '';
+    public string|array|null $about_text = null;
 
-    public string $vision_text = '';
+    public string|array|null $vision_text = null;
 
-    public string $mission_text = '';
+    public string|array|null $mission_text = null;
 
     public ?string $hero_image_url = null;
 

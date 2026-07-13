@@ -130,7 +130,7 @@ new #[Layout('layouts::main')] class extends Component {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
             @forelse ($this->services as $service)
                 <a href="{{ route('services.show', $service) }}" wire:navigate
-                    class="group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
+                    class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
                            hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
                            dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20">
                     {{-- Image --}}

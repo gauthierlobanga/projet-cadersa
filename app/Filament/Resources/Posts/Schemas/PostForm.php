@@ -69,6 +69,8 @@ class PostForm
                                             ->fileAttachmentsDisk('media')
                                             ->fileAttachmentsDirectory('posts/attachments')
                                             ->fileAttachmentsVisibility('public')
+                                            ->fileAttachmentsAcceptedFileTypes(['image/png', 'image/jpeg'])
+                                            ->resizableImages()
                                             ->columnSpanFull()
                                             ->toolbarButtons([
                                                 ['bold', 'italic', 'underline', 'strike', 'link', 'italic', 'attachFiles'],

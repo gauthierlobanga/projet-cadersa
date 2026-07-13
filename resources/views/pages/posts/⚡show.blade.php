@@ -17,8 +17,13 @@ new #[Layout('layouts::main')] class extends Component {
     public function mount(Post $post)
     {
         $this->post = $post->load(['categories', 'media', 'user', 'tags']);
-        $this->post->increment('views_count');
-        view()->share('title', $post->title);
+        
+        // Système "Pro" de comptage de vues (protection par session)
+        $sessionKey = 'viewed_post_' . $post->id;
+        if (!session()->has($sessionKey)) {
+            $this->post->increment('views_count');
+            session()->put($sessionKey, true);
+        }
 
         $this->likesCount = $post->likes()->count();
         $this->bookmarksCount = $post->bookmarkedBy()->count();
@@ -28,6 +33,48 @@ new #[Layout('layouts::main')] class extends Component {
             $this->isBookmarked = $post->isBookmarkedBy($user);
         }
     }
+
+    public function rendering(\Illuminate\View\View $view): void
+    {
+        $view->title($this->post->title);
+
+        $imageUrl = $this->post->getFirstMediaUrl('featured') ?: asset('images/logo.png');
+        $description = $this->post->getPlainTextContent(160);
+        
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'NewsArticle',
+            'headline' => $this->post->title,
+            'image' => [
+                $imageUrl
+            ],
+            'datePublished' => $this->post->published_at?->toIso8601String() ?? $this->post->created_at->toIso8601String(),
+            'dateModified' => $this->post->updated_at->toIso8601String(),
+            'author' => [
+                [
+                    '@type' => 'Person',
+                    'name' => $this->post->user?->name ?? 'CADERSA'
+                ]
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'CADERSA ASBL',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => asset('images/logo.png')
+                ]
+            ]
+        ];
+
+        $view->layoutData([
+            'seoDescription' => $description,
+            'seoImage' => $imageUrl,
+            'seoType' => 'article',
+            'seoKeywords' => $this->post->tags->pluck('name')->toArray(),
+            'schema' => '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>'
+        ]);
+    }
+
 
     #[Computed]
     public function previousPost()
@@ -223,7 +270,7 @@ new #[Layout('layouts::main')] class extends Component {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
-                        {{ $post->views_count }} vues
+                        {{ \Illuminate\Support\Number::format($post->views_count, locale: 'fr') }} vues
                     </span>
                 </div>
             </div>
@@ -278,38 +325,12 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
 
                 @if ($post->excerpt)
-                    <div class="mb-10 text-2xl font-light leading-relaxed text-slate-600 dark:text-slate-300">
+                    <div class="mb-10 fi-prose max-w-none text-2xl font-light leading-relaxed text-slate-600 dark:text-slate-300">
                         {!! $post->renderRichContent('excerpt') !!}
                     </div>
                 @endif
 
-                <div
-                    class="w-full max-w-none 
-            /* Text General */
-            text-zinc-700 dark:text-zinc-300 text-base leading-relaxed
-            
-            /* Paragraphs */
-            [&>p]:mb-5 [&>p]:leading-relaxed
-            
-            /* Headings */
-            [&>h2]:text-3xl [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-zinc-900 dark:[&>h2]:text-white [&>h2]:mt-12 [&>h2]:mb-6 [&>h2]:border-b [&>h2]:border-emerald-100 dark:[&>h2]:border-emerald-900/30 [&>h2]:pb-4
-            [&>h3]:text-2xl [&>h3]:font-bold [&>h3]:text-zinc-800 dark:[&>h3]:text-zinc-100 [&>h3]:mt-10 [&>h3]:mb-4
-            
-            /* Links */
-            [&_a]:font-medium [&_a]:text-emerald-600 dark:[&_a]:text-emerald-400 [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-emerald-200 dark:[&_a]:decoration-emerald-900 hover:[&_a]:decoration-emerald-600 dark:hover:[&_a]:decoration-emerald-400 [&_a]:transition-colors
-            
-            /* Blockquotes */
-            [&>blockquote]:pl-6 [&>blockquote]:py-4 [&>blockquote]:my-8 [&>blockquote]:border-l-4 [&>blockquote]:border-emerald-500 [&>blockquote]:bg-gradient-to-r [&>blockquote]:from-emerald-50 [&>blockquote]:to-transparent dark:[&>blockquote]:from-emerald-900/20 [&>blockquote]:rounded-r-2xl [&>blockquote]:text-xl [&>blockquote]:italic [&>blockquote]:text-emerald-900 dark:[&>blockquote]:text-emerald-100 [&>blockquote]:font-serif
-            
-            /* Lists */
-            [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:space-y-3 [&>ul>li]:pl-2 [&>ul>li::marker]:text-emerald-500
-            [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:space-y-3 [&>ol>li]:pl-2 [&>ol>li::marker]:text-emerald-500
-            
-            /* Images */
-            [&_img]:rounded-3xl [&_img]:shadow-2xl [&_img]:my-10 [&_img]:border [&_img]:border-zinc-100 dark:[&_img]:border-zinc-800 [&_img]:mx-auto
-            
-            /* Bold & Strong */
-            [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-white">
+                <div class="fi-prose max-w-none w-full">
                     {!! $post->renderRichContent('content') !!}
                 </div>
                 {{-- Galerie d'images --}}

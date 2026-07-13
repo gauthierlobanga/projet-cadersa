@@ -469,7 +469,7 @@ new #[Layout('layouts::main')] class extends Component {
             x-init="autoAnimate($el, { duration: 250 })" aria-label="Liste des articles">
             @forelse ($posts as $post)
                 <a href="{{ route('posts.show', $post) }}" wire:navigate
-                    class="group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
+                    class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
           hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
           dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20"
                     wire:key="{{ $post->id }}" aria-label="{{ $post->title }}">

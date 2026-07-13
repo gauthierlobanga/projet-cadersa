@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
+use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +15,31 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sitemap\Contracts\Sitemapable;
+use Spatie\Sitemap\Tags\Url;
 use Spatie\Tags\HasTags;
-use Tiptap\Editor;
+use Tiptap\Nodes\Image;
 
-class Project extends Model implements Feedable, HasMedia
+class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitemapable
 {
-    use HasFactory, HasTags, HasUuids, InteractsWithMedia, SoftDeletes;
+    use HasFactory, HasTags, HasUuids, InteractsWithMedia, InteractsWithRichContent, SoftDeletes;
+
+    public function setUpRichContent(): void
+    {
+        $this->registerRichContent('content')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('excerpt')
+            ->fileAttachmentsDisk('media');
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     /**
      * Indique que les clés primaires sont de type string (UUID)
@@ -65,6 +86,14 @@ class Project extends Model implements Feedable, HasMedia
     public static function getFeedItems()
     {
         return self::active()->latest('start_date')->take(20)->get();
+    }
+
+    public function toSitemapTag(): Url|string|array
+    {
+        return Url::create(route('projects.show', $this->slug))
+            ->setLastModificationDate($this->updated_at)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+            ->setPriority(0.7);
     }
 
     // --------------------------------------------------------------
@@ -172,42 +201,6 @@ class Project extends Model implements Feedable, HasMedia
     public function scopeCompleted($query)
     {
         return $query->where('status', 'completed');
-    }
-
-    public function renderRichContent(string $field = 'content'): string
-    {
-        $data = $this->{$field};
-        if (is_string($data)) {
-            // Si c'est déjà du HTML
-            if ($data !== strip_tags($data)) {
-                return $data;
-            }
-            // Convertir le texte brut en paragraphes
-            $paragraphs = explode("\n\n", str_replace("\r", '', $data));
-            $html = '';
-            foreach ($paragraphs as $p) {
-                if (trim($p) !== '') {
-                    $html .= '<p>'.nl2br(e(trim($p))).'</p>';
-                }
-            }
-
-            return $html;
-        }
-        if (is_array($data)) {
-            if (isset($data['type']) && $data['type'] === 'doc') {
-                if (class_exists(Editor::class)) {
-                    return (new Editor)->setContent($data)->getHTML();
-                }
-
-                return function_exists('tiptap_converter')
-                    ? tiptap_converter()->asHTML($data)
-                    : nl2br(e($this->extractTextFromTiptap($data)));
-            }
-
-            return $data['body'] ?? $data['text'] ?? '';
-        }
-
-        return '';
     }
 
     private function extractTextFromTiptap(array $node): string
