@@ -1,4 +1,4 @@
-<x-layouts.main title="Mentions Légales">
+<x-layouts::main title="Mentions Légales">
     <div class="relative min-h-[50vh] overflow-hidden bg-zinc-50 py-24 dark:bg-zinc-900">
         {{-- Décoration d'arrière-plan --}}
         <div class="pointer-events-none absolute inset-0 z-0 flex justify-center">
