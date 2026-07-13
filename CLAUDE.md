@@ -11,6 +11,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 - php - 8.4
 - filament/filament (FILAMENT) - v5
+- laravel/ai (AI) - v0
 - laravel/fortify (FORTIFY) - v1
 - laravel/framework (LARAVEL) - v13
 - laravel/prompts (PROMPTS) - v0
@@ -18,6 +19,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/socialite (SOCIALITE) - v5
 - livewire/flux (FLUXUI_FREE) - v2
 - livewire/livewire (LIVEWIRE) - v4
+- livewire/volt (VOLT) - v1
 - larastan/larastan (LARASTAN) - v3
 - laravel/boost (BOOST) - v2
 - laravel/mcp (MCP) - v0
@@ -104,7 +106,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Always use curly braces for control structures, even for single-line bodies.
 - Use PHP 8 constructor property promotion: `public function __construct(public GitHub $github) { }`. Do not leave empty zero-parameter `__construct()` methods unless the constructor is private.
 - Use explicit return type declarations and type hints for all method parameters: `function isAccessible(User $user, ?string $path = null): bool`
-- Use TitleCase for Enum keys: `FavoritePerson`, `BestLake`, `Monthly`.
+- Follow existing application Enum naming conventions.
 - Prefer PHPDoc blocks over inline comments. Only add inline comments for exceptionally complex logic.
 - Use array shape type definitions in PHPDoc blocks.
 
@@ -158,6 +160,15 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Livewire allow to build dynamic, reactive interfaces in PHP without writing JavaScript.
 - You can use Alpine.js for client-side interactions instead of JavaScript frameworks.
 - Keep state server-side so the UI reflects it. Validate and authorize in actions as you would in HTTP requests.
+
+=== volt/core rules ===
+
+# Livewire Volt
+
+- Single-file Livewire components: PHP logic and Blade templates in one file.
+- Always check existing Volt components to determine functional vs class-based style.
+- IMPORTANT: Always use `search-docs` tool for version-specific Volt documentation and updated code examples.
+- IMPORTANT: Activate `volt-development` every time you're working with a Volt or single-file component-related task.
 
 === pint/core rules ===
 

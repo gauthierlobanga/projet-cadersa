@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30fbca857929654dd88359fb3acf4b4d",
+    "content-hash": "7efa25bc8b586c1de877266643473173",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -70,6 +70,157 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.3.10"
             },
             "time": "2026-06-20T14:30:25+00:00"
+        },
+        {
+            "name": "aws/aws-crt-php",
+            "version": "v1.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awslabs/aws-crt-php.git",
+                "reference": "d71d9906c7bb63a28295447ba12e74723bd3730e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/d71d9906c7bb63a28295447ba12e74723bd3730e",
+                "reference": "d71d9906c7bb63a28295447ba12e74723bd3730e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35||^5.6.3||^9.5",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "suggest": {
+                "ext-awscrt": "Make sure you install awscrt native extension to use any of the functionality."
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "AWS SDK Common Runtime Team",
+                    "email": "aws-sdk-common-runtime@amazon.com"
+                }
+            ],
+            "description": "AWS Common Runtime for PHP",
+            "homepage": "https://github.com/awslabs/aws-crt-php",
+            "keywords": [
+                "amazon",
+                "aws",
+                "crt",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/awslabs/aws-crt-php/issues",
+                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.7"
+            },
+            "time": "2024-10-18T22:15:13+00:00"
+        },
+        {
+            "name": "aws/aws-sdk-php",
+            "version": "3.388.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "dc03d7967241af550214ba210d238482fbafb24d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dc03d7967241af550214ba210d238482fbafb24d",
+                "reference": "dc03d7967241af550214ba210d238482fbafb24d",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-crt-php": "^1.2.3",
+                "ext-json": "*",
+                "ext-pcre": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^7.4.5",
+                "guzzlehttp/promises": "^2.0",
+                "guzzlehttp/psr7": "^2.4.5",
+                "mtdowling/jmespath.php": "^2.9.1",
+                "php": ">=8.1",
+                "psr/http-message": "^1.0 || ^2.0",
+                "symfony/filesystem": "^v5.4.45 || ^v6.4.3 || ^v7.1.0 || ^v8.0.0"
+            },
+            "require-dev": {
+                "andrewsville/php-token-reflection": "^1.4",
+                "aws/aws-php-sns-message-validator": "~1.0",
+                "behat/behat": "~3.0",
+                "composer/composer": "^2.7.8",
+                "dms/phpunit-arraysubset-asserts": "^v0.5.0",
+                "doctrine/cache": "~1.4",
+                "ext-dom": "*",
+                "ext-openssl": "*",
+                "ext-sockets": "*",
+                "phpunit/phpunit": "^10.0",
+                "psr/cache": "^2.0 || ^3.0",
+                "psr/simple-cache": "^2.0 || ^3.0",
+                "sebastian/comparator": "^1.2.3 || ^4.0 || ^5.0",
+                "yoast/phpunit-polyfills": "^2.0"
+            },
+            "suggest": {
+                "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
+                "doctrine/cache": "To use the DoctrineCacheAdapter",
+                "ext-curl": "To send requests using cURL",
+                "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
+                "ext-pcntl": "To use client-side monitoring",
+                "ext-sockets": "To use client-side monitoring"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Aws\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "src/data/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Amazon Web Services",
+                    "homepage": "https://aws.amazon.com"
+                }
+            ],
+            "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
+            "homepage": "https://aws.amazon.com/sdk-for-php",
+            "keywords": [
+                "amazon",
+                "aws",
+                "cloud",
+                "dynamodb",
+                "ec2",
+                "glacier",
+                "s3",
+                "sdk"
+            ],
+            "support": {
+                "forum": "https://github.com/aws/aws-sdk-php/discussions",
+                "issues": "https://github.com/aws/aws-sdk-php/issues",
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.388.3"
+            },
+            "time": "2026-07-09T18:07:47+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -738,6 +889,77 @@
                 }
             ],
             "time": "2026-03-20T21:10:52+00:00"
+        },
+        {
+            "name": "codeat3/blade-simple-icons",
+            "version": "8.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeat3/blade-simple-icons.git",
+                "reference": "e05469d42bff1e57e2d77f1a9129acb8f99b3d37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeat3/blade-simple-icons/zipball/e05469d42bff1e57e2d77f1a9129acb8f99b3d37",
+                "reference": "e05469d42bff1e57e2d77f1a9129acb8f99b3d37",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "codeat3/blade-icon-generation-helpers": "^0.12",
+                "codeat3/phpcs-styles": "^1.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0|^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codeat3\\BladeSimpleIcons\\BladeSimpleIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codeat3\\BladeSimpleIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Swapnil Sarwe",
+                    "homepage": "https://swapnilsarwe.com"
+                },
+                {
+                    "name": "Dries Vints",
+                    "homepage": "https://driesvints.com"
+                }
+            ],
+            "description": "A package to easily make use of \"Simple Icons\" in your Laravel Blade views. ",
+            "homepage": "https://github.com/codeat3/blade-simple-icons",
+            "keywords": [
+                "blade",
+                "laravel",
+                "simpleicons"
+            ],
+            "support": {
+                "issues": "https://github.com/codeat3/blade-simple-icons/issues",
+                "source": "https://github.com/codeat3/blade-simple-icons/tree/8.12.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/swapnilsarwe",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-03-22T15:35:56+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1463,6 +1685,53 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "evenement/evenement",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/0a16b0d71ab13284339abb99d9d2bd813640efbc",
+                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9 || ^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Evenement\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "support": {
+                "issues": "https://github.com/igorw/evenement/issues",
+                "source": "https://github.com/igorw/evenement/tree/v3.0.2"
+            },
+            "time": "2023-08-08T05:53:35+00:00"
         },
         {
             "name": "filament/actions",
@@ -2265,6 +2534,84 @@
             "time": "2022-08-05T20:32:58+00:00"
         },
         {
+            "name": "giggsey/libphonenumber-for-php-lite",
+            "version": "9.0.34",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php-lite.git",
+                "reference": "a9f129a296b1e31f7f9b73fd81845415d302bee2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/a9f129a296b1e31f7f9b73fd81845415d302bee2",
+                "reference": "a9f129a296b1e31f7f9b73fd81845415d302bee2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "conflict": {
+                "giggsey/libphonenumber-for-php": "*"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "friendsofphp/php-cs-fixer": "^3.71",
+                "infection/infection": "^0.29|^0.31.0",
+                "nette/php-generator": "^4.1",
+                "php-coveralls/php-coveralls": "^2.7",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^2.1.7",
+                "phpstan/phpstan-deprecation-rules": "^2.0.1",
+                "phpstan/phpstan-phpunit": "^2.0.4",
+                "phpstan/phpstan-strict-rules": "^2.0.3",
+                "phpunit/phpunit": "^10.5.45",
+                "symfony/console": "^6.4",
+                "symfony/filesystem": "^6.4",
+                "symfony/process": "^6.4"
+            },
+            "suggest": {
+                "giggsey/libphonenumber-for-php": "Use libphonenumber-for-php for geocoding, carriers, timezones and matching"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "A lite version of giggsey/libphonenumber-for-php, which is a PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php-lite",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/giggsey/libphonenumber-for-php-lite/issues",
+                "source": "https://github.com/giggsey/libphonenumber-for-php-lite"
+            },
+            "time": "2026-07-03T10:23:06+00:00"
+        },
+        {
             "name": "graham-campbell/result-type",
             "version": "v1.1.4",
             "source": {
@@ -2805,6 +3152,80 @@
                 "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/4.3.2"
             },
             "time": "2026-05-28T20:35:55+00:00"
+        },
+        {
+            "name": "laravel/ai",
+            "version": "v0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ai.git",
+                "reference": "1091772a6c2dba104c741286b4a73cc71a47cd00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ai/zipball/1091772a6c2dba104c741286b4a73cc71a47cd00",
+                "reference": "1091772a6c2dba104c741286b4a73cc71a47cd00",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "^3.339",
+                "illuminate/console": "^12.0|^13.0",
+                "illuminate/container": "^12.0|^13.0",
+                "illuminate/contracts": "^12.0|^13.0",
+                "illuminate/database": "^12.0|^13.0",
+                "illuminate/filesystem": "^12.0|^13.0",
+                "illuminate/json-schema": "^12.62|^13.15",
+                "illuminate/support": "^12.0|^13.0",
+                "laravel/prompts": "^0.3.6",
+                "laravel/serializable-closure": "^2.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "laravel/mcp": "^0.8",
+                "laravel/pint": "^1.26",
+                "mockery/mockery": "^1.6.12",
+                "orchestra/testbench": "^10.6|^11.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "phpstan/phpstan": "^2.1"
+            },
+            "suggest": {
+                "laravel/mcp": "Required to use MCP client tools or MCP server tools with Laravel AI agents."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ai\\AiServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "Laravel\\Ai\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The official AI SDK for Laravel.",
+            "homepage": "https://github.com/laravel/ai",
+            "keywords": [
+                "ai",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/ai/issues",
+                "source": "https://github.com/laravel/ai"
+            },
+            "time": "2026-07-07T17:38:48+00:00"
         },
         {
             "name": "laravel/chisel",
@@ -4566,6 +4987,77 @@
             "time": "2026-06-27T03:16:11+00:00"
         },
         {
+            "name": "livewire/volt",
+            "version": "v1.10.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/livewire/volt.git",
+                "reference": "32a111951779f9dcf2a08a5704acb940ac9a146c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/livewire/volt/zipball/32a111951779f9dcf2a08a5704acb940ac9a146c",
+                "reference": "32a111951779f9dcf2a08a5704acb940ac9a146c",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.38.2|^11.0|^12.0|^13.0",
+                "livewire/livewire": "^3.6.1|^4.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/folio": "^1.1",
+                "orchestra/testbench": "^8.36|^9.15|^10.8|^11.0",
+                "pestphp/pest": "^2.9.5|^3.0|^4.0",
+                "phpstan/phpstan": "^1.10|^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Livewire\\Volt\\VoltServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "Livewire\\Volt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Nuno Maduro",
+                    "email": "nuno@laravel.com"
+                }
+            ],
+            "description": "An elegantly crafted functional API for Laravel Livewire.",
+            "homepage": "https://github.com/livewire/volt",
+            "keywords": [
+                "laravel",
+                "livewire",
+                "volt"
+            ],
+            "support": {
+                "issues": "https://github.com/livewire/volt/issues",
+                "source": "https://github.com/livewire/volt"
+            },
+            "time": "2026-03-18T14:16:30+00:00"
+        },
+        {
             "name": "maennchen/zipstream-php",
             "version": "3.2.2",
             "source": {
@@ -4642,6 +5134,66 @@
                 }
             ],
             "time": "2026-04-11T18:38:28+00:00"
+        },
+        {
+            "name": "mallardduck/blade-lucide-icons",
+            "version": "1.26.28",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mallardduck/blade-lucide-icons.git",
+                "reference": "0f634003e3b50ee55f4320c16d5627eae5fa0d48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mallardduck/blade-lucide-icons/zipball/0f634003e3b50ee55f4320c16d5627eae5fa0d48",
+                "reference": "0f634003e3b50ee55f4320c16d5627eae5fa0d48",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.8",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-fileinfo": "*",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.0|^10.0|^11.0",
+                "spatie/phpunit-snapshot-assertions": "^4.2.14|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MallardDuck\\LucideIcons\\BladeLucideIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MallardDuck\\LucideIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Pock"
+                }
+            ],
+            "description": "A package to easily make use of Lucide icons in your Laravel Blade views.",
+            "homepage": "https://github.com/mallardduck/blade-lucide-icons",
+            "keywords": [
+                "LucideIcons",
+                "blade",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/mallardduck/blade-lucide-icons/issues",
+                "source": "https://github.com/mallardduck/blade-lucide-icons/tree/1.26.28"
+            },
+            "time": "2026-07-10T02:38:02+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -4860,6 +5412,72 @@
                 }
             ],
             "time": "2026-01-02T08:56:05+00:00"
+        },
+        {
+            "name": "mtdowling/jmespath.php",
+            "version": "2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jmespath/jmespath.php.git",
+                "reference": "2157c5e50e813ec6a96c1eed3be7f64a20fb32a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/2157c5e50e813ec6a96c1eed3be7f64a20fb32a8",
+                "reference": "2157c5e50e813ec6a96c1eed3be7f64a20fb32a8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5 || ^8.0",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "require-dev": {
+                "composer/xdebug-handler": "^3.0.3",
+                "phpunit/phpunit": "^8.5.52"
+            },
+            "bin": [
+                "bin/jp.php"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.9-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/JmesPath.php"
+                ],
+                "psr-4": {
+                    "JmesPath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Declaratively specify how to extract elements from a JSON document",
+            "keywords": [
+                "json",
+                "jsonpath"
+            ],
+            "support": {
+                "issues": "https://github.com/jmespath/jmespath.php/issues",
+                "source": "https://github.com/jmespath/jmespath.php/tree/2.9.2"
+            },
+            "time": "2026-07-06T18:56:19+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -5627,6 +6245,95 @@
             "time": "2020-10-15T08:29:30+00:00"
         },
         {
+            "name": "php-ffmpeg/php-ffmpeg",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-FFMpeg/PHP-FFMpeg.git",
+                "reference": "41fa00949ea2758cd34f076a8030df7198d57759"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-FFMpeg/PHP-FFMpeg/zipball/41fa00949ea2758cd34f076a8030df7198d57759",
+                "reference": "41fa00949ea2758cd34f076a8030df7198d57759",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0",
+                "php": "^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4 || ^8.5",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "spatie/temporary-directory": "^2.0",
+                "symfony/cache": "^5.4 || ^6.0 || ^7.0 || ^8.0",
+                "symfony/process": "^5.4 || ^6.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "phpunit/phpunit": "^9.5.10 || ^10.0"
+            },
+            "suggest": {
+                "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FFMpeg\\": "src/FFMpeg",
+                    "Alchemy\\BinaryDriver\\": "src/Alchemy/BinaryDriver"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Romain Neutron",
+                    "email": "imprec@gmail.com",
+                    "homepage": "http://www.lickmychip.com/"
+                },
+                {
+                    "name": "Phraseanet Team",
+                    "email": "info@alchemy.fr",
+                    "homepage": "http://www.phraseanet.com/"
+                },
+                {
+                    "name": "Patrik Karisch",
+                    "email": "patrik@karisch.guru",
+                    "homepage": "http://www.karisch.guru"
+                },
+                {
+                    "name": "Romain Biard",
+                    "email": "romain.biard@gmail.com",
+                    "homepage": "https://www.strime.io/"
+                },
+                {
+                    "name": "Jens Hausdorf",
+                    "email": "hello@jens-hausdorf.de",
+                    "homepage": "https://jens-hausdorf.de"
+                },
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@protone.media",
+                    "homepage": "https://protone.media"
+                }
+            ],
+            "description": "FFMpeg PHP, an Object Oriented library to communicate with AVconv / ffmpeg",
+            "keywords": [
+                "audio",
+                "audio processing",
+                "avconv",
+                "avprobe",
+                "ffmpeg",
+                "ffprobe",
+                "video",
+                "video processing"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/issues",
+                "source": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/tree/v1.4.0"
+            },
+            "time": "2026-01-19T21:15:14+00:00"
+        },
+        {
             "name": "phpdocumentor/reflection-common",
             "version": "2.2.0",
             "source": {
@@ -6153,6 +6860,127 @@
                 "source": "https://github.com/antonioribeiro/google2fa-qrcode/tree/v4.0.0"
             },
             "time": "2026-05-08T19:24:44+00:00"
+        },
+        {
+            "name": "propaganistas/laravel-phone",
+            "version": "6.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Propaganistas/Laravel-Phone.git",
+                "reference": "b0e2bdb44cfbeaf2466862aaf854815605b5205a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Propaganistas/Laravel-Phone/zipball/b0e2bdb44cfbeaf2466862aaf854815605b5205a",
+                "reference": "b0e2bdb44cfbeaf2466862aaf854815605b5205a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "giggsey/libphonenumber-for-php-lite": "^9.0",
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "illuminate/validation": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.21",
+                "orchestra/testbench": "*",
+                "phpunit/phpunit": "^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Propaganistas\\LaravelPhone\\PhoneServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Propaganistas\\LaravelPhone\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Propaganistas",
+                    "email": "Propaganistas@users.noreply.github.com"
+                }
+            ],
+            "description": "Adds phone number functionality to Laravel based on Google's libphonenumber API.",
+            "keywords": [
+                "laravel",
+                "libphonenumber",
+                "phone",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/Propaganistas/Laravel-Phone/issues",
+                "source": "https://github.com/Propaganistas/Laravel-Phone/tree/6.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Propaganistas",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-03-18T07:05:47+00:00"
+        },
+        {
+            "name": "psr/cache",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/3.0.0"
+            },
+            "time": "2021-02-03T23:26:27+00:00"
         },
         {
             "name": "psr/clock",
@@ -7426,6 +8254,98 @@
             "time": "2026-05-08T14:41:13+00:00"
         },
         {
+            "name": "spatie/laravel-feed",
+            "version": "4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-feed.git",
+                "reference": "939427c5b242f0c67a691df15adcb2bbfd4592a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-feed/zipball/939427c5b242f0c67a691df15adcb2bbfd4592a3",
+                "reference": "939427c5b242f0c67a691df15adcb2bbfd4592a3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "illuminate/http": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^9.0|^10.0|^11.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "spatie/pest-plugin-snapshots": "^2.0",
+                "spatie/test-time": "^1.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Feed\\FeedServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Feed\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jolita Grazyte",
+                    "email": "jolita@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Patrick Organ",
+                    "homepage": "https://github.com/patinthehat",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generate rss feeds",
+            "homepage": "https://github.com/spatie/laravel-feed",
+            "keywords": [
+                "laravel",
+                "laravel-feed",
+                "rss",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-feed/tree/4.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-21T15:58:09+00:00"
+        },
+        {
             "name": "spatie/laravel-medialibrary",
             "version": "11.23.2",
             "source": {
@@ -8488,6 +9408,185 @@
             "time": "2026-07-06T12:39:32+00:00"
         },
         {
+            "name": "symfony/cache",
+            "version": "v8.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache.git",
+                "reference": "c14decc1b0755b1e8ab6babeef56e1880348e817"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/c14decc1b0755b1e8ab6babeef56e1880348e817",
+                "reference": "c14decc1b0755b1e8ab6babeef56e1880348e817",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "psr/cache": "^2.0|^3.0",
+                "psr/log": "^1.1|^2|^3",
+                "symfony/cache-contracts": "^3.6",
+                "symfony/service-contracts": "^2.5|^3",
+                "symfony/var-exporter": "^8.1"
+            },
+            "conflict": {
+                "ext-redis": "<6.1",
+                "ext-relay": "<0.12.1"
+            },
+            "provide": {
+                "psr/cache-implementation": "2.0|3.0",
+                "psr/simple-cache-implementation": "1.0|2.0|3.0",
+                "symfony/cache-implementation": "1.1|2.0|3.0"
+            },
+            "require-dev": {
+                "cache/integration-tests": "dev-master",
+                "doctrine/dbal": "^4.3",
+                "predis/predis": "^1.1|^2.0",
+                "psr/simple-cache": "^1.0|^2.0|^3.0",
+                "symfony/clock": "^7.4|^8.0",
+                "symfony/config": "^7.4|^8.0",
+                "symfony/dependency-injection": "^7.4|^8.0",
+                "symfony/filesystem": "^7.4|^8.0",
+                "symfony/http-kernel": "^7.4|^8.0",
+                "symfony/messenger": "^7.4|^8.0",
+                "symfony/var-dumper": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Cache\\": ""
+                },
+                "classmap": [
+                    "Traits/ValueWrapper.php"
+                ],
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides extended PSR-6, PSR-16 (and tags) implementations",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "caching",
+                "psr6"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/cache/tree/v8.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-06-17T15:04:37+00:00"
+        },
+        {
+            "name": "symfony/cache-contracts",
+            "version": "v3.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache-contracts.git",
+                "reference": "9789738bc19af1106dc54d6afba9a0b467516cf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/9789738bc19af1106dc54d6afba9a0b467516cf2",
+                "reference": "9789738bc19af1106dc54d6afba9a0b467516cf2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/cache": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
+                "branch-alias": {
+                    "dev-main": "3.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\Cache\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to caching",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/cache-contracts/tree/v3.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-06-05T06:23:12+00:00"
+        },
+        {
             "name": "symfony/clock",
             "version": "v8.1.0",
             "source": {
@@ -9122,6 +10221,77 @@
             "time": "2026-06-05T06:23:12+00:00"
         },
         {
+            "name": "symfony/filesystem",
+            "version": "v8.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "99aec13b82b4967ec5088222c4a3ecca955949c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/99aec13b82b4967ec5088222c4a3ecca955949c2",
+                "reference": "99aec13b82b4967ec5088222c4a3ecca955949c2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.8"
+            },
+            "require-dev": {
+                "symfony/process": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides basic utilities for the filesystem",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/filesystem/tree/v8.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-05-29T05:06:50+00:00"
+        },
+        {
             "name": "symfony/finder",
             "version": "v8.1.1",
             "source": {
@@ -9699,6 +10869,93 @@
                 }
             ],
             "time": "2026-04-10T16:19:22+00:00"
+        },
+        {
+            "name": "symfony/polyfill-deepclone",
+            "version": "v1.40.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-deepclone.git",
+                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-deepclone/zipball/dca4ccba5f360070b574414dce4c1e7a559844fa",
+                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "provide": {
+                "ext-deepclone": "*"
+            },
+            "suggest": {
+                "ext-deepclone": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\DeepClone\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the deepclone extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "deepclone",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-deepclone/tree/v1.40.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-06-12T07:27:17+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -11455,6 +12712,89 @@
                 }
             ],
             "time": "2026-06-09T10:54:51+00:00"
+        },
+        {
+            "name": "symfony/var-exporter",
+            "version": "v8.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-exporter.git",
+                "reference": "75b74315b4e4be40e5534cf9c5cc30dd0907ed71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/75b74315b4e4be40e5534cf9c5cc30dd0907ed71",
+                "reference": "75b74315b4e4be40e5534cf9c5cc30dd0907ed71",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/polyfill-deepclone": "^1.40"
+            },
+            "require-dev": {
+                "symfony/property-access": "^7.4|^8.0",
+                "symfony/serializer": "^7.4|^8.0",
+                "symfony/var-dumper": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\VarExporter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides tools to export, instantiate, hydrate, clone and lazy-load PHP objects",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "clone",
+                "construct",
+                "deep-clone",
+                "export",
+                "hydrate",
+                "instantiate",
+                "lazy-loading",
+                "proxy",
+                "serialize"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/var-exporter/tree/v8.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-06-27T09:05:56+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

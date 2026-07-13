@@ -2,16 +2,13 @@
     'sidebar' => false,
 ])
 
-@if($sidebar)
-    <flux:sidebar.brand name="Laravel Starter Kit" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-            <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:sidebar.brand>
-@else
-    <flux:brand name="Laravel Starter Kit" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-            <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:brand>
-@endif
+@php
+    $settings = app(\App\Settings\SettingApp::class);
+    $logoUrl = $settings->logoUrl();
+    $appName = $settings->name;
+@endphp
+
+<div {{ $attributes->merge(['class' => 'inline-flex items-center gap-2 sm:gap-3']) }}>
+    <img src="{{ $logoUrl ?? Storage::url('images/cadersa-logo.png') }}" alt="{{ $appName }}"
+        class="h-14 sm:h-12 w-auto object-contain rounded transition-all duration-300 ease-out hover:scale-105" />
+</div>

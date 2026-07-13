@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "timestamp": "2026-07-10T13:13:15.919Z",
+  "entries": {
+    "https://www.schemastore.org/package.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\package.json",
+    "https://www.schemastore.org/quikrun.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\quikrun.json",
+    "https://www.schemastore.org/prettierrc.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\prettierrc.json",
+    "https://www.schemastore.org/nodemon.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\nodemon.json",
+    "https://www.schemastore.org/ava.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\ava.json",
+    "https://www.schemastore.org/semantic-release.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\semantic-release.json",
+    "https://www.schemastore.org/jscpd.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\jscpd.json",
+    "https://www.schemastore.org/eslintrc.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\eslintrc.json",
+    "https://www.schemastore.org/stylelintrc.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\stylelintrc.json",
+    "https://www.schemastore.org/partial-eslint-plugins.json": "c:\\Users\\user\\Documents\\Projets\\Sites\\cadersa-asbl\\.asm_cache\\www.schemastore.org\\partial-eslint-plugins.json"
+  }
+}
