@@ -1,0 +1,3397 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Trait App\\Concerns\\Traits\\HasTiptapContent is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Concerns/Traits/HasTiptapContent.php
+
+		-
+			message: '#^Method App\\Enums\\NavigationGroup\:\:getIcon\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/NavigationGroup.php
+
+		-
+			message: '#^Method App\\Enums\\NavigationGroup\:\:getIcon\(\) never returns string so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/NavigationGroup.php
+
+		-
+			message: '#^Method App\\Enums\\Status\:\:getColor\(\) never returns array\<string\> so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/Status.php
+
+		-
+			message: '#^Method App\\Enums\\Status\:\:getColor\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/Status.php
+
+		-
+			message: '#^Method App\\Enums\\Status\:\:getIcon\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/Status.php
+
+		-
+			message: '#^Method App\\Enums\\Status\:\:getIcon\(\) never returns string so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/Status.php
+
+		-
+			message: '#^Method App\\Enums\\Status\:\:getLabel\(\) never returns Illuminate\\Contracts\\Support\\Htmlable so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/Status.php
+
+		-
+			message: '#^Method App\\Enums\\Status\:\:getLabel\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Enums/Status.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Announcements\\AnnouncementResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Announcements/AnnouncementResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CadersaAsblDocumentLegals\\CadersaAsblDocumentLegalResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/CadersaAsblDocumentLegalResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\TypeDocumentLegal\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\TypeDocumentLegal\>\:\:\$forme_juridique\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/Schemas/CadersaAsblDocumentLegalForm.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CadersaAsblDocumentLegals\\Tables\\CadersaAsblDocumentLegalsTable\:\:getExpirationColor\(\) has parameter \$record with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/Tables/CadersaAsblDocumentLegalsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CadersaAsblDocumentLegals\\Tables\\CadersaAsblDocumentLegalsTable\:\:getExpirationColor\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/Tables/CadersaAsblDocumentLegalsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CadersaAsblDocumentLegals\\Tables\\CadersaAsblDocumentLegalsTable\:\:getExpirationIcon\(\) has parameter \$record with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/Tables/CadersaAsblDocumentLegalsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CadersaAsblDocumentLegals\\Tables\\CadersaAsblDocumentLegalsTable\:\:getExpirationTooltip\(\) has parameter \$record with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/Tables/CadersaAsblDocumentLegalsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CadersaAsblDocumentLegals\\Tables\\CadersaAsblDocumentLegalsTable\:\:getExpirationTooltip\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Filament/Resources/CadersaAsblDocumentLegals/Tables/CadersaAsblDocumentLegalsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Categories\\CategoryResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Categories/CategoryResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Cities\\CityResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Cities/CityResource.php
+
+		-
+			message: '#^Call to an undefined method Filament\\Forms\\Components\\TextInput\:\:uppercase\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/Cities/Schemas/CityForm.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CommentLikes\\CommentLikeResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/CommentLikes/CommentLikeResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>content" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/CommentLikes/Tables/CommentLikesTable.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>contenu" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/CommentLikes/Tables/CommentLikesTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CommentMentions\\CommentMentionResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/CommentMentions/CommentMentionResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\CommentReports\\CommentReportResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/CommentReports/CommentReportResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Comments\\CommentResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Comments/CommentResource.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''expired'' \(''expired'', ''expired''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Filament/Resources/Comments/Pages/EditComment.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Comments\\Pages\\EditComment\:\:getTabs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Filament/Resources/Comments/Pages/EditComment.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''expired'' \(''expired'', ''expired''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Filament/Resources/Comments/Pages/ListComments.php
+
+		-
+			message: '#^Call to an undefined method App\\Filament\\Resources\\Comments\\RelationManagers\\CommentsRelationManager\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Filament/Resources/Comments/RelationManagers/CommentsRelationManager.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Comments/Schemas/CommentForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>excerpt" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Comments/Schemas/CommentForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>ip_address" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Comments/Schemas/CommentForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>user_agent" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Comments/Schemas/CommentForm.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Contacts\\ContactResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Contacts/ContactResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Countries\\CountryResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Countries/CountryResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Currencies\\CurrencyResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Currencies/CurrencyResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Faqs\\FaqResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Faqs/FaqResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Languages\\LanguageResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Languages/LanguageResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Media\\MediaResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Media/MediaResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Media\\Pages\\ListMedia\:\:getTableQuery\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Filament/Resources/Media/Pages/ListMedia.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Media\\Pages\\ListMedia\:\:getTableQuery\(\) should return Illuminate\\Database\\Eloquent\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\|Illuminate\\Database\\Eloquent\\Relations\\Relation\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Media/Pages/ListMedia.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\NewsletterCampaigns\\NewsletterCampaignResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/NewsletterCampaignResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>taux_desabonnement" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/Schemas/NewsletterCampaignForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>total_clics" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/Schemas/NewsletterCampaignForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>total_desabonnements" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/Schemas/NewsletterCampaignForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>total_envoyes" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/Schemas/NewsletterCampaignForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>total_ouverts" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/Schemas/NewsletterCampaignForm.php
+
+		-
+			message: '#^Parameter \#1 \$num of function round expects float\|int, float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/NewsletterCampaigns/Widgets/CampaignsStatsWidget.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\NewsletterSends\\NewsletterSendResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/NewsletterSends/NewsletterSendResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterSends/Schemas/NewsletterSendForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>ip_address" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterSends/Schemas/NewsletterSendForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>status_label" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterSends/Schemas/NewsletterSendForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>titre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterSends/Schemas/NewsletterSendForm.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>user_agent" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/NewsletterSends/Schemas/NewsletterSendForm.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Newsletters\\NewsletterResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Newsletters/NewsletterResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Partners\\PartnerResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Partners/PartnerResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Permissions\\PermissionResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Permissions/PermissionResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\PostBookMarks\\PostBookMarkResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/PostBookMarks/PostBookMarkResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\PostBookMark\:\:\$total\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/PostBookMarks/Widgets/PostBookMarksStatsWidget.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\PostLikes\\PostLikeResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/PostLikes/PostLikeResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\PostLike\:\:\$total\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/PostLikes/Widgets/PostLikeStatsWidget.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/Posts/Pages/EditPost.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Posts\\PostResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Posts/PostResource.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 2
+			path: app/Filament/Resources/Posts/Tables/PostsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Projects\\ProjectResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Projects/ProjectResource.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 2
+			path: app/Filament/Resources/Projects/Tables/ProjectsTable.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Roles\\RoleResource\:\:getCluster\(\) should return class\-string\<Filament\\Clusters\\Cluster\>\|null but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Roles/RoleResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Roles\\RoleResource\:\:getModel\(\) should return class\-string\<Illuminate\\Database\\Eloquent\\Model\> but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Roles/RoleResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Services\\ServiceResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Services/ServiceResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\States\\StateResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/States/StateResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\TeamMembers\\TeamMemberResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/TeamMembers/TeamMemberResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Testimonials\\TestimonialResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Testimonials/TestimonialResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Timezones\\TimezoneResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Timezones/TimezoneResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Schemas\\Components\\Select\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/TypeDocumentLegals/Schemas/TypeDocumentLegalForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Schemas\\Components\\TextInput\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/TypeDocumentLegals/Schemas/TypeDocumentLegalForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Schemas\\Components\\Textarea\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/TypeDocumentLegals/Schemas/TypeDocumentLegalForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Schemas\\Components\\Toggle\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/TypeDocumentLegals/Schemas/TypeDocumentLegalForm.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\TypeDocumentLegals\\TypeDocumentLegalResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/TypeDocumentLegals/TypeDocumentLegalResource.php
+
+		-
+			message: '#^Method App\\Filament\\Resources\\Users\\UserResource\:\:getNavigationBadge\(\) should return string\|null but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/Users/UserResource.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\NewsletterController\:\:confirm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/NewsletterController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\NewsletterController\:\:subscribe\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/NewsletterController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\NewsletterController\:\:unsubscribe\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/NewsletterController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\site\\SitemapController\:\:index\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\Response\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/site/SitemapController.php
+
+		-
+			message: '#^Class App\\Enums\\AddressType not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Requests/Address/AddressFormRequest.php
+
+		-
+			message: '#^Class Propaganistas\\LaravelPhone\\Rules\\Phone does not have a constructor and must be instantiated without any parameters\.$#'
+			identifier: new.noConstructor
+			count: 1
+			path: app/Http/Requests/Address/AddressFormRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Address\\AddressFormRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Address/AddressFormRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Posts\\StorePostRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Posts/StorePostRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreContactRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreContactRequest.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$color\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$enfants\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$nom\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$parent\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$parent_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CategoryResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\CategoryResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$Url_central\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$categories\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$comments_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$excerpt\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$expires_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$featured_image_card\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$featured_image_detail\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$featured_image_thumb\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$featured_image_url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$gallery_images\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$is_pinned\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$is_published\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$likes_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$meta_description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$meta_keywords\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$meta_title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$published_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$reading_time_minutes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$scheduled_for\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$status_color\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$status_label\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$tags\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$url_central\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$views_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\PostResource\:\:getMedia\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\PostResource\:\:checkUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\PostResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Method App\\Models\\Announcement\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Announcement.php
+
+		-
+			message: '#^Method App\\Models\\Announcement\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Announcement.php
+
+		-
+			message: '#^Method App\\Models\\Announcement\:\:scopeForBuyers\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Announcement.php
+
+		-
+			message: '#^Method App\\Models\\Announcement\:\:scopeForBuyers\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Announcement.php
+
+		-
+			message: '#^Method App\\Models\\Announcement\:\:scopeForVendors\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Announcement.php
+
+		-
+			message: '#^Method App\\Models\\Announcement\:\:scopeForVendors\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Announcement.php
+
+		-
+			message: '#^Method App\\Models\\CadersaAsblDocumentLegal\:\:typeDocument\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CadersaAsblDocumentLegal.php
+
+		-
+			message: '#^Method App\\Models\\CadersaAsblDocumentLegal\:\:verifiePar\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CadersaAsblDocumentLegal.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:approvedReplies\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:commentable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:getStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:likes\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:mentionedUsers\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:mentions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:parent\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:replies\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:report\(\) should return App\\Models\\CommentReport but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:reports\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeApproved\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeApproved\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeForModel\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeForModel\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeMostLiked\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeMostLiked\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeParents\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeParents\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopePending\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopePending\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeRecent\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeRecent\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeSpam\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:scopeSpam\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:toggleDislike\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:toggleLike\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^PHPDoc tag @use has invalid type App\\Models\\CommentFactory\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Type App\\Models\\CommentFactory in generic type Illuminate\\Database\\Eloquent\\Factories\\HasFactory\<App\\Models\\CommentFactory\> in PHPDoc tag @use is not subtype of template type TFactory of Illuminate\\Database\\Eloquent\\Factories\\Factory of trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\CommentLike\:\:comment\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentLike.php
+
+		-
+			message: '#^Method App\\Models\\CommentLike\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentLike.php
+
+		-
+			message: '#^Class App\\Models\\CommentMention uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentMention.php
+
+		-
+			message: '#^Method App\\Models\\CommentMention\:\:comment\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentMention.php
+
+		-
+			message: '#^Method App\\Models\\CommentMention\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentMention.php
+
+		-
+			message: '#^Class App\\Models\\CommentReport uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentReport.php
+
+		-
+			message: '#^Method App\\Models\\CommentReport\:\:comment\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentReport.php
+
+		-
+			message: '#^Method App\\Models\\CommentReport\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CommentReport.php
+
+		-
+			message: '#^Class App\\Models\\Contact uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Match arm comparison between ''reclamation'' and ''reclamation'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Match arm comparison between ''spam'' and ''spam'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Match arm comparison between ''urgente'' and ''urgente'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:getCategories\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:getPriorites\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:getStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:reponduPar\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeEnAttente\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeEnAttente\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeNonTraites\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeNonTraites\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeParCategorie\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeParCategorie\(\) has parameter \$categorie with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeParCategorie\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeUrgents\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\Contact\:\:scopeUrgents\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Property App\\Models\\Contact\:\:\$repondu_par \(string\|null\) does not accept int\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Contact.php
+
+		-
+			message: '#^Method App\\Models\\CookieConsent\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/CookieConsent.php
+
+		-
+			message: '#^Class App\\Models\\Faq uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Faq.php
+
+		-
+			message: '#^Method App\\Models\\Faq\:\:scopeActive\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Faq.php
+
+		-
+			message: '#^Method App\\Models\\Faq\:\:scopeActive\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Faq.php
+
+		-
+			message: '#^Method App\\Models\\Faq\:\:scopeOrdered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Faq.php
+
+		-
+			message: '#^Method App\\Models\\Faq\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Faq.php
+
+		-
+			message: '#^Class App\\Models\\Newsletter uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:envois\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:getPreferencesCategoriesAttribute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeActifs\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeActifs\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeInactifs\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeInactifs\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeParSource\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeParSource\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:scopeParSource\(\) has parameter \$source with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Method App\\Models\\Newsletter\:\:updatePreferences\(\) has parameter \$categories with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Property App\\Models\\Newsletter\:\:\$token_confirmation \(string\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Newsletter.php
+
+		-
+			message: '#^Class App\\Models\\NewsletterCampaign uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Match arm comparison between ''annule'' and ''annule'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:creePar\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:envois\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:getAbonnesCibles\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:getStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeABientot\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeABientot\(\) has parameter \$hours with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeABientot\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeEnvoyes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeEnvoyes\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeProgrammes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterCampaign\:\:scopeProgrammes\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Property App\\Models\\NewsletterCampaign\:\:\$scheduled_at \(Carbon\\CarbonImmutable\|null\) does not accept DateTime\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/NewsletterCampaign.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:desactiver\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:incrementerClics\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:incrementerDesabonnements\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:incrementerOuverts\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Class App\\Models\\NewsletterSend uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Match arm comparison between ''desabonne'' and ''desabonne'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 2
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterSend\:\:campaign\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterSend\:\:newsletter\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterSend\:\:scopeCliques\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterSend\:\:scopeCliques\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterSend\:\:scopeOuverts\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\NewsletterSend\:\:scopeOuverts\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/NewsletterSend.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:notifiable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:scopeNonEnvoyees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:scopeNonEnvoyees\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:scopePourUtilisateur\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:scopePourUtilisateur\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:performOnCollections\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Models/Partner.php
+
+		-
+			message: '#^Class App\\Models\\Partner uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Partner.php
+
+		-
+			message: '#^Method App\\Models\\Partner\:\:scopeActive\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Partner.php
+
+		-
+			message: '#^Method App\\Models\\Partner\:\:scopeActive\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Partner.php
+
+		-
+			message: '#^Method App\\Models\\Partner\:\:scopeOrdered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Partner.php
+
+		-
+			message: '#^Method App\\Models\\Partner\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Partner.php
+
+		-
+			message: '#^Class App\\Models\\Permission uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Permission.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''published_at'' \(''published_at'', ''published_at''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''scheduled_for'' \(''scheduled_for'', ''scheduled_for''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:nonQueued\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:withResponsiveImages\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Post.php
+
+		-
+			message: '#^Cannot call method isFuture\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Models/Post.php
+
+		-
+			message: '#^Cannot call method isPast\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Models/Post.php
+
+		-
+			message: '#^Class App\\Models\\Post uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Match arm comparison between ''archived'' and ''archived'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:allComments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:approvedComments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:bookmarkedBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:categories\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:comments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:extractTextFromTiptap\(\) has parameter \$node with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getContentAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getContentAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getContentPlainTextAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getExcerptAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getExcerptAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getFeedItems\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getGalleryImagesAttribute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getMetaDescriptionAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getMetaTitleAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getRelatedPosts\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:getStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:hasCategory\(\) has parameter \$categoryId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:isMediaValid\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:likes\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:primaryCategory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeBetweenDates\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeBetweenDates\(\) has parameter \$end with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeBetweenDates\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeBetweenDates\(\) has parameter \$start with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeByCategory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeByCategory\(\) has parameter \$categoryId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeByCategory\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeByUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeByUser\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeByUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeDraft\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeDraft\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeExpired\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeExpired\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopePinned\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopePinned\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopePopular\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopePopular\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopePublished\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopePublished\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeRecent\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeRecent\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeScheduled\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeScheduled\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeSearch\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:scopeSearch\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:setContentAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:setExcerptAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:syncCategories\(\) has parameter \$categoryIds with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:toSitemapTag\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\Post\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Method App\\Models\\PostBookMark\:\:post\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostBookMark.php
+
+		-
+			message: '#^Method App\\Models\\PostBookMark\:\:scopeForUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostBookMark.php
+
+		-
+			message: '#^Method App\\Models\\PostBookMark\:\:scopeForUser\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostBookMark.php
+
+		-
+			message: '#^Method App\\Models\\PostBookMark\:\:scopeForUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostBookMark.php
+
+		-
+			message: '#^Method App\\Models\\PostBookMark\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostBookMark.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getTreeIds\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:published\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:enfants\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:getBreadcrumb\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:getMetaDescriptionAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:getMetaTitleAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:getTreeIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:parent\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:posts\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:postsPublies\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeActifs\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeActifs\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeEnfants\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeEnfants\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeOrdonnes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeOrdonnes\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeParents\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeParents\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeRecherche\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeRecherche\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeVisiblesDansMenu\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:scopeVisiblesDansMenu\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategory\:\:toSitemapTag\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Variable \$value on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 2
+			path: app/Models/PostCategory.php
+
+		-
+			message: '#^Method App\\Models\\PostCategoryPivot\:\:categorie\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostCategoryPivot.php
+
+		-
+			message: '#^Method App\\Models\\PostCategoryPivot\:\:post\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostCategoryPivot.php
+
+		-
+			message: '#^Method App\\Models\\PostLike\:\:post\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostLike.php
+
+		-
+			message: '#^Method App\\Models\\PostLike\:\:scopeForUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PostLike.php
+
+		-
+			message: '#^Method App\\Models\\PostLike\:\:scopeForUser\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostLike.php
+
+		-
+			message: '#^Method App\\Models\\PostLike\:\:scopeForUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/PostLike.php
+
+		-
+			message: '#^Method App\\Models\\PostLike\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PostLike.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:nonQueued\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Models/Project.php
+
+		-
+			message: '#^Class App\\Models\\Project uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:extractTextFromTiptap\(\) has parameter \$node with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:getFeedItems\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:getGalleryUrlsAttribute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:getTagNamesAttribute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeActive\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeActive\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeByStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeByStatus\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeByStatus\(\) has parameter \$status with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeCompleted\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeCompleted\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeOngoing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeOngoing\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeOrdered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:setContentAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Method App\\Models\\Project\:\:setExcerptAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Variable \$content on left side of \?\? always exists and is always null\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/Models/Project.php
+
+		-
+			message: '#^Class App\\Models\\Role uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Role.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:withResponsiveImages\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Service.php
+
+		-
+			message: '#^Call to function is_array\(\) with string\|null will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 2
+			path: app/Models/Service.php
+
+		-
+			message: '#^Class App\\Models\\Service uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:allComments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:approvedComments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:comments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:extractTextFromTiptap\(\) has parameter \$node with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:scopeActive\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:scopeActive\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:scopeOrdered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:scopeSearch\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:scopeSearch\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:setContentAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Service\:\:setExcerptAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^PHPDoc tag @var above a method has no effect\.$#'
+			identifier: varTag.misplaced
+			count: 1
+			path: app/Models/Service.php
+
+		-
+			message: '#^Method App\\Models\\Tag\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tag.php
+
+		-
+			message: '#^Method App\\Models\\Tag\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tag.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:performOnCollections\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Models/TeamMember.php
+
+		-
+			message: '#^Class App\\Models\\TeamMember uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/TeamMember.php
+
+		-
+			message: '#^Method App\\Models\\TeamMember\:\:scopeActive\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/TeamMember.php
+
+		-
+			message: '#^Method App\\Models\\TeamMember\:\:scopeActive\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/TeamMember.php
+
+		-
+			message: '#^Method App\\Models\\TeamMember\:\:scopeOrdered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/TeamMember.php
+
+		-
+			message: '#^Method App\\Models\\TeamMember\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/TeamMember.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:performOnCollections\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Models/Testimonial.php
+
+		-
+			message: '#^Class App\\Models\\Testimonial uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Testimonial.php
+
+		-
+			message: '#^Method App\\Models\\Testimonial\:\:scopeActive\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Testimonial.php
+
+		-
+			message: '#^Method App\\Models\\Testimonial\:\:scopeActive\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Testimonial.php
+
+		-
+			message: '#^Method App\\Models\\Testimonial\:\:scopeOrdered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Testimonial.php
+
+		-
+			message: '#^Method App\\Models\\Testimonial\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Testimonial.php
+
+		-
+			message: '#^Class App\\Models\\TypeDocumentLegal uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/TypeDocumentLegal.php
+
+		-
+			message: '#^Method App\\Models\\TypeDocumentLegal\:\:getFormeJuridiqueOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/TypeDocumentLegal.php
+
+		-
+			message: '#^Method App\\Models\\TypeDocumentLegal\:\:scopeObligatoires\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/TypeDocumentLegal.php
+
+		-
+			message: '#^Method App\\Models\\TypeDocumentLegal\:\:scopeObligatoires\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/TypeDocumentLegal.php
+
+		-
+			message: '#^Method App\\Models\\TypeDocumentLegal\:\:scopeOptionnels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/TypeDocumentLegal.php
+
+		-
+			message: '#^Method App\\Models\\TypeDocumentLegal\:\:scopeOptionnels\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/TypeDocumentLegal.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$dernier_connexion\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Models/User.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:withResponsiveImages\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Models/User.php
+
+		-
+			message: '#^Class App\\Models\\User has PHPDoc tag @property for property \$preferences with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Instantiated class App\\Events\\UserLoggedIn not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:posts\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:scopeInactiveSince\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:scopeInactiveSince\(\) has parameter \$date with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:scopeInactiveSince\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:scopeOnline\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:scopeOnline\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:setPreferences\(\) has parameter \$preferences with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^PHPDoc tag @use has invalid type App\\Models\\UserFactory\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Parameter \#1 \$string of function mb_substr expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Parameter \#1 \$value of function collect expects Illuminate\\Contracts\\Support\\Arrayable\<int\<0, max\>, non\-empty\-string\>\|iterable\<int\<0, max\>, non\-empty\-string\>\|null, non\-empty\-list\<non\-empty\-string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Property App\\Models\\User\:\:\$preferences \(array\|null\) does not accept string\|false\.$#'
+			identifier: assign.propertyType
+			count: 3
+			path: app/Models/User.php
+
+		-
+			message: '#^Type App\\Models\\UserFactory in generic type Illuminate\\Database\\Eloquent\\Factories\\HasFactory\<App\\Models\\UserFactory\> in PHPDoc tag @use is not subtype of template type TFactory of Illuminate\\Database\\Eloquent\\Factories\\Factory of trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Parameter \$adresse of method App\\Policies\\AdressePolicy\:\:delete\(\) has invalid type App\\Models\\Adresse\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/AdressePolicy.php
+
+		-
+			message: '#^Parameter \$adresse of method App\\Policies\\AdressePolicy\:\:forceDelete\(\) has invalid type App\\Models\\Adresse\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/AdressePolicy.php
+
+		-
+			message: '#^Parameter \$adresse of method App\\Policies\\AdressePolicy\:\:replicate\(\) has invalid type App\\Models\\Adresse\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/AdressePolicy.php
+
+		-
+			message: '#^Parameter \$adresse of method App\\Policies\\AdressePolicy\:\:restore\(\) has invalid type App\\Models\\Adresse\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/AdressePolicy.php
+
+		-
+			message: '#^Parameter \$adresse of method App\\Policies\\AdressePolicy\:\:update\(\) has invalid type App\\Models\\Adresse\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/AdressePolicy.php
+
+		-
+			message: '#^Parameter \$adresse of method App\\Policies\\AdressePolicy\:\:view\(\) has invalid type App\\Models\\Adresse\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/AdressePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/CityPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/CityPolicy.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/CommentLikePolicy.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/CommentReportPolicy.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/CookieConsentPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Parameter \$country of method App\\Policies\\CountryPolicy\:\:delete\(\) has invalid type App\\Models\\Country\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Parameter \$country of method App\\Policies\\CountryPolicy\:\:forceDelete\(\) has invalid type App\\Models\\Country\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Parameter \$country of method App\\Policies\\CountryPolicy\:\:replicate\(\) has invalid type App\\Models\\Country\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Parameter \$country of method App\\Policies\\CountryPolicy\:\:restore\(\) has invalid type App\\Models\\Country\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Parameter \$country of method App\\Policies\\CountryPolicy\:\:update\(\) has invalid type App\\Models\\Country\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Parameter \$country of method App\\Policies\\CountryPolicy\:\:view\(\) has invalid type App\\Models\\Country\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CountryPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Parameter \$currency of method App\\Policies\\CurrencyPolicy\:\:delete\(\) has invalid type App\\Models\\Currency\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Parameter \$currency of method App\\Policies\\CurrencyPolicy\:\:forceDelete\(\) has invalid type App\\Models\\Currency\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Parameter \$currency of method App\\Policies\\CurrencyPolicy\:\:replicate\(\) has invalid type App\\Models\\Currency\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Parameter \$currency of method App\\Policies\\CurrencyPolicy\:\:restore\(\) has invalid type App\\Models\\Currency\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Parameter \$currency of method App\\Policies\\CurrencyPolicy\:\:update\(\) has invalid type App\\Models\\Currency\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Parameter \$currency of method App\\Policies\\CurrencyPolicy\:\:view\(\) has invalid type App\\Models\\Currency\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/CurrencyPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Parameter \$language of method App\\Policies\\LanguagePolicy\:\:delete\(\) has invalid type App\\Models\\Language\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Parameter \$language of method App\\Policies\\LanguagePolicy\:\:forceDelete\(\) has invalid type App\\Models\\Language\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Parameter \$language of method App\\Policies\\LanguagePolicy\:\:replicate\(\) has invalid type App\\Models\\Language\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Parameter \$language of method App\\Policies\\LanguagePolicy\:\:restore\(\) has invalid type App\\Models\\Language\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Parameter \$language of method App\\Policies\\LanguagePolicy\:\:update\(\) has invalid type App\\Models\\Language\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Parameter \$language of method App\\Policies\\LanguagePolicy\:\:view\(\) has invalid type App\\Models\\Language\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/LanguagePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/MediaPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/MediaPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/NewsletterCampaignPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/NewsletterCampaignPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/NewsletterSendPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/NewsletterSendPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/NotificationPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/NotificationPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Parameter \$planAbonnement of method App\\Policies\\PlanAbonnementPolicy\:\:delete\(\) has invalid type App\\Models\\PlanAbonnement\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Parameter \$planAbonnement of method App\\Policies\\PlanAbonnementPolicy\:\:forceDelete\(\) has invalid type App\\Models\\PlanAbonnement\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Parameter \$planAbonnement of method App\\Policies\\PlanAbonnementPolicy\:\:replicate\(\) has invalid type App\\Models\\PlanAbonnement\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Parameter \$planAbonnement of method App\\Policies\\PlanAbonnementPolicy\:\:restore\(\) has invalid type App\\Models\\PlanAbonnement\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Parameter \$planAbonnement of method App\\Policies\\PlanAbonnementPolicy\:\:update\(\) has invalid type App\\Models\\PlanAbonnement\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Parameter \$planAbonnement of method App\\Policies\\PlanAbonnementPolicy\:\:view\(\) has invalid type App\\Models\\PlanAbonnement\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanAbonnementPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Parameter \$plan of method App\\Policies\\PlanPolicy\:\:delete\(\) has invalid type App\\Models\\Plan\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Parameter \$plan of method App\\Policies\\PlanPolicy\:\:forceDelete\(\) has invalid type App\\Models\\Plan\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Parameter \$plan of method App\\Policies\\PlanPolicy\:\:replicate\(\) has invalid type App\\Models\\Plan\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Parameter \$plan of method App\\Policies\\PlanPolicy\:\:restore\(\) has invalid type App\\Models\\Plan\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Parameter \$plan of method App\\Policies\\PlanPolicy\:\:update\(\) has invalid type App\\Models\\Plan\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Parameter \$plan of method App\\Policies\\PlanPolicy\:\:view\(\) has invalid type App\\Models\\Plan\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/PlanPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/PostBookMarkPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/PostBookMarkPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/PostCategoryPivotPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/PostCategoryPivotPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/PostLikePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/PostLikePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Parameter \$state of method App\\Policies\\StatePolicy\:\:delete\(\) has invalid type App\\Models\\State\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Parameter \$state of method App\\Policies\\StatePolicy\:\:forceDelete\(\) has invalid type App\\Models\\State\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Parameter \$state of method App\\Policies\\StatePolicy\:\:replicate\(\) has invalid type App\\Models\\State\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Parameter \$state of method App\\Policies\\StatePolicy\:\:restore\(\) has invalid type App\\Models\\State\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Parameter \$state of method App\\Policies\\StatePolicy\:\:update\(\) has invalid type App\\Models\\State\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Parameter \$state of method App\\Policies\\StatePolicy\:\:view\(\) has invalid type App\\Models\\State\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/StatePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Parameter \$systemNotification of method App\\Policies\\SystemNotificationPolicy\:\:delete\(\) has invalid type App\\Models\\SystemNotification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Parameter \$systemNotification of method App\\Policies\\SystemNotificationPolicy\:\:forceDelete\(\) has invalid type App\\Models\\SystemNotification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Parameter \$systemNotification of method App\\Policies\\SystemNotificationPolicy\:\:replicate\(\) has invalid type App\\Models\\SystemNotification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Parameter \$systemNotification of method App\\Policies\\SystemNotificationPolicy\:\:restore\(\) has invalid type App\\Models\\SystemNotification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Parameter \$systemNotification of method App\\Policies\\SystemNotificationPolicy\:\:update\(\) has invalid type App\\Models\\SystemNotification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Parameter \$systemNotification of method App\\Policies\\SystemNotificationPolicy\:\:view\(\) has invalid type App\\Models\\SystemNotification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/SystemNotificationPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/TagPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/TagPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Parameter \$tenantDocumentLegal of method App\\Policies\\TenantDocumentLegalPolicy\:\:delete\(\) has invalid type App\\Models\\TenantDocumentLegal\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Parameter \$tenantDocumentLegal of method App\\Policies\\TenantDocumentLegalPolicy\:\:forceDelete\(\) has invalid type App\\Models\\TenantDocumentLegal\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Parameter \$tenantDocumentLegal of method App\\Policies\\TenantDocumentLegalPolicy\:\:replicate\(\) has invalid type App\\Models\\TenantDocumentLegal\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Parameter \$tenantDocumentLegal of method App\\Policies\\TenantDocumentLegalPolicy\:\:restore\(\) has invalid type App\\Models\\TenantDocumentLegal\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Parameter \$tenantDocumentLegal of method App\\Policies\\TenantDocumentLegalPolicy\:\:update\(\) has invalid type App\\Models\\TenantDocumentLegal\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Parameter \$tenantDocumentLegal of method App\\Policies\\TenantDocumentLegalPolicy\:\:view\(\) has invalid type App\\Models\\TenantDocumentLegal\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TenantDocumentLegalPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Parameter \$timezone of method App\\Policies\\TimezonePolicy\:\:delete\(\) has invalid type App\\Models\\Timezone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Parameter \$timezone of method App\\Policies\\TimezonePolicy\:\:forceDelete\(\) has invalid type App\\Models\\Timezone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Parameter \$timezone of method App\\Policies\\TimezonePolicy\:\:replicate\(\) has invalid type App\\Models\\Timezone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Parameter \$timezone of method App\\Policies\\TimezonePolicy\:\:restore\(\) has invalid type App\\Models\\Timezone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Parameter \$timezone of method App\\Policies\\TimezonePolicy\:\:update\(\) has invalid type App\\Models\\Timezone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Parameter \$timezone of method App\\Policies\\TimezonePolicy\:\:view\(\) has invalid type App\\Models\\Timezone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TimezonePolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Parameter \$traduction of method App\\Policies\\TraductionPolicy\:\:delete\(\) has invalid type App\\Models\\Traduction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Parameter \$traduction of method App\\Policies\\TraductionPolicy\:\:forceDelete\(\) has invalid type App\\Models\\Traduction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Parameter \$traduction of method App\\Policies\\TraductionPolicy\:\:replicate\(\) has invalid type App\\Models\\Traduction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Parameter \$traduction of method App\\Policies\\TraductionPolicy\:\:restore\(\) has invalid type App\\Models\\Traduction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Parameter \$traduction of method App\\Policies\\TraductionPolicy\:\:update\(\) has invalid type App\\Models\\Traduction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Parameter \$traduction of method App\\Policies\\TraductionPolicy\:\:view\(\) has invalid type App\\Models\\Traduction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Policies/TraductionPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:canAccessTenant\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/TypeDocumentLegalPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/TypeDocumentLegalPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/UserPolicy.php
+
+		-
+			message: '#^Property App\\Settings\\SettingApp\:\:\$addresses type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Settings/SettingApp.php
+
+		-
+			message: '#^Method App\\ValueObjects\\UserPreferences\:\:__construct\(\) has parameter \$preferences with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Method App\\ValueObjects\\UserPreferences\:\:all\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Method App\\ValueObjects\\UserPreferences\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Method App\\ValueObjects\\UserPreferences\:\:jsonSerialize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Method App\\ValueObjects\\UserPreferences\:\:merge\(\) has parameter \$preferences with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Method App\\ValueObjects\\UserPreferences\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Property App\\ValueObjects\\UserPreferences\:\:\$preferences type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/ValueObjects/UserPreferences.php
+
+		-
+			message: '#^Class Spatie\\MediaLibraryPro\\Models\\TemporaryUpload not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: config/media-library.php
+
+		-
+			message: '#^PHPDoc tag @extends has invalid type App\\Models\\BlogCategory\.$#'
+			identifier: class.notFound
+			count: 1
+			path: database/factories/BlogCategoryFactory.php
+
+		-
+			message: '#^Type App\\Models\\BlogCategory in generic type Illuminate\\Database\\Eloquent\\Factories\\Factory\<App\\Models\\BlogCategory\> in PHPDoc tag @extends is not subtype of template type TModel of Illuminate\\Database\\Eloquent\\Model of class Illuminate\\Database\\Eloquent\\Factories\\Factory\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: database/factories/BlogCategoryFactory.php
+
+		-
+			message: '#^Class Database\\Factories\\ContactFactory extends generic class Illuminate\\Database\\Eloquent\\Factories\\Factory but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: database/factories/ContactFactory.php
+
+		-
+			message: '#^Class Database\\Factories\\PostFactory extends generic class Illuminate\\Database\\Eloquent\\Factories\\Factory but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: database/factories/PostFactory.php
+
+		-
+			message: '#^Method Database\\Factories\\PostFactory\:\:draft\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: database/factories/PostFactory.php
+
+		-
+			message: '#^Method Database\\Factories\\PostFactory\:\:published\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: database/factories/PostFactory.php
+
+		-
+			message: '#^Method Database\\Factories\\PostFactory\:\:scheduled\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: database/factories/PostFactory.php
+
+		-
+			message: '#^Class Database\\Factories\\TypeDocumentLegalFactory extends generic class Illuminate\\Database\\Eloquent\\Factories\\Factory but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: database/factories/TypeDocumentLegalFactory.php
+
+		-
+			message: '#^Argument of an invalid type array\|string supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Method Database\\Seeders\\PostSeeder\:\:generateLongContent\(\) has parameter \$faker with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Method Database\\Seeders\\PostSeeder\:\:generateRandomContent\(\) has parameter \$faker with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Method Database\\Seeders\\PostSeeder\:\:generateUniqueExcerpt\(\) has parameter \$faker with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Parameter \#2 \$array of function implode expects array, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Property Database\\Seeders\\PostSeeder\:\:\$usedSlugs type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Property Database\\Seeders\\PostSeeder\:\:\$usedTitles type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PostSeeder.php
+
+		-
+			message: '#^Method Database\\Seeders\\WorldSeeder\:\:run\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: database/seeders/WorldSeeder.php
