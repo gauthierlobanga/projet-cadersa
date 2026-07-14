@@ -462,7 +462,7 @@ new #[Layout('layouts::main')] class extends Component {
                         class="transition-all duration-700 ease-out" style="transition-delay: {{ $index * 100 }}ms">
 
                         <div
-                            class="group relative border border-zinc-200/50 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300/50 hover:bg-emerald-50/30 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-emerald-700/40 dark:hover:bg-emerald-900/10">
+                            class="group relative overflow-hidden rounded-2xl border border-zinc-200/30 bg-gradient-to-br from-white/60 to-white/30 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:from-white/70 hover:to-white/40 dark:border-zinc-700/40 dark:from-zinc-900/60 dark:to-zinc-900/40 dark:hover:shadow-black/30">
 
                             {{-- Image ou icône --}}
                             @if ($stat['image_url'])
@@ -472,7 +472,7 @@ new #[Layout('layouts::main')] class extends Component {
                                 </div>
                             @else
                                 <div
-                                    class="mb-4 flex h-11 w-11 items-center justify-center border border-zinc-200/50 bg-zinc-50/50 text-emerald-600 transition duration-300 group-hover:border-emerald-300/50 group-hover:bg-emerald-50/50 dark:border-zinc-700/50 dark:bg-zinc-900/50 dark:text-emerald-400 dark:group-hover:border-emerald-700/40 dark:group-hover:bg-emerald-900/20">
+                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50/60 text-emerald-600 ring-1 ring-emerald-100/60 transition duration-300 group-hover:scale-105 dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/20">
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                             d="{{ $stat['icon'] }}" />
@@ -481,7 +481,7 @@ new #[Layout('layouts::main')] class extends Component {
                             @endif
 
                             {{-- Valeur --}}
-                            <div class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
+                            <div class="text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-none"
                                 x-text="shown ? formatValue(count) : targetRaw"></div>
 
                             {{-- Label --}}
