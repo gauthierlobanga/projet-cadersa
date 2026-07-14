@@ -38,7 +38,7 @@
         x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })"
         class="inline-flex h-12 items-center gap-2 rounded-full bg-emerald-50 dark:bg-zinc-800 pr-5 pl-1.5 font-medium text-sm text-zinc-900 dark:text-zinc-100 shadow-xl shadow-emerald-500/10 transition-all duration-300 ease-out will-change-transform hover:scale-105 hover:bg-emerald-100 dark:hover:bg-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50">
         <div
-            class="relative isolate grid size-9 place-items-center overflow-hidden rounded-full bg-zinc-900 dark:bg-emerald-600 text-white">
+            class="relative isolate grid size-9 place-items-center overflow-hidden rounded-full bg-emerald-800 dark:bg-emerald-700 text-white">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />

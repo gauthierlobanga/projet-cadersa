@@ -20,10 +20,10 @@ new #[Layout('layouts::main')] class extends Component {
     <section class="relative isolate overflow-hidden" x-data="{
         init() {
             const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
-    
+
             // Background image slight zoom
             tl.from($refs.bgImage, { scale: 1.1, duration: 2.5, ease: 'power3.out' }, 0);
-    
+
             // Staggered reveal for text elements
             tl.from($refs.badge, { y: 40, opacity: 0 }, 0.3)
                 .from($refs.title, { y: 50, opacity: 0 }, 0.5)
@@ -60,26 +60,19 @@ new #[Layout('layouts::main')] class extends Component {
                     class="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl">
                     <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
                     <span class="text-sm font-medium tracking-wide text-zinc-200">
-                        Depuis 2010 • Plus de 15 années d'engagement
+                        {{ $this->about->hero_badge }}
                     </span>
                 </div>
 
                 {{-- Title --}}
                 <h1 x-ref="title"
                     class="mt-8 max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
-                    Construire des
-                    <span
-                        class="bg-linear-to-r from-emerald-300 via-emerald-400 to-teal-300 bg-clip-text text-transparent">
-                        villages durables
-                    </span>
-                    pour transformer durablement la RDC.
+                    {{ $this->about->hero_title }}
                 </h1>
 
                 {{-- Subtitle --}}
                 <p x-ref="subtitle" class="mt-8 max-w-2xl text-lg leading-8 text-zinc-300 md:text-xl">
-                    Nous accompagnons les communautés rurales et périurbaines
-                    grâce à des projets agricoles, sociaux et environnementaux
-                    qui améliorent durablement les conditions de vie.
+                    {{ $this->about->hero_subtitle }}
                 </p>
 
                 {{-- CTA --}}
@@ -166,7 +159,7 @@ new #[Layout('layouts::main')] class extends Component {
                             alt="À propos de CADERSA" class="w-full object-cover aspect-4/3 rounded-3xl" />
                         <div class="absolute inset-0 rounded-3xl ring-1 ring-inset ring-zinc-900/10 dark:ring-white/10"></div>
                     </div>
-                    
+
                     {{-- Déco SVG / Pattern --}}
                     <div class="absolute -bottom-6 -left-6 -z-10 transition-all duration-1000 delay-500 ease-out"
                          :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
@@ -177,7 +170,7 @@ new #[Layout('layouts::main')] class extends Component {
                             <rect width="100" height="100" fill="url(#dots)" />
                         </svg>
                     </div>
-                    
+
                     {{-- Floating element --}}
                     <div class="absolute -right-4 top-1/4 rounded-2xl bg-white/90 p-4 shadow-xl backdrop-blur-sm dark:bg-zinc-900/90 transition-all duration-1000 delay-700 ease-out"
                          :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
@@ -349,60 +342,113 @@ new #[Layout('layouts::main')] class extends Component {
                 </span>
                 <h2 class="mt-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl transition-all duration-700 delay-100 ease-out"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                    Des résultats <span
-                        class="bg-linear-to-r from-emerald-300 to-teal-300 bg-clip-text text-transparent">concrets</span>
-                    sur le terrain
+                    {{ $this->about->impactHeading() }}
                 </h2>
-                <p class="mt-6 text-lg leading-8 text-zinc-300 transition-all duration-700 delay-200 ease-out"
-                    :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                    Programme de Résilience au Kasaï Central, avec le soutien du PAM.
-                </p>
+                @if ($this->about->impact_subtitle)
+                    <p class="mt-6 text-lg leading-8 text-zinc-300 transition-all duration-700 delay-200 ease-out"
+                        :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+                        {{ $this->about->impactSubtitle() }}
+                    </p>
+                @endif
             </div>
+
+            @if ($this->about->impactDescription())
+                <div class="prose prose-invert max-w-4xl text-zinc-200 mb-14 text-base leading-relaxed">
+                    @if (is_array($this->about->impactDescription()) && isset($this->about->impactDescription()['type']))
+                        {!! (new \Tiptap\Editor)->setContent($this->about->impactDescription())->getHTML() !!}
+                    @else
+                        {!! $this->about->impactDescription() !!}
+                    @endif
+                </div>
+            @endif
 
             {{-- Statistiques --}}
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 @php
-                    $stats = [
-                        [
-                            'value' => '5 000',
-                            'label' => 'Ménages Agricoles Soutenus',
-                            'icon' =>
-                                'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
-                        ],
-                        [
-                            'value' => '1 500',
-                            'label' => 'Foyers Améliorés Confectionnés',
-                            'icon' =>
-                                'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
-                        ],
-                        [
-                            'value' => '18 ha',
-                            'label' => 'Reboisés par la Communauté',
-                            'icon' => 'M12 14l9-5-9-5-9 5 9 5z',
-                        ],
-                        [
-                            'value' => '44',
-                            'label' => 'Unions Paysannes (UOP) Formées',
-                            'icon' => 'M12 14l9-5-9-5-9 5 9 5z',
-                        ],
-                    ];
+                    $stats = collect($this->about->getImpactStats())
+                        ->map(function ($stat) {
+                            $stat = is_array($stat) ? $stat : [];
+
+                            return array_merge([
+                                'value' => $stat['value'] ?? '',
+                                'label' => $stat['label'] ?? '',
+                                'icon' => $stat['icon'] ?? 'M12 14l9-5-9-5-9 5 9 5z',
+                            ], $stat);
+                        })
+                        ->toArray();
                 @endphp
 
                 @foreach ($stats as $index => $stat)
-                    <div x-cloak x-data="{ shown: false, count: 0 }" x-intersect="shown = true"
+                    <div x-cloak x-data="{
+                            shown: false,
+                            count: 0,
+                            targetRaw: @js($stat['value']),
+                            parsedTarget: 0,
+                            suffix: '',
+                            initializeTarget() {
+                                const raw = String(this.targetRaw).trim();
+                                const numericOnly = raw.replace(/\s+/g, '').match(/^(\d+(?:[.,]\d+)?)/);
+                                if (numericOnly) {
+                                    this.parsedTarget = Number(numericOnly[1].replace(',', '.'));
+                                    const suffixMatch = raw.match(/^[\d\s,.]+(.*)$/);
+                                    this.suffix = suffixMatch ? suffixMatch[1].trim() : '';
+                                } else {
+                                    this.suffix = raw;
+                                }
+                            },
+                            formatValue(value) {
+                                if (!this.parsedTarget) {
+                                    return this.targetRaw;
+                                }
+                                return `${Math.round(value).toLocaleString('fr-FR')}${this.suffix ? ' ' + this.suffix : ''}`;
+                            },
+                            animate() {
+                                if (!this.parsedTarget || this.count) {
+                                    return;
+                                }
+                                const start = performance.now();
+                                const duration = 1100;
+                                const target = this.parsedTarget;
+                                const tick = (timestamp) => {
+                                    const progress = Math.min((timestamp - start) / duration, 1);
+                                    this.count = target * progress;
+                                    if (progress < 1) {
+                                        window.requestAnimationFrame(tick);
+                                    } else {
+                                        this.count = target;
+                                    }
+                                };
+                                window.requestAnimationFrame(tick);
+                            },
+                        }"
+                        x-init="initializeTarget()"
+                        x-intersect.once="shown = true"
+                        x-effect="if (shown) animate()"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                         class="transition-all duration-700 ease-out" style="transition-delay: {{ $index * 100 }}ms">
                         <div
-                            class="gsap-reveal group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-emerald-500/10">
-                            <div
-                                class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 transition-transform group-hover:scale-110">
-                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="{{ $stat['icon'] }}" />
-                                </svg>
-                            </div>
-                            <div class="text-4xl font-black text-white">{{ $stat['value'] }}</div>
-                            <div class="mt-2 text-sm font-medium text-zinc-300">{{ $stat['label'] }}</div>
+                            class="gsap-reveal group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-emerald-500/10">
+                            @if ($stat['image_url'])
+                                <div class="mb-6 overflow-hidden rounded-3xl">
+                                    <img src="{{ Storage::url($stat['image_url']) }}"
+                                        alt="{{ $stat['label'] }}" class="h-44 w-full object-cover" />
+                                </div>
+                            @else
+                                <div
+                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 transition-transform group-hover:scale-110">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="{{ $stat['icon'] }}" />
+                                    </svg>
+                                </div>
+                            @endif
+
+                            <div class="text-4xl font-black text-white" x-text="shown ? formatValue(count) : targetRaw"></div>
+                            <div class="mt-4 text-lg font-semibold text-white">{{ $stat['label'] }}</div>
+
+                            @if ($stat['description'])
+                                <p class="mt-3 text-sm leading-6 text-zinc-300">{{ $stat['description'] }}</p>
+                            @endif
                         </div>
                     </div>
                 @endforeach
@@ -416,59 +462,39 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="grid gap-8 p-8 md:grid-cols-2 md:p-12">
                         {{-- Colonne de gauche --}}
                         <div>
-                            <h3 class="text-2xl font-bold text-white">Renforcement de la chaîne de valeur agricole</h3>
-                            <p class="mt-4 leading-relaxed text-zinc-300">
-                                Dans les zones de santé de Luiza et Tshikaji, l’insécurité alimentaire conduit les
-                                ménages à l’endettement. Notre projet intervient pour restructurer les capacités des
-                                producteurs, faciliter l’inclusion financière (distribution de cash, activités
-                                génératrices de revenus) et renforcer la cohésion sociale à travers des brigades
-                                communautaires.
-                            </p>
-                            <ul class="mt-6 space-y-3">
-                                <li class="flex items-center gap-3 text-zinc-300">
-                                    <svg class="h-5 w-5 shrink-0 text-emerald-400" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    50 Brigades communautaires créées
-                                </li>
-                                <li class="flex items-center gap-3 text-zinc-300">
-                                    <svg class="h-5 w-5 shrink-0 text-emerald-400" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Distribution de pompes (Kickstart) pour l’arrosage
-                                </li>
-                                <li class="flex items-center gap-3 text-zinc-300">
-                                    <svg class="h-5 w-5 shrink-0 text-emerald-400" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Alphabétisation & Kits AGR distribués
-                                </li>
-                            </ul>
+                            <h3 class="text-2xl font-bold text-white">{{ $this->about->impactHighlightHeading() }}</h3>
+                            <div class="mt-4 text-zinc-300 text-base leading-relaxed prose prose-invert prose-a:text-emerald-300 prose-a:underline prose-a:underline-offset-4 prose-a:decoration-emerald-500">
+                                    @if ($this->about->impactHighlightText())
+                                        @if (is_array($this->about->impactHighlightText()) && isset($this->about->impactHighlightText()['type']))
+                                            {!! (new \Tiptap\Editor)->setContent($this->about->impactHighlightText())->getHTML() !!}
+                                        @else
+                                            {!! $this->about->impactHighlightText() !!}
+                                        @endif
+                                @endif
+                            </div>
                         </div>
 
                         {{-- Colonne de droite --}}
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                            <h4 class="text-xl font-bold text-white">Programme Nutrition Sensible</h4>
-                            <p class="mt-3 text-sm leading-relaxed text-zinc-400">
-                                Redynamisation des groupes de soutien ANJE, distribution de kits de semences (jardins
-                                potagers) et de petits élevages, sensibilisation communautaire contre la VBG et
-                                promotion du genre.
-                            </p>
-                            <a href="#"
-                                class="mt-6 inline-flex items-center gap-2 font-semibold text-emerald-400 transition-colors hover:text-emerald-300">
-                                Lire le rapport complet
-                                <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </a>
+                            <div class="flex h-full flex-col justify-between gap-6">
+                                <div>
+                                    <p class="text-sm uppercase tracking-[0.32em] text-emerald-300">Focus</p>
+                                    <p class="mt-4 text-sm leading-7 text-zinc-300">
+                                        {{ $this->about->impactSubtitle() ?: 'Un projet conçu pour générer un impact durable et mesurable.' }}
+                                    </p>
+                                </div>
+
+                                @if ($this->about->impactHighlightCtaLabel() && $this->about->impactHighlightCtaUrl())
+                                    <a href="{{ $this->about->impactHighlightCtaUrl() }}"
+                                        class="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-400">
+                                        {{ $this->about->impactHighlightCtaLabel() }}
+                                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

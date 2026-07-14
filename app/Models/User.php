@@ -179,7 +179,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
     /**
      * Filament Accessors
      */
-      public function getFilamentName(): string
+    public function getFilamentName(): string
     {
         return $this->name ? $this->name : "{$this->first_name} {$this->last_name}";
     }

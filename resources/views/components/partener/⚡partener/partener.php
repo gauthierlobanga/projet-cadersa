@@ -18,7 +18,7 @@ new class extends Component
                 'items' => $partners->map(fn ($partner) => [
                     'name' => $partner->name,
                     'logo' => $partner->logo_url ?? 'https://via.placeholder.com/150x60/ccc/999?text='.urlencode($partner->name),
-                    'url' => $partner->url ?? '#', 
+                    'url' => $partner->url ?? '#',
                 ])->values(),
             ])
             ->sortBy(function ($group) {

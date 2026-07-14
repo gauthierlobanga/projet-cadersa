@@ -16,18 +16,18 @@
         init() {
             this.$nextTick(() => {
                 if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    
+
                 const animations = {
                     'enter-from-left': { x: -60, opacity: 0, duration: 0.8, ease: 'power3.out' },
                     'enter-from-right': { x: 60, opacity: 0, duration: 0.8, ease: 'power3.out' },
                     'enter-from-left-staggered': { x: -40, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1 },
                     'text-reveal-words': { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.05 }
                 };
-    
+
                 gsap.utils.toArray('[data-animate]').forEach(el => {
                     const type = el.dataset.animate;
                     const config = animations[type] || animations['enter-from-left'];
-    
+
                     if (type === 'text-reveal-words') {
                         const split = new SplitText(el, { type: 'words' });
                         gsap.from(split.words, {
@@ -49,7 +49,7 @@
                         });
                     }
                 });
-    
+
                 ScrollTrigger.refresh();
             });
         }
@@ -273,21 +273,21 @@
                 init() {
                     this.$nextTick(() => {
                         if (typeof gsap === 'undefined') return;
-            
+
                         const original = this.$refs.originalText;
                         const warning = this.$refs.warningText;
-            
+
                         gsap.set(warning, { opacity: 0 });
-            
+
                         const tl = gsap.timeline({ paused: true });
-            
+
                         tl.to(original, {
                             y: -20,
                             opacity: 0,
                             duration: 0.3,
                             ease: 'power2.in',
                         }, 0);
-            
+
                         tl.fromTo(warning, { y: 20, opacity: 0 }, {
                                 y: 0,
                                 opacity: 1,
@@ -296,7 +296,7 @@
                             },
                             '-=0.15',
                         );
-            
+
                         this.$el.addEventListener('mouseenter', () => tl.play());
                         this.$el.addEventListener('mouseleave', () => tl.reverse());
                     });

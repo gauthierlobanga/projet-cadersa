@@ -17,7 +17,7 @@ new class extends Component
     public function mount()
     {
         $cookie = request()->cookie('cookie_consent');
-        
+
         if ($cookie) {
             $this->showBanner = false;
             $savedConsents = json_decode($cookie, true);
@@ -78,7 +78,7 @@ new class extends Component
     @if ($showBanner)
         <div x-ref="banner" class="fixed bottom-0 left-0 right-0 z-100 p-4 sm:p-6 pointer-events-none flex justify-center items-end h-0 overflow-visible">
             <div class="pointer-events-auto w-full max-w-6xl bg-white/90 dark:bg-zinc-950/90 backdrop-blur-2xl border border-zinc-200/40 dark:border-zinc-800/40 shadow-2xl shadow-zinc-900/5 dark:shadow-black/50 p-6 md:p-7 flex flex-col lg:flex-row items-center gap-6 ring-1 ring-black/5 dark:ring-white/5 relative overflow-hidden">
-                
+
                 {{-- Élément décoratif --}}
                 <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/8 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -104,7 +104,7 @@ new class extends Component
                         </p>
                     </div>
                 </div>
-                
+
                 {{-- Boutons --}}
                 <div class="flex flex-col sm:flex-row gap-2.5 w-full lg:w-auto shrink-0 mt-1 lg:mt-0 z-10">
                     <flux:button wire:click="openPreferences" variant="subtle" size="sm" class="w-full sm:w-auto font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/50">
@@ -126,10 +126,10 @@ new class extends Component
         <div class="fixed inset-0 z-110 flex items-center justify-center p-4 sm:p-6">
             {{-- Backdrop --}}
             <div x-ref="backdrop" class="absolute inset-0 bg-zinc-900/50 dark:bg-black/60 backdrop-blur-sm pointer-events-auto" wire:click="closePreferences"></div>
-            
+
             {{-- Modal --}}
             <div x-ref="modal" class="relative w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/60 shadow-2xl shadow-zinc-900/20 dark:shadow-black/50 overflow-hidden pointer-events-auto flex flex-col max-h-[90vh]">
-                
+
                 {{-- Header --}}
                 <div class="px-6 py-4 border-b border-zinc-100 dark:border-zinc-800 flex items-center justify-between sticky top-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm z-10">
                     <div class="flex items-center gap-3">
@@ -145,7 +145,7 @@ new class extends Component
                         <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
-                
+
                 {{-- Body --}}
                 <div class="p-6 overflow-y-auto flex-1 space-y-4">
                     <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-5">
@@ -188,7 +188,7 @@ new class extends Component
                         </div>
                     </div>
                 </div>
-                
+
                 {{-- Footer --}}
                 <div class="px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col sm:flex-row justify-end gap-2.5 sticky bottom-0">
                     <flux:button wire:click="rejectAll" variant="ghost" size="sm" color="red" class="font-medium">

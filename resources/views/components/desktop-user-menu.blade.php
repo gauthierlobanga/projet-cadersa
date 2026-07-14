@@ -11,7 +11,7 @@
             circle
             class="ring-2 ring-transparent transition-all duration-200 group-hover:ring-emerald-400/50"
         />
-        <span class="hidden sm:inline text-sm font-medium text-zinc-700 dark:text-zinc-300 truncate max-w-[120px]">
+        <span class="hidden sm:inline text-sm font-medium text-zinc-700 dark:text-zinc-300 truncate max-w-30">
             {{ auth()->user()->name }}
         </span>
         <flux:icon.chevron-down

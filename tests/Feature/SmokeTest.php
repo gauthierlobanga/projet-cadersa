@@ -1,5 +1,7 @@
 <?php
 
+use App\Settings\AboutSettings;
+
 use function Pest\Laravel\get;
 
 it('loads the home page', function () {
@@ -8,6 +10,22 @@ it('loads the home page', function () {
 
 it('loads the about page', function () {
     get('/about')->assertOk();
+});
+
+it('renders dynamic impact statistics from settings', function () {
+    app(AboutSettings::class)->impact_stats = [
+        [
+            'value' => '999',
+            'label' => 'Statistique test',
+            'icon' => 'M12 14l9-5-9-5-9 5 9 5z',
+        ],
+    ];
+    app(AboutSettings::class)->save();
+
+    get('/about')
+        ->assertOk()
+        ->assertSee('Statistique test')
+        ->assertSee('999');
 });
 
 it('loads the contact page', function () {

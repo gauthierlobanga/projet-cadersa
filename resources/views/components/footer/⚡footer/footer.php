@@ -1,6 +1,8 @@
 <?php
 
 use App\Settings\SettingApp;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -22,7 +24,9 @@ new #[Layout('layouts::main')] class extends Component
     public array $addresses = [];
 
     public string $developerName = 'Gauthier Lobanga';
+
     public string $developerUrl = 'https://github.com/gauthierlobanga';
+
     // Developer contact email (displayed on hover)
     public string $developerEmail = 'gauthierlobanga914@gmail.com';
 
@@ -41,15 +45,16 @@ new #[Layout('layouts::main')] class extends Component
 
     protected function loadDeveloperInfo(): void
     {
-        $githubData = \Illuminate\Support\Facades\Cache::remember('github_developer_info', 86400, function () {
+        $githubData = Cache::remember('github_developer_info', 86400, function () {
             try {
-                $response = \Illuminate\Support\Facades\Http::timeout(3)->get('https://api.github.com/users/gauthierlobanga');
+                $response = Http::timeout(3)->get('https://api.github.com/users/gauthierlobanga');
                 if ($response->successful()) {
                     return $response->json();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // Ignore errors
             }
+
             return null;
         });
 

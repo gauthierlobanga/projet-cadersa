@@ -4,9 +4,9 @@
 @php
     $faviconUrl = \App\Support\Branding\Favicon::currentUrl();
 @endphp
-<x-seo 
-    :title="$title ?? null" 
-    :description="$seoDescription ?? null" 
+<x-seo
+    :title="$title ?? null"
+    :description="$seoDescription ?? null"
     :image="$seoImage ?? null"
     :url="$seoUrl ?? null"
     :type="$seoType ?? 'website'"
@@ -61,6 +61,6 @@
 </style>
 
 @fonts
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+@vite('resources/css/app.css')
 @fluxAppearance
 @filamentStyles
