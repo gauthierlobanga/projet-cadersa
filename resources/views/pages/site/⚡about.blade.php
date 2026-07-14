@@ -142,8 +142,8 @@ new #[Layout('layouts::main')] class extends Component {
                             [&_img]:rounded-3xl [&_img]:shadow-2xl [&_img]:my-10 [&_img]:border [&_img]:border-zinc-100 dark:[&_img]:border-zinc-800 [&_img]:mx-auto
                             [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-white transition-all duration-700 delay-200 ease-out"
                             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                            @if(is_array($this->about->about_text) && isset($this->about->about_text['type']))
-                                {!! (new \Tiptap\Editor)->setContent($this->about->about_text)->getHTML() !!}
+                            @if (is_array($this->about->about_text) && isset($this->about->about_text['type']))
+                                {!! new \Tiptap\Editor()->setContent($this->about->about_text)->getHTML() !!}
                             @else
                                 {!! $this->about->about_text !!}
                             @endif
@@ -157,14 +157,16 @@ new #[Layout('layouts::main')] class extends Component {
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'">
                         <img src="{{ $this->about->about_image_url ? Storage::url($this->about->about_image_url) : 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop' }}"
                             alt="À propos de CADERSA" class="w-full object-cover aspect-4/3 rounded-3xl" />
-                        <div class="absolute inset-0 rounded-3xl ring-1 ring-inset ring-zinc-900/10 dark:ring-white/10"></div>
+                        <div class="absolute inset-0 rounded-3xl ring-1 ring-inset ring-zinc-900/10 dark:ring-white/10">
+                        </div>
                     </div>
 
                     {{-- Déco SVG / Pattern --}}
                     <div class="absolute -bottom-6 -left-6 -z-10 transition-all duration-1000 delay-500 ease-out"
-                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
+                        :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
                         <svg class="w-32 h-32 text-emerald-500/20" fill="currentColor" viewBox="0 0 100 100">
-                            <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <pattern id="dots" x="0" y="0" width="20" height="20"
+                                patternUnits="userSpaceOnUse">
                                 <circle cx="2" cy="2" r="2" />
                             </pattern>
                             <rect width="100" height="100" fill="url(#dots)" />
@@ -173,11 +175,14 @@ new #[Layout('layouts::main')] class extends Component {
 
                     {{-- Floating element --}}
                     <div class="absolute -right-4 top-1/4 rounded-2xl bg-white/90 p-4 shadow-xl backdrop-blur-sm dark:bg-zinc-900/90 transition-all duration-1000 delay-700 ease-out"
-                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
+                        :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
                         <div class="flex items-center gap-4">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50">
-                                <svg class="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50">
+                                <svg class="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
                             </div>
                             <div>
@@ -192,11 +197,11 @@ new #[Layout('layouts::main')] class extends Component {
             {{-- Vision Section : Image à gauche, Contenu à droite --}}
             @if ($this->about->vision_text)
                 <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
-                     class="mt-20 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
+                    class="mt-20 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
 
                     {{-- Image Vision --}}
                     <div class="relative order-2 lg:order-1 transition-all duration-1200 ease-out delay-100"
-                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'">
+                        :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'">
                         <div
                             class="overflow-hidden border border-zinc-200/60 shadow-sm dark:border-white/10 dark:shadow-black/20 rounded-3xl">
                             <img src="{{ $this->about->about_image_url ? Storage::url($this->about->about_image_url) : asset('images/agriculture.png') }}"
@@ -206,7 +211,7 @@ new #[Layout('layouts::main')] class extends Component {
 
                     {{-- Contenu Vision --}}
                     <div class="order-1 lg:order-2 space-y-6 lg:pl-10 transition-all duration-1200 ease-out delay-300"
-                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'">
+                        :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'">
                         <div class="flex items-center gap-3">
                             <div
                                 class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600">
@@ -250,11 +255,11 @@ new #[Layout('layouts::main')] class extends Component {
             {{-- Mission Section : Contenu à gauche, Image à droite --}}
             @if ($this->about->mission_text)
                 <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
-                     class="mt-32 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
+                    class="mt-32 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
 
                     {{-- Contenu Mission --}}
                     <div class="order-1 space-y-6 lg:pr-10 transition-all duration-1200 ease-out delay-100"
-                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'">
+                        :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'">
                         <div class="flex items-center gap-3">
                             <div
                                 class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-500/10 text-teal-600">
@@ -310,7 +315,7 @@ new #[Layout('layouts::main')] class extends Component {
 
                     {{-- Image Mission --}}
                     <div class="relative order-2 transition-all duration-1200 ease-out delay-300"
-                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'">
+                        :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'">
                         <div
                             class="overflow-hidden border border-zinc-200/60 shadow-sm dark:border-white/10 dark:shadow-black/20 rounded-3xl">
                             <img src="{{ asset('images/reforestation.png') }}" alt="Mission CADERSA"
@@ -355,9 +360,37 @@ new #[Layout('layouts::main')] class extends Component {
             @if ($this->about->impactDescription())
                 <div class="prose prose-invert max-w-4xl text-zinc-200 mb-14 text-base leading-relaxed">
                     @if (is_array($this->about->impactDescription()) && isset($this->about->impactDescription()['type']))
-                        {!! (new \Tiptap\Editor)->setContent($this->about->impactDescription())->getHTML() !!}
+                        {!! new \Tiptap\Editor()->setContent($this->about->impactDescription())->getHTML() !!}
                     @else
                         {!! $this->about->impactDescription() !!}
+                    @endif
+                </div>
+            @endif
+
+            {{-- Highlight secondaire (texte + bouton) --}}
+            @if ($this->about->impactHighlightHeading() || $this->about->impactHighlightText())
+                <div class="mb-10 max-w-4xl rounded-2xl border border-zinc-200/10 bg-white/5 p-6 shadow-sm text-zinc-100">
+                    @if ($this->about->impactHighlightHeading())
+                        <h3 class="text-xl font-semibold text-white">{{ $this->about->impactHighlightHeading() }}</h3>
+                    @endif
+
+                    @if ($this->about->impactHighlightText())
+                        <div class="mt-3 text-sm leading-relaxed text-zinc-200">
+                            @if (is_array($this->about->impactHighlightText()) && isset($this->about->impactHighlightText()['type']))
+                                {!! new \Tiptap\Editor()->setContent($this->about->impactHighlightText())->getHTML() !!}
+                            @else
+                                {!! $this->about->impactHighlightText() !!}
+                            @endif
+                        </div>
+                    @endif
+
+                    @if ($this->about->impactHighlightCtaLabel())
+                        <div class="mt-4">
+                            <a href="{{ $this->about->impactHighlightCtaUrl() }}"
+                                class="inline-flex items-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400">
+                                {{ $this->about->impactHighlightCtaLabel() }}
+                            </a>
+                        </div>
                     @endif
                 </div>
             @endif
@@ -369,85 +402,96 @@ new #[Layout('layouts::main')] class extends Component {
                         ->map(function ($stat) {
                             $stat = is_array($stat) ? $stat : [];
 
-                            return array_merge([
-                                'value' => $stat['value'] ?? '',
-                                'label' => $stat['label'] ?? '',
-                                'icon' => $stat['icon'] ?? 'M12 14l9-5-9-5-9 5 9 5z',
-                            ], $stat);
+                            return array_merge(
+                                [
+                                    'value' => $stat['value'] ?? '',
+                                    'label' => $stat['label'] ?? '',
+                                    'icon' => $stat['icon'] ?? 'M12 14l9-5-9-5-9 5 9 5z',
+                                ],
+                                $stat,
+                            );
                         })
                         ->toArray();
                 @endphp
 
                 @foreach ($stats as $index => $stat)
                     <div x-cloak x-data="{
-                            shown: false,
-                            count: 0,
-                            targetRaw: @js($stat['value']),
-                            parsedTarget: 0,
-                            suffix: '',
-                            initializeTarget() {
-                                const raw = String(this.targetRaw).trim();
-                                const numericOnly = raw.replace(/\s+/g, '').match(/^(\d+(?:[.,]\d+)?)/);
-                                if (numericOnly) {
-                                    this.parsedTarget = Number(numericOnly[1].replace(',', '.'));
-                                    const suffixMatch = raw.match(/^[\d\s,.]+(.*)$/);
-                                    this.suffix = suffixMatch ? suffixMatch[1].trim() : '';
+                        shown: false,
+                        count: 0,
+                        targetRaw: @js($stat['value']),
+                        parsedTarget: 0,
+                        suffix: '',
+                        initializeTarget() {
+                            const raw = String(this.targetRaw).trim();
+                            const numericOnly = raw.replace(/\s+/g, '').match(/^(\d+(?:[.,]\d+)?)/);
+                            if (numericOnly) {
+                                this.parsedTarget = Number(numericOnly[1].replace(',', '.'));
+                                const suffixMatch = raw.match(/^[\d\s,.]+(.*)$/);
+                                this.suffix = suffixMatch ? suffixMatch[1].trim() : '';
+                            } else {
+                                this.suffix = raw;
+                            }
+                        },
+                        formatValue(value) {
+                            if (!this.parsedTarget) {
+                                return this.targetRaw;
+                            }
+                            return `${Math.round(value).toLocaleString('fr-FR')}${this.suffix ? ' ' + this.suffix : ''}`;
+                        },
+                        animate() {
+                            if (!this.parsedTarget || this.count) {
+                                return;
+                            }
+                            const start = performance.now();
+                            const duration = 1100;
+                            const target = this.parsedTarget;
+                            const tick = (timestamp) => {
+                                const progress = Math.min((timestamp - start) / duration, 1);
+                                this.count = target * progress;
+                                if (progress < 1) {
+                                    window.requestAnimationFrame(tick);
                                 } else {
-                                    this.suffix = raw;
+                                    this.count = target;
                                 }
-                            },
-                            formatValue(value) {
-                                if (!this.parsedTarget) {
-                                    return this.targetRaw;
-                                }
-                                return `${Math.round(value).toLocaleString('fr-FR')}${this.suffix ? ' ' + this.suffix : ''}`;
-                            },
-                            animate() {
-                                if (!this.parsedTarget || this.count) {
-                                    return;
-                                }
-                                const start = performance.now();
-                                const duration = 1100;
-                                const target = this.parsedTarget;
-                                const tick = (timestamp) => {
-                                    const progress = Math.min((timestamp - start) / duration, 1);
-                                    this.count = target * progress;
-                                    if (progress < 1) {
-                                        window.requestAnimationFrame(tick);
-                                    } else {
-                                        this.count = target;
-                                    }
-                                };
-                                window.requestAnimationFrame(tick);
-                            },
-                        }"
-                        x-init="initializeTarget()"
-                        x-intersect.once="shown = true"
+                            };
+                            window.requestAnimationFrame(tick);
+                        },
+                    }" x-init="initializeTarget()" x-intersect.once="shown = true"
                         x-effect="if (shown) animate()"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                         class="transition-all duration-700 ease-out" style="transition-delay: {{ $index * 100 }}ms">
+
                         <div
-                            class="gsap-reveal group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-emerald-500/10">
+                            class="group relative border border-zinc-200/50 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300/50 hover:bg-emerald-50/30 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-emerald-700/40 dark:hover:bg-emerald-900/10">
+
+                            {{-- Image ou icône --}}
                             @if ($stat['image_url'])
-                                <div class="mb-6 overflow-hidden rounded-3xl">
-                                    <img src="{{ Storage::url($stat['image_url']) }}"
-                                        alt="{{ $stat['label'] }}" class="h-44 w-full object-cover" />
+                                <div class="mb-4 overflow-hidden">
+                                    <img src="{{ Storage::url($stat['image_url']) }}" alt="{{ $stat['label'] }}"
+                                        class="h-32 w-full object-cover transition duration-700 group-hover:scale-105" />
                                 </div>
                             @else
                                 <div
-                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 transition-transform group-hover:scale-110">
-                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    class="mb-4 flex h-11 w-11 items-center justify-center border border-zinc-200/50 bg-zinc-50/50 text-emerald-600 transition duration-300 group-hover:border-emerald-300/50 group-hover:bg-emerald-50/50 dark:border-zinc-700/50 dark:bg-zinc-900/50 dark:text-emerald-400 dark:group-hover:border-emerald-700/40 dark:group-hover:bg-emerald-900/20">
+                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                             d="{{ $stat['icon'] }}" />
                                     </svg>
                                 </div>
                             @endif
 
-                            <div class="text-4xl font-black text-white" x-text="shown ? formatValue(count) : targetRaw"></div>
-                            <div class="mt-4 text-lg font-semibold text-white">{{ $stat['label'] }}</div>
+                            {{-- Valeur --}}
+                            <div class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
+                                x-text="shown ? formatValue(count) : targetRaw"></div>
 
+                            {{-- Label --}}
+                            <div class="mt-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                                {{ $stat['label'] }}</div>
+
+                            {{-- Description (optionnelle) --}}
                             @if ($stat['description'])
-                                <p class="mt-3 text-sm leading-6 text-zinc-300">{{ $stat['description'] }}</p>
+                                <p class="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                                    {{ $stat['description'] }}</p>
                             @endif
                         </div>
                     </div>
@@ -462,14 +506,16 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="grid gap-8 p-8 md:grid-cols-2 md:p-12">
                         {{-- Colonne de gauche --}}
                         <div>
-                            <h3 class="text-2xl font-bold text-white">{{ $this->about->impactHighlightHeading() }}</h3>
-                            <div class="mt-4 text-zinc-300 text-base leading-relaxed prose prose-invert prose-a:text-emerald-300 prose-a:underline prose-a:underline-offset-4 prose-a:decoration-emerald-500">
-                                    @if ($this->about->impactHighlightText())
-                                        @if (is_array($this->about->impactHighlightText()) && isset($this->about->impactHighlightText()['type']))
-                                            {!! (new \Tiptap\Editor)->setContent($this->about->impactHighlightText())->getHTML() !!}
-                                        @else
-                                            {!! $this->about->impactHighlightText() !!}
-                                        @endif
+                            <h3 class="text-2xl font-bold text-white">{{ $this->about->impactHighlightHeading() }}
+                            </h3>
+                            <div
+                                class="mt-4 text-zinc-300 text-base leading-relaxed prose prose-invert prose-a:text-emerald-300 prose-a:underline prose-a:underline-offset-4 prose-a:decoration-emerald-500">
+                                @if ($this->about->impactHighlightText())
+                                    @if (is_array($this->about->impactHighlightText()) && isset($this->about->impactHighlightText()['type']))
+                                        {!! new \Tiptap\Editor()->setContent($this->about->impactHighlightText())->getHTML() !!}
+                                    @else
+                                        {!! $this->about->impactHighlightText() !!}
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -488,7 +534,8 @@ new #[Layout('layouts::main')] class extends Component {
                                     <a href="{{ $this->about->impactHighlightCtaUrl() }}"
                                         class="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-400">
                                         {{ $this->about->impactHighlightCtaLabel() }}
-                                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                         </svg>
