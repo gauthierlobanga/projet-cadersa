@@ -198,6 +198,11 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         return $media?->getUrl();
     }
 
+    /**
+     * Récupère tous les PDFs attachés.
+     *
+     * @return Collection<int, Media>
+     */
     public function getPdfsAttribute(): Collection
     {
         return $this->getMedia('documents', ['mime_type' => 'application/pdf']);

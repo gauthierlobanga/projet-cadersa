@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import autoAnimate from "@formkit/auto-animate";
 
 import { CustomEase } from "gsap/CustomEase";
 // CustomBounce requires CustomEase
@@ -26,10 +27,118 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { SplitText } from "gsap/SplitText";
 import { TextPlugin } from "gsap/TextPlugin";
 
+globalThis.gsap = globalThis.gsap || gsap;
+globalThis.SplitText = globalThis.SplitText || SplitText;
+globalThis.ScrollTrigger = globalThis.ScrollTrigger || ScrollTrigger;
+globalThis.autoAnimate = globalThis.autoAnimate || autoAnimate;
+
+if (typeof window !== 'undefined') {
+    window.gsap = window.gsap || gsap;
+    window.SplitText = window.SplitText || SplitText;
+    window.ScrollTrigger = window.ScrollTrigger || ScrollTrigger;
+    window.autoAnimate = window.autoAnimate || autoAnimate;
+}
+
 gsap.registerPlugin(Draggable,DrawSVGPlugin,EaselPlugin,Flip,GSDevTools,MotionPathHelper,MotionPathPlugin,MorphSVGPlugin,Observer,Physics2DPlugin,PixiPlugin,ScrambleTextPlugin,ScrollTrigger,ScrollSmoother,ScrollToPlugin,SplitText,TextPlugin,RoughEase,ExpoScaleEase,SlowMo,CustomEase,CustomBounce,CustomWiggle);
-window.gsap = gsap;
-window.SplitText = SplitText;
-window.ScrollTrigger = ScrollTrigger;
+
+const registerCookieConsentAlpineData = () => {
+    const register = () => {
+        Alpine.data('cookieConsent', () => ({
+            show: false,
+            preferences: false,
+
+            init() {
+                const getWireId = () => {
+                    let element = this.$el;
+
+                    while (element) {
+                        if (element.hasAttribute && element.hasAttribute('wire:id')) {
+                            return element.getAttribute('wire:id');
+                        }
+
+                        element = element.parentElement;
+                    }
+
+                    return null;
+                };
+
+                const bindEntangle = () => {
+                    const wireId = getWireId();
+                    const component = wireId ? window.Livewire?.find(wireId) : null;
+
+                    if (!component) {
+                        document.addEventListener('livewire:load', bindEntangle, { once: true });
+                        return;
+                    }
+
+                    this.show = component.entangle('showBanner');
+                    this.preferences = component.entangle('showPreferences');
+                };
+
+                bindEntangle();
+
+                if (this.show && typeof gsap !== 'undefined') {
+                    const banner = this.$refs.banner;
+                    if (banner) {
+                        gsap.set(banner, { yPercent: 120, opacity: 0 });
+                        setTimeout(() => {
+                            gsap.to(banner, {
+                                yPercent: 0,
+                                opacity: 1,
+                                duration: 0.7,
+                                ease: 'power4.out',
+                                clearProps: 'transform',
+                            });
+                        }, 400);
+                    }
+                }
+
+                this.$watch('show', value => {
+                    if (!value && this.$refs.banner && typeof gsap !== 'undefined') {
+                        gsap.to(this.$refs.banner, {
+                            yPercent: 120,
+                            opacity: 0,
+                            duration: 0.5,
+                            ease: 'power3.in',
+                        });
+                    }
+                });
+
+                this.$watch('preferences', value => {
+                    if (typeof gsap === 'undefined') {
+                        return;
+                    }
+
+                    if (value) {
+                        gsap.fromTo(
+                            this.$refs.modal,
+                            { y: 40, opacity: 0, scale: 0.96 },
+                            { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.1)' }
+                        );
+                        gsap.fromTo(this.$refs.backdrop, { opacity: 0 }, { opacity: 1, duration: 0.4 });
+                    } else {
+                        gsap.to(this.$refs.modal, {
+                            y: 20,
+                            opacity: 0,
+                            scale: 0.96,
+                            duration: 0.25,
+                            ease: 'power2.in',
+                        });
+                        gsap.to(this.$refs.backdrop, { opacity: 0, duration: 0.25 });
+                    }
+                });
+            },
+        }));
+    };
+
+    if (window.Alpine) {
+        register();
+    }
+
+    document.addEventListener('alpine:init', register, { once: true });
+};
+
+registerCookieConsentAlpineData();
 
 // ==========================================
 // GLOBAL PRO ANIMATIONS (FILAMENT PRO STYLE)

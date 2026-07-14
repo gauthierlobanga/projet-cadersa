@@ -277,7 +277,7 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->withResponsiveImages()          // génère les variantes pour srcset
             ->optimize()
             ->nonQueued()
-            ->performOnCollections('featured','gallery');
+            ->performOnCollections('featured', 'gallery');
 
         // ------------------------------
         // 3. Petite taille (small) – 600×400
@@ -363,6 +363,8 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
 
     /**
      * Récupère tous les PDFs attachés.
+     *
+     * @return Collection<int, Media>
      */
     public function getPdfsAttribute(): Collection
     {

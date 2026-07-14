@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
@@ -209,7 +210,12 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
         return $media?->getUrl();
     }
 
-    public function getPdfsAttribute()
+    /**
+     * Récupère tous les PDFs attachés.
+     *
+     * @return Collection<int, Media>
+     */
+    public function getPdfsAttribute(): Collection
     {
         return $this->getMedia('documents');
     }
