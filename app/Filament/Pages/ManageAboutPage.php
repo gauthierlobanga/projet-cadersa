@@ -75,9 +75,38 @@ class ManageAboutPage extends SettingsPage
         }
 
         // Ensure Spatie settings keys exist before saving to avoid MissingSettings
-        // when a form section is absent or removed by the user.
-        $data['impact_content'] = $data['impact_content'] ?? [];
-        $data['impact_stats'] = $data['impact_stats'] ?? [];
+        // when a form section is absent or removed by the user. Merge sensible
+        // defaults from the existing AboutSettings instance so we always provide
+        // values for all properties the Settings class expects.
+        $settings = app(AboutSettings::class);
+
+        $defaults = [
+            'hero_title' => $settings->hero_title,
+            'hero_subtitle' => $settings->hero_subtitle,
+            'hero_badge' => $settings->hero_badge,
+            'about_text' => $settings->about_text,
+            'vision_text' => $settings->vision_text,
+            'mission_text' => $settings->mission_text,
+            'impact_heading' => $settings->impact_heading,
+            'impact_subtitle' => $settings->impact_subtitle,
+            'impact_description' => $settings->impact_description,
+            'impact_highlight_heading' => $settings->impact_highlight_heading,
+            'impact_highlight_text' => $settings->impact_highlight_text,
+            'impact_highlight_cta_label' => $settings->impact_highlight_cta_label,
+            'impact_highlight_cta_url' => $settings->impact_highlight_cta_url,
+            'impact_content' => $settings->impact_content ?? [],
+            'impact_stats' => $settings->impact_stats ?? [],
+            'hero_image_url' => $settings->hero_image_url,
+            'about_image_url' => $settings->about_image_url,
+            'about_image_url' => $settings->about_image_url,
+        ];
+
+        // Only fill missing keys; don't overwrite user-submitted values.
+        foreach ($defaults as $key => $value) {
+            if (! array_key_exists($key, $data) || $data[$key] === null) {
+                $data[$key] = $value;
+            }
+        }
 
         return $data;
     }
