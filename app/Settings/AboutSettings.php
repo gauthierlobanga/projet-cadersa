@@ -35,14 +35,27 @@ class AboutSettings extends Settings
 
     public string $impact_highlight_cta_url = '#';
 
+    /**
+     * Repeater items for impact content.
+     *
+     * @var array<int, array<string, mixed>>
+     */
     public array $impact_content = [];
 
+    /**
+     * Builder blocks for impact stats.
+     *
+     * Each item may be a raw block array or a wrapper array with a 'data' key,
+     * so elements are mixed at runtime.
+     *
+     * @var array<int, mixed>
+     */
     public array $impact_stats = [];
 
     public ?string $hero_image_url = null;
 
     /**
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public static function defaultImpactStats(): array
     {
@@ -79,7 +92,7 @@ class AboutSettings extends Settings
     }
 
     /**
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getImpactStats(): array
     {
@@ -108,7 +121,7 @@ class AboutSettings extends Settings
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function impactContent(): array
     {
