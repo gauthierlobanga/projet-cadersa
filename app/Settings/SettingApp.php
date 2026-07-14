@@ -10,6 +10,8 @@ class SettingApp extends Settings
 {
     public string $name = 'CADERSA';
 
+    public string $address = '';
+
     public ?string $logo_url = null;
 
     public ?string $secondary_email = null;

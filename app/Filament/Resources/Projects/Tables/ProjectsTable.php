@@ -10,6 +10,7 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -24,8 +25,20 @@ class ProjectsTable
                 ImageColumn::make('cover')
                     ->label('Couverture')
                     ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('cover', 'thumb'))
-                    ->size(40)
+                    ->imageSize(40)
                     ->toggleable(),
+
+                SpatieMediaLibraryImageColumn::make('gallery')
+                    ->collection('gallery')
+                    ->label('Galerie')
+                    ->conversion('thumb')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->imageSize(40)
+                    ->circular()
+                    ->stacked()
+                    ->limit(2)
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('title')
                     ->label('Projet')

@@ -7,6 +7,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -49,7 +50,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 #[Fillable(['name', 'first_name', 'last_name', 'email', 'password', 'is_active', 'preferences'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia, HasName, PasskeyUser
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia, HasName, MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
@@ -178,9 +179,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
     /**
      * Filament Accessors
      */
-    public function getFilamentName(): string
+      public function getFilamentName(): string
     {
-        return $this->name;
+        return $this->name ? $this->name : "{$this->first_name} {$this->last_name}";
     }
 
     public function getFilamentAvatarUrl(): ?string
@@ -190,11 +191,12 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
 
     public function canAccessPanel(Panel $panel): bool
     {
-        if ($panel->getId() === 'admin') {
-            return $this->is_active && $this->hasRole(['super_admin', 'editeur', 'Manager']);
+        if ($panel->getId() !== 'admin') {
+            return false;
         }
 
-        return false;
+        return ($this->is_active && $this->hasRole(['super_admin', 'editeur', 'Manager']))
+            && (str_ends_with($this->email, '@cadersa.com') && $this->hasVerifiedEmail());
     }
 
     /**

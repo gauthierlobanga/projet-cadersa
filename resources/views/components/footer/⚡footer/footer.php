@@ -23,6 +23,8 @@ new #[Layout('layouts::main')] class extends Component
 
     public string $developerName = 'Gauthier Lobanga';
     public string $developerUrl = 'https://github.com/gauthierlobanga';
+    // Developer contact email (displayed on hover)
+    public string $developerEmail = 'gauthierlobanga914@gmail.com';
 
     public function boot(SettingApp $appSettings): void
     {
@@ -54,6 +56,10 @@ new #[Layout('layouts::main')] class extends Component
         if ($githubData) {
             $this->developerName = $githubData['name'] ?? $githubData['login'] ?? 'Gauthier Lobanga';
             $this->developerUrl = $githubData['html_url'] ?? 'https://github.com/gauthierlobanga';
+            // GitHub may not expose email via API; use if available
+            if (! empty($githubData['email'])) {
+                $this->developerEmail = $githubData['email'];
+            }
         }
     }
 

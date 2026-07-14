@@ -94,6 +94,49 @@ class ProjectForm
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->columnSpanFull()
                             ->helperText('Format 16:9 recommandé, max 5 Mo.'),
+
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->label('Galerie d\'images')
+                            ->collection('gallery')
+                            ->multiple()
+                            ->image()
+                            ->imageEditor()
+                            ->responsiveImages()
+                            ->conversion('thumb')
+                            ->disk('public')
+                            ->directory('projects/gallery')
+                            ->visibility('public')
+                            ->maxFiles(10)
+                            ->maxSize(5120)
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->reorderable()
+                            ->appendFiles()
+                            ->panelLayout('grid')
+                            ->columnSpanFull()
+                            ->helperText('Images supplémentaires (max 10 fichiers, 5MB chacun). Glissez pour réorganiser.'),
+                    ]),
+
+                // ========== NOUVELLE SECTION : DOCUMENTS PDF ==========
+                Section::make('Documents PDF')
+                    ->icon('heroicon-o-document-text')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('documents')
+                            ->label('Documents PDF (rapports, études, etc.)')
+                            ->collection('documents')
+                            ->multiple()
+                            ->disk('public')
+                            ->directory('projects/documents')
+                            ->visibility('public')
+                            ->maxFiles(10)
+                            ->maxSize(20480) // 20 MB
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->downloadable()
+                            ->previewable(true)
+                            ->openable()
+                            ->reorderable()
+                            ->appendFiles()
+                            ->columnSpanFull()
+                            ->helperText('Téléchargez les documents PDF liés au projet (rapports d\'activité, études, etc.). Poids max : 20 Mo par fichier.'),
                     ]),
 
                 Section::make('Détails du projet')

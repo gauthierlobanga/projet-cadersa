@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -88,6 +89,9 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         return self::active()->latest('start_date')->take(20)->get();
     }
 
+    /**
+     * @return Url|string|array<string, mixed>
+     */
     public function toSitemapTag(): Url|string|array
     {
         return Url::create(route('projects.show', $this->slug))
@@ -153,6 +157,12 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         // Collection "gallery" : plusieurs images
         $this->addMediaCollection('gallery')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
+        // Collection pour les documents PDF
+        $this->addMediaCollection('documents')
+            ->useDisk('public')
+            ->acceptsMimeTypes(['application/pdf'])
+            ->withResponsiveImages(); // Optionnel pour les aperçus
     }
 
     // --------------------------------------------------------------
@@ -173,6 +183,24 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
             ->format('webp')
             ->quality(80)
             ->nonQueued();
+    }
+
+    // Méthodes utilitaires
+    public function hasPdf(): bool
+    {
+        return $this->getFirstMedia('documents', ['mime_type' => 'application/pdf']) !== null;
+    }
+
+    public function getPdfUrlAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('documents', ['mime_type' => 'application/pdf']);
+
+        return $media?->getUrl();
+    }
+
+    public function getPdfsAttribute(): Collection
+    {
+        return $this->getMedia('documents', ['mime_type' => 'application/pdf']);
     }
 
     // --------------------------------------------------------------

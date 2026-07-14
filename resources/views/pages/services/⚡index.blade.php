@@ -175,5 +175,6 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
             @endforelse
         </div>
+        
     </section>
 </div>

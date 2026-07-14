@@ -96,6 +96,29 @@ class ServiceForm
                             ->helperText('Format 16:9 recommandé, max 5 Mo.'),
                     ]),
 
+                // ========== NOUVELLE SECTION : DOCUMENTS PDF ==========
+                Section::make('Documents PDF')
+                    ->icon('heroicon-o-document-text')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('documents')
+                            ->label('Brochures et documents PDF')
+                            ->collection('documents')
+                            ->multiple()
+                            ->disk('public')
+                            ->directory('services/documents')
+                            ->visibility('public')
+                            ->maxFiles(5)
+                            ->maxSize(10240) // 10 MB
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->downloadable()
+                            ->previewable(true)
+                            ->openable()
+                            ->reorderable()
+                            ->appendFiles()
+                            ->columnSpanFull()
+                            ->helperText('Téléchargez les brochures ou documents descriptifs du service (PDF). Poids max : 10 Mo par fichier.'),
+                    ]),
+
                 Section::make('Paramètres')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->schema([

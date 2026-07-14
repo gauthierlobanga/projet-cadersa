@@ -25,7 +25,7 @@
     $pageDescription = Str::limit($pageDescription, 160);
 
     // Image processing
-    $defaultImage = asset('images/logo.png');
+    $defaultImage = asset('images/cadersa-logo.png');
     $pageImage = filled($image) ? $image : $defaultImage;
 
     // URL processing

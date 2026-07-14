@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -276,7 +277,7 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->withResponsiveImages()          // génère les variantes pour srcset
             ->optimize()
             ->nonQueued()
-            ->performOnCollections('featured');
+            ->performOnCollections('featured','gallery');
 
         // ------------------------------
         // 3. Petite taille (small) – 600×400
@@ -338,6 +339,34 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->optimize()
             ->nonQueued()                    // rapide car carte
             ->performOnCollections('featured');
+    }
+
+    // Dans App\Models\Post.php
+
+    /**
+     * Vérifie si le post a un PDF joint.
+     */
+    public function hasPdf(): bool
+    {
+        return $this->getFirstMedia('attachments', ['mime_type' => 'application/pdf']) !== null;
+    }
+
+    /**
+     * Récupère l'URL du premier PDF attaché.
+     */
+    public function getPdfUrlAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('attachments', ['mime_type' => 'application/pdf']);
+
+        return $media?->getUrl();
+    }
+
+    /**
+     * Récupère tous les PDFs attachés.
+     */
+    public function getPdfsAttribute(): Collection
+    {
+        return $this->getMedia('attachments', ['mime_type' => 'application/pdf']);
     }
     // ========== MEDIA ACCESSORS AVEC CACHE ==========
 
@@ -900,6 +929,15 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
                     ],
                 ];
             }
+        });
+
+        static::updated(function ($post) {
+            $post->clearMediaCache();
+        });
+
+        static::saved(function ($post) {
+            // Vider le cache des images de la galerie après sauvegarde
+            Cache::forget("post_{$post->id}_gallery_images");
         });
 
         static::updating(function ($post) {

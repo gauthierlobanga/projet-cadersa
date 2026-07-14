@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\TypeDocumentLegal;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class CadersaAsblDocumentLegal extends Model
+class CadersaAsblDocumentLegal extends Model implements HasMedia
 {
-    use HasUuids, SoftDeletes;
+    use HasUuids, SoftDeletes, InteractsWithMedia;
 
     protected $table = 'legal_documents';
 
@@ -34,6 +37,15 @@ class CadersaAsblDocumentLegal extends Model
         'metadata' => 'array',
     ];
 
+     public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('document')
+            ->singleFile()
+            ->useDisk('public')
+            ->acceptsMimeTypes(['application/pdf']);
+    }
+
+
     public function typeDocument(): BelongsTo
     {
         return $this->belongsTo(TypeDocumentLegal::class, 'type_document_id');
@@ -42,5 +54,15 @@ class CadersaAsblDocumentLegal extends Model
     public function verifiePar(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verifie_par');
+    }
+
+      public function getPdfUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl('document');
+    }
+
+    public function hasPdf(): bool
+    {
+        return $this->getFirstMedia('document') !== null;
     }
 }

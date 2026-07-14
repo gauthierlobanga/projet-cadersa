@@ -31,8 +31,7 @@ new #[Layout('layouts::main')] class extends Component {
         }
         if (!empty($this->search)) {
             $query->where(function ($q) {
-                $q->where('title', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('location', 'LIKE', '%' . $this->search . '%');
+                $q->where('title', 'LIKE', '%' . $this->search . '%')->orWhere('location', 'LIKE', '%' . $this->search . '%');
             });
         }
 
@@ -88,7 +87,7 @@ new #[Layout('layouts::main')] class extends Component {
                 class="absolute -bottom-20 -left-20 h-125 w-125 rounded-full bg-linear-to-tr from-zinc-200/40 to-emerald-100/0 blur-3xl dark:from-zinc-900/50 dark:to-transparent">
             </div>
             <div
-                class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
+                class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
             </div>
         </div>
 
@@ -218,69 +217,79 @@ new #[Layout('layouts::main')] class extends Component {
             <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Tous les projets</h2>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">Parcourez les projets de CADERSA</p>
         </div>
+
         {{-- Bandeau informatif sur les projets --}}
-        <div
-            class="mb-6  border border-emerald-200 bg-emerald-50/60 px-6 py-5 dark:border-emerald-800 dark:bg-emerald-950/30">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div class="flex items-start gap-3">
-                    <span
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400 shrink-0">
+        <div class="mb-8 border border-zinc-200/70 bg-white px-6 py-5 dark:border-zinc-800/70 dark:bg-zinc-900/50">
+            <div class="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
+
+                {{-- Texte --}}
+                <div class="flex items-start gap-4">
+                    <div
+                        class="flex h-10 w-10 shrink-0 items-center justify-center border border-zinc-200/60 bg-zinc-50/80 text-emerald-600 dark:border-zinc-800/60 dark:bg-zinc-900/50 dark:text-emerald-400">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                    </span>
+                    </div>
                     <div>
-                        <h3 class="font-semibold text-zinc-900 dark:text-white">Vous avez un projet en tête ?</h3>
-                        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Nous sommes à l'écoute de vos idées et
-                            initiatives pour le développement rural.</p>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Vous avez un projet en tête ?
+                        </h3>
+                        <p class="text-sm text-zinc-500 dark:text-zinc-400">Nous sommes à l'écoute de vos idées pour le
+                            développement rural.</p>
                     </div>
                 </div>
 
-                {{-- Bouton animé "Proposer un projet" --}}
+                {{-- Bouton avec animation corrigée --}}
                 <div x-data="{
                     init() {
-                        this.$nextTick(() => {
-                            const btn = $el.querySelector('a');
-                            const textWrapper = btn.querySelector('[data-text]');
-                            const arrow = btn.querySelector('[data-arrow]');
-                            const mailIcon = btn.querySelector('[data-mail-icon]');
+                        const btn = this.$el.querySelector('a');
+                        const text = btn.querySelector('[data-text]');
+                        const icon = btn.querySelector('[data-icon]');
+                        const arrow = btn.querySelector('[data-arrow]');
                 
-                            // On fige la largeur une fois le bouton rendu visible
-                            btn.style.width = btn.offsetWidth + 'px';
+                        // État initial
+                        gsap.set(icon, { x: -15, opacity: 0 });
+                        gsap.set(text, { x: 0 });
+                        gsap.set(arrow, { x: 0, opacity: 1 });
                 
-                            const split = new SplitText(textWrapper, { type: 'chars' });
-                            const chars = split.chars;
-                            const tl = gsap.timeline({ paused: true });
+                        const tl = gsap.timeline({ paused: true });
                 
-                            tl.to(arrow, { x: 50, opacity: 0, duration: 0.2, ease: 'circ.in' }, 0);
-                            tl.fromTo(mailIcon, { x: -30, opacity: 0 }, { x: -6, opacity: 1, duration: 0.2, ease: 'circ.out' }, 0.15);
-                            tl.to(textWrapper, { x: 26, duration: 0.2, ease: 'sine.out' }, 0.1);
-                            tl.to(chars, { keyframes: { opacity: [1, 0.4, 1] }, duration: 0.15, ease: 'sine.inOut', stagger: 0.02 }, 0.1);
+                        tl.to(arrow, { x: 20, opacity: 0, duration: 0.2, ease: 'power2.in' }, 0)
+                            .to(icon, { x: 0, opacity: 1, duration: 0.25, ease: 'back.out(1.4)' }, 0.08)
+                            .to(text, { x: 12, duration: 0.2, ease: 'power2.out' }, 0.08);
                 
-                            btn.addEventListener('mouseenter', () => tl.play());
-                            btn.addEventListener('mouseleave', () => tl.reverse());
-                        });
+                        btn.addEventListener('mouseenter', () => tl.play());
+                        btn.addEventListener('mouseleave', () => tl.reverse());
                     }
                 }">
                     <a href="{{ route('contact') }}"
-                        class="relative flex h-14 w-56 items-center justify-center gap-2 overflow-hidden border border-emerald-300 bg-white px-5 font-semibold text-emerald-700 transition-all duration-300 hover:bg-emerald-50 dark:border-emerald-700 dark:bg-zinc-900 dark:text-emerald-400 dark:hover:bg-emerald-900/30">
-                        <svg data-mail-icon class="absolute left-5 h-4.5 shrink-0 opacity-0"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                            <polyline points="22,6 12,13 2,6" />
+                        class="relative inline-flex h-11 items-center justify-center border border-zinc-200 bg-white px-5 text-sm font-medium text-zinc-700 transition-colors duration-200 hover:border-emerald-300 hover:bg-emerald-50/50 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-300">
+
+                        {{-- Icône (positionnée absolument pour glisser) --}}
+                        <svg data-icon class="absolute left-4 h-4 w-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <span class="whitespace-nowrap" data-text>Proposer un projet</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" data-arrow class="h-3.25 shrink-0" aria-hidden="true"
-                            viewBox="0 0 28 22" fill="none">
-                            <path class="fill-current"
-                                d="M1 10H5.96046e-08V12H1V10ZM27 12C27.5523 12 28 11.5523 28 11C28 10.4477 27.5523 10 27 10V12ZM18 1V5.96046e-08H16V1H18ZM26.4207 11.7774C26.9055 12.0419 27.5129 11.8632 27.7774 11.3783C28.0419 10.8935 27.8632 10.286 27.3783 10.0216L26.4207 11.7774ZM15.9999 20.8995V21.8995H17.9999V20.8995H15.9999ZM1 12H26.8994V10H1V12ZM26.8994 12H27V10H26.8994V12ZM16 1C16 2.47241 16.7953 3.87873 17.7716 5.0769C18.7678 6.29956 20.0716 7.44977 21.3383 8.42854C22.6109 9.41186 23.8784 10.2469 24.825 10.835C25.2993 11.1295 25.6952 11.3635 25.9738 11.5245C26.1131 11.605 26.2233 11.6674 26.2993 11.71C26.3374 11.7314 26.3669 11.7478 26.3873 11.7591C26.3975 11.7647 26.4055 11.7691 26.411 11.7721C26.4138 11.7737 26.416 11.7749 26.4176 11.7758C26.4184 11.7762 26.4191 11.7765 26.4196 11.7768C26.4199 11.777 26.4201 11.7771 26.4202 11.7772C26.4205 11.7773 26.4207 11.7774 26.8995 10.8995C27.3783 10.0216 27.3784 10.0217 27.3785 10.0217C27.3785 10.0217 27.3785 10.0217 27.3785 10.0217C27.3784 10.0216 27.3781 10.0215 27.3777 10.0213C27.3769 10.0208 27.3756 10.0201 27.3736 10.019C27.3697 10.0168 27.3634 10.0134 27.3549 10.0087C27.3378 9.99926 27.3118 9.98479 27.2773 9.96547C27.2084 9.92682 27.1058 9.86878 26.9745 9.79288C26.7117 9.64102 26.3342 9.41799 25.8804 9.13606C24.9708 8.57104 23.7635 7.77501 22.5612 6.84596C21.353 5.91235 20.182 4.86894 19.322 3.81356C18.4422 2.73371 18 1.77759 18 1H16ZM26.8994 11C26.5248 10.0728 26.5245 10.0729 26.5242 10.0731C26.524 10.0731 26.5237 10.0733 26.5234 10.0734C26.5228 10.0736 26.522 10.0739 26.5211 10.0743C26.5193 10.0751 26.5169 10.076 26.5138 10.0773C26.5078 10.0797 26.4994 10.0832 26.4888 10.0876C26.4674 10.0964 26.4369 10.1091 26.3979 10.1257C26.3199 10.1587 26.2077 10.2071 26.0662 10.2703C25.7834 10.3967 25.3826 10.5825 24.903 10.824C23.9463 11.3055 22.6639 12.0142 21.3751 12.919C20.0914 13.8201 18.7665 14.94 17.7546 16.2535C16.7415 17.5685 15.9999 19.1342 15.9999 20.8995H17.9999C17.9999 19.715 18.4958 18.5685 19.3389 17.4742C20.1831 16.3784 21.333 15.3922 22.5242 14.5559C23.7103 13.7232 24.9028 13.0632 25.8022 12.6104C26.2507 12.3846 26.6233 12.2119 26.8818 12.0965C27.011 12.0388 27.1115 11.9955 27.1785 11.967C27.212 11.9528 27.2371 11.9424 27.2533 11.9357C27.2613 11.9324 27.2671 11.93 27.2706 11.9286C27.2724 11.9279 27.2735 11.9274 27.2741 11.9271C27.2744 11.927 27.2745 11.927 27.2745 11.927C27.2745 11.927 27.2744 11.927 27.2744 11.927C27.2742 11.9271 27.274 11.9272 26.8994 11Z" />
+
+                        {{-- Texte --}}
+                        <span data-text class="relative z-10 whitespace-nowrap" style="padding-left: 0;">
+                            Proposer un projet
+                        </span>
+
+                        {{-- Flèche --}}
+                        <svg data-arrow
+                            class="relative z-10 ml-1.5 h-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                     </a>
                 </div>
+
             </div>
         </div>
+
         {{-- Barre de recherche + bouton filtres --}}
         <section class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:items-center" role="search">
             <div class="flex items-center">

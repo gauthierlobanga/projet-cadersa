@@ -313,8 +313,7 @@
                 <div x-ref="warningText" class="absolute inset-0 m-0 flex items-center" style="opacity: 0;">
                     <blockquote
                         class="border-l-4 border-emerald-500 pl-4 italic text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed">
-                        « Vivre c’est reconnaître ses semblables créés à l’image de Dieu. Les aider à s’organiser pour
-                        s’autonomiser »
+                        Vivre c’est reconnaître ses semblables créés à l’image de Dieu.
                         <footer class="mt-1 text-xs text-zinc-500 dark:text-zinc-400 not-italic">— Prof. Dr Bernard
                             HANGI</footer>
                     </blockquote>

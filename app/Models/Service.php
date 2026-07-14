@@ -17,12 +17,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
+use Spatie\Tags\HasTags;
 use Tiptap\Nodes\Image;
 
 class Service extends Model implements HasMedia, HasRichContent, Sitemapable
 {
     use HasComments, HasUuids;
     use HasFactory;
+    use HasTags;
     use InteractsWithMedia;
     use InteractsWithRichContent;
     use SoftDeletes;
@@ -146,6 +148,10 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->useDisk('public')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
             ->withResponsiveImages();
+
+        $this->addMediaCollection('documents')
+            ->useDisk('public')
+            ->acceptsMimeTypes(['application/pdf']);
     }
 
     /**
@@ -188,6 +194,24 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->withResponsiveImages()
             ->optimize()
             ->performOnCollections('image');
+    }
+
+    // Méthodes utilitaires pour les PDF
+    public function hasPdf(): bool
+    {
+        return $this->getMedia('documents')->isNotEmpty();
+    }
+
+    public function getPdfUrlAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('documents');
+
+        return $media?->getUrl();
+    }
+
+    public function getPdfsAttribute()
+    {
+        return $this->getMedia('documents');
     }
 
     /**
@@ -306,6 +330,9 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
         return route('services.show', $this->slug);
     }
 
+    /**
+     * @return Url|string|array<string, mixed>
+     */
     public function toSitemapTag(): Url|string|array
     {
         return Url::create(route('services.show', $this->slug))

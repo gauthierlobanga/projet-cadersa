@@ -14,7 +14,7 @@
         $appLogo = null;
     }
     $appName = $appName ?: config('app.name', 'CADERSA ASBL');
-    $appLogo = $appLogo ?: asset('images/logo.png');
+    $appLogo = $appLogo ?: asset('images/cadersa-logo.png');
     $homeUrl = url('/');
     $refreshUrl = request()->fullUrl();
     $previousUrl = url()->previous();
