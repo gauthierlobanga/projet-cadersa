@@ -12,20 +12,14 @@ class AboutSettings extends Settings
 
     public string $hero_badge = 'Depuis 2010';
 
-    /**
-     * @var string[]|string|null
-     */
-    public string|array|null $about_text = null;
+    // Content can be a Tiptap document array or a plain string.
+    public mixed $about_text = null;
 
-    /**
-     * @var string[]|string|null
-     */
-    public string|array|null $vision_text = null;
+    // Content can be a Tiptap document array or a plain string.
+    public mixed $vision_text = null;
 
-    /**
-     * @var string[]|string|null
-     */
-    public string|array|null $mission_text = null;
+    // Content can be a Tiptap document array or a plain string.
+    public mixed $mission_text = null;
 
     public ?string $hero_image_url = null;
 
