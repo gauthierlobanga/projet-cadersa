@@ -69,7 +69,7 @@ class SecurityHeaders
             // External script sources include Google Analytics, Flowbite CDN, and Stripe.
             $csp = [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-eval' 'nonce-{$nonce}' https://js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-{$nonce}' https://js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
                 "style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com https://cdn.jsdelivr.net",
                 "img-src 'self' data: https: blob:",
                 "font-src 'self' data: https://fonts.bunny.net https://fonts.gstatic.com https://cdn.jsdelivr.net",
