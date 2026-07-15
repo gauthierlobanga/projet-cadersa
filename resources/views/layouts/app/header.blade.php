@@ -162,6 +162,8 @@
         </flux:toast.group>
     @endpersist
 
+    {{-- Hack: Force Livewire 3 to wait for Vite modules to execute in production mode by simulating a Vite client script. This fixes GSAP/Alpine timing issues. --}}
+    <script type="module" src="data:text/javascript,/**vite*/" data-dummy="true"></script>
     @vite('resources/js/app.js')
     @fluxScripts
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
