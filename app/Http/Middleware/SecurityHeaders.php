@@ -28,15 +28,29 @@ class SecurityHeaders
         // Build CSP depending on environment
         $nonce = base64_encode(random_bytes(12));
 
-        if (app()->environment('local') || app()->environment('testing')) {
-            // Relaxed CSP for local/testing to allow vite HMR and inline scripts during development
+        // Detect Vite dev server usage via Referer or host and relax CSP similarly to local/testing
+        $referer = (string) $request->headers->get('referer', '');
+        $host = (string) $request->getHost();
+        $isViteDev = false;
+
+        if (str_contains($referer, ':5174') || str_contains($referer, 'localhost:5174') || str_contains($referer, '[::1]:5174')) {
+            $isViteDev = true;
+        }
+
+        if (app()->environment('local') || app()->environment('testing') || $isViteDev || config('app.debug')) {
+            // Relaxed CSP for local/testing and when Vite dev server is detected to allow HMR, styles and inline scripts during development
+            // We scope allowed origins to common dev hosts instead of wildcard when possible
             $csp = [
                 "default-src 'self'",
-                "script-src * blob: 'unsafe-inline' 'unsafe-eval'",
-                "style-src * 'unsafe-inline'",
+                // Allow eval in dev for tools that require it (vite, dev plugins, some libs)
+                "script-src 'self' http://localhost:5174 http://127.0.0.1:5174 http://[::1]:5174 blob: 'unsafe-inline' 'unsafe-eval'",
+                // Allow loading styles from the Vite dev server
+                "style-src 'self' http://localhost:5174 http://127.0.0.1:5174 http://[::1]:5174 'unsafe-inline'",
+                // Images, fonts, connections should also accept dev server and data/blobs
                 'img-src * data: blob:',
                 'font-src * data:',
-                'connect-src * ws: wss:',
+                // Allow websocket connections for HMR
+                "connect-src 'self' http://localhost:5174 http://127.0.0.1:5174 ws://localhost:5174 ws://127.0.0.1:5174 ws://[::1]:5174 wss://localhost:5174",
                 'frame-src *',
                 'media-src *',
                 "object-src 'none'",
