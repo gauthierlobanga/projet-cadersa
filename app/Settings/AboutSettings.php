@@ -23,6 +23,13 @@ class AboutSettings extends Settings
 
     public string $impact_heading = 'Des résultats concrets sur le terrain';
 
+    // Contact information for the organisation (optional)
+    public ?string $contact_email = null;
+
+    public ?string $contact_phone = null;
+
+    public ?string $address = null;
+
     public string $impact_subtitle = 'Programme de Résilience au Kasaï Central, avec le soutien du PAM.';
 
     public mixed $impact_description = null;
@@ -112,7 +119,7 @@ class AboutSettings extends Settings
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return string[]
      */
     public function getImpactStats(): array
     {
@@ -143,10 +150,10 @@ class AboutSettings extends Settings
     /**
      * Normalize builder payloads into plain block arrays.
      *
-     * @param  array<int, mixed>  $blocks
-     * @return array<int, mixed>
+     * @param  string[]  $blocks
+     * @return string[]
      */
-    private static function normalizeBlocks(array $blocks): array
+    public static function normalizeBlocks(array $blocks): array
     {
         return collect($blocks)
             ->map(function ($block) {
@@ -166,7 +173,7 @@ class AboutSettings extends Settings
     /**
      * Return about blocks, or fallback to legacy `about_text`.
      *
-     * @return array<int, mixed>
+     * @return string[]
      */
     public function aboutBlocks(): array
     {
@@ -188,9 +195,9 @@ class AboutSettings extends Settings
     /**
      * Return the primary about description (first block or legacy field).
      *
-     * @return array<int, mixed>|string|null
+     * @return string|null
      */
-    public function aboutText(): array|string|null
+    public function aboutText(): string|null
     {
         $block = $this->aboutBlocks()[0] ?? null;
 
@@ -210,7 +217,7 @@ class AboutSettings extends Settings
     /**
      * Return vision blocks, or fallback to legacy `vision_text`.
      *
-     * @return array<int, mixed>
+     * @return string[]
      */
     public function visionBlocks(): array
     {
@@ -232,7 +239,7 @@ class AboutSettings extends Settings
     /**
      * Return the primary vision description.
      *
-     * @return array<int, mixed>|string|null
+     * @return string[]|string|null
      */
     public function visionText(): array|string|null
     {
@@ -244,7 +251,7 @@ class AboutSettings extends Settings
     /**
      * Return mission blocks, or fallback to legacy `mission_text`.
      *
-     * @return array<int, mixed>
+     * @return string[]
      */
     public function missionBlocks(): array
     {
@@ -266,7 +273,7 @@ class AboutSettings extends Settings
     /**
      * Return the primary mission description.
      *
-     * @return array<int, mixed>|string|null
+     * @return string[]|string|null
      */
     public function missionText(): array|string|null
     {
@@ -276,7 +283,7 @@ class AboutSettings extends Settings
     }
 
     /**
-     * @return array<string, mixed>
+     * @return string[]
      */
     public function impactContent(): array
     {
@@ -354,6 +361,21 @@ class AboutSettings extends Settings
     public function setImpactStatsAttribute(?array $value): void
     {
         $this->impact_stats = is_array($value) ? $value : [];
+    }
+
+    public function setAboutBlocksAttribute(?array $value): void
+    {
+        $this->about_blocks = self::normalizeBlocks($value ?? []);
+    }
+
+    public function setVisionBlocksAttribute(?array $value): void
+    {
+        $this->vision_blocks = self::normalizeBlocks($value ?? []);
+    }
+
+    public function setMissionBlocksAttribute(?array $value): void
+    {
+        $this->mission_blocks = self::normalizeBlocks($value ?? []);
     }
 
     public ?string $about_image_url = null;

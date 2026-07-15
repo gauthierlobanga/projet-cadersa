@@ -1,7 +1,7 @@
 <x-layouts::auth :title="__('Email verification')">
     <div class="mt-4 flex flex-col gap-6">
         <flux:text class="text-center">
-            {{ __('Please verify your email address by clicking on the link we just emailed to you.') }}
+            {{ __('Veuillez vérifier votre adresse e-mail en cliquant sur le lien que nous venons de vous envoyer.') }}
         </flux:text>
 
         @if (session('status') == 'verification-link-sent')
@@ -24,6 +24,8 @@
                     {{ __('Log out') }}
                 </flux:button>
             </form>
+
+            @include('pages.auth._company-footer')
         </div>
     </div>
 </x-layouts::auth>

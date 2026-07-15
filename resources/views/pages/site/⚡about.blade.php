@@ -504,7 +504,7 @@ new #[Layout('layouts::main')] class extends Component {
                         class="transition-all duration-700 ease-out" style="transition-delay: {{ $index * 100 }}ms">
 
                         <div
-                            class="group relative border border-zinc-200/50 bg-transparent p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300/50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-emerald-700/40 dark:hover:bg-emerald-900/10">
+                            class="group relative border bg-transparent p-6 transition-all duration-300 hover:-translate-y-0.5 border-zinc-400/20 dark:border-zinc-800/50 dark:bg-zinc-900/30 hover:border-emerald-700/40 hover:bg-emerald-900/10">
 
                             {{-- Image ou icône --}}
                             @if ($stat['image_url'])
@@ -523,16 +523,16 @@ new #[Layout('layouts::main')] class extends Component {
                             @endif
 
                             {{-- Valeur --}}
-                            <div class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
+                            <div class="text-3xl font-bold tracking-tight text-white"
                                 x-text="shown ? formatValue(count) : targetRaw"></div>
 
                             {{-- Label --}}
-                            <div class="mt-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                            <div class="mt-2 text-sm font-medium text-zinc-300">
                                 {{ $stat['label'] }}</div>
 
                             {{-- Description (optionnelle) --}}
                             @if ($stat['description'])
-                                <p class="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                                <p class="mt-2 text-sm leading-relaxed text-zinc-400 dark:text-zinc-400">
                                     {{ $stat['description'] }}</p>
                             @endif
                         </div>
@@ -566,7 +566,9 @@ new #[Layout('layouts::main')] class extends Component {
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
                             <div class="flex h-full flex-col justify-between gap-6">
                                 <div>
-                                    <p class="text-sm uppercase tracking-[0.32em] text-emerald-300">Focus</p>
+                                    <p class="text-sm uppercase tracking-[0.32em] text-emerald-300">
+                                        Focus
+                                    </p>
                                     <p class="mt-4 text-sm leading-7 text-zinc-300">
                                         {{ $this->about->impactSubtitle() ?: 'Un projet conçu pour générer un impact durable et mesurable.' }}
                                     </p>

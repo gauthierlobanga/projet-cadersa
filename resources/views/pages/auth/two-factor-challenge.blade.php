@@ -31,15 +31,15 @@
         >
             <div x-show="!showRecoveryInput">
                 <x-auth-header
-                    :title="__('Authentication code')"
-                    :description="__('Enter the authentication code provided by your authenticator application.')"
+                    :title="__('Code d\'authentification')"
+                    :description="__('Saisissez le code fourni par votre application d\'authentification.')"
                 />
             </div>
 
             <div x-show="showRecoveryInput">
                 <x-auth-header
-                    :title="__('Recovery code')"
-                    :description="__('Please confirm access to your account by entering one of your emergency recovery codes.')"
+                    :title="__('Code de récupération')"
+                    :description="__('Confirmez l\'accès à votre compte en saisissant l\'un de vos codes de secours.')"
                 />
             </div>
 
@@ -96,6 +96,8 @@
                     </div>
                 </div>
             </form>
+
+            @include('pages.auth._company-footer')
         </div>
     </div>
 </x-layouts::auth>

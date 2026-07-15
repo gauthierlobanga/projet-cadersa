@@ -223,7 +223,9 @@ new #[Layout('layouts::main')] class extends Component {
         rotateListeningMessage() {
             this.listeningIndex++
         },
-    }" aria-label="Plugin search and listing"
+    }"
+        x-effect="if (category) { showFilters = true; /* keep panel visible when category present */ }"
+        aria-label="Plugin search and listing"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
         <div class="mb-5">
             <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Tous les articles</h2>

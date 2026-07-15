@@ -15,6 +15,11 @@
                 <div class="flex flex-col gap-6">
                     {{ $slot }}
                 </div>
+
+                {{-- Company footer (auth simple) --}}
+                <div class="mt-4">
+                    @include('pages.auth._company-footer')
+                </div>
             </div>
         </div>
 

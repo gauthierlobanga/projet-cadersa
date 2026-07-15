@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Comment;
+use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -14,11 +15,21 @@ new class extends Component
 
     public $comments = []; // ← propriété publique accessible dans la vue
 
+    protected $rules = [
+        'newComment' => 'required|string|min:1',
+    ];
+
     public function mount($commentableType, $commentableId)
     {
         $this->commentableType = $commentableType;
         $this->commentableId = $commentableId;
         $this->loadComments();
+    }
+
+    public function updated($propertyName)
+    {
+        // Validation en temps réel pour la propriété modifiée
+        $this->validateOnly($propertyName);
     }
 
     public function loadComments()
@@ -36,11 +47,14 @@ new class extends Component
     public function addComment()
     {
         if (! Auth::check()) {
+            // envoyer un toast FluxUI côté serveur pour inviter à se connecter
+            Flux::toast(variant: 'warning', text: 'Veuillez vous connecter pour poster un commentaire.');
+            session()->flash('error', 'Veuillez vous connecter pour poster un commentaire.');
             return;
         }
-        if (empty(trim($this->newComment))) {
-            return;
-        }
+
+        // Valider côté serveur (empêche soumission d'un champ vide et envoie erreurs Livewire)
+        $this->validate();
 
         $type = str_replace('\\\\', '\\', $this->commentableType);
         $modelClass = $type;
@@ -56,5 +70,10 @@ new class extends Component
         $model->addComment(Auth::user(), $this->newComment);
         $this->newComment = '';
         $this->loadComments();
+
+        // succès : petit toast FluxUI côté serveur
+        Flux::toast(variant: 'success', text: 'Commentaire publié avec succès.');
     }
+
+
 };

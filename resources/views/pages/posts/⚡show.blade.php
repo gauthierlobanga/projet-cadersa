@@ -415,6 +415,49 @@ new #[Layout('layouts::main')] class extends Component {
                     {!! $post->renderRichContent('content') !!}
                 </div>
 
+                {{-- Navigation article précédent / suivant --}}
+                <div class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    @if ($this->previousPost)
+                        <a href="{{ route('posts.show', $this->previousPost) }}" wire:navigate
+                            class="group flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-4 transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+
+                            <div class="flex flex-col text-left">
+                                <span class="text-xs text-zinc-400">Article précédent</span>
+                                <span
+                                    class="text-sm font-semibold text-zinc-900 dark:text-white transition-transform duration-300 group-hover:translate-x-2">
+                                    {{ \Illuminate\Support\Str::limit($this->previousPost->title, 80) }}
+                                </span>
+                            </div>
+
+                            <svg class="ml-auto h-5 w-5 text-emerald-500 transition-transform duration-300 group-hover:translate-x-1"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </a>
+                    @endif
+
+                    @if ($this->nextPost)
+                        <a href="{{ route('posts.show', $this->nextPost) }}" wire:navigate
+                            class="group flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-4 transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+
+                            <div class="flex flex-col text-left">
+                                <span class="text-xs text-zinc-400">Article suivant</span>
+                                <span
+                                    class="text-sm font-semibold text-zinc-900 dark:text-white transition-transform duration-300 group-hover:translate-x-2">
+                                    {{ \Illuminate\Support\Str::limit($this->nextPost->title, 80) }}
+                                </span>
+                            </div>
+
+                            <svg class="ml-auto h-5 w-5 text-emerald-500 transition-transform duration-300 group-hover:translate-x-1"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    @endif
+                </div>
+
             </div>
 
             {{-- Sidebar --}}
@@ -429,8 +472,7 @@ new #[Layout('layouts::main')] class extends Component {
                                 class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-emerald-100/40 via-transparent to-transparent opacity-50 transition-opacity duration-700 group-hover:opacity-100 dark:from-emerald-900/20">
                             </div>
 
-                            <div
-                                class="relative bg-white/50 px-6 pb-8 pt-8  dark:bg-zinc-900/50">
+                            <div class="relative bg-white/50 px-6 pb-8 pt-8  dark:bg-zinc-900/50">
                                 <div class="relative mx-auto mb-5 flex h-20 w-20 items-center justify-center">
                                     <div
                                         class="absolute inset-0 rounded-full transition-all duration-500 group-hover:bg-emerald-400/40 dark:bg-emerald-500/10">
@@ -521,30 +563,7 @@ new #[Layout('layouts::main')] class extends Component {
                     @endif
 
                     {{-- Newsletter CTA --}}
-                    <div class="border border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-800/50 dark:bg-zinc-900/30">
-                        <h3 class="mb-2 text-base font-semibold text-zinc-900 dark:text-white">Restez informé</h3>
-                        <p class="mb-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                            Recevez nos actualités directement dans votre boîte mail.
-                        </p>
-                        <form action="{{ route('newsletter.subscribe') }}" method="POST" class="space-y-3"
-                            @submit.prevent>
-                            @csrf
-                            <div class="relative">
-                                <label for="email-sidebar" class="sr-only">Votre adresse e-mail</label>
-                                <input type="email" id="email-sidebar" name="email"
-                                    placeholder="Entrez votre e-mail..." required
-                                    class="w-full border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition-colors duration-200 focus:border-emerald-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-400">
-                            </div>
-                            <button type="submit"
-                                class="flex w-full items-center justify-center gap-2 border border-emerald-600 bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-emerald-700 dark:border-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-600">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                S'abonner
-                            </button>
-                        </form>
-                    </div>
+                    <livewire:newsletter-subscribe origin="post_show" />
                     {{-- Partager --}}
                     <div class="border border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-800/50 dark:bg-zinc-900/30">
                         <h3

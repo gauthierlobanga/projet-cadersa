@@ -243,8 +243,8 @@
                     button.addEventListener('mouseleave', () => tl.reverse());
                 }">
 
-                <a href="{{ route('posts.index') }}" wire:navigate
-                    aria-label="Voir tous les domaines d'intervention"
+                <a href="{{ route('posts.index', ['cat' => 'formation']) }}" wire:navigate
+                    aria-label="Voir toutes les formations"
                     class="group inline-flex w-auto items-center justify-between gap-3 px-6 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:text-emerald-600 dark:text-white dark:hover:text-emerald-400">
 
                     <span data-text>Voir toutes les formations</span>

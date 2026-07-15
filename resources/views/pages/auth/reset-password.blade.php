@@ -1,6 +1,6 @@
 <x-layouts::auth :title="__('Reset password')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
+        <x-auth-header :title="__('Réinitialiser le mot de passe')" :description="__('Saisissez votre nouveau mot de passe ci-dessous')" />
 
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />

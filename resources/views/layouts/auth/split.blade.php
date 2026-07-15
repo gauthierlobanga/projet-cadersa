@@ -23,6 +23,11 @@
                         <flux:heading size="lg">&ldquo;{{ trim($message) }}&rdquo;</flux:heading>
                         <footer><flux:heading>{{ trim($author) }}</flux:heading></footer>
                     </blockquote>
+
+                    {{-- Company footer (left panel) --}}
+                    <div class="mt-6 hidden lg:block">
+                        @include('pages.auth._company-footer')
+                    </div>
                 </div>
             </div>
             <div class="w-full lg:p-8">
