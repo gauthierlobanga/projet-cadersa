@@ -54,11 +54,25 @@ class TypeDocumentLegal extends Model
         ];
     }
 
+    /**
+     * scopeObligatoires.
+
+     *
+
+     * @return mixed
+     */
     public function scopeObligatoires($query)
     {
         return $query->where('est_obligatoire', true);
     }
 
+    /**
+     * scopeOptionnels.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOptionnels($query)
     {
         return $query->where('est_obligatoire', false);

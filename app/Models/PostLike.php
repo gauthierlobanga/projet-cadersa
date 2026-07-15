@@ -11,16 +11,29 @@ class PostLike extends Model
 {
     protected $fillable = ['post_id', 'user_id'];
 
+    /**
+     * post.
+     */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
 
+    /**
+     * user.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * scopeForUser.
+
+     *
+
+     * @return mixed
+     */
     public function scopeForUser($query, $userId)
     {
         return $query->where('user_id', $userId);

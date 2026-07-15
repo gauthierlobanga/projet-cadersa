@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -166,22 +171,34 @@ class Contact extends Model
     }
 
     // Relations
+    /**
+     * reponduPar.
+     */
     public function reponduPar(): BelongsTo
     {
         return $this->belongsTo(User::class, 'repondu_par');
     }
 
     // Accessors
+    /**
+     * getFullNameAttribute.
+     */
     public function getFullNameAttribute(): string
     {
         return trim($this->prenom.' '.$this->nom);
     }
 
+    /**
+     * getStatusLabelAttribute.
+     */
     public function getStatusLabelAttribute(): string
     {
         return self::getStatuses()[$this->status] ?? $this->status;
     }
 
+    /**
+     * getStatusColorAttribute.
+     */
     public function getStatusColorAttribute(): string
     {
         return match ($this->status) {
@@ -194,11 +211,17 @@ class Contact extends Model
         };
     }
 
+    /**
+     * getPrioriteLabelAttribute.
+     */
     public function getPrioriteLabelAttribute(): string
     {
         return self::getPriorites()[$this->priorite] ?? $this->priorite;
     }
 
+    /**
+     * getPrioriteColorAttribute.
+     */
     public function getPrioriteColorAttribute(): string
     {
         return match ($this->priorite) {
@@ -210,11 +233,17 @@ class Contact extends Model
         };
     }
 
+    /**
+     * getCategorieLabelAttribute.
+     */
     public function getCategorieLabelAttribute(): string
     {
         return self::getCategories()[$this->categorie] ?? $this->categorie;
     }
 
+    /**
+     * getCategorieColorAttribute.
+     */
     public function getCategorieColorAttribute(): string
     {
         return match ($this->categorie) {
@@ -228,28 +257,57 @@ class Contact extends Model
     }
 
     // Scopes
+    /**
+     * scopeEnAttente.
+     *
+     * @return mixed
+     */
     public function scopeEnAttente($query)
     {
         return $query->where('status', self::STATUS_EN_ATTENTE);
     }
 
+    /**
+     * scopeNonTraites.
+
+     *
+
+     * @return mixed
+     */
     public function scopeNonTraites($query)
     {
         return $query->whereIn('status', [self::STATUS_EN_ATTENTE, self::STATUS_LU]);
     }
 
+    /**
+     * scopeUrgents.
+
+     *
+
+     * @return mixed
+     */
     public function scopeUrgents($query)
     {
         return $query->where('priorite', self::PRIORITE_URGENTE)
             ->whereIn('status', [self::STATUS_EN_ATTENTE, self::STATUS_LU]);
     }
 
+    /**
+     * scopeParCategorie.
+
+     *
+
+     * @return mixed
+     */
     public function scopeParCategorie($query, $categorie)
     {
         return $query->where('categorie', $categorie);
     }
 
     // Méthodes métier
+    /**
+     * marquerLu.
+     */
     public function marquerLu(): void
     {
         if (! $this->lu_at) {
@@ -259,6 +317,9 @@ class Contact extends Model
         }
     }
 
+    /**
+     * marquerRepondu.
+     */
     public function marquerRepondu(User $user, string $reponse): void
     {
         $this->status = self::STATUS_REPONDU;
@@ -268,12 +329,18 @@ class Contact extends Model
         $this->save();
     }
 
+    /**
+     * archiver.
+     */
     public function archiver(): void
     {
         $this->status = self::STATUS_ARCHIVE;
         $this->save();
     }
 
+    /**
+     * marquerSpam.
+     */
     public function marquerSpam(): void
     {
         $this->status = self::STATUS_SPAM;

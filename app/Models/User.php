@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -290,6 +295,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
         return $this;
     }
 
+    /**
+     * getPreference.
+     */
     public function getPreference(string $key, mixed $default = null): mixed
     {
         return data_get($this->preferences ?? [], $key, $default);

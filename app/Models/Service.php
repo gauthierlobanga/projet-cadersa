@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -150,6 +155,12 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
             ->withResponsiveImages();
 
+        $this->addMediaCollection('service_icon')
+            ->singleFile()
+            ->useDisk('public')
+            ->acceptsMimeTypes(['image/png', 'image/webp', 'image/svg+xml'])
+            ->withResponsiveImages();
+
         $this->addMediaCollection('documents')
             ->useDisk('public')
             ->acceptsMimeTypes(['application/pdf']);
@@ -195,6 +206,14 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->withResponsiveImages()
             ->optimize()
             ->performOnCollections('image');
+
+        $this->addMediaConversion('icon_thumb')
+            ->width(64)
+            ->height(64)
+            ->fit(Fit::Crop, 64, 64)
+            ->format('webp')
+            ->quality(80)
+            ->performOnCollections('service_icon');
     }
 
     // Méthodes utilitaires pour les PDF

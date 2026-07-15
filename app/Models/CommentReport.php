@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -46,11 +51,17 @@ class CommentReport extends Model
 
     const STATUS_DISMISSED = 'dismissed';
 
+    /**
+     * comment.
+     */
     public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
 
+    /**
+     * user.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

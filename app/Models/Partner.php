@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -23,6 +28,9 @@ class Partner extends Model implements HasMedia
 
     // ========== MEDIA COLLECTIONS ==========
 
+    /**
+     * registerMediaCollections.
+     */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('logo')
@@ -32,6 +40,9 @@ class Partner extends Model implements HasMedia
 
     // ========== MEDIA CONVERSIONS ==========
 
+    /**
+     * registerMediaConversions.
+     */
     public function registerMediaConversions(?Media $media = null): void
     {
         // Miniature (150x150) – pour les listes, tableaux
@@ -59,11 +70,25 @@ class Partner extends Model implements HasMedia
 
     // ========== SCOPES ==========
 
+    /**
+     * scopeActive.
+
+     *
+
+     * @return mixed
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * scopeOrdered.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('name');
@@ -71,11 +96,17 @@ class Partner extends Model implements HasMedia
 
     // ========== ACCESSORS ==========
 
+    /**
+     * getLogoUrlAttribute.
+     */
     public function getLogoUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('logo', 'webp') ?: $this->getFirstMediaUrl('logo');
     }
 
+    /**
+     * getLogoThumbUrlAttribute.
+     */
     public function getLogoThumbUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('logo', 'thumb');

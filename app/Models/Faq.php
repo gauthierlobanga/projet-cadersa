@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -18,22 +23,40 @@ class Faq extends Model
     ];
 
     // Scopes
+    /**
+     * scopeActive.
+     *
+     * @return mixed
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * scopeOrdered.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('question');
     }
 
     // Accessors
+    /**
+     * getFormattedQuestionAttribute.
+     */
     public function getFormattedQuestionAttribute(): string
     {
         return ucfirst($this->question);
     }
 
+    /**
+     * getFormattedAnswerAttribute.
+     */
     public function getFormattedAnswerAttribute(): string
     {
         return nl2br(e($this->answer));

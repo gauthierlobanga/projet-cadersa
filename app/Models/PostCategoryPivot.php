@@ -35,23 +35,35 @@ class PostCategoryPivot extends Pivot
         ];
     }
 
+    /**
+     * categorie.
+     */
     public function categorie(): BelongsTo
     {
         return $this->belongsTo(PostCategory::class, 'category_id');
     }
 
+    /**
+     * post.
+     */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
 
     // Accessors
+    /**
+     * getEstPrincipaleLabelAttribute.
+     */
     public function getEstPrincipaleLabelAttribute(): string
     {
         return $this->est_principale ? 'Oui' : 'Non';
     }
 
     // Méthodes métier
+    /**
+     * definirCommePrincipale.
+     */
     public function definirCommePrincipale(): void
     {
         // Retirer le statut principal des autres catégories pour ce post
@@ -62,11 +74,17 @@ class PostCategoryPivot extends Pivot
         $this->save();
     }
 
+    /**
+     * incrementerOrdre.
+     */
     public function incrementerOrdre(): void
     {
         $this->increment('order');
     }
 
+    /**
+     * decrementerOrdre.
+     */
     public function decrementerOrdre(): void
     {
         $this->decrement('order');

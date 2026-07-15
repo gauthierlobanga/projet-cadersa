@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -47,6 +52,9 @@ class Announcement extends Model
         ];
     }
 
+    /**
+     * scopeActive.
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)
@@ -60,11 +68,17 @@ class Announcement extends Model
             });
     }
 
+    /**
+     * scopeForVendors.
+     */
     public function scopeForVendors(Builder $query): Builder
     {
         return $query->whereIn('target_audience', ['all', 'vendors']);
     }
 
+    /**
+     * scopeForBuyers.
+     */
     public function scopeForBuyers(Builder $query): Builder
     {
         return $query->whereIn('target_audience', ['all', 'buyers']);

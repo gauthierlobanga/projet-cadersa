@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -57,17 +62,26 @@ class NewsletterSend extends Model
     const STATUS_DESABONNE = 'desabonne';
 
     // Relations
+    /**
+     * campaign.
+     */
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(NewsletterCampaign::class);
     }
 
+    /**
+     * newsletter.
+     */
     public function newsletter(): BelongsTo
     {
         return $this->belongsTo(Newsletter::class);
     }
 
     // Accessors
+    /**
+     * getStatusLabelAttribute.
+     */
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
@@ -80,6 +94,9 @@ class NewsletterSend extends Model
         };
     }
 
+    /**
+     * getStatusColorAttribute.
+     */
     public function getStatusColorAttribute(): string
     {
         return match ($this->status) {
@@ -93,17 +110,32 @@ class NewsletterSend extends Model
     }
 
     // Scopes
+    /**
+     * scopeOuverts.
+     *
+     * @return mixed
+     */
     public function scopeOuverts($query)
     {
         return $query->whereNotNull('opened_at');
     }
 
+    /**
+     * scopeCliques.
+
+     *
+
+     * @return mixed
+     */
     public function scopeCliques($query)
     {
         return $query->whereNotNull('clicked_at');
     }
 
     // Méthodes métier
+    /**
+     * marquerOuvert.
+     */
     public function marquerOuvert(): void
     {
         if (! $this->opened_at) {
@@ -115,6 +147,9 @@ class NewsletterSend extends Model
         }
     }
 
+    /**
+     * marquerClique.
+     */
     public function marquerClique(): void
     {
         if (! $this->clicked_at) {
@@ -126,6 +161,9 @@ class NewsletterSend extends Model
         }
     }
 
+    /**
+     * marquerDesabonne.
+     */
     public function marquerDesabonne(): void
     {
         $this->status = self::STATUS_DESABONNE;

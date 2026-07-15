@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -38,6 +43,9 @@ class CommentMention extends Model
         return $this->belongsTo(Comment::class);
     }
 
+    /**
+     * user.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

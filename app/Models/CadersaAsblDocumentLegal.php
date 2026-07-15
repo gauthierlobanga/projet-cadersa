@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -36,6 +41,9 @@ class CadersaAsblDocumentLegal extends Model implements HasMedia
         'metadata' => 'array',
     ];
 
+    /**
+     * registerMediaCollections.
+     */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('document')
@@ -44,21 +52,33 @@ class CadersaAsblDocumentLegal extends Model implements HasMedia
             ->acceptsMimeTypes(['application/pdf']);
     }
 
+    /**
+     * typeDocument.
+     */
     public function typeDocument(): BelongsTo
     {
         return $this->belongsTo(TypeDocumentLegal::class, 'type_document_id');
     }
 
+    /**
+     * verifiePar.
+     */
     public function verifiePar(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verifie_par');
     }
 
+    /**
+     * getPdfUrlAttribute.
+     */
     public function getPdfUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('document');
     }
 
+    /**
+     * hasPdf.
+     */
     public function hasPdf(): bool
     {
         return $this->getFirstMedia('document') !== null;

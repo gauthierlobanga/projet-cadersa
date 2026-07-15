@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -211,26 +216,59 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
     // --------------------------------------------------------------
     //  Scopes
     // --------------------------------------------------------------
+    /**
+     * scopeActive.
+     *
+     * @return mixed
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * scopeOrdered.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOrdered($query)
     {
         return $query->orderBy('start_date', 'desc');
     }
 
+    /**
+     * scopeByStatus.
+
+     *
+
+     * @return mixed
+     */
     public function scopeByStatus($query, $status)
     {
         return $query->where('status', $status);
     }
 
+    /**
+     * scopeOngoing.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOngoing($query)
     {
         return $query->where('status', 'ongoing');
     }
 
+    /**
+     * scopeCompleted.
+
+     *
+
+     * @return mixed
+     */
     public function scopeCompleted($query)
     {
         return $query->where('status', 'completed');
@@ -251,6 +289,9 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         return $text;
     }
 
+    /**
+     * getPlainTextContent.
+     */
     public function getPlainTextContent(?int $limit = null): string
     {
         $content = $this->content;
@@ -267,21 +308,33 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
     // --------------------------------------------------------------
     //  Accessors
     // --------------------------------------------------------------
+    /**
+     * getCoverUrlAttribute.
+     */
     public function getCoverUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('cover', 'webp') ?: $this->getFirstMediaUrl('cover');
     }
 
+    /**
+     * getCoverThumbUrlAttribute.
+     */
     public function getCoverThumbUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('cover', 'thumb');
     }
 
+    /**
+     * getGalleryUrlsAttribute.
+     */
     public function getGalleryUrlsAttribute(): array
     {
         return $this->getMedia('gallery')->map(fn ($media) => $media->getUrl('webp'))->toArray();
     }
 
+    /**
+     * getDurationAttribute.
+     */
     public function getDurationAttribute(): ?string
     {
         if ($this->start_date && $this->end_date) {
@@ -294,11 +347,17 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         return null;
     }
 
+    /**
+     * getIsOngoingAttribute.
+     */
     public function getIsOngoingAttribute(): bool
     {
         return $this->status === 'ongoing';
     }
 
+    /**
+     * getTagNamesAttribute.
+     */
     public function getTagNamesAttribute(): array
     {
         return $this->tags->pluck('name')->toArray();

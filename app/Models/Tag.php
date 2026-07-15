@@ -43,16 +43,25 @@ class Tag extends SpatieTag
         });
     }
 
+    /**
+     * scopeActive.
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * getTranslatedNameAttribute.
+     */
     public function getTranslatedNameAttribute(): string
     {
         return $this->getTranslation('name', app()->getLocale());
     }
 
+    /**
+     * getTranslatedSlugAttribute.
+     */
     public function getTranslatedSlugAttribute(): string
     {
         return $this->getTranslation('slug', app()->getLocale());

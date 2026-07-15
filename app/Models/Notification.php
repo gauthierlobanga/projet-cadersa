@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -41,16 +46,33 @@ class Notification extends Model
 
     public const string STATUT_ECHEC = 'echec';
 
+    /**
+     * notifiable.
+     */
     public function notifiable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * scopeNonEnvoyees.
+
+     *
+
+     * @return mixed
+     */
     public function scopeNonEnvoyees($query)
     {
         return $query->where('statut', self::STATUT_EN_ATTENTE);
     }
 
+    /**
+     * scopePourUtilisateur.
+
+     *
+
+     * @return mixed
+     */
     public function scopePourUtilisateur($query, User $user)
     {
         return $query->where('notifiable_type', User::class)

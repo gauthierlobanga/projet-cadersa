@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -52,43 +57,77 @@ class Newsletter extends Model
     ];
 
     // Relations
+    /**
+     * envois.
+     */
     public function envois(): HasMany
     {
         return $this->hasMany(NewsletterSend::class);
     }
 
     // Accessors
+    /**
+     * getFullNameAttribute.
+     */
     public function getFullNameAttribute(): string
     {
         return trim($this->prenom.' '.$this->nom);
     }
 
+    /**
+     * getEstConfirmeAttribute.
+     */
     public function getEstConfirmeAttribute(): bool
     {
         return ! is_null($this->confirmed_at) && $this->is_active;
     }
 
+    /**
+     * getPreferencesCategoriesAttribute.
+     */
     public function getPreferencesCategoriesAttribute(): array
     {
         return $this->preferences['categories'] ?? [];
     }
 
+    /**
+     * getPreferencesFrequenceAttribute.
+     */
     public function getPreferencesFrequenceAttribute(): string
     {
         return $this->preferences['frequence'] ?? 'hebdomadaire';
     }
 
     // Scopes
+    /**
+     * scopeActifs.
+     *
+     * @return mixed
+     */
     public function scopeActifs($query)
     {
         return $query->where('is_active', true)->whereNotNull('confirmed_at');
     }
 
+    /**
+     * scopeInactifs.
+
+     *
+
+     * @return mixed
+     */
     public function scopeInactifs($query)
     {
         return $query->where('is_active', false)->orWhereNull('confirmed_at');
     }
 
+    /**
+     * scopeParSource.
+
+     *
+
+     * @return mixed
+     */
     public function scopeParSource($query, $source)
     {
         return $query->where('source', $source);
@@ -112,6 +151,9 @@ class Newsletter extends Model
         ]);
     }
 
+    /**
+     * confirmer.
+     */
     public function confirmer(): void
     {
         $this->confirmed_at = now();
@@ -120,18 +162,27 @@ class Newsletter extends Model
         $this->save();
     }
 
+    /**
+     * desactiver.
+     */
     public function desactiver(): void
     {
         $this->is_active = false;
         $this->save();
     }
 
+    /**
+     * reactiver.
+     */
     public function reactiver(): void
     {
         $this->is_active = true;
         $this->save();
     }
 
+    /**
+     * updatePreferences.
+     */
     public function updatePreferences(array $categories, string $frequence): void
     {
         $this->preferences = [

@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -169,21 +174,49 @@ class PostCategory extends Model implements Sitemapable
         return $query->where('est_visible_dans_menu', true);
     }
 
+    /**
+     * scopeParents.
+
+     *
+
+     * @return mixed
+     */
     public function scopeParents($query)
     {
         return $query->whereNull('parent_id');
     }
 
+    /**
+     * scopeEnfants.
+
+     *
+
+     * @return mixed
+     */
     public function scopeEnfants($query)
     {
         return $query->whereNotNull('parent_id');
     }
 
+    /**
+     * scopeOrdonnes.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOrdonnes($query)
     {
         return $query->orderBy('ordre');
     }
 
+    /**
+     * scopeRecherche.
+
+     *
+
+     * @return mixed
+     */
     public function scopeRecherche($query, string $term)
     {
         return $query->where('nom', 'like', "%{$term}%")
@@ -191,16 +224,25 @@ class PostCategory extends Model implements Sitemapable
     }
 
     // Méthodes métier
+    /**
+     * hasChildren.
+     */
     public function hasChildren(): bool
     {
         return $this->enfants()->exists();
     }
 
+    /**
+     * hasParent.
+     */
     public function hasParent(): bool
     {
         return ! is_null($this->parent_id);
     }
 
+    /**
+     * getTreeIds.
+     */
     public function getTreeIds(): array
     {
         $ids = [$this->id];
@@ -211,6 +253,9 @@ class PostCategory extends Model implements Sitemapable
         return $ids;
     }
 
+    /**
+     * getBreadcrumb.
+     */
     public function getBreadcrumb(): array
     {
         $breadcrumb = [];
@@ -228,34 +273,52 @@ class PostCategory extends Model implements Sitemapable
         return $breadcrumb;
     }
 
+    /**
+     * incrementOrdre.
+     */
     public function incrementOrdre(): void
     {
         $this->increment('ordre');
     }
 
+    /**
+     * decrementOrdre.
+     */
     public function decrementOrdre(): void
     {
         $this->decrement('ordre');
     }
 
+    /**
+     * activer.
+     */
     public function activer(): void
     {
         $this->est_active = true;
         $this->save();
     }
 
+    /**
+     * desactiver.
+     */
     public function desactiver(): void
     {
         $this->est_active = false;
         $this->save();
     }
 
+    /**
+     * rendreVisibleDansMenu.
+     */
     public function rendreVisibleDansMenu(): void
     {
         $this->est_visible_dans_menu = true;
         $this->save();
     }
 
+    /**
+     * rendreInvisibleDansMenu.
+     */
     public function rendreInvisibleDansMenu(): void
     {
         $this->est_visible_dans_menu = false;

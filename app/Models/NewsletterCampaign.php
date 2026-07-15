@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -76,22 +81,34 @@ class NewsletterCampaign extends Model
     }
 
     // Relations
+    /**
+     * creePar.
+     */
     public function creePar(): BelongsTo
     {
         return $this->belongsTo(User::class, 'cree_par');
     }
 
+    /**
+     * envois.
+     */
     public function envois(): HasMany
     {
         return $this->hasMany(NewsletterSend::class, 'campaign_id');
     }
 
     // Accessors
+    /**
+     * getStatusLabelAttribute.
+     */
     public function getStatusLabelAttribute(): string
     {
         return self::getStatuses()[$this->status] ?? $this->status;
     }
 
+    /**
+     * getStatusColorAttribute.
+     */
     public function getStatusColorAttribute(): string
     {
         return match ($this->status) {
@@ -103,6 +120,9 @@ class NewsletterCampaign extends Model
         };
     }
 
+    /**
+     * getTauxOuvertureAttribute.
+     */
     public function getTauxOuvertureAttribute(): float
     {
         if ($this->total_envoyes == 0) {
@@ -112,6 +132,9 @@ class NewsletterCampaign extends Model
         return round(($this->total_ouverts / $this->total_envoyes) * 100, 2);
     }
 
+    /**
+     * getTauxClicAttribute.
+     */
     public function getTauxClicAttribute(): float
     {
         if ($this->total_envoyes == 0) {
@@ -121,6 +144,9 @@ class NewsletterCampaign extends Model
         return round(($this->total_clics / $this->total_envoyes) * 100, 2);
     }
 
+    /**
+     * getTauxDesabonnementAttribute.
+     */
     public function getTauxDesabonnementAttribute(): float
     {
         if ($this->total_envoyes == 0) {
@@ -131,17 +157,36 @@ class NewsletterCampaign extends Model
     }
 
     // Scopes
+    /**
+     * scopeEnvoyes.
+     *
+     * @return mixed
+     */
     public function scopeEnvoyes($query)
     {
         return $query->where('status', self::STATUS_ENVOYE);
     }
 
+    /**
+     * scopeProgrammes.
+
+     *
+
+     * @return mixed
+     */
     public function scopeProgrammes($query)
     {
         return $query->where('status', self::STATUS_PROGRAMME)
             ->where('scheduled_at', '>', now());
     }
 
+    /**
+     * scopeABientot.
+
+     *
+
+     * @return mixed
+     */
     public function scopeABientot($query, $hours = 24)
     {
         return $query->where('status', self::STATUS_PROGRAMME)
@@ -149,6 +194,9 @@ class NewsletterCampaign extends Model
     }
 
     // Méthodes métier
+    /**
+     * programmer.
+     */
     public function programmer(\DateTime $date): void
     {
         $this->status = self::STATUS_PROGRAMME;
@@ -156,12 +204,18 @@ class NewsletterCampaign extends Model
         $this->save();
     }
 
+    /**
+     * annuler.
+     */
     public function annuler(): void
     {
         $this->status = self::STATUS_ANNULE;
         $this->save();
     }
 
+    /**
+     * envoyer.
+     */
     public function envoyer(): void
     {
         $this->status = self::STATUS_ENVOYE;
@@ -169,23 +223,35 @@ class NewsletterCampaign extends Model
         $this->save();
     }
 
+    /**
+     * incrementerEnvoyes.
+     */
     public function incrementerEnvoyes(int $count = 1): void
     {
         $this->increment('total_envoyes', $count);
     }
 
+    /**
+     * incrementerOuverts.
+     */
     public function incrementerOuverts(int $count = 1): void
     {
         $this->increment('total_ouverts', $count);
         $this->updateTaux();
     }
 
+    /**
+     * incrementerClics.
+     */
     public function incrementerClics(int $count = 1): void
     {
         $this->increment('total_clics', $count);
         $this->updateTaux();
     }
 
+    /**
+     * incrementerDesabonnements.
+     */
     public function incrementerDesabonnements(int $count = 1): void
     {
         $this->increment('total_desabonnements', $count);
@@ -202,6 +268,9 @@ class NewsletterCampaign extends Model
         $this->save();
     }
 
+    /**
+     * getAbonnesCibles.
+     */
     public function getAbonnesCibles(): Collection
     {
         $query = Newsletter::actifs();

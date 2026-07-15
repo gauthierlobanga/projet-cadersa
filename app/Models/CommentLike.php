@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -23,11 +28,17 @@ class CommentLike extends Model
 
     public const string TYPE_DISLIKE = 'dislike';
 
+    /**
+     * comment.
+     */
     public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
 
+    /**
+     * user.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

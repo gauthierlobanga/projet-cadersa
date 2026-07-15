@@ -1,3 +1,8 @@
+/**
+ * Method.
+ *
+ * @return mixed
+ */
 <?php
 
 namespace App\Models;
@@ -81,46 +86,73 @@ class Comment extends Model
 
     // ========== RELATIONS ==========
 
+    /**
+     * commentable.
+     */
     public function commentable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * user.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * parent.
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Comment::class, 'parent_id');
     }
 
+    /**
+     * replies.
+     */
     public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
 
+    /**
+     * approvedReplies.
+     */
     public function approvedReplies(): HasMany
     {
         return $this->replies()->where('status', self::STATUS_APPROVED);
     }
 
+    /**
+     * likes.
+     */
     public function likes(): HasMany
     {
         return $this->hasMany(CommentLike::class);
     }
 
+    /**
+     * reports.
+     */
     public function reports(): HasMany
     {
         return $this->hasMany(CommentReport::class);
     }
 
+    /**
+     * mentions.
+     */
     public function mentions(): HasMany
     {
         return $this->hasMany(CommentMention::class);
     }
 
+    /**
+     * mentionedUsers.
+     */
     public function mentionedUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'comment_mentions', 'comment_id', 'user_id')
@@ -129,6 +161,9 @@ class Comment extends Model
 
     // ========== ACCESSORS ==========
 
+    /**
+     * getContentHtmlAttribute.
+     */
     public function getContentHtmlAttribute(): string
     {
         $content = preg_replace_callback('/@(\w+)/', function ($matches) {
@@ -149,11 +184,17 @@ class Comment extends Model
         return nl2br($content);
     }
 
+    /**
+     * getExcerptAttribute.
+     */
     public function getExcerptAttribute(): string
     {
         return Str::limit(strip_tags($this->content_html), 150);
     }
 
+    /**
+     * getTimeAgoAttribute.
+     */
     public function getTimeAgoAttribute(): string
     {
         return $this->created_at?->diffForHumans() ?? 'date inconnue';
@@ -161,37 +202,58 @@ class Comment extends Model
 
     // ========== SCOPES ==========
 
+    /**
+     * scopeApproved.
+     */
     public function scopeApproved(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_APPROVED);
     }
 
+    /**
+     * scopePending.
+     */
     public function scopePending(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_PENDING);
     }
 
+    /**
+     * scopeSpam.
+     */
     public function scopeSpam(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_SPAM);
     }
 
+    /**
+     * scopeForModel.
+     */
     public function scopeForModel(Builder $query, Model $model): Builder
     {
         return $query->where('commentable_type', get_class($model))
             ->where('commentable_id', $model->getKey());
     }
 
+    /**
+     * scopeParents.
+     */
     public function scopeParents(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
     }
 
+    /**
+     * scopeRecent.
+     */
     public function scopeRecent(Builder $query): Builder
     {
         return $query->orderBy('created_at', 'desc');
     }
 
+    /**
+     * scopeMostLiked.
+     */
     public function scopeMostLiked(Builder $query): Builder
     {
         return $query->orderBy('likes_count', 'desc');
@@ -199,6 +261,9 @@ class Comment extends Model
 
     // ========== MÉTHODES MÉTIER ==========
 
+    /**
+     * approve.
+     */
     public function approve(): void
     {
         $this->status = self::STATUS_APPROVED;
@@ -209,18 +274,27 @@ class Comment extends Model
         // event(new CommentApproved($this));
     }
 
+    /**
+     * markAsSpam.
+     */
     public function markAsSpam(): void
     {
         $this->status = self::STATUS_SPAM;
         $this->save();
     }
 
+    /**
+     * trash.
+     */
     public function trash(): void
     {
         $this->status = self::STATUS_TRASHED;
         $this->save();
     }
 
+    /**
+     * edit.
+     */
     public function edit(string $newContent): void
     {
         $this->content = $newContent;
@@ -231,36 +305,57 @@ class Comment extends Model
         $this->detectMentions();
     }
 
+    /**
+     * incrementLikes.
+     */
     public function incrementLikes(): void
     {
         $this->increment('likes_count');
     }
 
+    /**
+     * decrementLikes.
+     */
     public function decrementLikes(): void
     {
         $this->decrement('likes_count');
     }
 
+    /**
+     * incrementDislikes.
+     */
     public function incrementDislikes(): void
     {
         $this->increment('dislikes_count');
     }
 
+    /**
+     * decrementDislikes.
+     */
     public function decrementDislikes(): void
     {
         $this->decrement('dislikes_count');
     }
 
+    /**
+     * incrementReplies.
+     */
     public function incrementReplies(): void
     {
         $this->increment('replies_count');
     }
 
+    /**
+     * decrementReplies.
+     */
     public function decrementReplies(): void
     {
         $this->decrement('replies_count');
     }
 
+    /**
+     * hasUserLiked.
+     */
     public function hasUserLiked(User $user): bool
     {
         return $this->likes()
@@ -269,6 +364,9 @@ class Comment extends Model
             ->exists();
     }
 
+    /**
+     * hasUserDisliked.
+     */
     public function hasUserDisliked(User $user): bool
     {
         return $this->likes()
@@ -277,6 +375,9 @@ class Comment extends Model
             ->exists();
     }
 
+    /**
+     * toggleLike.
+     */
     public function toggleLike(User $user): array
     {
         $existing = $this->likes()->where('user_id', $user->id)->first();
@@ -310,6 +411,9 @@ class Comment extends Model
         }
     }
 
+    /**
+     * toggleDislike.
+     */
     public function toggleDislike(User $user): array
     {
         $existing = $this->likes()->where('user_id', $user->id)->first();
@@ -343,6 +447,9 @@ class Comment extends Model
         }
     }
 
+    /**
+     * detectMentions.
+     */
     public function detectMentions(): void
     {
         preg_match_all('/@(\w+)/', $this->content, $matches);
@@ -362,6 +469,9 @@ class Comment extends Model
         }
     }
 
+    /**
+     * report.
+     */
     public function report(User $user, string $reason, ?string $details = null): CommentReport
     {
         $report = $this->reports()->create([

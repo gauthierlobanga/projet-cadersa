@@ -26,6 +26,9 @@ class TeamMember extends Model implements HasMedia
 
     // ========== MEDIA COLLECTIONS ==========
 
+    /**
+     * registerMediaCollections.
+     */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('photo')
@@ -35,6 +38,9 @@ class TeamMember extends Model implements HasMedia
 
     // ========== MEDIA CONVERSIONS ==========
 
+    /**
+     * registerMediaConversions.
+     */
     public function registerMediaConversions(?Media $media = null): void
     {
         // Miniature carrée (150x150) – pour les listes, avatars
@@ -63,11 +69,25 @@ class TeamMember extends Model implements HasMedia
 
     // ========== SCOPES ==========
 
+    /**
+     * scopeActive.
+
+     *
+
+     * @return mixed
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * scopeOrdered.
+
+     *
+
+     * @return mixed
+     */
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('name');
@@ -75,16 +95,25 @@ class TeamMember extends Model implements HasMedia
 
     // ========== ACCESSORS ==========
 
+    /**
+     * getPhotoUrlAttribute.
+     */
     public function getPhotoUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('photo', 'webp') ?: $this->getFirstMediaUrl('photo');
     }
 
+    /**
+     * getPhotoThumbUrlAttribute.
+     */
     public function getPhotoThumbUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('photo', 'thumb');
     }
 
+    /**
+     * getInitialsAttribute.
+     */
     public function getInitialsAttribute(): string
     {
         $words = explode(' ', $this->name);
@@ -98,6 +127,9 @@ class TeamMember extends Model implements HasMedia
         return substr($initials, 0, 2);
     }
 
+    /**
+     * getFullNameAttribute.
+     */
     public function getFullNameAttribute(): string
     {
         return $this->name;
