@@ -65,7 +65,7 @@ class AboutSettings extends Settings
     /**
      * Content blocks for the About section (Builder blocks).
      *
-     * @var string[]>
+     * @var string[]
      */
     public array $about_blocks = [];
 
