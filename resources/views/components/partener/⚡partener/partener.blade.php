@@ -21,7 +21,7 @@
             Partenaires
         </p>
 
-        <h1 class="mt-5 max-w-3xl text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl"
+        <h1 class="mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl"
             x-data="{ shown: false }" x-intersect="shown = true"
             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
             class="transition-all duration-700 delay-200 ease-out">

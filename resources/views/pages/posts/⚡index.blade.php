@@ -602,7 +602,7 @@ new #[Layout('layouts::main')] class extends Component {
                     {{-- Barre d'action : "Lire l'article" --}}
                     <div class="flex h-11 items-stretch text-sm font-medium">
                         <div
-                            class="inline-flex grow items-center justify-between gap-3 px-4 
+                            class="inline-flex grow items-center justify-between gap-3 px-4
                             bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
                             group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
                             <span>Lire l'article</span>

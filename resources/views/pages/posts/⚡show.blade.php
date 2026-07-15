@@ -424,24 +424,24 @@ new #[Layout('layouts::main')] class extends Component {
                     {{-- Carte Auteur Premium --}}
                     @if ($post->user)
                         <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
-                            class="group relative overflow-hidden border border-white/60 bg-white/80 p-1 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 dark:border-zinc-800/60 dark:bg-zinc-900/80">
+                            class="group relative overflow-hidden border border-zinc-200/50 bg-white/80 p-1 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 dark:border-zinc-800/60 dark:bg-zinc-900/80">
                             <div
                                 class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-emerald-100/40 via-transparent to-transparent opacity-50 transition-opacity duration-700 group-hover:opacity-100 dark:from-emerald-900/20">
                             </div>
 
                             <div
-                                class="relative border border-zinc-100/50 bg-white/50 px-6 pb-8 pt-8 dark:border-zinc-800/50 dark:bg-zinc-900/50">
+                                class="relative bg-white/50 px-6 pb-8 pt-8  dark:bg-zinc-900/50">
                                 <div class="relative mx-auto mb-5 flex h-20 w-20 items-center justify-center">
                                     <div
-                                        class="absolute inset-0 rounded-full bg-emerald-400/20 blur-xl transition-all duration-500 group-hover:bg-emerald-400/40 dark:bg-emerald-500/10">
+                                        class="absolute inset-0 rounded-full transition-all duration-500 group-hover:bg-emerald-400/40 dark:bg-emerald-500/10">
                                     </div>
                                     <flux:avatar size="xl" circle src="{{ $post->user->avatar_url }}"
                                         alt="{{ $post->user->name }}"
-                                        class="relative h-20 w-20 ring-4 ring-white dark:ring-zinc-800 shadow-lg" />
+                                        class="relative h-20 w-20 ring-1 ring-white dark:ring-zinc-800" />
                                 </div>
 
                                 <div class="text-center">
-                                    <h3 class="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+                                    <h3 class="text-xl font-semibold tracking-tight text-zinc-900 dark:text-white">
                                         {{ $post->user->name }}
                                     </h3>
                                     <p
@@ -760,7 +760,7 @@ new #[Layout('layouts::main')] class extends Component {
                             {{-- Barre d'action : "Lire" avec fond émeraude --}}
                             <div class="flex h-11 items-stretch text-sm font-medium">
                                 <div
-                                    class="inline-flex grow items-center justify-between gap-3 px-4 
+                                    class="inline-flex grow items-center justify-between gap-3 px-4
                                         bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
                                         group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
                                     <span>Lire l'article</span>

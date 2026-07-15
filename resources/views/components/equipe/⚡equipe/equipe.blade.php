@@ -23,7 +23,7 @@
                 Notre équipe
             </span>
             <h2
-                class="mt-4 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl">
+                class="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl">
                 Ce sont nos collaborateurs<br />
                 <span class="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">qui font notre
                     grandeur</span>

@@ -3,12 +3,7 @@
     {{-- En-tête --}}
     <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mb-16 max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
-            <span
-                class="inline-block border border-emerald-600/20 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-900/30 dark:text-emerald-400 transition-all duration-700 ease-out"
-                :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                Nos domaines d’action
-            </span>
-            <h2 class="mt-4 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl transition-all duration-700 delay-100 ease-out"
+            <h2 class="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl transition-all duration-700 delay-100 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                 Des solutions <span class="text-emerald-600 dark:text-emerald-400">durables</span> pour chaque besoin
             </h2>
@@ -71,14 +66,14 @@
 
                             {{-- Extrait --}}
                             <p class="flex-1 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                                {{ $service->short_excerpt }}
+                                {!! $service->short_excerpt !!}
                             </p>
                         </div>
 
                         {{-- Barre d'action --}}
                         <div class="flex h-11 items-stretch text-sm font-medium">
                             <div
-                                class="inline-flex grow items-center justify-between gap-3 px-4 
+                                class="inline-flex grow items-center justify-between gap-3 px-4
                                         bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
                                         group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
                                 <span>En savoir plus</span>

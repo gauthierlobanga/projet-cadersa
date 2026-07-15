@@ -142,15 +142,15 @@ new #[Layout('layouts::main')] class extends Component {
                                 const bottomLeftCorner = $refs.bottomLeftCorner
                                 const topRightCorner = $refs.topRightCorner
                                 const bottomRightCorner = $refs.bottomRightCorner
-                        
+
                                 const tl = gsap.timeline({ paused: true })
-                        
+
                                 tl.fromTo(background, { scale: 1 }, { scale: 1.02, duration: 0.25, ease: 'power2.out' }, 0)
                                 tl.to(topLeftCorner, { x: -5, y: -5, duration: 0.25, ease: 'power2.out' }, 0)
                                 tl.to(topRightCorner, { x: 5, y: -5, duration: 0.25, ease: 'power2.out' }, 0)
                                 tl.to(bottomLeftCorner, { x: -5, y: 5, duration: 0.25, ease: 'power2.out' }, 0)
                                 tl.to(bottomRightCorner, { x: 5, y: 5, duration: 0.25, ease: 'power2.out' }, 0)
-                        
+
                                 card.addEventListener('mouseenter', () => tl.play())
                                 card.addEventListener('mouseleave', () => tl.reverse())
                             }
@@ -246,18 +246,18 @@ new #[Layout('layouts::main')] class extends Component {
                         const text = btn.querySelector('[data-text]');
                         const icon = btn.querySelector('[data-icon]');
                         const arrow = btn.querySelector('[data-arrow]');
-                
+
                         // État initial
                         gsap.set(icon, { x: -15, opacity: 0 });
                         gsap.set(text, { x: 0 });
                         gsap.set(arrow, { x: 0, opacity: 1 });
-                
+
                         const tl = gsap.timeline({ paused: true });
-                
+
                         tl.to(arrow, { x: 20, opacity: 0, duration: 0.2, ease: 'power2.in' }, 0)
                             .to(icon, { x: 0, opacity: 1, duration: 0.25, ease: 'back.out(1.4)' }, 0.08)
                             .to(text, { x: 12, duration: 0.2, ease: 'power2.out' }, 0.08);
-                
+
                         btn.addEventListener('mouseenter', () => tl.play());
                         btn.addEventListener('mouseleave', () => tl.reverse());
                     }
@@ -530,7 +530,7 @@ new #[Layout('layouts::main')] class extends Component {
                             <div x-data x-init="() => {
                                 const tweens = []
                                 let playing = false
-                            
+
                                 const rotatingEl = $el.querySelector('[data-rotating]')
                                 const rotate = () => {
                                     gsap.to(rotatingEl, {
@@ -542,7 +542,7 @@ new #[Layout('layouts::main')] class extends Component {
                                         },
                                     })
                                 }
-                            
+
                                 const boxes = $el.querySelectorAll('[data-box]')
                                 const delays = [0, 0.2, 0.1]
                                 boxes.forEach((box, i) => {
@@ -558,7 +558,7 @@ new #[Layout('layouts::main')] class extends Component {
                                         }),
                                     )
                                 })
-                            
+
                                 const group = $el.closest('.group')
                                 if (group) {
                                     group.addEventListener('mouseenter', () => {
@@ -632,16 +632,15 @@ new #[Layout('layouts::main')] class extends Component {
                         <div
                             class="inline-flex min-w-25 items-center justify-center border-r border-r-white/20 dark:border-r-zinc-700/30 px-3 {{ $colorClass }}">
                             <span
-                                class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold
+                                class="inline-flex items-center gap-1.5 bg-transparent dark:bg-transparent px-2.5 py-0.5 text-xs font-semibold
                          {{ $colorClass }}">
-                                <span class="size-1.5 rounded-full bg-current"></span>
                                 {{ $label }}
                             </span>
                         </div>
 
                         {{-- Bloc "Détails" avec fond émeraude indépendant --}}
                         <div
-                            class="inline-flex grow items-center justify-between gap-3 px-4 
+                            class="inline-flex grow items-center justify-between gap-3 px-4
                     bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
                     group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
                             <span>Détails</span>

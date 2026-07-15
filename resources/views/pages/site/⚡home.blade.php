@@ -93,33 +93,24 @@ new #[Layout('layouts::main')] class extends Component {
 
 <div class="bg-white text-zinc-700 antialiased dark:bg-zinc-950 dark:text-zinc-300">
 
-    {{-- ==================== HERO (Accueil) ==================== --}}
-    <section x-cloak class="relative flex min-h-[95svh] items-center overflow-hidden" x-data="{
+
+    <section x-cloak class="relative isolate overflow-hidden" x-data="{
         init() {
-            const tl = gsap.timeline({
-                defaults: { ease: 'power2.out' },
-                scrollTrigger: {
-                    trigger: $el,
-                    start: 'top 80%',
-                    once: true,
-                },
-            });
-    
-            // Zoom image (plus rapide)
-            tl.from($refs.bgImage, { scale: 1.08, duration: 1.6, ease: 'power2.out' }, 0);
-    
+            const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
+
+            // Background image slight zoom
+            tl.from($refs.bgImage, { scale: 1.1, duration: 2.5, ease: 'power3.out' }, 0);
+
             // Splits
-            const quoteSplit = new SplitText($refs.quote, { type: 'chars' });
             const authorSplit = new SplitText($refs.author, { type: 'words' });
-            const subtitleSplit = new SplitText($refs.subtitle, { type: 'lines' });
-    
-            // Séquence accélérée
-            tl.from($refs.badge, { opacity: 0, y: 12, duration: 0.35, ease: 'power1.out' }, 0)
-                .from(quoteSplit.chars, { opacity: 0, y: 25, rotateX: -10, stagger: 0.012, duration: 0.5, ease: 'back.out(1.2)' }, '-=0.15')
-                .from(authorSplit.words, { opacity: 0, y: 10, stagger: 0.02, duration: 0.35, ease: 'power2.out' }, '-=0.25')
-                .from(subtitleSplit.lines, { opacity: 0, y: 12, stagger: 0.04, duration: 0.4, ease: 'power2.out' }, '-=0.2')
+
+            // Staggered reveal for text elements
+            tl.from($refs.badge, { y: 40, opacity: 0 }, 0.3)
                 .from($refs.buttons, { opacity: 0, y: 15, duration: 0.4, ease: 'power2.out' }, '-=0.15')
-                .from($refs.decoLine, { scaleX: 0, duration: 0.5, ease: 'power1.out' }, '-=0.1');
+                .from(authorSplit.words, { opacity: 0, y: 10, stagger: 0.02, duration: 0.35, ease: 'power2.out' }, '-=0.25')
+                .from($refs.title, { y: 50, opacity: 0 }, 0.5)
+                .from($refs.subtitle, { y: 30, opacity: 0 }, 0.7)
+                .from($refs.cta, { y: 30, opacity: 0 }, 0.9);
         }
     }">
         {{-- Image de fond --}}
@@ -142,49 +133,39 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
         </div>
 
-        {{-- Contenu --}}
-        <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 lg:px-12">
-            <div class="max-w-4xl text-left">
-
-                {{-- Badge modernisé --}}
-                <span x-ref="badge"
-                    class="inline-flex items-center gap-2.5 border border-emerald-400/20 bg-emerald-500/15 px-4 py-1.5 text-sm font-medium text-emerald-200 backdrop-blur-sm transition-all hover:bg-emerald-500/25">
-                    <span class="relative flex h-2 w-2">
-                        <span
-                            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+        <div class="relative mx-auto flex min-h-[90svh] max-w-7xl items-center px-6 pt-26 pb-24 lg:px-8">
+            <div class="max-w-4xl">
+                {{-- Badge --}}
+                <div x-ref="badge"
+                    class="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl">
+                    <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+                    <span class="text-sm font-medium tracking-wide text-zinc-200">
+                        {{ $this->about->hero_badge }}
                     </span>
-                    {{ $this->about->hero_badge ?? 'Depuis 2010' }}
-                </span>
+                </div>
 
-                {{-- Titre avec guillemets décoratifs --}}
-                <h1 x-ref="quote"
-                    class="mt-6 text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl leading-[1.1]">
-                    <span class="block text-emerald-300 text-3xl lg:text-4xl font-serif leading-none mb-1">“</span>
-                    <span class="drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]">
-                        Vivre c’est reconnaître ses semblables créés à l’image de Dieu.
-                    </span>
-                    <span
-                        class="block text-emerald-300/60 text-3xl lg:text-4xl font-serif leading-none mt-1 text-right">”</span>
+                {{-- Title --}}
+                <h1 x-ref="title"
+                    class="mt-8 max-w-4xl text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
+                    {{ $this->about->hero_title }}
                 </h1>
 
                 {{-- Auteur avec icône --}}
-                <div x-ref="author" class="mt-4 flex items-center gap-3">
-                    <div class="h-px w-12 bg-emerald-400/50"></div>
+                <div x-ref="author" class="mt-4 flex items-center gap-2">
+                    <div class="h-px w-14 bg-emerald-400/70"></div>
                     <p class="text-lg font-semibold text-emerald-300 lg:text-xl">
-                        — Prof. Dr Bernard HANGI
+                        Prof. Dr Bernard HANGI
                     </p>
-                    <div class="h-px w-12 bg-emerald-400/30 hidden sm:block"></div>
+                    <div class="h-px w-14 bg-emerald-400/70 hidden sm:block"></div>
                 </div>
 
-                {{-- Sous-titre --}}
-                <p x-ref="subtitle"
-                    class="mt-6 max-w-2xl text-base leading-relaxed text-zinc-300/90 sm:text-lg lg:text-xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.2)]">
-                    {{ $this->about->hero_subtitle ?? 'CADERSA accompagne les communautés rurales pour renforcer leur résilience et leur sécurité alimentaire.' }}
+                {{-- Subtitle --}}
+                <p x-ref="subtitle" class="mt-8 max-w-2xl text-lg leading-8 text-zinc-300 md:text-xl">
+                    {{ $this->about->hero_subtitle }}
                 </p>
 
                 {{-- Boutons CTA --}}
-                <div x-ref="buttons" class="mt-10 flex flex-wrap items-center gap-5">
+                <div x-ref="buttons" class="mt-10 flex flex-col sm:flex-row items-center gap-5">
                     <a href="{{ route('projects.index') }}" wire:navigate
                         class="group relative inline-flex h-14 items-center justify-center border-2 border-emerald-500 bg-emerald-500 px-8 font-semibold text-white transition-all duration-300 hover:bg-emerald-600 hover:border-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-[0.97]">
                         <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
@@ -215,6 +196,9 @@ new #[Layout('layouts::main')] class extends Component {
 
     {{-- Section service --}}
     <livewire:service.service />
+
+    {{-- Section formations --}}
+    <livewire:formation />
 
     {{-- Section equipe --}}
     <livewire:equipe.equipe />

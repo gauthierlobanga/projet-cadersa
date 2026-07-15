@@ -51,12 +51,17 @@ new #[Layout('layouts::main')] class extends Component {
                             <span
                                 class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
                         </span>
-                        Services
+                        Domaines
                     </div>
                     <h1 class="text-pretty text-4xl font-bold tracking-tight text-zinc-950 sm:text-6xl xl:text-7xl font-serif dark:text-zinc-50 transition-all duration-1000 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                        Nos <span
-                            class="relative inline-block bg-linear-to-r from-emerald-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-400">services</span>
+                        <span>
+                            Nos
+                        </span>
+                        <span
+                            class="relative inline-block bg-linear-to-r from-emerald-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-400">
+                            domaines
+                        </span>
                     </h1>
                     <p class="max-w-xl text-lg leading-relaxed text-zinc-600/90 dark:text-zinc-400 font-sans transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
@@ -175,6 +180,6 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
             @endforelse
         </div>
-        
+
     </section>
 </div>

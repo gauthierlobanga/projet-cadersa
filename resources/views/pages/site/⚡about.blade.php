@@ -16,40 +16,42 @@ new #[Layout('layouts::main')] class extends Component {
 
 <div>
 
-    <!-- Hero Section -->
-    <section class="relative isolate overflow-hidden" x-data="{
+    <section x-cloak class="relative isolate overflow-hidden" x-data="{
         init() {
             const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
 
             // Background image slight zoom
             tl.from($refs.bgImage, { scale: 1.1, duration: 2.5, ease: 'power3.out' }, 0);
 
+            // Splits
+            const authorSplit = new SplitText($refs.author, { type: 'words' });
+
             // Staggered reveal for text elements
             tl.from($refs.badge, { y: 40, opacity: 0 }, 0.3)
+                .from($refs.buttons, { opacity: 0, y: 15, duration: 0.4, ease: 'power2.out' }, '-=0.15')
+                .from(authorSplit.words, { opacity: 0, y: 10, stagger: 0.02, duration: 0.35, ease: 'power2.out' }, '-=0.25')
                 .from($refs.title, { y: 50, opacity: 0 }, 0.5)
                 .from($refs.subtitle, { y: 30, opacity: 0 }, 0.7)
                 .from($refs.cta, { y: 30, opacity: 0 }, 0.9);
         }
     }">
-        {{-- Background dynamique --}}
+        {{-- Image de fond --}}
+        @php
+            $heroImage = $this->about->hero_image_url
+                ? Storage::url($this->about->hero_image_url)
+                : 'https://images.unsplash.com/photo-1595804470216-9d32d0ff05e6?q=80&w=1200&auto=format&fit=crop';
+        @endphp
+
         <div class="absolute inset-0">
-            <img x-ref="bgImage"
-                src="{{ $this->about->hero_image_url ? Storage::url($this->about->hero_image_url) : asset('images/hero.png') }}"
-                alt="Paysage rural de la RDC" class="h-full w-full object-cover origin-center" />
-
-            <div class="absolute inset-0 bg-linear-to-br from-zinc-950/90 via-zinc-900/70 to-emerald-950/70"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,.20),transparent_45%)]">
+            <img x-ref="bgImage" src="{{ $heroImage }}" alt="Paysage rural de la RDC"
+                class="h-full w-full object-cover origin-center" />
+            <div class="absolute inset-0 bg-linear-to-br from-zinc-950/80 via-zinc-900/60 to-emerald-950/60"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_40%_20%,rgba(16,185,129,.12),transparent_50%)]">
             </div>
-            <div
-                class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(255,255,255,.08),transparent_35%)]">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,255,255,.06),transparent_40%)]">
             </div>
-        </div>
-
-        {{-- Decorative --}}
-        <div class="pointer-events-none absolute inset-0">
-            <div class="absolute left-0 top-0 h-100 w-152 rounded-full bg-emerald-500/10 blur-[160px] transform-gpu">
-            </div>
-            <div class="absolute right-0 bottom-0 h-128 w-lg rounded-full bg-teal-500/10 blur-[160px] transform-gpu">
+            <div x-ref="decoLine"
+                class="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-emerald-500 via-teal-400 to-transparent origin-left">
             </div>
         </div>
 
@@ -66,28 +68,48 @@ new #[Layout('layouts::main')] class extends Component {
 
                 {{-- Title --}}
                 <h1 x-ref="title"
-                    class="mt-8 max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
+                    class="mt-8 max-w-4xl text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
                     {{ $this->about->hero_title }}
                 </h1>
+
+                {{-- Auteur avec icône --}}
+                <div x-ref="author" class="mt-4 flex items-center gap-2">
+                    <div class="h-px w-14 bg-emerald-400/70"></div>
+                    <p class="text-lg font-semibold text-emerald-300 lg:text-xl">
+                        Prof. Dr Bernard HANGI
+                    </p>
+                    <div class="h-px w-14 bg-emerald-400/70 hidden sm:block"></div>
+                </div>
 
                 {{-- Subtitle --}}
                 <p x-ref="subtitle" class="mt-8 max-w-2xl text-lg leading-8 text-zinc-300 md:text-xl">
                     {{ $this->about->hero_subtitle }}
                 </p>
 
-                {{-- CTA --}}
-                <div x-ref="cta" class="mt-12 flex flex-col gap-4 sm:flex-row">
-                    <a href="#services"
-                        class="group inline-flex items-center justify-center gap-3 rounded-full bg-emerald-500 px-7 py-4 text-base font-semibold text-white transition duration-300 hover:bg-emerald-400">
-                        Découvrir nos actions
-                        <svg class="size-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor"
-                            stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6" />
-                        </svg>
+                {{-- Boutons CTA --}}
+                <div x-ref="buttons" class="mt-10 flex flex-col sm:flex-row items-center gap-5">
+                    <a href="{{ route('projects.index') }}" wire:navigate
+                        class="group relative inline-flex h-14 items-center justify-center border-2 border-emerald-500 bg-emerald-500 px-8 font-semibold text-white transition-all duration-300 hover:bg-emerald-600 hover:border-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-[0.97]">
+                        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                            Découvrir nos projets
+                            <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
                     </a>
-                    <a href="#impact"
-                        class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-7 py-4 text-base font-medium text-white backdrop-blur-xl transition hover:bg-white/10">
-                        Voir notre impact
+
+                    <a href="{{ route('about') }}" wire:navigate
+                        class="group relative inline-flex h-14 items-center justify-center border border-white/20 px-8 font-semibold text-white transition-all duration-300 active:scale-[0.97] hover:border-emerald-300/50 hover:bg-emerald-50/30">
+                        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                            En savoir plus
+                            <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
                     </a>
                 </div>
             </div>
@@ -95,14 +117,42 @@ new #[Layout('layouts::main')] class extends Component {
     </section>
 
     <!-- About -->
-    <section id="about" class="relative overflow-hidden bg-white py-28 dark:bg-zinc-950">
+    <section id="about" x-cloak class="relative overflow-hidden bg-white py-28 dark:bg-zinc-950">
         <div class="pointer-events-none absolute inset-0">
             <div class="absolute left-0 top-0 h-128 w-lg rounded-full bg-emerald-500/5 blur-[140px] transform-gpu">
             </div>
             <div class="absolute right-0 bottom-0 h-112 w-md rounded-full bg-teal-500/5 blur-[140px] transform-gpu">
             </div>
         </div>
-        <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div x-data="{
+            init() {
+                const tl = gsap.timeline({
+                    defaults: { ease: 'power2.out' },
+                    scrollTrigger: {
+                        trigger: $el,
+                        start: 'top 80%',
+                        once: true,
+                    },
+                });
+
+                // Zoom image (plus rapide)
+                tl.from($refs.bgImage, { scale: 1.08, duration: 1.6, ease: 'power2.out' }, 0);
+
+                // Splits
+                const quoteSplit = new SplitText($refs.quote, { type: 'chars' });
+                const authorSplit = new SplitText($refs.author, { type: 'words' });
+                const subtitleSplit = new SplitText($refs.subtitle, { type: 'lines' });
+
+                // Séquence accélérée
+                tl.from($refs.badge, { opacity: 0, y: 12, duration: 0.35, ease: 'power1.out' }, 0)
+                    .from(quoteSplit.chars, { opacity: 0, y: 25, rotateX: -10, stagger: 0.012, duration: 0.5, ease: 'back.out(1.2)' }, '-=0.15')
+                    .from(authorSplit.words, { opacity: 0, y: 10, stagger: 0.02, duration: 0.35, ease: 'power2.out' }, '-=0.25')
+                    .from(subtitleSplit.lines, { opacity: 0, y: 12, stagger: 0.04, duration: 0.4, ease: 'power2.out' }, '-=0.2')
+                    .from($refs.buttons, { opacity: 0, y: 15, duration: 0.4, ease: 'power2.out' }, '-=0.15')
+                    .from($refs.decoLine, { scaleX: 0, duration: 0.5, ease: 'power1.out' }, '-=0.1');
+            }
+        }" class="relative mx-auto max-w-7xl px-6 lg:px-8">
+            {{-- About Section : Image à gauche, Contenu à droite --}}
             <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center mb-24">
                 {{-- En‑tête animé (Texte) --}}
                 <div x-cloak class="max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
@@ -124,7 +174,8 @@ new #[Layout('layouts::main')] class extends Component {
                     </h2>
 
                     {{-- Description --}}
-                    @if ($this->about->about_text)
+                    @php $aboutBlocks = $this->about->aboutBlocks(); @endphp
+                    @if (!empty($aboutBlocks))
                         <div class="w-full max-w-none mt-8
                             text-zinc-700 dark:text-zinc-300 text-base leading-relaxed
                             [&>p]:mb-5 [&>p]:leading-relaxed
@@ -142,22 +193,31 @@ new #[Layout('layouts::main')] class extends Component {
                             [&_img]:rounded-3xl [&_img]:shadow-2xl [&_img]:my-10 [&_img]:border [&_img]:border-zinc-100 dark:[&_img]:border-zinc-800 [&_img]:mx-auto
                             [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-white transition-all duration-700 delay-200 ease-out"
                             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                            @if (is_array($this->about->about_text) && isset($this->about->about_text['type']))
-                                {!! new \Tiptap\Editor()->setContent($this->about->about_text)->getHTML() !!}
-                            @else
-                                {!! $this->about->about_text !!}
-                            @endif
+                            @foreach ($aboutBlocks as $block)
+                                @if (!empty($block['title']))
+                                    <h3 class="text-2xl font-semibold mt-4">{{ $block['title'] }}</h3>
+                                @endif
+
+                                @if (!empty($block['description']))
+                                    @if (is_array($block['description']) && isset($block['description']['type']))
+                                        {!! new \Tiptap\Editor()->setContent($block['description'])->getHTML() !!}
+                                    @else
+                                        {!! $block['description'] !!}
+                                    @endif
+                                @endif
+                            @endforeach
                         </div>
                     @endif
                 </div>
 
                 {{-- Image droite --}}
                 <div x-cloak class="relative" x-data="{ shown: false }" x-intersect="shown = true">
-                    <div class="relative rounded-3xl overflow-hidden transition-all duration-1000 delay-300 ease-out"
+                    <div class="relative overflow-hidden transition-all duration-1000 delay-300 ease-out"
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'">
-                        <img src="{{ $this->about->about_image_url ? Storage::url($this->about->about_image_url) : 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop' }}"
-                            alt="À propos de CADERSA" class="w-full object-cover aspect-4/3 rounded-3xl" />
-                        <div class="absolute inset-0 rounded-3xl ring-1 ring-inset ring-zinc-900/10 dark:ring-white/10">
+                        @php $aboutImage = $aboutBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
+                        <img src="{{ $aboutImage ? Storage::url($aboutImage) : 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop' }}"
+                            alt="À propos de CADERSA" class="w-full object-cover aspect-4/3" />
+                        <div class="absolute inset-0 ring-1 ring-inset ring-zinc-900/10 dark:ring-white/10">
                         </div>
                     </div>
 
@@ -173,38 +233,21 @@ new #[Layout('layouts::main')] class extends Component {
                         </svg>
                     </div>
 
-                    {{-- Floating element --}}
-                    <div class="absolute -right-4 top-1/4 rounded-2xl bg-white/90 p-4 shadow-xl backdrop-blur-sm dark:bg-zinc-900/90 transition-all duration-1000 delay-700 ease-out"
-                        :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50">
-                                <svg class="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold text-zinc-900 dark:text-white">Impact Local</p>
-                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Communautés engagées</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             {{-- Vision Section : Image à gauche, Contenu à droite --}}
-            @if ($this->about->vision_text)
+            @php $visionBlocks = $this->about->visionBlocks(); @endphp
+            @if (!empty($visionBlocks))
                 <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
                     class="mt-20 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
 
                     {{-- Image Vision --}}
                     <div class="relative order-2 lg:order-1 transition-all duration-1200 ease-out delay-100"
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'">
-                        <div
-                            class="overflow-hidden border border-zinc-200/60 shadow-sm dark:border-white/10 dark:shadow-black/20 rounded-3xl">
-                            <img src="{{ $this->about->about_image_url ? Storage::url($this->about->about_image_url) : asset('images/agriculture.png') }}"
+                        <div class="overflow-hidden border border-zinc-200/60 dark:border-white/10">
+                            @php $visionImage = $visionBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
+                            <img src="{{ $visionImage ? Storage::url($visionImage) : asset('images/agriculture.png') }}"
                                 alt="Vision CADERSA" class="aspect-4/3 w-full object-cover">
                         </div>
                     </div>
@@ -242,18 +285,27 @@ new #[Layout('layouts::main')] class extends Component {
                         [&_td]:px-4 [&_td]:py-3 [&_td]:text-sm [&_td]:border-b [&_td]:border-zinc-100 dark:[&_td]:border-zinc-800
                         [&_img]:rounded-3xl [&_img]:shadow-2xl [&_img]:my-10 [&_img]:border [&_img]:border-zinc-100 dark:[&_img]:border-zinc-800 [&_img]:mx-auto
                         [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-white">
-                            @if (is_array($this->about->vision_text) && isset($this->about->vision_text['type']))
-                                {!! new \Tiptap\Editor()->setContent($this->about->vision_text)->getHTML() !!}
-                            @else
-                                {!! $this->about->vision_text !!}
-                            @endif
+                            @foreach ($visionBlocks as $block)
+                                @if (!empty($block['title']))
+                                    <h4 class="text-xl font-semibold">{{ $block['title'] }}</h4>
+                                @endif
+
+                                @if (!empty($block['description']))
+                                    @if (is_array($block['description']) && isset($block['description']['type']))
+                                        {!! new \Tiptap\Editor()->setContent($block['description'])->getHTML() !!}
+                                    @else
+                                        {!! $block['description'] !!}
+                                    @endif
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
             @endif
 
             {{-- Mission Section : Contenu à gauche, Image à droite --}}
-            @if ($this->about->mission_text)
+            @php $missionBlocks = $this->about->missionBlocks(); @endphp
+            @if (!empty($missionBlocks))
                 <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
                     class="mt-32 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
 
@@ -288,27 +340,45 @@ new #[Layout('layouts::main')] class extends Component {
                         [&_td]:px-4 [&_td]:py-3 [&_td]:text-sm [&_td]:border-b [&_td]:border-zinc-100 dark:[&_td]:border-zinc-800
                         [&_img]:rounded-3xl [&_img]:shadow-2xl [&_img]:my-10 [&_img]:border [&_img]:border-zinc-100 dark:[&_img]:border-zinc-800 [&_img]:mx-auto
                         [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-white">
-                            @if (is_array($this->about->mission_text) && isset($this->about->mission_text['type']))
-                                {!! new \Tiptap\Editor()->setContent($this->about->mission_text)->getHTML() !!}
-                            @else
-                                {!! $this->about->mission_text !!}
-                            @endif
+                            @foreach ($missionBlocks as $block)
+                                @if (!empty($block['title']))
+                                    <h4 class="text-xl font-semibold">{{ $block['title'] }}</h4>
+                                @endif
+
+                                @if (!empty($block['description']))
+                                    @if (is_array($block['description']) && isset($block['description']['type']))
+                                        {!! new \Tiptap\Editor()->setContent($block['description'])->getHTML() !!}
+                                    @else
+                                        {!! $block['description'] !!}
+                                    @endif
+                                @endif
+                            @endforeach
                         </div>
 
                         {{-- Boutons d'action --}}
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <a href="{{ route('about') }}"
-                                class="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 font-medium text-white transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900">
-                                Découvrir notre histoire
-                                <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 12h14m-6-6l6 6-6 6" />
-                                </svg>
+                        <div x-ref="buttons" class="mt-10 flex flex-col gap-4 sm:flex-row">
+                            <a href="{{ route('about') }}" wire:navigate
+                                class="group relative inline-flex h-14 items-center justify-center border-2 border-emerald-500 bg-emerald-500 px-8 font-semibold text-white transition-all duration-300 hover:bg-emerald-600 hover:border-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-[0.97]">
+                                <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                                    Découvrir notre histoire
+                                    <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </span>
                             </a>
-                            <a href="#services"
-                                class="group inline-flex items-center rounded-full border border-zinc-300 px-6 py-3 font-medium text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-600 dark:border-white/10 dark:text-zinc-300">
-                                Nos domaines d'action
+
+                            <a href="{{ route('services.index') }}" wire:navigate
+                                class="group relative inline-flex h-14 items-center justify-center border border-emerald-300/50 px-8 font-semibold text-zinc-400 transition-all duration-300 active:scale-[0.97]">
+                                <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                                    Nos domaines d'action
+                                    <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </span>
                             </a>
                         </div>
                     </div>
@@ -316,10 +386,10 @@ new #[Layout('layouts::main')] class extends Component {
                     {{-- Image Mission --}}
                     <div class="relative order-2 transition-all duration-1200 ease-out delay-300"
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'">
-                        <div
-                            class="overflow-hidden border border-zinc-200/60 shadow-sm dark:border-white/10 dark:shadow-black/20 rounded-3xl">
-                            <img src="{{ asset('images/reforestation.png') }}" alt="Mission CADERSA"
-                                class="aspect-4/3 w-full object-cover">
+                        <div class="overflow-hidden border border-zinc-200/60 dark:border-white/10">
+                            @php $missionImage = $missionBlocks[0]['image_url'] ?? asset('images/reforestation.png'); @endphp
+                            <img src="{{ $missionImage ? Storage::url($missionImage) : asset('images/reforestation.png') }}"
+                                alt="Mission CADERSA" class="aspect-4/3 w-full object-cover">
                         </div>
                     </div>
                 </div>
@@ -363,34 +433,6 @@ new #[Layout('layouts::main')] class extends Component {
                         {!! new \Tiptap\Editor()->setContent($this->about->impactDescription())->getHTML() !!}
                     @else
                         {!! $this->about->impactDescription() !!}
-                    @endif
-                </div>
-            @endif
-
-            {{-- Highlight secondaire (texte + bouton) --}}
-            @if ($this->about->impactHighlightHeading() || $this->about->impactHighlightText())
-                <div class="mb-10 max-w-4xl rounded-2xl border border-zinc-200/10 bg-white/5 p-6 shadow-sm text-zinc-100">
-                    @if ($this->about->impactHighlightHeading())
-                        <h3 class="text-xl font-semibold text-white">{{ $this->about->impactHighlightHeading() }}</h3>
-                    @endif
-
-                    @if ($this->about->impactHighlightText())
-                        <div class="mt-3 text-sm leading-relaxed text-zinc-200">
-                            @if (is_array($this->about->impactHighlightText()) && isset($this->about->impactHighlightText()['type']))
-                                {!! new \Tiptap\Editor()->setContent($this->about->impactHighlightText())->getHTML() !!}
-                            @else
-                                {!! $this->about->impactHighlightText() !!}
-                            @endif
-                        </div>
-                    @endif
-
-                    @if ($this->about->impactHighlightCtaLabel())
-                        <div class="mt-4">
-                            <a href="{{ $this->about->impactHighlightCtaUrl() }}"
-                                class="inline-flex items-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400">
-                                {{ $this->about->impactHighlightCtaLabel() }}
-                            </a>
-                        </div>
                     @endif
                 </div>
             @endif
@@ -462,7 +504,7 @@ new #[Layout('layouts::main')] class extends Component {
                         class="transition-all duration-700 ease-out" style="transition-delay: {{ $index * 100 }}ms">
 
                         <div
-                            class="group relative overflow-hidden rounded-2xl border border-zinc-200/30 bg-gradient-to-br from-white/60 to-white/30 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:from-white/70 hover:to-white/40 dark:border-zinc-700/40 dark:from-zinc-900/60 dark:to-zinc-900/40 dark:hover:shadow-black/30">
+                            class="group relative border border-zinc-200/50 bg-transparent p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300/50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-emerald-700/40 dark:hover:bg-emerald-900/10">
 
                             {{-- Image ou icône --}}
                             @if ($stat['image_url'])
@@ -472,7 +514,7 @@ new #[Layout('layouts::main')] class extends Component {
                                 </div>
                             @else
                                 <div
-                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50/60 text-emerald-600 ring-1 ring-emerald-100/60 transition duration-300 group-hover:scale-105 dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/20">
+                                    class="mb-4 flex h-11 w-11 items-center justify-center border border-zinc-200/50 bg-zinc-50/50 text-emerald-600 transition duration-300 group-hover:border-emerald-300/50 group-hover:bg-emerald-50/50 dark:border-zinc-700/50 dark:bg-zinc-900/50 dark:text-emerald-400 dark:group-hover:border-emerald-700/40 dark:group-hover:bg-emerald-900/20">
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                             d="{{ $stat['icon'] }}" />
@@ -481,7 +523,7 @@ new #[Layout('layouts::main')] class extends Component {
                             @endif
 
                             {{-- Valeur --}}
-                            <div class="text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-none"
+                            <div class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
                                 x-text="shown ? formatValue(count) : targetRaw"></div>
 
                             {{-- Label --}}

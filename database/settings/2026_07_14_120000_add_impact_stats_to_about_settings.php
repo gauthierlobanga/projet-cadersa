@@ -7,7 +7,6 @@ return new class extends SettingsMigration
     public function up(): void
     {
         $this->migrator->add('about.impact_stats', []);
-        $this->migrator->add('about.impact_content', []);
         $this->migrator->add('about.impact_heading', 'Des résultats concrets sur le terrain');
         $this->migrator->add('about.impact_subtitle', 'Programme de Résilience au Kasaï Central, avec le soutien du PAM.');
         $this->migrator->add('about.impact_description', null);

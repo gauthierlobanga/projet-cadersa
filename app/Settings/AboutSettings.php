@@ -38,7 +38,10 @@ class AboutSettings extends Settings
     /**
      * Repeater items for impact content.
      *
-     * @var array<int, array<string, mixed>>
+     * Each item is an associative array with keys like
+     * 'impact_heading', 'impact_subtitle', etc.
+     *
+     * @var string[]
      */
     public array $impact_content = [];
 
@@ -48,14 +51,31 @@ class AboutSettings extends Settings
      * Each item may be a raw block array or a wrapper array with a 'data' key,
      * so elements are mixed at runtime.
      *
-     * @var array<int, mixed>
+     * @var string[]
      */
     public array $impact_stats = [];
+
+    /**
+     * Content blocks for the About section (Builder blocks).
+     *
+     * @var string[]>
+     */
+    public array $about_blocks = [];
+
+    /**
+     * @var string[]
+     */
+    public array $vision_blocks = [];
+
+    /**
+     * @var string[]
+     */
+    public array $mission_blocks = [];
 
     public ?string $hero_image_url = null;
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return string[]
      */
     public static function defaultImpactStats(): array
     {
@@ -121,6 +141,141 @@ class AboutSettings extends Settings
     }
 
     /**
+     * Normalize builder payloads into plain block arrays.
+     *
+     * @param  array<int, mixed>  $blocks
+     * @return array<int, mixed>
+     */
+    private static function normalizeBlocks(array $blocks): array
+    {
+        return collect($blocks)
+            ->map(function ($block) {
+                if (! is_array($block)) {
+                    return [];
+                }
+
+                if (array_key_exists('data', $block) && is_array($block['data'])) {
+                    return $block['data'];
+                }
+
+                return $block;
+            })
+            ->toArray();
+    }
+
+    /**
+     * Return about blocks, or fallback to legacy `about_text`.
+     *
+     * @return array<int, mixed>
+     */
+    public function aboutBlocks(): array
+    {
+        if (! empty($this->about_blocks)) {
+            return self::normalizeBlocks($this->about_blocks);
+        }
+
+        if ($this->about_text !== null) {
+            return [[
+                'title' => null,
+                'description' => $this->about_text,
+                'image_url' => $this->about_image_url,
+            ]];
+        }
+
+        return [];
+    }
+
+    /**
+     * Return the primary about description (first block or legacy field).
+     *
+     * @return array<int, mixed>|string|null
+     */
+    public function aboutText(): array|string|null
+    {
+        $block = $this->aboutBlocks()[0] ?? null;
+
+        return is_array($block) ? ($block['description'] ?? null) : $this->about_text;
+    }
+
+    /**
+     * Return the primary about title.
+     */
+    public function aboutTitle(): ?string
+    {
+        $block = $this->aboutBlocks()[0] ?? null;
+
+        return is_array($block) ? ($block['title'] ?? null) : null;
+    }
+
+    /**
+     * Return vision blocks, or fallback to legacy `vision_text`.
+     *
+     * @return array<int, mixed>
+     */
+    public function visionBlocks(): array
+    {
+        if (! empty($this->vision_blocks)) {
+            return self::normalizeBlocks($this->vision_blocks);
+        }
+
+        if ($this->vision_text !== null) {
+            return [[
+                'title' => null,
+                'description' => $this->vision_text,
+                'image_url' => $this->about_image_url,
+            ]];
+        }
+
+        return [];
+    }
+
+    /**
+     * Return the primary vision description.
+     *
+     * @return array<int, mixed>|string|null
+     */
+    public function visionText(): array|string|null
+    {
+        $block = $this->visionBlocks()[0] ?? null;
+
+        return is_array($block) ? ($block['description'] ?? null) : $this->vision_text;
+    }
+
+    /**
+     * Return mission blocks, or fallback to legacy `mission_text`.
+     *
+     * @return array<int, mixed>
+     */
+    public function missionBlocks(): array
+    {
+        if (! empty($this->mission_blocks)) {
+            return self::normalizeBlocks($this->mission_blocks);
+        }
+
+        if ($this->mission_text !== null) {
+            return [[
+                'title' => null,
+                'description' => $this->mission_text,
+                'image_url' => $this->about_image_url,
+            ]];
+        }
+
+        return [];
+    }
+
+    /**
+     * Return the primary mission description.
+     *
+     * @return array<int, mixed>|string|null
+     */
+    public function missionText(): array|string|null
+    {
+        $block = $this->missionBlocks()[0] ?? null;
+
+        return is_array($block) ? ($block['description'] ?? null) : $this->mission_text;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function impactContent(): array
@@ -183,6 +338,22 @@ class AboutSettings extends Settings
     public function impactHighlightCtaUrl(): string
     {
         return $this->impactContent()['impact_highlight_cta_url'] ?? $this->impact_highlight_cta_url;
+    }
+
+    /**
+     * @param  array<int, mixed>|null  $value
+     */
+    public function setImpactContentAttribute(?array $value): void
+    {
+        $this->impact_content = is_array($value) ? $value : [];
+    }
+
+    /**
+     * @param  array<int, mixed>|null  $value
+     */
+    public function setImpactStatsAttribute(?array $value): void
+    {
+        $this->impact_stats = is_array($value) ? $value : [];
     }
 
     public ?string $about_image_url = null;

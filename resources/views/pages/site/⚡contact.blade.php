@@ -166,64 +166,72 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
 
             <div class="relative">
-                {{-- Badge --}}
-                <span
-                    class="inline-flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    Nous contacter
-                </span>
+                <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true">
+                    {{-- Badge --}}
+                    <span
+                        class="inline-flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] dark:text-emerald-400"
+                        :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'">
+                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        Nous contacter
+                    </span>
 
-                {{-- Titre --}}
-                <h1
-                    class="mt-6 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl">
-                    Parlons de votre <span
-                        class="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">projet</span>
-                </h1>
+                    {{-- Titre --}}
+                    <h1
+                        class="mt-6 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl transition-all duration-1000 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                        :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+                        Parlons de votre <span
+                            class="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">projet</span>
+                    </h1>
 
-                {{-- Description --}}
-                <p class="mx-auto mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-                    Notre équipe est disponible pour répondre à toutes vos questions et vous accompagner dans vos
-                    projets de développement rural.
-                </p>
+                    {{-- Description --}}
+                    <p class="mx-auto mt-4 transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] max-w-2xl text-lg text-zinc-600 dark:text-zinc-400"
+                    :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+                        Notre équipe est disponible pour répondre à toutes vos questions et vous accompagner dans vos
+                        projets de développement rural.
+                    </p>
+                    {{-- Coordonnées rapides --}}
+                    @if ($phone || $email || $secondaryEmail)
+                        <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
+                            @if ($phone)
+                                <a href="tel:{{ $phone }}"
+                                    class="flex transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] items-center gap-2 text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400"
+                                    :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    {{ $phone }}
+                                </a>
+                            @endif
+                            @if ($email)
+                                <a href="mailto:{{ $email }}"
+                                    class="flex transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] items-center gap-2 text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400"
+                                    :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    {{ $email }}
+                                </a>
+                            @endif
+                            @if ($secondaryEmail)
+                                <a href="mailto:{{ $secondaryEmail }}"
+                                    class="flex transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] items-center gap-2 text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400"
+                                    :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    {{ $secondaryEmail }}
+                                </a>
+                            @endif
+                        </div>
+                    @endif
+                </div>
 
-                {{-- Coordonnées rapides --}}
-                @if ($phone || $email || $secondaryEmail)
-                    <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
-                        @if ($phone)
-                            <a href="tel:{{ $phone }}"
-                                class="flex items-center gap-2 text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                </svg>
-                                {{ $phone }}
-                            </a>
-                        @endif
-                        @if ($email)
-                            <a href="mailto:{{ $email }}"
-                                class="flex items-center gap-2 text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                {{ $email }}
-                            </a>
-                        @endif
-                        @if ($secondaryEmail)
-                            <a href="mailto:{{ $secondaryEmail }}"
-                                class="flex items-center gap-2 text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                {{ $secondaryEmail }}
-                            </a>
-                        @endif
-                    </div>
-                @endif
 
                 {{-- ===== ADRESSES AVEC BORDURE SUBTILE ===== --}}
                 @if (!empty($this->addresses))

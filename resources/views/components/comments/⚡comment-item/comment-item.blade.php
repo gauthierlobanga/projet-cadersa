@@ -26,7 +26,7 @@
         </div>
     </footer>
 
-    <p class="text-zinc-500 dark:text-zinc-400">{{ $comment->content_html }}</p>
+    <p class="text-zinc-500 dark:text-zinc-400">{!! $comment->content_html !!}</p>
 
     <div class="mt-4 flex items-center space-x-4">
         <button wire:click="like"
@@ -40,7 +40,7 @@
             @endif
         </button>
         <button @click="$wire.showReplyForm = !$wire.showReplyForm"
-            class="flex items-center text-sm font-medium text-zinc-500 hover:underline dark:text-zinc-400">
+            class="flex items-center text-sm font-medium  text-zinc-500 hover:underline dark:text-zinc-400">
             <svg class="mr-1.5 h-3.5 w-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 20 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -57,7 +57,7 @@
                 src="{{ auth()->user()?->avatar_url ?? 'https://ui-avatars.com/api/?name=Anonyme&background=random' }}" />
             <div class="min-w-0 flex-1">
                 <textarea wire:model="replyContent"
-                    class="w-full rounded-lg border border-zinc-200 bg-white p-2 text-sm focus:border-emerald-400 focus:ring-4 focus:ring-emerald-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20"
+                    class="w-full rounded border border-zinc-200 bg-white p-2 text-sm focus:border-emerald-400 focus:ring-1 focus:ring-emerald-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20"
                     rows="2" placeholder="Écrivez une réponse..."></textarea>
                 <button wire:click="addReply" wire:loading.attr="disabled"
                     class="mt-2 inline-flex items-center rounded-lg bg-emerald-600 px-4 py-1.5 text-xs font-medium text-white transition hover:bg-emerald-700 disabled:opacity-50 dark:bg-emerald-500 dark:hover:bg-emerald-600">

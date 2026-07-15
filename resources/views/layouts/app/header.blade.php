@@ -25,10 +25,6 @@
                 <span
                     class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Accueil') }}</span>
             </flux:navbar.item>
-            <flux:navbar.item :href="route('services.index')" :current="request()->routeIs('services.*')" wire:navigate>
-                <span
-                    class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Services') }}</span>
-            </flux:navbar.item>
             <flux:navbar.item :href="route('projects.index')" :current="request()->routeIs('projects.*')" wire:navigate>
                 <span
                     class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Projets') }}</span>

@@ -1,18 +1,17 @@
 <div class="space-y-6">
     {{-- Formulaire principal --}}
     <form wire:submit.prevent="addComment" class="mb-6">
-        <div
-            class="rounded-lg rounded-t-lg border border-zinc-200 bg-white px-4 py-2 dark:border-zinc-700 dark:bg-zinc-800">
+        <div>
             <label for="comment" class="sr-only">Votre commentaire</label>
             <flux:textarea id="comment" wire:model="newComment" rows="3"
-                class="w-full border-0 bg-transparent px-0 text-sm text-zinc-900 focus:outline-none focus:ring-0 dark:text-white dark:placeholder:text-zinc-400 dark:bg-zinc-800"
-                placeholder="Écrivez un commentaire..." required>
+                class="w-full border border-accent bg-transparent rounded-none px-4 text-sm text-zinc-900 focus:outline-none focus:ring-0 dark:text-white dark:placeholder:text-zinc-400 dark:bg-zinc-800"
+                placeholder="Écrivez un commentaire...">
             </flux:textarea>
         </div>
-        <button type="submit"
-            class="mt-2 inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-xs font-medium text-white transition hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-200 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:focus:ring-emerald-900">
+        <flux:button variant="outline" type="submit"
+            class="mt-2 inline-flex items-center bg-emerald-600 px-4 py-2 text-xs rounded-none text-white transition hover:bg-emerald-700">
             Publier
-        </button>
+        </flux:button>
     </form>
 
     {{-- Liste des commentaires --}}
