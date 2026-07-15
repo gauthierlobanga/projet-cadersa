@@ -11,6 +11,11 @@ class Logout
 {
     /**
      * Log the current user out of the application.
+     *
+     * Invalidates the session and regenerates the CSRF token, then redirects to
+     * the application root.
+     *
+     * @return \Illuminate\Features\SupportRedirects\Redirector|RedirectResponse
      */
     public function __invoke(): Redirector|RedirectResponse
     {

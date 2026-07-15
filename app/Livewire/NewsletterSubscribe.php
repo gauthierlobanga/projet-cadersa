@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Newsletter;
 use Flux\Flux;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -19,6 +20,12 @@ class NewsletterSubscribe extends Component
 
     public bool $subscribed = false;
 
+    /**
+     * Handle the newsletter subscription form submission.
+     *
+     * Validates the input, creates a newsletter record with a confirmation token,
+     * resets the email field and sets the subscribed flag to true, then shows a toast.
+     */
     public function submit(): void
     {
         $this->validate();
@@ -42,6 +49,11 @@ class NewsletterSubscribe extends Component
         );
     }
 
+    /**
+     * Render the Livewire component view.
+     *
+     * @return View|string
+     */
     public function render()
     {
         return view('livewire.newsletter-subscribe');
