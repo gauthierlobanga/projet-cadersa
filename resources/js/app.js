@@ -65,6 +65,25 @@ if (typeof window !== "undefined") {
     window.autoAnimate = window.autoAnimate || autoAnimate;
 }
 
+// Safe helper wrappers to avoid calling GSAP with empty/undefined targets
+const safeGsapFromTo = (target, fromVars, toVars) => {
+    if (typeof gsap === 'undefined') return;
+
+    const arr = gsap.utils ? gsap.utils.toArray(target) : (Array.isArray(target) ? target : [target]);
+    if (!arr || arr.length === 0) return;
+
+    gsap.fromTo(arr, fromVars, toVars);
+};
+
+const safeGsapTo = (target, vars) => {
+    if (typeof gsap === 'undefined') return;
+
+    const arr = gsap.utils ? gsap.utils.toArray(target) : (Array.isArray(target) ? target : [target]);
+    if (!arr || arr.length === 0) return;
+
+    gsap.to(arr, vars);
+};
+
 const registerCookieConsentAlpineData = () => {
     const register = () => {
         Alpine.data("cookieConsent", () => ({
@@ -212,8 +231,20 @@ const initGlobalAnimations = () => {
         // Prevent layout shift during split
         const split = new SplitText(heading, { type: "words,lines" });
 
-        gsap.fromTo(
-            split.words,
+        // Guard: ensure split and words exist before animating
+        const splitWords = (split && split.words) ? (Array.isArray(split.words) ? split.words : gsap.utils.toArray(split.words)) : [];
+        if (!splitWords || splitWords.length === 0) {
+            // If SplitText generated nothing, revert any changes and skip
+            try {
+                if (typeof split.revert === 'function') split.revert();
+            } catch (e) {
+                // noop
+            }
+            return;
+        }
+
+        safeGsapFromTo(
+            splitWords,
             { opacity: 0, y: 20, rotateX: -20 },
             {
                 opacity: 1,
@@ -258,9 +289,12 @@ const initGlobalAnimations = () => {
     ScrollTrigger.batch(blocksToAnimate, {
         start: "top 92%",
         once: true, // Only animate once per page load
-        onEnter: (batch) =>
-            gsap.fromTo(
-                batch,
+        onEnter: (batch) => {
+            const items = gsap.utils ? gsap.utils.toArray(batch) : (Array.isArray(batch) ? batch : [batch]);
+            if (!items || items.length === 0) return;
+
+            safeGsapFromTo(
+                items,
                 { opacity: 0, y: 30, scale: 0.98 },
                 {
                     opacity: 1,
@@ -271,7 +305,9 @@ const initGlobalAnimations = () => {
                     ease: "power3.out",
                     overwrite: true,
                 },
-            ),
+            );
+        },
+
     });
 
     // 3. PAGE LOAD FADE-IN
