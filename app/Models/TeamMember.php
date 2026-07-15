@@ -10,6 +10,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Builder;
 
 class TeamMember extends Model implements HasMedia
 {
@@ -51,8 +52,8 @@ class TeamMember extends Model implements HasMedia
             ->format('webp')
             ->quality(90)
             ->sharpen(10)
-            ->optimize()
-            ->performOnCollections('photo');
+            ->performOnCollections('photo')
+            ->optimize();
 
         // Photo de profil (400x400) – pour la page détail, carte équipe
         // Le nom 'webp' est conservé pour compatibilité avec l'accessor existant
@@ -63,8 +64,8 @@ class TeamMember extends Model implements HasMedia
             ->format('webp')
             ->quality(90)
             ->sharpen(10)
-            ->optimize()
-            ->performOnCollections('photo');
+            ->performOnCollections('photo')
+            ->optimize();
     }
 
     // ========== SCOPES ==========
@@ -74,9 +75,10 @@ class TeamMember extends Model implements HasMedia
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
@@ -86,9 +88,10 @@ class TeamMember extends Model implements HasMedia
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOrdered($query)
+    public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderBy('name');
     }

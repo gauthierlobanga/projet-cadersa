@@ -159,10 +159,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
             ->quality(90)                     // excellente qualité
             ->sharpen(10)                     // netteté accrue
             ->withResponsiveImages()          // variantes automatiques (srcset)
+            ->performOnCollections('avatar')
             ->optimize()
-            ->nonQueued()
-            ->performOnCollections('avatar'); // uniquement pour la collection avatar
-
+            ->nonQueued();
+ 
         // Avatar miniature (carré 150x150) – pour listes, commentaires, notifications
         $this->addMediaConversion('thumb')
             ->format('webp')
@@ -172,8 +172,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
             ->quality(90)
             ->sharpen(10)
             ->withResponsiveImages()
-            ->optimize()
-            ->performOnCollections('avatar');
+            ->performOnCollections('avatar')
+            ->optimize();
     }
 
     /**

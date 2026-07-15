@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class Contact extends Model
 {
@@ -255,9 +256,10 @@ class Contact extends Model
     /**
      * scopeEnAttente.
      *
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeEnAttente($query)
+    public function scopeEnAttente(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_EN_ATTENTE);
     }
@@ -267,9 +269,10 @@ class Contact extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeNonTraites($query)
+    public function scopeNonTraites(Builder $query): Builder
     {
         return $query->whereIn('status', [self::STATUS_EN_ATTENTE, self::STATUS_LU]);
     }
@@ -279,9 +282,10 @@ class Contact extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeUrgents($query)
+    public function scopeUrgents(Builder $query): Builder
     {
         return $query->where('priorite', self::PRIORITE_URGENTE)
             ->whereIn('status', [self::STATUS_EN_ATTENTE, self::STATUS_LU]);
@@ -292,9 +296,10 @@ class Contact extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeParCategorie($query, $categorie)
+    public function scopeParCategorie(Builder $query, $categorie): Builder
     {
         return $query->where('categorie', $categorie);
     }

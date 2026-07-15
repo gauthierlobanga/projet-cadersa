@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -175,9 +176,9 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->quality(90)                     // 80 → 90
             ->sharpen(10)                     // netteté renforcée
             ->withResponsiveImages()
-            ->optimize()
-            ->performOnCollections('image');
-
+            ->performOnCollections('image')
+            ->optimize();
+ 
         // Carte (400x300) – pour les grilles de services, mise en avant
         $this->addMediaConversion('card')
             ->width(400)
@@ -187,9 +188,9 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->quality(90)                     // 85 → 90
             ->sharpen(10)
             ->withResponsiveImages()
-            ->optimize()
-            ->performOnCollections('image');
-
+            ->performOnCollections('image')
+            ->optimize();
+ 
         // Grande taille (1200x800) – pour la page détail, affichage principal
         $this->addMediaConversion('large')
             ->width(1200)
@@ -199,8 +200,8 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->quality(90)
             ->sharpen(10)                     // ajouté
             ->withResponsiveImages()
-            ->optimize()
-            ->performOnCollections('image');
+            ->performOnCollections('image')
+            ->optimize();
 
         $this->addMediaConversion('icon_thumb')
             ->width(64)
@@ -252,7 +253,7 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
     /**
      * Scope a query to only include active services.
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
@@ -260,7 +261,7 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
     /**
      * Scope a query to order services by sort_order and title.
      */
-    public function scopeOrdered($query)
+    public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderBy('title');
     }
@@ -268,7 +269,7 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
     /**
      * Scope a query to search services by title or excerpt.
      */
-    public function scopeSearch($query, string $term)
+    public function scopeSearch(Builder $query, string $term): Builder
     {
         return $query->where('title', 'LIKE', "%{$term}%");
     }

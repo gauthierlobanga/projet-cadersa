@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class Newsletter extends Model
@@ -97,9 +98,10 @@ class Newsletter extends Model
     /**
      * scopeActifs.
      *
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeActifs($query)
+    public function scopeActifs(Builder $query): Builder
     {
         return $query->where('is_active', true)->whereNotNull('confirmed_at');
     }
@@ -109,9 +111,10 @@ class Newsletter extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeInactifs($query)
+    public function scopeInactifs(Builder $query): Builder
     {
         return $query->where('is_active', false)->orWhereNull('confirmed_at');
     }
@@ -121,9 +124,10 @@ class Newsletter extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeParSource($query, $source)
+    public function scopeParSource(Builder $query, $source): Builder
     {
         return $query->where('source', $source);
     }

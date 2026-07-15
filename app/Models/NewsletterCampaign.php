@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class NewsletterCampaign extends Model
@@ -155,9 +156,10 @@ class NewsletterCampaign extends Model
     /**
      * scopeEnvoyes.
      *
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeEnvoyes($query)
+    public function scopeEnvoyes(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_ENVOYE);
     }
@@ -167,9 +169,10 @@ class NewsletterCampaign extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeProgrammes($query)
+    public function scopeProgrammes(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_PROGRAMME)
             ->where('scheduled_at', '>', now());
@@ -180,9 +183,10 @@ class NewsletterCampaign extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeABientot($query, $hours = 24)
+    public function scopeABientot(Builder $query, $hours = 24): Builder
     {
         return $query->where('status', self::STATUS_PROGRAMME)
             ->whereBetween('scheduled_at', [now(), now()->addHours($hours)]);

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
@@ -159,12 +160,12 @@ class PostCategory extends Model implements Sitemapable
      */
 
     // Scopes
-    public function scopeActifs($query)
+    public function scopeActifs(Builder $query): Builder
     {
         return $query->where('est_active', true);
     }
-
-    public function scopeVisiblesDansMenu($query)
+ 
+    public function scopeVisiblesDansMenu(Builder $query): Builder
     {
         return $query->where('est_visible_dans_menu', true);
     }
@@ -174,45 +175,49 @@ class PostCategory extends Model implements Sitemapable
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeParents($query)
+    public function scopeParents(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
     }
-
+ 
     /**
      * scopeEnfants.
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeEnfants($query)
+    public function scopeEnfants(Builder $query): Builder
     {
         return $query->whereNotNull('parent_id');
     }
-
+ 
     /**
      * scopeOrdonnes.
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOrdonnes($query)
+    public function scopeOrdonnes(Builder $query): Builder
     {
         return $query->orderBy('ordre');
     }
-
+ 
     /**
      * scopeRecherche.
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeRecherche($query, string $term)
+    public function scopeRecherche(Builder $query, string $term): Builder
     {
         return $query->where('nom', 'like', "%{$term}%")
             ->orWhere('description', 'like', "%{$term}%");

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -260,9 +261,9 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->format('webp')
             ->quality(80)
             ->sharpen(10)                     // ← rendu plus net
+            ->performOnCollections('featured', 'gallery')
             ->optimize()
-            ->nonQueued()
-            ->performOnCollections('featured', 'gallery');
+            ->nonQueued();
 
         // ------------------------------
         // 2. Carte (card) – 400×300
@@ -275,9 +276,9 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->quality(90)                     // ← meilleure qualité (85 → 90)
             ->sharpen(10)
             ->withResponsiveImages()          // génère les variantes pour srcset
+            ->performOnCollections('featured', 'gallery')
             ->optimize()
-            ->nonQueued()
-            ->performOnCollections('featured', 'gallery');
+            ->nonQueued();
 
         // ------------------------------
         // 3. Petite taille (small) – 600×400
@@ -290,9 +291,9 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->quality(85)
             ->sharpen(10)
             ->withResponsiveImages()
+            ->performOnCollections('featured', 'gallery')
             ->optimize()
-            ->nonQueued()
-            ->performOnCollections('featured', 'gallery');
+            ->nonQueued();
 
         // ------------------------------
         // 4. Affichage principal (medium) – 1200×800
@@ -305,9 +306,9 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->quality(90)
             ->sharpen(10)
             ->withResponsiveImages()
+            ->performOnCollections('featured', 'gallery')
             ->optimize()
-            ->queued()                       // file d'attente car lourd
-            ->performOnCollections('featured', 'gallery');
+            ->queued();                       // file d'attente car lourd
 
         // ------------------------------
         // 5. Grande taille (large) – 1920×1080
@@ -320,9 +321,9 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->quality(90)
             ->sharpen(10)
             ->withResponsiveImages()
+            ->performOnCollections('featured', 'gallery')
             ->optimize()
-            ->queued()
-            ->performOnCollections('featured', 'gallery');
+            ->queued();
 
         // ------------------------------
         // 6. Version Retina (2x) pour les cartes
@@ -336,9 +337,9 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->quality(90)
             ->sharpen(10)
             ->withResponsiveImages()
+            ->performOnCollections('featured')
             ->optimize()
-            ->nonQueued()                    // rapide car carte
-            ->performOnCollections('featured');
+            ->nonQueued();                    // rapide car carte
     }
 
     // Dans App\Models\Post.php
@@ -736,63 +737,63 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
 
     // ========== SCOPES ==========
 
-    public function scopePublished($query)
+    public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_PUBLISHED)
             ->where('published_at', '<=', now())
-            ->where(function ($q) {
+            ->where(function (Builder $q) {
                 $q->whereNull('expires_at')
                     ->orWhere('expires_at', '>', now());
             });
     }
 
-    public function scopeDraft($query)
+    public function scopeDraft(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_DRAFT);
     }
 
-    public function scopeScheduled($query)
+    public function scopeScheduled(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_SCHEDULED)
             ->orWhere('scheduled_for', '>', now());
     }
 
-    public function scopeExpired($query)
+    public function scopeExpired(Builder $query): Builder
     {
         return $query->where('expires_at', '<=', now());
     }
 
-    public function scopePinned($query)
+    public function scopePinned(Builder $query): Builder
     {
         return $query->where('is_pinned', true);
     }
 
-    public function scopeByUser($query, $userId)
+    public function scopeByUser(Builder $query, int|string $userId): Builder
     {
         return $query->where('user_id', $userId);
     }
 
-    public function scopeByCategory($query, $categoryId)
+    public function scopeByCategory(Builder $query, int|string $categoryId): Builder
     {
-        return $query->whereHas('categories', fn ($q) => $q->where('posts_categories.id', $categoryId));
+        return $query->whereHas('categories', fn (Builder $q) => $q->where('posts_categories.id', $categoryId));
     }
 
-    public function scopeSearch($query, string $term)
+    public function scopeSearch(Builder $query, string $term): Builder
     {
         return $query->whereFullText(['title'], $term);
     }
 
-    public function scopePopular($query)
+    public function scopePopular(Builder $query): Builder
     {
         return $query->orderBy('views_count', 'desc');
     }
 
-    public function scopeRecent($query)
+    public function scopeRecent(Builder $query): Builder
     {
         return $query->orderBy('published_at', 'desc');
     }
 
-    public function scopeBetweenDates($query, $start, $end)
+    public function scopeBetweenDates(Builder $query, \\DateTimeInterface|string $start, \\DateTimeInterface|string $end): Builder
     {
         return $query->whereBetween('published_at', [$start, $end]);
     }

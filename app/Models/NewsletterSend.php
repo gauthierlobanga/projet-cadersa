@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NewsletterSend extends Model
@@ -108,9 +109,10 @@ class NewsletterSend extends Model
     /**
      * scopeOuverts.
      *
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOuverts($query)
+    public function scopeOuverts(Builder $query): Builder
     {
         return $query->whereNotNull('opened_at');
     }
@@ -120,9 +122,10 @@ class NewsletterSend extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeCliques($query)
+    public function scopeCliques(Builder $query): Builder
     {
         return $query->whereNotNull('clicked_at');
     }

@@ -10,6 +10,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Builder;
 
 class Partner extends Model implements HasMedia
 {
@@ -48,8 +49,8 @@ class Partner extends Model implements HasMedia
             ->format('webp')
             ->quality(90)
             ->sharpen(10)
-            ->optimize()
-            ->performOnCollections('logo');
+            ->performOnCollections('logo')
+            ->optimize();
 
         // Conversion principale (400x400) – pour la page partenaire, cartes
         $this->addMediaConversion('webp')
@@ -59,8 +60,8 @@ class Partner extends Model implements HasMedia
             ->format('webp')
             ->quality(90)
             ->sharpen(10)
-            ->optimize()
-            ->performOnCollections('logo');
+            ->performOnCollections('logo')
+            ->optimize();
     }
 
     // ========== SCOPES ==========
@@ -70,9 +71,10 @@ class Partner extends Model implements HasMedia
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
@@ -82,9 +84,10 @@ class Partner extends Model implements HasMedia
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOrdered($query)
+    public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderBy('name');
     }

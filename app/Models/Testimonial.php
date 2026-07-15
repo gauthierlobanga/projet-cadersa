@@ -11,6 +11,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Builder;
 
 class Testimonial extends Model implements HasMedia
 {
@@ -61,9 +62,9 @@ class Testimonial extends Model implements HasMedia
             ->format('webp')
             ->quality(90)
             ->sharpen(10)
-            ->optimize()
-            ->performOnCollections('photo');
-
+            ->performOnCollections('photo')
+            ->optimize();
+ 
         // Photo principale (400x400) – pour la page témoignage, carte détaillée
         // Le nom 'webp' est conservé pour compatibilité avec l'accessor
         $this->addMediaConversion('webp')
@@ -73,8 +74,8 @@ class Testimonial extends Model implements HasMedia
             ->format('webp')
             ->quality(90)
             ->sharpen(10)
-            ->optimize()
-            ->performOnCollections('photo');
+            ->performOnCollections('photo')
+            ->optimize();
     }
 
     // ========== SCOPES ==========
@@ -84,9 +85,10 @@ class Testimonial extends Model implements HasMedia
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
@@ -96,9 +98,10 @@ class Testimonial extends Model implements HasMedia
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOrdered($query)
+    public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('created_at', 'desc');
     }

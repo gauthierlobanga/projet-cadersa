@@ -20,6 +20,7 @@ use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
 use Spatie\Tags\HasTags;
 use Tiptap\Nodes\Image;
+use Illuminate\Database\Eloquent\Builder;
 
 class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitemapable
 {
@@ -214,9 +215,10 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
     /**
      * scopeActive.
      *
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
@@ -226,9 +228,10 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOrdered($query)
+    public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('start_date', 'desc');
     }
@@ -238,9 +241,10 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeByStatus($query, $status)
+    public function scopeByStatus(Builder $query, $status): Builder
     {
         return $query->where('status', $status);
     }
@@ -250,9 +254,10 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeOngoing($query)
+    public function scopeOngoing(Builder $query): Builder
     {
         return $query->where('status', 'ongoing');
     }
@@ -262,9 +267,10 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeCompleted($query)
+    public function scopeCompleted(Builder $query): Builder
     {
         return $query->where('status', 'completed');
     }

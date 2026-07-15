@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Notification extends Model
 {
@@ -54,9 +55,10 @@ class Notification extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeNonEnvoyees($query)
+    public function scopeNonEnvoyees(Builder $query): Builder
     {
         return $query->where('statut', self::STATUT_EN_ATTENTE);
     }
@@ -66,9 +68,10 @@ class Notification extends Model
 
      *
 
-     * @return mixed
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopePourUtilisateur($query, User $user)
+    public function scopePourUtilisateur(Builder $query, User $user): Builder
     {
         return $query->where('notifiable_type', User::class)
             ->where('notifiable_id', $user->id);
