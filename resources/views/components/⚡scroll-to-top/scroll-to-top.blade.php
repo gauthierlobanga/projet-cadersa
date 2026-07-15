@@ -1,27 +1,46 @@
-<div 
+<div
     x-data="{
         show: false,
         init() {
-            // Afficher le bouton après 300px de scroll
             window.addEventListener('scroll', () => {
-                this.show = window.pageYOffset > 300;
+                this.show = window.scrollY > 300;
             });
-            this.show = window.pageYOffset > 300;
-            
-            // Animation GSAP au survol
-            const button = $el.querySelector('button');
-            const textWrapper = button.querySelector('[data-text]');
-            const arrow = button.querySelector('svg');
-            
-            if (typeof SplitText !== 'undefined' && typeof gsap !== 'undefined') {
-                const split = new SplitText(textWrapper, { type: 'chars' });
-                const chars = split.chars;
-                const tl = gsap.timeline({ paused: true });
-                tl.to(chars, { keyframes: [{ y: -10, opacity: 0, duration: 0.2, ease: 'power2.in' }, { y: 10, opacity: 0, duration: 0 }, { y: 0, opacity: 1, duration: 0.2, ease: 'power2.out' }], stagger: 0.02 });
-                tl.to(arrow, { keyframes: [{ y: -30, duration: 0.25, ease: 'power2.in' }, { y: 30, duration: 0 }, { y: 0, duration: 0.25, ease: 'power2.out' }] }, 0.1);
-                button.addEventListener('mouseenter', () => tl.play());
-                button.addEventListener('mouseleave', () => tl.reverse());
-            }
+            this.show = window.scrollY > 300;
+
+            this.$nextTick(() => {
+                const button = this.$el.querySelector('button');
+                if (!button) return;
+
+                const textWrapper = button.querySelector('[data-text]');
+                const arrow = button.querySelector('svg');
+
+                if (typeof window.SplitText !== 'undefined' && typeof window.gsap !== 'undefined') {
+                    try {
+                        const split = new window.SplitText(textWrapper, { type: 'chars' });
+                        const chars = split.chars;
+                        const tl = window.gsap.timeline({ paused: true });
+                        tl.to(chars, {
+                            keyframes: [
+                                { y: -10, opacity: 0, duration: 0.2, ease: 'power2.in' },
+                                { y: 10, opacity: 0, duration: 0 },
+                                { y: 0, opacity: 1, duration: 0.2, ease: 'power2.out' }
+                            ],
+                            stagger: 0.02
+                        });
+                        tl.to(arrow, {
+                            keyframes: [
+                                { y: -30, duration: 0.25, ease: 'power2.in' },
+                                { y: 30, duration: 0 },
+                                { y: 0, duration: 0.25, ease: 'power2.out' }
+                            ]
+                        }, 0.1);
+                        button.addEventListener('mouseenter', () => tl.play());
+                        button.addEventListener('mouseleave', () => tl.reverse());
+                    } catch (e) {
+                        console.warn('GSAP animation failed', e);
+                    }
+                }
+            });
         }
     }"
     x-show="show"

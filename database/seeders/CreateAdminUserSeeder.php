@@ -12,7 +12,7 @@ class CreateAdminUserSeeder extends Seeder
     public function run(): void
     {
         $name = 'Cadersa ASBL';
-        $email = 'cadersaasbl@cadresa.com';
+        $email = 'cadersaasbl@gmail.com';
 
         if (User::where('email', $email)->exists()) {
             $this->command->warn("Un utilisateur avec l'email {$email} existe déjà. Aucune création?");
