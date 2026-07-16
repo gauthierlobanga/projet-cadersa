@@ -27,7 +27,7 @@ new #[Layout('layouts::main')] class extends Component {
 <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
     {{-- Header (même style que Blog) --}}
     <section x-cloak class="relative overflow-hidden bg-[#fafaf9] py-18 sm:py-24 lg:py-28 dark:bg-zinc-950"
-        x-data="{ shown: false }" x-intersect.once="shown = true">
+        x-data="cspState()" x-intersect.once="shown = true">
         <div class="pointer-events-none absolute inset-0 z-0">
             <div
                 class="absolute -top-40 right-0 h-150 w-150 rounded-full bg-linear-to-br from-emerald-200/20 to-teal-100/0 blur-3xl dark:from-emerald-500/5 dark:to-transparent">
@@ -75,7 +75,7 @@ new #[Layout('layouts::main')] class extends Component {
                         <div class="relative z-10 flex flex-col gap-8">
                             <div class="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-2">
                                 @foreach ($this->stats as $label => $value)
-                                    <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
+                                    <div x-data="cspState()" @mouseenter="hover = true" @mouseleave="hover = false"
                                         class="group relative min-w-24 px-4 py-3 text-center xs:min-w-27 transition-all duration-700 delay-{{ 300 + $loop->index * 100 }}"
                                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                                         <div class="absolute inset-0 rounded-xl bg-emerald-50/80 transition duration-300 ease-out group-hover:bg-emerald-100 dark:bg-white/5 dark:group-hover:bg-emerald-500/10"
@@ -183,3 +183,4 @@ new #[Layout('layouts::main')] class extends Component {
 
     </section>
 </div>
+

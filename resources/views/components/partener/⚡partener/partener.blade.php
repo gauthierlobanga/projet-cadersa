@@ -1,6 +1,6 @@
 <section class="border-b border-zinc-200 px-6 py-16 sm:px-8 sm:py-20 lg:px-16 lg:py-28 dark:border-zinc-800">
     <header class="flex flex-col items-center justify-center text-center">
-        <div x-data="{ shown: false }" x-intersect="shown = true"
+        <div x-data="cspState()" x-intersect="shown = true"
             :class="shown ? 'opacity-100 scale-100' : 'opacity-0 scale-90'" class="transition-all duration-700 ease-out">
             <svg aria-hidden="true" class="h-5 text-stone-800 lg:h-6 dark:text-white" xmlns="http://www.w3.org/2000/svg"
                 fill="none" viewBox="0 0 48 48">
@@ -15,14 +15,14 @@
         </div>
 
         <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-5 py-1.5 text-sm font-medium uppercase tracking-wider text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-            x-data="{ shown: false }" x-intersect="shown = true"
+            x-data="cspState()" x-intersect="shown = true"
             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
             class="transition-all duration-700 delay-100 ease-out">
             Partenaires
         </p>
 
         <h1 class="mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl"
-            x-data="{ shown: false }" x-intersect="shown = true"
+            x-data="cspState()" x-intersect="shown = true"
             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
             class="transition-all duration-700 delay-200 ease-out">
             Ensemble pour un <span
@@ -31,7 +31,7 @@
         </h1>
 
         <p class="mt-4 max-w-2xl text-pretty text-lg leading-relaxed text-zinc-600 dark:text-zinc-300"
-            x-data="{ shown: false }" x-intersect="shown = true"
+            x-data="cspState()" x-intersect="shown = true"
             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
             class="transition-all duration-700 delay-300 ease-out">
             C’est grâce à leur confiance et à leur engagement à nos côtés que le CADERSA peut concrétiser sa mission
@@ -46,7 +46,7 @@
             </h3>
             <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
                 @foreach ($group['items'] as $item)
-                    <div x-data="{ shown: false }" x-intersect="shown = true"
+                    <div x-data="cspState()" x-intersect="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                         class="transition-all duration-700 ease-out"
                         style="transition-delay: {{ $loop->index * 60 }}ms">
@@ -61,3 +61,4 @@
         </div>
     @endforeach
 </section>
+

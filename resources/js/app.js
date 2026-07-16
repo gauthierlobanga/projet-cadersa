@@ -827,6 +827,47 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
+    Alpine.data("cspState", () => ({
+        shown: false,
+        visible: false,
+        open: false,
+        hover: false,
+        hovered: false,
+        lightbox: false,
+        active: null,
+        activeImage: "",
+        showRecoveryCodes: false,
+        currentNumberOfDigits: null,
+    }));
+
+    Alpine.data("teamMemberGrid", () => ({
+        init() {
+            if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+                return;
+            }
+
+            const articles = gsap.utils.toArray(this.$el.querySelectorAll("article"));
+            articles.forEach((article, index) => {
+                gsap.fromTo(
+                    article,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: article,
+                            start: "top bottom-=80",
+                            toggleActions: "play none none none",
+                        },
+                        delay: index * 0.1,
+                    },
+                );
+            });
+        },
+    }));
+
     Alpine.data("homeHeroReveal", () => ({
         init() {
             if (typeof gsap === "undefined" || typeof SplitText === "undefined") {

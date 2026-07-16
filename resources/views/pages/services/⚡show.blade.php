@@ -131,7 +131,7 @@ new #[Layout('layouts::main')] class extends Component {
         <div class="mx-auto max-w-4xl px-6 lg:px-8">
 
             {{-- Contenu Prose --}}
-            <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+            <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                 class="fi-prose max-w-none transition-all duration-1000 ease-out
                     bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl p-8 md:p-12 w-full">
@@ -140,7 +140,7 @@ new #[Layout('layouts::main')] class extends Component {
 
             {{-- Galerie --}}
             @if ($this->galleryImages->isNotEmpty())
-                <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+                <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                     class="mt-24 transition-all duration-1000 delay-200 ease-out">
 
@@ -149,7 +149,7 @@ new #[Layout('layouts::main')] class extends Component {
                         <h3 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Galerie</h3>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6" x-data="{ lightbox: false, activeImage: '' }">
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6" x-data="cspState()">
                         @foreach ($this->galleryImages as $index => $image)
                             <div @click="lightbox = true; activeImage = '{{ $image['url'] }}'"
                                 class="group relative aspect-square cursor-zoom-in overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
@@ -211,7 +211,7 @@ new #[Layout('layouts::main')] class extends Component {
 
             {{-- ==================== DOCUMENTS PDF ==================== --}}
             @if ($service->hasPdf())
-                <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+                <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                     class="mt-24 transition-all duration-1000 delay-300 ease-out">
 
@@ -265,7 +265,7 @@ new #[Layout('layouts::main')] class extends Component {
         <div class="border-t border-zinc-200 bg-zinc-50/40 py-16 dark:border-zinc-800 dark:bg-zinc-950/50">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
-                <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+                <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                     class="mb-12 flex flex-col items-center justify-between gap-6 sm:flex-row transition-all duration-700 ease-out">
                     <h2 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Découvrez aussi</h2>
@@ -282,7 +282,7 @@ new #[Layout('layouts::main')] class extends Component {
 
                 <div class="grid grid-cols-1 gap-7 md:grid-cols-3">
                     @foreach ($this->relatedServices as $index => $related)
-                        <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+                        <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                             class="transition-all duration-700 ease-out"
                             style="transition-delay: {{ $index * 150 }}ms">
@@ -358,3 +358,4 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     @endif
 </div>
+

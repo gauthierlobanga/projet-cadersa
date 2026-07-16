@@ -3,7 +3,7 @@
     <section x-cloak id="scroll-to-reference" x-data="formationSearchFilters()"
         aria-label="Plugin search and listing"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
-         <div class="mb-16 max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
+         <div class="mb-16 max-w-3xl" x-data="cspState()" x-intersect="shown = true">
              <h2 class="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl transition-all duration-700 delay-100 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                 Plongez au cœur de nos <span class="text-emerald-600 dark:text-emerald-400">formations</span>
@@ -109,7 +109,7 @@
                 </a>
             @empty
                 <div class="col-span-full py-16 lg:py-24">
-                    <div x-data="{ shown: false }" x-intersect="shown = true"
+                    <div x-data="cspState()" x-intersect="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                         class="transition-all duration-700 ease-out">
                         <div
@@ -168,3 +168,4 @@
 
     </section>
 </div>
+

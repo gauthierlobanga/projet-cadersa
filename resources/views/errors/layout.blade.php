@@ -130,19 +130,7 @@
     </div>
 
     <!-- Conteneur principal (Design Figma Split Card) -->
-    <div x-data="{
-        init: function() {
-            gsap.from($refs.card, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' });
-            gsap.from($refs.illustration, { scale: 0.8, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(1.5)' });
-            gsap.from($refs.errorCode, { y: 20, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power2.out' });
-            gsap.from($refs.errorTitle, { y: 20, opacity: 0, duration: 0.6, delay: 0.5, ease: 'power2.out' });
-            gsap.from($refs.content, { x: 30, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
-            
-            // Floating animation for SVG
-            gsap.to($refs.floatingSvg, { y: -15, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-        }
-    }"
-        x-ref="card"
+    <div data-error-card
         class="relative z-10 max-w-5xl w-full glass-panel rounded-[2rem] shadow-2xl border border-white/20 overflow-hidden flex flex-col md:flex-row">
 
         <!-- Colonne Gauche : Code d'erreur et Visuel -->
@@ -155,8 +143,8 @@
 
             <div class="relative z-10 w-full flex flex-col items-center">
                 <!-- SVG Animé -->
-                <div x-ref="illustration" class="mb-8 h-40 w-40 flex items-center justify-center">
-                    <div x-ref="floatingSvg" class="w-full h-full text-current">
+                <div data-error-illustration class="mb-8 h-40 w-40 flex items-center justify-center">
+                    <div data-error-floating-svg class="w-full h-full text-current">
                         @if($statusCode === '404')
                             <!-- 404 Illustration: Lost Radar/Planet -->
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
@@ -198,18 +186,18 @@
                     {{ $statusLabel }}
                 </span>
 
-                <h1 x-ref="errorCode" class="text-8xl font-black tracking-tighter mb-2 drop-shadow-sm">
+                <h1 data-error-code class="text-8xl font-black tracking-tighter mb-2 drop-shadow-sm">
                     {{ $statusCode }}
                 </h1>
 
-                <p x-ref="errorTitle" class="font-medium text-lg opacity-80 max-w-62.5 mx-auto leading-tight">
+                <p data-error-title class="font-medium text-lg opacity-80 max-w-62.5 mx-auto leading-tight">
                     {{ $statusTitle }}
                 </p>
             </div>
         </div>
 
         <!-- Colonne Droite : Message et Actions -->
-        <div x-ref="content" class="md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl">
+        <div data-error-content class="md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl">
             <!-- En-tête marque -->
             <div class="mb-10 flex items-center">
                 <a href="{{ $homeUrl }}" wire:navigate
@@ -293,6 +281,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('[data-error-card]');
+            const illustration = document.querySelector('[data-error-illustration]');
+            const floatingSvg = document.querySelector('[data-error-floating-svg]');
+            const errorCode = document.querySelector('[data-error-code]');
+            const errorTitle = document.querySelector('[data-error-title]');
+            const content = document.querySelector('[data-error-content]');
+
+            if (!card || !illustration || !floatingSvg || !errorCode || !errorTitle || !content) {
+                return;
+            }
+
+            gsap.from(card, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' });
+            gsap.from(illustration, { scale: 0.8, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(1.5)' });
+            gsap.from(errorCode, { y: 20, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power2.out' });
+            gsap.from(errorTitle, { y: 20, opacity: 0, duration: 0.6, delay: 0.5, ease: 'power2.out' });
+            gsap.from(content, { x: 30, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+            gsap.to(floatingSvg, { y: -15, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        });
+    </script>
 </body>
 
 </html>

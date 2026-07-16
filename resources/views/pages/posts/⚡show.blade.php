@@ -235,7 +235,7 @@ new #[Layout('layouts::main')] class extends Component {
         {{-- Overlay plus doux, dégradé vertical accentué en bas --}}
         <div class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-zinc-900/20"></div>
 
-        <div class="relative z-10 mx-auto w-full max-w-5xl px-6 lg:px-8" x-data="{ shown: false }"
+        <div class="relative z-10 mx-auto w-full max-w-5xl px-6 lg:px-8" x-data="cspState()"
             x-intersect="shown = true">
             <div class="flex flex-col items-center text-center lg:items-start lg:text-left">
                 {{-- Badge catégorie --}}
@@ -296,7 +296,7 @@ new #[Layout('layouts::main')] class extends Component {
         <div class="grid gap-16 lg:grid-cols-12">
 
             {{-- Colonne principale --}}
-            <div class="lg:col-span-8" x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+            <div class="lg:col-span-8" x-cloak x-data="cspState()" x-intersect.once="shown = true"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                 class="transition-all duration-1000 ease-out">
 
@@ -346,7 +346,7 @@ new #[Layout('layouts::main')] class extends Component {
                 @endif
                 {{-- Galerie d'images --}}
                 @if (count($this->galleryImages) > 0)
-                    <div x-cloak x-data="{ shown: false }" x-intersect.once="shown = true"
+                    <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                         class="mt-16 transition-all duration-700 ease-out">
 
@@ -360,7 +360,7 @@ new #[Layout('layouts::main')] class extends Component {
                             </span>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4 md:grid-cols-3" x-data="{ open: false, active: null }">
+                        <div class="grid grid-cols-2 gap-4 md:grid-cols-3" x-data="cspState()">
                             @foreach ($this->galleryImages as $image)
                                 <div @click="open = true; active = '{{ $image['large'] ?? ($image['medium'] ?? $image['url']) }}'"
                                     class="group cursor-zoom-in overflow-hidden border border-zinc-200/50 bg-zinc-100 transition-all duration-300 hover:border-emerald-300 dark:border-zinc-700/50 dark:bg-zinc-800 dark:hover:border-emerald-700">
@@ -462,7 +462,7 @@ new #[Layout('layouts::main')] class extends Component {
 
                     {{-- Carte Auteur Premium --}}
                     @if ($post->user)
-                        <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
+                        <div x-data="cspState()" @mouseenter="hover = true" @mouseleave="hover = false"
                             class="group relative overflow-hidden border border-zinc-200/50 bg-white/80 p-1 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 dark:border-zinc-800/60 dark:bg-zinc-900/80">
                             <div
                                 class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-emerald-100/40 via-transparent to-transparent opacity-50 transition-opacity duration-700 group-hover:opacity-100 dark:from-emerald-900/20">
@@ -776,3 +776,5 @@ new #[Layout('layouts::main')] class extends Component {
     @endif
 
 </div>
+
+

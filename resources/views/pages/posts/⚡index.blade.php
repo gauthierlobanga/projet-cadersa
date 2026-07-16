@@ -73,7 +73,7 @@ new #[Layout('layouts::main')] class extends Component {
 <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
     {{-- ========== HEADER  ========== --}}
     <section x-cloak class="relative overflow-hidden bg-[#fafaf9] py-18 sm:py-24 lg:py-28 dark:bg-zinc-950"
-        x-data="{ shown: false }" x-intersect.once="shown = true">
+        x-data="cspState()" x-intersect.once="shown = true">
 
         {{-- Ambiance lumineuse de fond (Gradients Radiaux Vercel/Stripe) --}}
         <div class="pointer-events-none absolute inset-0 z-0">
@@ -138,7 +138,7 @@ new #[Layout('layouts::main')] class extends Component {
                             <div class="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-2">
 
                                 @foreach ($this->stats as $label => $value)
-                                    <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
+                                    <div x-data="cspState()" @mouseenter="hover = true" @mouseleave="hover = false"
                                         class="group relative min-w-24 px-4 py-3 text-center xs:min-w-27 transition-all duration-700 delay-{{ 300 + $loop->index * 100 }}"
                                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                                         <div class="absolute inset-0 rounded-xl bg-emerald-50/80 transition duration-300 ease-out group-hover:bg-emerald-100 dark:bg-white/5 dark:group-hover:bg-emerald-500/10"
@@ -376,7 +376,7 @@ new #[Layout('layouts::main')] class extends Component {
         <div class="custom-top-dashed-border mt-5 flex flex-wrap items-center justify-between gap-4 pt-5">
             <div class="flex flex-wrap items-center gap-4">
                 {{-- Tri --}}
-                <div x-cloak class="relative flex items-center gap-1.5 text-xs" x-data="{ open: false }"
+                <div x-cloak class="relative flex items-center gap-1.5 text-xs" x-data="cspState()"
                     @click.outside="open = false" @keydown.escape.window="open = false">
                     <span class="text-zinc-500 dark:text-zinc-400">Trier par</span>
                     <button type="button" @click="open = !open" :aria-expanded="open"
@@ -553,7 +553,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </a>
             @empty
                 <div class="col-span-full py-16 lg:py-24">
-                    <div x-data="{ shown: false }" x-intersect="shown = true"
+                    <div x-data="cspState()" x-intersect="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                         class="transition-all duration-700 ease-out">
                         <div
@@ -598,3 +598,4 @@ new #[Layout('layouts::main')] class extends Component {
 
     </section>
 </div>
+

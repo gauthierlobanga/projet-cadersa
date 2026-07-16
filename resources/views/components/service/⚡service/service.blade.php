@@ -2,7 +2,7 @@
 <section id="services" class="relative overflow-hidden bg-white py-24 dark:bg-zinc-950">
     {{-- En-tête --}}
     <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mb-16 max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
+        <div class="mb-16 max-w-3xl" x-data="cspState()" x-intersect="shown = true">
             <h2 class="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl transition-all duration-700 delay-100 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                 Des solutions <span class="text-emerald-600 dark:text-emerald-400">durables</span> pour chaque besoin
@@ -25,7 +25,7 @@
                 @php
                     $color = $colors[$loop->index % count($colors)];
                 @endphp
-                <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
+                <div x-cloak x-data="cspState()" x-intersect="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                     class="transition-all duration-700 ease-out" style="transition-delay: {{ $loop->index * 75 }}ms">
 
@@ -119,3 +119,4 @@
         </nav>
     </div>
 </section>
+

@@ -15,7 +15,7 @@
 
     <div class="relative z-10 mx-auto max-w-350 px-6 lg:px-8">
         {{-- En-tête --}}
-        <div class="mx-auto max-w-3xl text-center" x-data="{ visible: false }" x-intersect="visible = true"
+        <div class="mx-auto max-w-3xl text-center" x-data="cspState()" x-intersect="visible = true"
             :class="{ 'opacity-100 translate-y-0': visible, 'opacity-0 translate-y-6': !visible }"
             class="transition-all duration-700">
             <span
@@ -36,26 +36,7 @@
         </div>
 
         {{-- Grille des membres avec animation GSAP ScrollTrigger --}}
-        <div class="relative mt-12" x-data="{
-            init: function() {
-                if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-                const articles = gsap.utils.toArray(this.$el.querySelectorAll('article'));
-                articles.forEach((article, index) => {
-                    gsap.fromTo(article, { opacity: 0, y: 30 }, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: article,
-                            start: 'top bottom-=80',
-                            toggleActions: 'play none none none',
-                        },
-                        delay: index * 0.1
-                    });
-                });
-            }
-        }">
+        <div class="relative mt-12" x-data="teamMemberGrid()">
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-6">
                 @forelse($this->members as $member)
                     <article
@@ -143,3 +124,4 @@
         </div>
     </div>
 </section>
+

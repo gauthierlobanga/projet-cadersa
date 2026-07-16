@@ -76,7 +76,7 @@ new #[Layout('layouts::main')] class extends Component {
     {{-- ==================== HERO ==================== --}}
     <section
         class="relative flex flex-col items-center gap-x-10 gap-y-5 border-b border-zinc-200 px-5 py-10 xs:px-8 sm:py-15 lg:flex-row lg:px-15 lg:gap-x-16 dark:border-zinc-800 max-w-7xl mx-auto"
-        x-cloak x-data="{ shown: false }" x-intersect.once="shown = true">
+        x-cloak x-data="cspState()" x-intersect.once="shown = true">
 
         {{-- Ambiance lumineuse de fond --}}
         <div class="pointer-events-none absolute inset-0 z-0">
@@ -382,7 +382,7 @@ new #[Layout('layouts::main')] class extends Component {
         {{-- Zone de tri --}}
         <div class="custom-top-dashed-border mt-5 flex flex-wrap items-center justify-between gap-4 pt-5">
             <div class="flex flex-wrap items-center gap-4">
-                <div x-cloak class="relative flex items-center gap-1.5 text-xs" x-data="{ open: false }"
+                <div x-cloak class="relative flex items-center gap-1.5 text-xs" x-data="cspState()"
                     @click.outside="open = false" @keydown.escape.window="open = false">
                     <span class="text-zinc-500 dark:text-zinc-400">Trier par</span>
                     <button type="button" @click="open = !open" :aria-expanded="open"
@@ -559,7 +559,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </a>
             @empty
                 <div class="col-span-full py-16 lg:py-24">
-                    <div x-data="{ shown: false }" x-intersect="shown = true"
+                    <div x-data="cspState()" x-intersect="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                         class="transition-all duration-700 ease-out">
                         <div
@@ -596,3 +596,4 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     </section>
 </div>
+

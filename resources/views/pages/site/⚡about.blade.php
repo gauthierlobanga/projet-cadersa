@@ -110,7 +110,7 @@ new #[Layout('layouts::main')] class extends Component {
             {{-- About Section : Image à gauche, Contenu à droite --}}
             <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center mb-24">
                 {{-- En‑tête animé (Texte) --}}
-                <div x-cloak class="max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
+                <div x-cloak class="max-w-3xl" x-data="cspState()" x-intersect="shown = true">
                     {{-- Badge --}}
                     <span
                         class="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-700 dark:text-emerald-400 backdrop-blur-sm transition-all duration-700 ease-out"
@@ -166,7 +166,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
 
                 {{-- Image droite --}}
-                <div x-cloak class="relative" x-data="{ shown: false }" x-intersect="shown = true">
+                <div x-cloak class="relative" x-data="cspState()" x-intersect="shown = true">
                     <div class="relative overflow-hidden transition-all duration-1000 delay-300 ease-out"
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'">
                         @php $aboutImage = $aboutBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
@@ -194,7 +194,7 @@ new #[Layout('layouts::main')] class extends Component {
             {{-- Vision Section : Image à gauche, Contenu à droite --}}
             @php $visionBlocks = $this->about->visionBlocks(); @endphp
             @if (!empty($visionBlocks))
-                <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
+                <div x-cloak x-data="cspState()" x-intersect="shown = true"
                     class="mt-20 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
 
                     {{-- Image Vision --}}
@@ -261,7 +261,7 @@ new #[Layout('layouts::main')] class extends Component {
             {{-- Mission Section : Contenu à gauche, Image à droite --}}
             @php $missionBlocks = $this->about->missionBlocks(); @endphp
             @if (!empty($missionBlocks))
-                <div x-cloak x-data="{ shown: false }" x-intersect="shown = true"
+                <div x-cloak x-data="cspState()" x-intersect="shown = true"
                     class="mt-32 grid gap-12 lg:grid-cols-2 lg:items-center overflow-hidden">
 
                     {{-- Contenu Mission --}}
@@ -364,7 +364,7 @@ new #[Layout('layouts::main')] class extends Component {
 
         <div class="relative z-10 mx-auto max-w-350 px-6 lg:px-8">
             {{-- En‑tête --}}
-            <div x-cloak class="mb-16 max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
+            <div x-cloak class="mb-16 max-w-3xl" x-data="cspState()" x-intersect="shown = true">
                 <span
                     class="inline-block rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-300 backdrop-blur-sm transition-all duration-700 ease-out"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
@@ -455,7 +455,7 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
 
             {{-- Bloc principal --}}
-            <div x-cloak class="mt-16" x-data="{ shown: false }" x-intersect="shown = true"
+            <div x-cloak class="mt-16" x-data="cspState()" x-intersect="shown = true"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'"
                 class="transition-all duration-700 ease-out">
                 <div class="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md">
@@ -508,3 +508,4 @@ new #[Layout('layouts::main')] class extends Component {
     </section>
 
 </div>
+

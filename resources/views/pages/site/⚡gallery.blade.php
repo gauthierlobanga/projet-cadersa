@@ -36,7 +36,7 @@ new #[Layout('layouts::main')] class extends Component
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($projects as $index => $project)
-                    <div class="group relative aspect-4/3 overflow-hidden rounded-2xl bg-slate-200 cursor-pointer animate-fade-up" style="animation-delay: {{ ($index % 3) * 0.1 }}s;" x-data="{ hovered: false }" @mouseenter="hovered = true" @mouseleave="hovered = false">
+                    <div class="group relative aspect-4/3 overflow-hidden rounded-2xl bg-slate-200 cursor-pointer animate-fade-up" style="animation-delay: {{ ($index % 3) * 0.1 }}s;" x-data="cspState()" @mouseenter="hovered = true" @mouseleave="hovered = false">
 
                         @if($project->hasMedia('cover'))
                             <img src="{{ $project->getFirstMediaUrl('cover', 'thumb') }}" alt="{{ $project->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" :class="{ 'scale-110': hovered }">
@@ -73,3 +73,4 @@ new #[Layout('layouts::main')] class extends Component
         </div>
     </section>
 </div>
+
