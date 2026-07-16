@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550">
+    <defs>
+        <style>
+            .prefix__green-fill {
+                fill: #00a651
+            }
+
+            .prefix__white-stroke {
+                stroke: #fff;
+                stroke-width: 3;
+                fill: none;
+                stroke-linecap: round
+            }
+        </style>
+    </defs>
+    <path class="prefix__green-fill"
+        d="M110 190C110 70 230 0 350 0s240 70 240 190c-20 0-30-15-40-5-15 15-25 15-35-5s-25-15-35 5c-20 20-40 5-55-15-10-10-20-5-25 10-10 20-25 25-40 10-20-20-40-20-50-5s-30 20-40-5c-10-20-25-20-35-5-15 25-35 25-45 10-15-15-25-10-35 5-15 15-30 10-45 0z" />
+    <path class="prefix__white-stroke"
+        d="M135 140q215 30 430 0M190 90q160 25 320 0M260 40q90 15 180 0M350 0v180M350 0q-70 70-110 170M350 0q70 70 110 170M350 0Q200 70 155 150M350 0q150 70 195 150" />
+    <g><text font-family="'Times New Roman',Times,Georgia,serif" font-size="92" font-weight="700" letter-spacing="2"
+            fill="#111" transform="translate(50 335)">CADERSA</text><text x="490" class="prefix__green-fill"
+            font-family="'Georgia','Times New Roman',serif" font-size="92" font-weight="500"
+            transform="translate(50 335)">a.s.b.l</text></g>
+    <g>
+        <path class="prefix__green-fill"
+            d="M95 395h40l30 35h110l8-15 7 15 7-35h11l-7 35h7l8-35h7l7 35 8-15 8 15h110l30-35h40l-25 45H120z" />
+    </g>
+</svg>
