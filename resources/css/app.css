@@ -299,3 +299,62 @@ select:focus[data-flux-control] {
 .dark .fi-prose th {
     background-color: var(--color-zinc-800);
 }
+
+/* === Hotfix: Scroll-to-top responsive & Mobile sidebar overlay (safe) === */
+/* Ensure the scroll-to-top button is a compact round icon on small screens and
+   avoids creating extra right margin. On larger screens the labeled button returns. */
+[x-data="scrollToTop()"] {
+    right: 1rem !important;
+    bottom: 1rem !important;
+}
+[x-data="scrollToTop()"] button {
+    width: 3rem !important;
+    height: 3rem !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+[x-data="scrollToTop()"] button > [data-text] {
+    display: none !important;
+}
+@media (min-width: 640px) {
+    [x-data="scrollToTop()"] {
+        right: 1.5rem !important;
+        bottom: 1.5rem !important;
+    }
+    [x-data="scrollToTop()"] button {
+        width: auto !important;
+        height: 3rem !important;
+        padding-left: 0.375rem !important; /* pl-1.5 */
+        padding-right: 1.25rem !important; /* pr-5 */
+    }
+    [x-data="scrollToTop()"] button > [data-text] {
+        display: inline-block !important;
+    }
+}
+
+/* Mobile sidebar overlay: only apply fixed overlay styles when the sidebar is
+   actually open (i.e., not in the collapsed state). This avoids forcing overlays
+   or global overflow while the sidebar should be hidden. */
+[data-flux-sidebar-on-mobile]:not([data-flux-sidebar-collapsed-mobile]) {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100dvh !important;
+    z-index: 9999 !important;
+    box-shadow: 0 8px 40px rgba(2,6,23,0.2) !important;
+    overflow-y: auto !important;
+}
+
+/* Backdrop shown when mobile sidebar is open. Do NOT force display:block here;
+   the component toggles visibility via classes. For safety, do not override the
+   'hidden' class globally to avoid blocking interactions. */
+[data-flux-sidebar-backdrop] {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9998 !important;
+    background: rgba(0,0,0,0.12) !important;
+}
+
+/* Do not force html overflow hidden globally; rely on component behaviour. */

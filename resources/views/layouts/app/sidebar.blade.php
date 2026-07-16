@@ -98,5 +98,7 @@
 
         @vite('resources/js/app.js')
         @fluxScripts
+        {{-- Filament scripts (assure le chargement des JS Filament pour le panneau/admin) --}}
+        @filamentScripts
     </body>
 </html>

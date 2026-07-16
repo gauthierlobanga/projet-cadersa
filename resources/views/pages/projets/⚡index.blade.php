@@ -175,7 +175,31 @@ new #[Layout('layouts::main')] class extends Component {
     </section>
 
     {{-- ========== SECTION FILTRES + LISTE (identique au blog, adaptée aux projets) ========== --}}
-    <section x-cloak id="scroll-to-reference" x-data="projectSearchFilters()"
+    <section x-cloak id="scroll-to-reference" x-data="{
+        search: $wire.entangle('search').live,
+        filter: $wire.entangle('filter').live,
+        sortBy: $wire.entangle('sort').live,
+        showFilters: false,
+        open: false,
+        activeFilterCount: 0,
+        init() {
+            this.activeFilterCount = this.filter !== 'all' ? 1 : 0;
+            this.$watch('filter', val => this.activeFilterCount = val !== 'all' ? 1 : 0);
+        },
+        resetFilters() {
+            this.filter = 'all';
+            this.sortBy = 'newest';
+            this.search = '';
+            this.showFilters = false;
+            this.$refs.filtersButton.focus();
+        },
+        clearSearch() {
+            this.search = '';
+            this.$nextTick(() => {
+                if (this.$refs.searchInput) this.$refs.searchInput.focus();
+            });
+        }
+    }"
         aria-label="Recherche et filtres des projets"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
         <div class="mb-5">
@@ -299,7 +323,7 @@ new #[Layout('layouts::main')] class extends Component {
                                     stroke-dasharray="4 4" />
                             </svg>
                         </div>
-                        <button type="button" @click="resetFilters()" :inert="activeFilterCount === 0"
+                        <button type="button" @click="resetFilters()" wire:click="clearFilters" :inert="activeFilterCount === 0"
                             :aria-hidden="activeFilterCount === 0"
                             class="group inline-flex h-10 items-center justify-center gap-1.5 border border-zinc-200 bg-white px-3 text-sm font-medium
                                    text-zinc-600 shadow-sm transition-all duration-300 ease-out
@@ -333,7 +357,7 @@ new #[Layout('layouts::main')] class extends Component {
                     </div>
                     <input autocomplete="off"
                         class="h-full w-full border-0 bg-transparent pl-10 pr-12 text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                        x-model.debounce.250ms="search" x-ref="searchInput" placeholder="Rechercher un projet...">
+                                            x-model.debounce.250ms="search" wire:model.debounce.250ms="search" x-ref="searchInput" placeholder="Rechercher un projet...">
                     <button x-cloak x-show="search.length > 0" @click="clearSearch()"
                         x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 scale-75" x-transition:enter-end="opacity-100 scale-100"
@@ -362,7 +386,7 @@ new #[Layout('layouts::main')] class extends Component {
                             Tous
                         </label>
                         <input type="radio" id="status-all" name="status-filter" value="all"
-                            class="sr-only peer" x-model="filter" />
+                                                    class="sr-only peer" x-model="filter" wire:model="filter" />
                         @foreach ($statuses as $key => $label)
                             @if ($key !== 'all')
                                 <label for="status-{{ $key }}"
@@ -371,7 +395,7 @@ new #[Layout('layouts::main')] class extends Component {
                                     {{ $label }}
                                 </label>
                                 <input type="radio" id="status-{{ $key }}" name="status-filter"
-                                    value="{{ $key }}" class="sr-only peer" x-model="filter" />
+                                                                    value="{{ $key }}" class="sr-only peer" x-model="filter" wire:model="filter" />
                             @endif
                         @endforeach
                     </div>
@@ -411,7 +435,7 @@ new #[Layout('layouts::main')] class extends Component {
                             @foreach (['newest' => 'Plus récents', 'oldest' => 'Plus anciens', 'name-asc' => 'Titre A→Z', 'name-desc' => 'Titre Z→A'] as $value => $label)
                                 <button type="button" role="option"
                                     :aria-selected="sortBy === '{{ $value }}'"
-                                    @click="sortBy = '{{ $value }}'; open = false"
+                                    @click="sortBy = '{{ $value }}'; open = false" wire:click="$set('sort', '{{ $value }}')"
                                     class="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                                     :class="sortBy === '{{ $value }}' ?
                                         'bg-emerald-50 font-semibold text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :

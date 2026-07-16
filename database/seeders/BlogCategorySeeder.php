@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\PostCategory;
-use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -11,7 +10,21 @@ class BlogCategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $faker = Factory::create('fr_FR');
+        // Couleurs hexadécimales fixes et agréables pour chaque catégorie
+        $colors = [
+            '#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0',
+            '#f59e0b', '#d97706', '#b45309', '#8b5cf6', '#6366f1',
+            '#3b82f6', '#2563eb', '#1d4ed8', '#ec4899', '#db2777',
+        ];
+
+        // Descriptions génériques pour les sous-catégories
+        $descriptions = [
+            'Une ressource essentielle pour approfondir vos connaissances.',
+            'Découvrez les meilleures pratiques et les témoignages du terrain.',
+            'Explorez les projets et initiatives en cours dans ce domaine.',
+            'Tout ce que vous devez savoir pour rester informé et engagé.',
+            'Un aperçu complet des actions et de leur impact sur les communautés.',
+        ];
 
         $racines = [
             ['nom' => 'Agriculture', 'description' => 'Techniques agricoles, cultures, innovations'],
@@ -32,7 +45,7 @@ class BlogCategorySeeder extends Seeder
                     'parent_id' => null,
                     'nom' => $catData['nom'],
                     'description' => $catData['description'],
-                    'color' => $faker->hexColor(),
+                    'color' => $colors[$index % count($colors)],
                     'metadata' => ['niveau' => 1, 'type' => 'racine'],
                     'ordre' => $index * 10,
                     'est_active' => true,
@@ -68,14 +81,14 @@ class BlogCategorySeeder extends Seeder
                     [
                         'parent_id' => $parent->id,
                         'nom' => $nomSousCat,
-                        'description' => $faker->sentence(10),
-                        'color' => $faker->hexColor(),
+                        'description' => $descriptions[$index % count($descriptions)],
+                        'color' => $colors[(8 + $index) % count($colors)], // Décale pour varier les couleurs
                         'metadata' => ['niveau' => 2, 'parent' => $racineNom],
                         'ordre' => $index * 5,
                         'est_active' => true,
-                        'est_visible_dans_menu' => $faker->boolean(80),
+                        'est_visible_dans_menu' => ($index % 2 === 0), // Une sur deux visible
                         'meta_title' => $nomSousCat.' - '.$racineNom,
-                        'meta_description' => $faker->text(150),
+                        'meta_description' => 'Découvrez nos articles et ressources sur '.strtolower($nomSousCat).' dans la catégorie '.strtolower($racineNom).'.',
                         'meta_keywords' => array_merge(
                             explode(' ', strtolower($nomSousCat)),
                             explode(' ', strtolower($racineNom))

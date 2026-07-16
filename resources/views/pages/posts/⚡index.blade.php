@@ -73,7 +73,7 @@ new #[Layout('layouts::main')] class extends Component {
 <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
     {{-- ========== HEADER  ========== --}}
     <section x-cloak class="relative overflow-hidden bg-[#fafaf9] py-18 sm:py-24 lg:py-28 dark:bg-zinc-950"
-        x-data="cspState()" x-intersect.once="shown = true">
+        x-data="{ shown: false }" x-intersect.once="shown = true">
 
         {{-- Ambiance lumineuse de fond (Gradients Radiaux Vercel/Stripe) --}}
         <div class="pointer-events-none absolute inset-0 z-0">
@@ -198,8 +198,25 @@ new #[Layout('layouts::main')] class extends Component {
 
 
     {{-- ========== SECTION FILTRES + LISTE ========== --}}
-    <section x-cloak id="scroll-to-reference" x-data="postSearchFilters()"
-        aria-label="Plugin search and listing"
+    <section x-cloak id="scroll-to-reference" x-data="{
+        search: $wire.entangle('search').live,
+        category: $wire.entangle('category').live,
+        sortBy: $wire.entangle('sort').live,
+        showFilters: false,
+        open: false,
+        activeFilterCount: 0,
+        init() {
+            this.activeFilterCount = this.category ? 1 : 0;
+            this.$watch('category', val => this.activeFilterCount = val ? 1 : 0);
+        },
+        resetFilters() {
+            this.category = null;
+            this.sortBy = 'newest';
+            this.search = '';
+            this.showFilters = false;
+            this.$refs.filtersButton.focus();
+        }
+    }" aria-label="Plugin search and listing"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
         <div class="mb-5">
             <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Tous les articles</h2>
@@ -439,15 +456,28 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
         </div>
 
-        {{-- Grille des articles --}}
-        <div wire:loading.class="opacity-50 pointer-events-none"
-            class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-7 transition-opacity duration-300"
+        {{-- Grille des articles avec chargement non‑perturbant --}}
+        <div x-data="{ loading: false }" x-on:livewire-loading.window="loading = true"
+            x-on:livewire-done.window="loading = false"
+            class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-7 relative"
             x-init="autoAnimate($el, { duration: 250 })" aria-label="Liste des articles">
+            {{-- Indicateur de chargement (absolu, ne change pas la hauteur) --}}
+            <div x-show="loading" x-cloak class="absolute inset-0 z-10 flex items-start justify-center pt-16">
+                <div class="rounded-full bg-white/80 dark:bg-zinc-900/80 p-3 shadow-lg backdrop-blur-sm">
+                    <svg class="h-6 w-6 animate-spin text-emerald-500" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4" />
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                </div>
+            </div>
+
             @forelse ($posts as $post)
                 <a href="{{ route('posts.show', $post) }}" wire:navigate
                     class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
-                   hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
-                   dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20"
+           hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
+           dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20"
                     wire:key="{{ $post->id }}" aria-label="{{ $post->title }}">
 
                     {{-- Image --}}
@@ -488,7 +518,7 @@ new #[Layout('layouts::main')] class extends Component {
 
                             <p
                                 class="line-clamp-1 font-outfit font-medium text-zinc-900 transition-colors duration-300
-                              group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                      group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                 {{ $post->title }}
                             </p>
                         </div>
@@ -538,8 +568,8 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="flex h-11 items-stretch text-sm font-medium">
                         <div
                             class="inline-flex grow items-center justify-between gap-3 px-4
-                            bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
-                            group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
+                    bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
+                    group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
                             <span>Lire l'article</span>
                             <span class="transition duration-300 ease-out group-hover:translate-x-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3" viewBox="0 0 28 22"
@@ -553,7 +583,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </a>
             @empty
                 <div class="col-span-full py-16 lg:py-24">
-                    <div x-data="cspState()" x-intersect="shown = true"
+                    <div x-data="{ shown: false }" x-intersect="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                         class="transition-all duration-700 ease-out">
                         <div
@@ -598,4 +628,3 @@ new #[Layout('layouts::main')] class extends Component {
 
     </section>
 </div>
-
