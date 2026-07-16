@@ -10,7 +10,7 @@
     class="fixed bottom-6 right-6 z-50 sm:bottom-8 sm:right-8"
     style="display: none;"
 >
-    <button data-button-pulse type="button" aria-label="Remonter en haut de la page"
+    <button x-on:click="scrollToTop()" data-button-pulse type="button" aria-label="Remonter en haut de la page"
         class="inline-flex h-12 items-center gap-2 rounded-full bg-emerald-50 dark:bg-zinc-800 pr-5 pl-1.5 font-medium text-sm text-zinc-900 dark:text-zinc-100 shadow-xl shadow-emerald-500/10 transition-all duration-300 ease-out will-change-transform hover:scale-105 hover:bg-emerald-100 dark:hover:bg-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50">
         <div class="relative isolate grid size-9 place-items-center overflow-hidden rounded-full bg-emerald-800 dark:bg-emerald-700 text-white">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
