@@ -162,7 +162,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
             ->performOnCollections('avatar')
             ->optimize()
             ->nonQueued();
- 
+
         // Avatar miniature (carré 150x150) – pour listes, commentaires, notifications
         $this->addMediaConversion('thumb')
             ->format('webp')
@@ -196,7 +196,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
         }
 
         return ($this->is_active && $this->hasRole(['super_admin', 'editeur', 'Manager']))
-            && (str_ends_with($this->email, '@cadersa.com') && $this->hasVerifiedEmail());
+            && (str_ends_with($this->email, '@gmail.com') && $this->hasVerifiedEmail());
     }
 
     /**
