@@ -258,9 +258,13 @@ return [
     | of Alpine in its bundle. This is useful for applications that are using
     | strict Content Security Policy (CSP) to protect against XSS attacks.
     |
+    | The application currently relies on standard Alpine expressions and
+    | global window/document access, which are not compatible with the
+    | CSP-safe parser used by Livewire. Disable CSP-safe mode unless a
+    | strict CSP header is required.
     */
 
-    'csp_safe' => true,
+    'csp_safe' => false,
 
     /*
     |---------------------------------------------------------------------------
