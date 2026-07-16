@@ -21,6 +21,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use DateTimeInterface;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Image\Enums\Fit;
@@ -793,7 +794,7 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
         return $query->orderBy('published_at', 'desc');
     }
 
-    public function scopeBetweenDates(Builder $query, \\DateTimeInterface|string $start, \\DateTimeInterface|string $end): Builder
+    public function scopeBetweenDates(Builder $query, DateTimeInterface|string $start, DateTimeInterface|string $end): Builder
     {
         return $query->whereBetween('published_at', [$start, $end]);
     }

@@ -6,10 +6,8 @@
         category: $wire.entangle('category').live,
         sortBy: $wire.entangle('sort').live,
         sortDropdownOpen: false,
-        get activeFilterCount() {
-            return this.category ? 1 : 0
-        },
-        resetFilters() {
+        activeFilterCount: 0,
+        resetFilters: function() {
             this.category = null
             this.sortBy = 'newest'
             this.search = ''
@@ -19,13 +17,11 @@
         },
         listeningMessages: [`Whatcha looking for? 🔍`, `I'm listening... 👀`, `Go ahead, I'm ready 🎯`, `Type away! ⌨️`, `Searching is fun! 🤓`, `What can I find for you? 🕵️‍♂️`],
         listeningIndex: 0,
-        get listeningMessage() {
-            return this.listeningMessages[this.listeningIndex % this.listeningMessages.length]
-        },
-        rotateListeningMessage() {
+        listeningMessage: 'Whatcha looking for? 🔍',
+        rotateListeningMessage: function() {
             this.listeningIndex++
         },
-    }" aria-label="Plugin search and listing"
+    }" x-effect="activeFilterCount = category ? 1 : 0; listeningMessage = listeningMessages[listeningIndex % listeningMessages.length]" aria-label="Plugin search and listing"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
          <div class="mb-16 max-w-3xl" x-data="{ shown: false }" x-intersect="shown = true">
              <h2 class="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-5xl transition-all duration-700 delay-100 ease-out"
@@ -42,7 +38,7 @@
         {{-- Grille des articles --}}
         <div wire:loading.class="opacity-50 pointer-events-none"
             class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-7 transition-opacity duration-300"
-            x-init="autoAnimate($el, { duration: 250 })" aria-label="Liste des articles">
+            x-init="window.autoAnimate($el, { duration: 250 })" aria-label="Liste des articles">
             @forelse ($posts as $post)
                 <a href="{{ route('posts.show', $post) }}" wire:navigate
                     class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
@@ -74,7 +70,7 @@
                         <div
                             class="relative transition duration-300 ease-out will-change-transform group-hover:translate-x-4.5">
                             <div x-data="{
-                                init() {
+                                init: function() {
                                     const tweens = [];
                                     let playing = false;
                                     const rotatingEl = $el.querySelector('[data-rotating]');

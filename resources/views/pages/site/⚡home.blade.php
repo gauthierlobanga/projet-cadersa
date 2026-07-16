@@ -95,7 +95,7 @@ new #[Layout('layouts::main')] class extends Component {
 
 
     <section x-cloak class="relative isolate overflow-hidden" x-data="{
-        init() {
+        init: function() {
             const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
 
             // Background image slight zoom

@@ -131,7 +131,7 @@
 
     <!-- Conteneur principal (Design Figma Split Card) -->
     <div x-data="{
-        init() {
+        init: function() {
             gsap.from($refs.card, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' });
             gsap.from($refs.illustration, { scale: 0.8, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(1.5)' });
             gsap.from($refs.errorCode, { y: 20, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power2.out' });

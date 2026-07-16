@@ -15,15 +15,15 @@
         supported: false,
         loading: false,
         error: null,
-        updateSupport() {
+        updateSupport: function() {
             this.supported = Boolean(window.Passkeys?.isSupported());
         },
-        init() {
+        init: function() {
             this.updateSupport();
 
             window.addEventListener('passkeys:ready', () => this.updateSupport(), { once: true });
         },
-        async verify() {
+        verify: async function() {
             this.loading = true;
             this.error = null;
             try {

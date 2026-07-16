@@ -7,15 +7,15 @@
                 showRecoveryInput: @js($errors->has('recovery_code')),
                 code: '',
                 recovery_code: '',
-                focusOtp() {
+                focusOtp: function() {
                     this.$nextTick(() => this.$refs.otp?.querySelector('input')?.focus());
                 },
-                init() {
+                init: function() {
                     if (! this.showRecoveryInput) {
                         this.focusOtp();
                     }
                 },
-                toggleInput() {
+                toggleInput: function() {
                     this.showRecoveryInput = !this.showRecoveryInput;
 
                     this.code = '';

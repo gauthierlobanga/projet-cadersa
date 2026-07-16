@@ -37,7 +37,7 @@
 
         {{-- Grille des membres avec animation GSAP ScrollTrigger --}}
         <div class="relative mt-12" x-data="{
-            init() {
+            init: function() {
                 if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
                 const articles = gsap.utils.toArray(this.$el.querySelectorAll('article'));
                 articles.forEach((article, index) => {

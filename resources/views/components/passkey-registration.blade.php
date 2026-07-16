@@ -9,10 +9,10 @@
         name: '',
         loading: false,
         error: null,
-        updateSupport() {
+        updateSupport: function() {
             this.supported = Boolean(window.Passkeys?.isSupported());
         },
-        getDefaultPasskeyName() {
+        getDefaultPasskeyName: function() {
             const ua = navigator.userAgent;
 
             const browser = [
@@ -33,13 +33,13 @@
 
             return [browser, os].filter(Boolean).join(' on ') || '';
         },
-        init() {
+        init: function() {
             this.name = this.getDefaultPasskeyName();
             this.updateSupport();
 
             window.addEventListener('passkeys:ready', () => this.updateSupport(), { once: true });
         },
-        async register() {
+        register: async function() {
             if (!this.name.trim()) return;
 
             this.loading = true;
@@ -58,7 +58,7 @@
                 this.loading = false;
             }
         },
-        cancel() {
+        cancel: function() {
             this.showForm = false;
             this.name = '';
             this.error = null;

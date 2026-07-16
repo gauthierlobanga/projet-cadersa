@@ -17,7 +17,7 @@ new #[Layout('layouts::main')] class extends Component {
 <div>
 
     <section x-cloak class="relative isolate overflow-hidden" x-data="{
-        init() {
+        init: function() {
             const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
 
             // Background image slight zoom
@@ -125,7 +125,7 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
         </div>
         <div x-data="{
-            init() {
+            init: function() {
                 const tl = gsap.timeline({
                     defaults: { ease: 'power2.out' },
                     scrollTrigger: {
