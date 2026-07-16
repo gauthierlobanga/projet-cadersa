@@ -346,7 +346,53 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
+    Alpine.data("footerCitationReveal", () => ({
+        init() {
+            this.$nextTick(() => {
+                if (typeof gsap === "undefined") {
+                    return;
+                }
+
+                const original = this.$refs.originalText;
+                const warning = this.$refs.warningText;
+
+                if (!original || !warning) {
+                    return;
+                }
+
+                gsap.set(warning, { opacity: 0 });
+
+                const tl = gsap.timeline({ paused: true });
+                tl.to(
+                    original,
+                    {
+                        y: -20,
+                        opacity: 0,
+                        duration: 0.3,
+                        ease: "power2.in",
+                    },
+                    0,
+                );
+                tl.fromTo(
+                    warning,
+                    { y: 20, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.4,
+                        ease: "back.out(1.2)",
+                    },
+                    "-=0.15",
+                );
+
+                this.$el.addEventListener("mouseenter", () => tl.play());
+                this.$el.addEventListener("mouseleave", () => tl.reverse());
+            });
+        },
+    }));
+
     Alpine.data("returnToTopButton", () => ({
+
         init() {
             if (typeof gsap === "undefined" || typeof SplitText === "undefined") {
                 return;

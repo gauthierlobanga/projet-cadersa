@@ -12,48 +12,7 @@
         </div>
     </div>
 
-    <div x-data="{
-        init() {
-            this.$nextTick(() => {
-                if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-                const animations = {
-                    'enter-from-left': { x: -60, opacity: 0, duration: 0.8, ease: 'power3.out' },
-                    'enter-from-right': { x: 60, opacity: 0, duration: 0.8, ease: 'power3.out' },
-                    'enter-from-left-staggered': { x: -40, opacity: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1 },
-                    'text-reveal-words': { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.05 }
-                };
-
-                gsap.utils.toArray('[data-animate]').forEach(el => {
-                    const type = el.dataset.animate;
-                    const config = animations[type] || animations['enter-from-left'];
-
-                    if (type === 'text-reveal-words') {
-                        const split = new SplitText(el, { type: 'words' });
-                        gsap.from(split.words, {
-                            ...config,
-                            scrollTrigger: {
-                                trigger: el,
-                                start: 'top 85%',
-                                toggleActions: 'play none none none'
-                            }
-                        });
-                    } else {
-                        gsap.from(el, {
-                            ...config,
-                            scrollTrigger: {
-                                trigger: el,
-                                start: 'top 85%',
-                                toggleActions: 'play none none none'
-                            }
-                        });
-                    }
-                });
-
-                ScrollTrigger.refresh();
-            });
-        }
-    }" x-ref="scrollWrapper" class="relative z-10 border-b border-zinc-200 dark:border-zinc-800 px-5 pt-4 pb-8 sm:px-8 sm:pt-10">
+    <div x-data="footerScrollReveal()" x-ref="scrollWrapper" class="relative z-10 border-b border-zinc-200 dark:border-zinc-800 px-5 pt-4 pb-8 sm:px-8 sm:pt-10">
 
         {{-- Zone Supérieure : Logo + Description & Bouton Retour en haut --}}
         <div class="flex flex-col items-start justify-between gap-8 sm:flex-row">
@@ -86,23 +45,7 @@
             </div>
 
             {{-- Bouton "Retour en haut" --}}
-            <div data-animate="enter-from-right" x-data="{
-                init() {
-                    const button = $el.querySelector('button');
-                    const textWrapper = button.querySelector('[data-text]');
-                    const arrow = button.querySelector('svg');
-                    const split = new SplitText(textWrapper, { type: 'chars' });
-                    const chars = split.chars;
-                    const tl = gsap.timeline({ paused: true });
-                    tl.to(chars, { keyframes: [{ y: -10, opacity: 0, duration: 0.2, ease: 'power2.in' }, { y: 10, opacity: 0, duration: 0 }, { y: 0, opacity: 1, duration: 0.2, ease: 'power2.out' }], stagger: 0.02 });
-                    tl.to(arrow, { keyframes: [{ y: -30, duration: 0.25, ease: 'power2.in' }, { y: 30, duration: 0 }, { y: 0, duration: 0.25, ease: 'power2.out' }] }, 0.1);
-                    button.addEventListener('mouseenter', () => tl.play());
-                    button.addEventListener('mouseleave', () => tl.reverse());
-                },
-                scrollToTop() {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }">
+            <div data-animate="enter-from-right" x-data="returnToTopButton()">
                 <button data-button-pulse type="button" aria-label="Remonter en haut de la page"
                     x-on:click="scrollToTop()"
                     class="inline-flex h-12 items-center gap-2 rounded-full bg-emerald-50 dark:bg-zinc-800 pr-5 pl-1.5 font-medium text-sm text-zinc-900 dark:text-zinc-100 transition-all duration-300 ease-out will-change-transform hover:scale-105 hover:bg-emerald-100 dark:hover:bg-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50">
@@ -272,39 +215,7 @@
         <div
             class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-y-4 border-t border-zinc-200/60 dark:border-zinc-700/60 pt-4">
             {{-- Citation  --}}
-            <div x-data="{
-                init() {
-                    this.$nextTick(() => {
-                        if (typeof gsap === 'undefined') return;
-
-                        const original = this.$refs.originalText;
-                        const warning = this.$refs.warningText;
-
-                        gsap.set(warning, { opacity: 0 });
-
-                        const tl = gsap.timeline({ paused: true });
-
-                        tl.to(original, {
-                            y: -20,
-                            opacity: 0,
-                            duration: 0.3,
-                            ease: 'power2.in',
-                        }, 0);
-
-                        tl.fromTo(warning, { y: 20, opacity: 0 }, {
-                                y: 0,
-                                opacity: 1,
-                                duration: 0.4,
-                                ease: 'back.out(1.2)',
-                            },
-                            '-=0.15',
-                        );
-
-                        this.$el.addEventListener('mouseenter', () => tl.play());
-                        this.$el.addEventListener('mouseleave', () => tl.reverse());
-                    });
-                },
-            }"
+            <div x-data="footerCitationReveal()"
                 class="relative cursor-default overflow-hidden text-sm text-zinc-500 dark:text-zinc-400 w-full max-w-xl"
                 style="min-height: 5rem;">
                 {{-- Copyright original --}}
