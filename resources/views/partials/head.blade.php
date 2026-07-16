@@ -1,17 +1,14 @@
+<script>
+    window.Alpine = window.Alpine || {};
+    Alpine.csp = false;
+</script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 @php
     $faviconUrl = \App\Support\Branding\Favicon::currentUrl();
 @endphp
-<x-seo
-    :title="$title ?? null"
-    :description="$seoDescription ?? null"
-    :image="$seoImage ?? null"
-    :url="$seoUrl ?? null"
-    :type="$seoType ?? 'website'"
-    :keywords="$seoKeywords ?? null"
->
+<x-seo :title="$title ?? null" :description="$seoDescription ?? null" :image="$seoImage ?? null" :url="$seoUrl ?? null" :type="$seoType ?? 'website'" :keywords="$seoKeywords ?? null">
     {!! $schema ?? '' !!}
 </x-seo>
 
@@ -22,10 +19,13 @@
     <!-- Remplacez G-XXXXXXX par votre vrai code Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXX');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXX');
     </script>
 </x-cookie-script>
 
@@ -33,7 +33,7 @@
 <x-cookie-script type="marketing">
     <!-- Insérez ici votre code de suivi publicitaire (Pixel FB, LinkedIn Insight, etc.) -->
     <script>
-      // Code de suivi marketing...
+        // Code de suivi marketing...
     </script>
 </x-cookie-script>
 
