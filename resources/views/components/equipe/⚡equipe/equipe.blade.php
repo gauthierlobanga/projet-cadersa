@@ -15,9 +15,9 @@
 
     <div class="relative z-10 mx-auto max-w-350 px-6 lg:px-8">
         {{-- En-tête --}}
-        <div class="mx-auto max-w-3xl text-center" x-data="cspState()" x-intersect="visible = true"
-            :class="{ 'opacity-100 translate-y-0': visible, 'opacity-0 translate-y-6': !visible }"
-            class="transition-all duration-700">
+        <div x-cloak x-data="cspState()" x-intersect="shown = true"
+            :class="{ 'opacity-100 translate-y-0': shown, 'opacity-0 translate-y-6': !shown }"
+            class="mx-auto max-w-3xl text-center transition-all duration-700">
             <span
                 class="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
                 Notre équipe
@@ -124,4 +124,3 @@
         </div>
     </div>
 </section>
-

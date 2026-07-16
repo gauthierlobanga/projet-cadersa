@@ -4,8 +4,6 @@
     </script>
 @endif
 
-<script>window.Alpine = window.Alpine || {}; Alpine.csp = false;</script>
-
 @php
     $filamentFavicon = \App\Support\Branding\Favicon::currentUrl();
 @endphp

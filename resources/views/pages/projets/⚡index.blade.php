@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
@@ -11,49 +12,97 @@ new #[Layout('layouts::main')] class extends Component {
     use WithPagination;
     protected $scrollToTop = false;
 
-    #[Url(as: 'status')]
+    private const STATUS_OPTIONS = [
+        'all' => 'Tous',
+        'planned' => 'Planifiés',
+        'ongoing' => 'En cours',
+        'completed' => 'Terminés',
+    ];
+
+    private const SORT_OPTIONS = [
+        'newest' => 'Plus récents',
+        'oldest' => 'Plus anciens',
+        'name-asc' => 'Titre A→Z',
+        'name-desc' => 'Titre Z→A',
+    ];
+
+    #[Url(as: 'status', except: 'all')]
     public string $filter = 'all';
 
-    #[Url(as: 'q')]
+    #[Url(as: 'q', except: '')]
     public string $search = '';
 
-    #[Url(as: 'sort')]
+    #[Url(as: 'sort', except: 'newest')]
     public string $sort = 'newest';
+
+    public function mount(): void
+    {
+        $this->filter = $this->validFilter();
+        $this->sort = $this->validSort();
+    }
 
     public function with(): array
     {
+        $filter = $this->validFilter();
+        $search = trim($this->search);
+        $sort = $this->validSort();
+
         $query = Project::query()
             ->with(['media', 'tags'])
             ->active();
 
-        if ($this->filter !== 'all') {
-            $query->where('status', $this->filter);
+        if ($filter !== 'all') {
+            $query->byStatus($filter);
         }
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('title', 'LIKE', '%' . $this->search . '%')->orWhere('location', 'LIKE', '%' . $this->search . '%');
+
+        if ($search !== '') {
+            $query->where(function (Builder $query) use ($search): void {
+                $query
+                    ->where('title', 'LIKE', '%' . $search . '%')
+                    ->orWhere('location', 'LIKE', '%' . $search . '%');
             });
         }
 
-        $query
-            ->when($this->sort === 'oldest', fn($q) => $q->oldest('start_date'))
-            ->when($this->sort === 'name-asc', fn($q) => $q->orderBy('title', 'asc'))
-            ->when($this->sort === 'name-desc', fn($q) => $q->orderBy('title', 'desc'))
-            ->when(!in_array($this->sort, ['oldest', 'name-asc', 'name-desc']), fn($q) => $q->latest('start_date'));
+        match ($sort) {
+            'oldest' => $query->oldest('start_date'),
+            'name-asc' => $query->orderBy('title'),
+            'name-desc' => $query->orderByDesc('title'),
+            default => $query->latest('start_date'),
+        };
 
         return [
-            'projects' => $query->paginate(9),
-            'statuses' => ['all' => 'Tous', 'planned' => 'Planifiés', 'ongoing' => 'En cours', 'completed' => 'Terminés'],
+            'projects' => $query->paginate(9)->withQueryString(),
+            'statuses' => self::STATUS_OPTIONS,
+            'sorts' => self::SORT_OPTIONS,
         ];
+    }
+
+    public function updatedFilter(): void
+    {
+        $this->filter = $this->validFilter();
+        $this->resetPage();
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSort(): void
+    {
+        $this->sort = $this->validSort();
+        $this->resetPage();
     }
 
     public function clearFilters(): void
     {
-        $this->reset(['filter', 'search', 'sort']);
+        $this->filter = 'all';
+        $this->search = '';
+        $this->sort = 'newest';
         $this->resetPage();
     }
 
-    public function getStatsProperty()
+    public function getStatsProperty(): array
     {
         return [
             'projets' => Project::active()->count(),
@@ -66,6 +115,20 @@ new #[Layout('layouts::main')] class extends Component {
     {
         $settings = app(SettingApp::class);
         return $settings->logoUrl() ?? asset('images/cadersa-logo.png');
+    }
+
+    private function validFilter(): string
+    {
+        return array_key_exists($this->filter, self::STATUS_OPTIONS)
+            ? $this->filter
+            : 'all';
+    }
+
+    private function validSort(): string
+    {
+        return array_key_exists($this->sort, self::SORT_OPTIONS)
+            ? $this->sort
+            : 'newest';
     }
 };
 ?>
@@ -323,7 +386,8 @@ new #[Layout('layouts::main')] class extends Component {
                                     stroke-dasharray="4 4" />
                             </svg>
                         </div>
-                        <button type="button" @click="resetFilters()" wire:click="clearFilters" :inert="activeFilterCount === 0"
+                        <button type="button" @click="resetFilters()" wire:click.preserve-scroll="clearFilters"
+                            :inert="activeFilterCount === 0"
                             :aria-hidden="activeFilterCount === 0"
                             class="group inline-flex h-10 items-center justify-center gap-1.5 border border-zinc-200 bg-white px-3 text-sm font-medium
                                    text-zinc-600 shadow-sm transition-all duration-300 ease-out
@@ -357,7 +421,8 @@ new #[Layout('layouts::main')] class extends Component {
                     </div>
                     <input autocomplete="off"
                         class="h-full w-full border-0 bg-transparent pl-10 pr-12 text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                                            x-model.debounce.250ms="search" wire:model.debounce.250ms="search" x-ref="searchInput" placeholder="Rechercher un projet...">
+                        x-model.debounce.250ms="search" wire:model.live.debounce.250ms.preserve-scroll="search"
+                        x-ref="searchInput" placeholder="Rechercher un projet...">
                     <button x-cloak x-show="search.length > 0" @click="clearSearch()"
                         x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 scale-75" x-transition:enter-end="opacity-100 scale-100"
@@ -386,7 +451,7 @@ new #[Layout('layouts::main')] class extends Component {
                             Tous
                         </label>
                         <input type="radio" id="status-all" name="status-filter" value="all"
-                                                    class="sr-only peer" x-model="filter" wire:model="filter" />
+                            class="sr-only peer" x-model="filter" wire:model.live.preserve-scroll="filter" />
                         @foreach ($statuses as $key => $label)
                             @if ($key !== 'all')
                                 <label for="status-{{ $key }}"
@@ -395,7 +460,8 @@ new #[Layout('layouts::main')] class extends Component {
                                     {{ $label }}
                                 </label>
                                 <input type="radio" id="status-{{ $key }}" name="status-filter"
-                                                                    value="{{ $key }}" class="sr-only peer" x-model="filter" wire:model="filter" />
+                                    value="{{ $key }}" class="sr-only peer" x-model="filter"
+                                    wire:model.live.preserve-scroll="filter" />
                             @endif
                         @endforeach
                     </div>
@@ -432,10 +498,11 @@ new #[Layout('layouts::main')] class extends Component {
                         class="absolute top-full left-0 z-20 mt-1 w-40 overflow-hidden border border-zinc-200/60 bg-white shadow-md shadow-zinc-200/20 backdrop-blur-sm dark:border-zinc-700/60 dark:bg-zinc-900 dark:shadow-zinc-950/50"
                         role="listbox">
                         <div class="py-1">
-                            @foreach (['newest' => 'Plus récents', 'oldest' => 'Plus anciens', 'name-asc' => 'Titre A→Z', 'name-desc' => 'Titre Z→A'] as $value => $label)
+                            @foreach ($sorts as $value => $label)
                                 <button type="button" role="option"
                                     :aria-selected="sortBy === '{{ $value }}'"
-                                    @click="sortBy = '{{ $value }}'; open = false" wire:click="$set('sort', '{{ $value }}')"
+                                    @click="sortBy = '{{ $value }}'; open = false"
+                                    wire:click.preserve-scroll="$set('sort', '{{ $value }}')"
                                     class="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                                     :class="sortBy === '{{ $value }}' ?
                                         'bg-emerald-50 font-semibold text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :
@@ -465,11 +532,33 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
 
         {{-- Grille des projets --}}
-        <div wire:loading.class="opacity-50 pointer-events-none"
-            class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-7 transition-opacity duration-300"
-            x-init="autoAnimate($el, { duration: 250 })" aria-label="Liste des projets">
+        <div class="relative mt-5 min-h-[34rem]" wire:loading.attr="aria-busy"
+            wire:target="search,filter,sort,clearFilters,gotoPage,nextPage,previousPage">
+            <div wire:loading.delay wire:target="search,filter,sort,clearFilters,gotoPage,nextPage,previousPage"
+                class="pointer-events-none absolute inset-x-0 top-0 z-10">
+                <div class="grid grid-cols-1 items-start gap-7 md:grid-cols-2 lg:grid-cols-3">
+                    @for ($i = 0; $i < 6; $i++)
+                        <div
+                            class="min-h-[20rem] border border-zinc-200/70 bg-white/85 p-4 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/85">
+                            <div class="aspect-video w-full animate-pulse bg-zinc-200 dark:bg-zinc-800"></div>
+                            <div class="mt-5 h-4 w-3/4 animate-pulse bg-zinc-200 dark:bg-zinc-800"></div>
+                            <div class="mt-3 h-3 w-full animate-pulse bg-zinc-100 dark:bg-zinc-800/80"></div>
+                            <div class="mt-2 h-3 w-5/6 animate-pulse bg-zinc-100 dark:bg-zinc-800/80"></div>
+                            <div class="mt-6 flex items-center justify-between gap-4">
+                                <div class="h-8 w-24 animate-pulse bg-zinc-100 dark:bg-zinc-800"></div>
+                                <div class="h-8 w-24 animate-pulse bg-zinc-100 dark:bg-zinc-800"></div>
+                            </div>
+                        </div>
+                    @endfor
+                </div>
+            </div>
+
+            <div wire:loading.class.delay="opacity-40 blur-[1px] pointer-events-none"
+                wire:target="search,filter,sort,clearFilters,gotoPage,nextPage,previousPage"
+                class="grid min-h-[34rem] grid-cols-1 items-start gap-7 transition duration-200 ease-out md:grid-cols-2 lg:grid-cols-3"
+                aria-label="Liste des projets">
             @forelse($projects as $project)
-                <a wire:navigate href="{{ route('projects.show', $project) }}"
+                <a wire:navigate href="{{ route('projects.show', $project) }}" wire:transition.opacity.duration.200ms
                     class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
           hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
           dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20"
@@ -600,7 +689,7 @@ new #[Layout('layouts::main')] class extends Component {
                             <p class="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">Essayez d'ajuster
                                 vos filtres ou votre terme de recherche.</p>
                             @if ($filter !== 'all' || $search || $sort !== 'newest')
-                                <button wire:click="clearFilters"
+                                <button wire:click.preserve-scroll="clearFilters"
                                     class="mt-6 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm shadow-emerald-200 transition-all duration-200 hover:bg-emerald-700 hover:shadow-md dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:shadow-emerald-900/50">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -613,6 +702,7 @@ new #[Layout('layouts::main')] class extends Component {
                     </div>
                 </div>
             @endforelse
+            </div>
         </div>
 
         <div class="mt-10">
@@ -620,4 +710,3 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     </section>
 </div>
-

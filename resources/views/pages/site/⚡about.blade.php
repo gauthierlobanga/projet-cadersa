@@ -16,7 +16,7 @@ new #[Layout('layouts::main')] class extends Component {
 
 <div>
 
-    <section x-cloak class="relative isolate overflow-hidden" x-data="aboutHeroReveal()">
+    <section x-cloak class="relative isolate overflow-hidden" x-data="heroReveal">
         {{-- Image de fond --}}
         @php
             $heroImage = $this->about->hero_image_url
@@ -106,7 +106,7 @@ new #[Layout('layouts::main')] class extends Component {
             <div class="absolute right-0 bottom-0 h-112 w-md rounded-full bg-teal-500/5 blur-[140px] transform-gpu">
             </div>
         </div>
-        <div x-data="aboutQuoteReveal()" class="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div x-data="aboutQuoteReveal" class="relative mx-auto max-w-7xl px-6 lg:px-8">
             {{-- About Section : Image à gauche, Contenu à droite --}}
             <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center mb-24">
                 {{-- En‑tête animé (Texte) --}}
@@ -166,7 +166,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
 
                 {{-- Image droite --}}
-                <div x-cloak class="relative" x-data="cspState()" x-intersect="shown = true">
+                <div x-cloak class="relative" x-data="{ shown: false }" x-intersect="shown = true">
                     <div class="relative overflow-hidden transition-all duration-1000 delay-300 ease-out"
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'">
                         @php $aboutImage = $aboutBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
@@ -412,7 +412,7 @@ new #[Layout('layouts::main')] class extends Component {
                 @endphp
 
                 @foreach ($stats as $index => $stat)
-                    <div x-cloak x-data="animatedStat(@js($stat['value']))" x-intersect.once="shown = true"
+                    <div x-cloak x-data="animatedStat('{{ addslashes($stat['value']) }}')" x-intersect.once="shown = true"
                         x-effect="if (shown) animate()"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                         class="transition-all duration-700 ease-out" style="transition-delay: {{ $index * 100 }}ms">
@@ -455,7 +455,7 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
 
             {{-- Bloc principal --}}
-            <div x-cloak class="mt-16" x-data="cspState()" x-intersect="shown = true"
+            <div x-cloak class="mt-16" x-data="{ shown: false }" x-intersect="shown = true"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'"
                 class="transition-all duration-700 ease-out">
                 <div class="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md">

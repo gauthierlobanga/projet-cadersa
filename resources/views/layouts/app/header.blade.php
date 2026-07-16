@@ -18,28 +18,26 @@
                   focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900">
             <x-app-logo />
         </a>
-
-        {{-- Navigation desktop --}}
         <flux:navbar class="-mb-px max-lg:hidden ml-10">
-            <flux:navbar.item :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
-                <span
-                    class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Accueil') }}</span>
+            <flux:navbar.item :href="route('home')" :current="request()->routeIs('home')" wire:navigate
+                style="transition: none !important;">
+                {{ __('Accueil') }}
             </flux:navbar.item>
-            <flux:navbar.item :href="route('projects.index')" :current="request()->routeIs('projects.*')" wire:navigate>
-                <span
-                    class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Projets') }}</span>
+            <flux:navbar.item :href="route('projects.index')" :current="request()->routeIs('projects.*')" wire:navigate
+                style="transition: none !important;">
+                {{ __('Projets') }}
             </flux:navbar.item>
-            <flux:navbar.item :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate>
-                <span
-                    class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Blog') }}</span>
+            <flux:navbar.item :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate
+                style="transition: none !important;">
+                {{ __('Blog') }}
             </flux:navbar.item>
-            <flux:navbar.item :href="route('about')" :current="request()->routeIs('about')" wire:navigate>
-                <span
-                    class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('À propos') }}</span>
+            <flux:navbar.item :href="route('about')" :current="request()->routeIs('about')" wire:navigate
+                style="transition: none !important;">
+                {{ __('À propos') }}
             </flux:navbar.item>
-            <flux:navbar.item :href="route('contact')" :current="request()->routeIs('contact')" wire:navigate>
-                <span
-                    class="transition-colors duration-200 hover:text-emerald-600 dark:hover:text-emerald-400">{{ __('Contact') }}</span>
+            <flux:navbar.item :href="route('contact')" :current="request()->routeIs('contact')" wire:navigate
+                style="transition: none !important;">
+                {{ __('Contact') }}
             </flux:navbar.item>
         </flux:navbar>
 

@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div x-data="footerScrollReveal()" x-ref="scrollWrapper" class="relative z-10 border-b border-zinc-200 dark:border-zinc-800 px-5 pt-4 pb-8 sm:px-8 sm:pt-10">
+    <div x-data="footerScrollReveal()" x-ref="scrollWrapper" class="relative z-10 border-b border-zinc-200 px-5 pt-4 pb-4 dark:border-zinc-800 sm:px-8 sm:pt-10">
 
         {{-- Zone Supérieure : Logo + Description & Bouton Retour en haut --}}
         <div class="flex flex-col items-start justify-between gap-8 sm:flex-row">
@@ -213,22 +213,22 @@
 
         {{-- Copyright & Crédits --}}
         <div
-            class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-y-4 border-t border-zinc-200/60 dark:border-zinc-700/60 pt-4">
+            class="mt-4 flex flex-col items-center justify-between gap-4 border-t border-zinc-200/60 pt-4 dark:border-zinc-700/60 sm:flex-row">
             {{-- Citation  --}}
             <div x-data="footerCitationReveal()"
-                class="relative cursor-default overflow-hidden text-sm text-zinc-500 dark:text-zinc-400 w-full max-w-xl"
-                style="min-height: 5rem;">
+                class="relative w-full max-w-xl cursor-default overflow-hidden text-sm text-zinc-500 dark:text-zinc-400"
+                style="min-height: 2.75rem;">
                 {{-- Copyright original --}}
-                <p x-ref="originalText" class="absolute inset-0 m-0 flex items-center whitespace-nowrap">
+                <p x-ref="originalText" class="absolute inset-0 m-0 flex items-center">
                     &copy; {{ date('Y') }} {{ $this->appName }}. Tous droits réservés.
                 </p>
 
                 {{-- Citation révélée au survol --}}
                 <div x-ref="warningText" class="absolute inset-0 m-0 flex items-center" style="opacity: 0;">
                     <blockquote
-                        class="border-l-4 border-emerald-500 pl-4 italic text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed">
+                        class="border-l-4 border-emerald-500 pl-4 text-sm font-medium italic leading-snug text-emerald-700 dark:text-emerald-300">
                         Vivre c’est reconnaître ses semblables créés à l’image de Dieu.
-                        <footer class="mt-1 text-xs text-zinc-500 dark:text-zinc-400 not-italic">— Prof. Dr Bernard
+                        <footer class="text-xs text-zinc-500 not-italic dark:text-zinc-400">— Prof. Dr Bernard
                             HANGI</footer>
                     </blockquote>
                 </div>

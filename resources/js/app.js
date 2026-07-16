@@ -782,113 +782,6 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("passkeyRegistration", () => ({
-        supported: false,
-        showForm: false,
-        name: "",
-        loading: false,
-        error: null,
-        init() {
-            this.name = this.getDefaultPasskeyName();
-            this.updateSupport();
-            window.addEventListener(
-                "passkeys:ready",
-                () => this.updateSupport(),
-                { once: true },
-            );
-        },
-        updateSupport() {
-            this.supported = Boolean(window.Passkeys?.isSupported());
-        },
-        getDefaultPasskeyName() {
-            const ua = navigator.userAgent;
-            const browser = [
-                { pattern: /Edg|Edge/, name: "Edge" },
-                { pattern: /OPR|Opera|OPiOS/, name: "Opera" },
-                { pattern: /Firefox|FxiOS/, name: "Firefox" },
-                { pattern: /Chrome|CriOS/, name: "Chrome" },
-                { pattern: /Safari/, name: "Safari" },
-            ].find((item) => item.pattern.test(ua))?.name;
-            const os = [
-                { pattern: /iPhone/, name: "iPhone" },
-                { pattern: /iPad|Macintosh(?=.*Mobile)/, name: "iPad" },
-                { pattern: /Android/, name: "Android" },
-                { pattern: /Mac/, name: "Mac" },
-                { pattern: /Windows/, name: "Windows" },
-            ].find((item) => item.pattern.test(ua))?.name;
-            return [browser, os].filter(Boolean).join(" on ") || "";
-        },
-        focusInput() {
-            this.$nextTick(() => {
-                this.$refs.passkeyNameInput?.focus();
-            });
-        },
-        async register() {
-            if (!this.name.trim()) {
-                return;
-            }
-            this.loading = true;
-            this.error = null;
-            try {
-                await window.Passkeys.register({ name: this.name });
-                this.name = "";
-                this.showForm = false;
-                await $wire.loadPasskeys();
-            } catch (e) {
-                if (e.constructor?.name !== "UserCancelledError") {
-                    this.error = e.message;
-                }
-            } finally {
-                this.loading = false;
-            }
-        },
-        cancel() {
-            this.showForm = false;
-            this.name = "";
-            this.error = null;
-        },
-    }));
-
-    Alpine.data("passkeyVerify", () => ({
-        supported: false,
-        loading: false,
-        error: null,
-        optionsRoute: "",
-        submitRoute: "",
-        init() {
-            this.updateSupport();
-            this.optionsRoute = this.$el.dataset.optionsRoute || "";
-            this.submitRoute = this.$el.dataset.submitRoute || "";
-            window.addEventListener(
-                "passkeys:ready",
-                () => this.updateSupport(),
-                { once: true },
-            );
-        },
-        updateSupport() {
-            this.supported = Boolean(window.Passkeys?.isSupported());
-        },
-        async verify() {
-            this.loading = true;
-            this.error = null;
-            try {
-                const response = await window.Passkeys.verify({
-                    routes: {
-                        options: this.optionsRoute,
-                        submit: this.submitRoute,
-                    },
-                });
-                Livewire.navigate(response.redirect || "/dashboard");
-            } catch (e) {
-                if (e.constructor?.name !== "UserCancelledError") {
-                    this.error = e.message;
-                }
-            } finally {
-                this.loading = false;
-            }
-        },
-    }));
-
     Alpine.data("focusFirstInput", () => ({
         init() {
             this.$nextTick(function () {
@@ -1347,6 +1240,204 @@ document.addEventListener("alpine:init", () => {
             this.search = "";
             this.showFilters = false;
             this.$refs.filtersButton.focus();
+        },
+    }));
+});
+
+// ── Hero animation (about page) ──
+document.addEventListener("alpine:init", () => {
+    Alpine.data("heroReveal", () => ({
+        init() {
+            if (typeof gsap === "undefined") return;
+            const tl = gsap.timeline({
+                defaults: { ease: "expo.out", duration: 1.2 },
+            });
+            const bgImage = this.$refs.bgImage;
+            const badge = this.$refs.badge;
+            const buttons = this.$refs.buttons;
+            const author = this.$refs.author;
+            const title = this.$refs.title;
+            const subtitle = this.$refs.subtitle;
+            const cta = this.$refs.cta;
+            const decoLine = this.$refs.decoLine;
+
+            const authorSplit =
+                typeof SplitText !== "undefined"
+                    ? new SplitText(author, { type: "words" })
+                    : null;
+
+            tl.from(
+                bgImage,
+                { scale: 1.1, duration: 2.5, ease: "power3.out" },
+                0,
+            );
+            if (badge) tl.from(badge, { y: 40, opacity: 0 }, 0.3);
+            if (buttons)
+                tl.from(
+                    buttons,
+                    { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" },
+                    "-=0.15",
+                );
+            if (authorSplit)
+                tl.from(
+                    authorSplit.words,
+                    {
+                        opacity: 0,
+                        y: 10,
+                        stagger: 0.02,
+                        duration: 0.35,
+                        ease: "power2.out",
+                    },
+                    "-=0.25",
+                );
+            if (title) tl.from(title, { y: 50, opacity: 0 }, 0.5);
+            if (subtitle) tl.from(subtitle, { y: 30, opacity: 0 }, 0.7);
+            if (cta) tl.from(cta, { y: 30, opacity: 0 }, 0.9);
+            if (decoLine)
+                tl.from(
+                    decoLine,
+                    { scaleX: 0, duration: 0.5, ease: "power1.out" },
+                    "-=0.1",
+                );
+        },
+    }));
+});
+
+// ── Quote / About reveal (about page) ──
+document.addEventListener("alpine:init", () => {
+    Alpine.data("aboutQuoteReveal", () => ({
+        init() {
+            if (
+                typeof gsap === "undefined" ||
+                typeof ScrollTrigger === "undefined"
+            )
+                return;
+            const tl = gsap.timeline({
+                defaults: { ease: "power2.out" },
+                scrollTrigger: {
+                    trigger: this.$el,
+                    start: "top 80%",
+                    once: true,
+                },
+            });
+
+            const badge = this.$refs.badge;
+            const title = this.$refs.title;
+            const subtitle = this.$refs.subtitle;
+            const buttons = this.$refs.buttons;
+            const decoLine = this.$refs.decoLine;
+            const quote = this.$refs.quote;
+            const author = this.$refs.author;
+
+            if (badge)
+                tl.from(
+                    badge,
+                    { opacity: 0, y: 12, duration: 0.35, ease: "power1.out" },
+                    0,
+                );
+            if (quote && typeof SplitText !== "undefined") {
+                const quoteSplit = new SplitText(quote, { type: "chars" });
+                tl.from(
+                    quoteSplit.chars,
+                    {
+                        opacity: 0,
+                        y: 25,
+                        rotateX: -10,
+                        stagger: 0.012,
+                        duration: 0.5,
+                        ease: "back.out(1.2)",
+                    },
+                    "-=0.15",
+                );
+            }
+            if (author && typeof SplitText !== "undefined") {
+                const authorSplit = new SplitText(author, { type: "words" });
+                tl.from(
+                    authorSplit.words,
+                    {
+                        opacity: 0,
+                        y: 10,
+                        stagger: 0.02,
+                        duration: 0.35,
+                        ease: "power2.out",
+                    },
+                    "-=0.25",
+                );
+            }
+            if (subtitle && typeof SplitText !== "undefined") {
+                const subtitleSplit = new SplitText(subtitle, {
+                    type: "lines",
+                });
+                tl.from(
+                    subtitleSplit.lines,
+                    {
+                        opacity: 0,
+                        y: 12,
+                        stagger: 0.04,
+                        duration: 0.4,
+                        ease: "power2.out",
+                    },
+                    "-=0.2",
+                );
+            }
+            if (buttons)
+                tl.from(
+                    buttons,
+                    { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" },
+                    "-=0.15",
+                );
+            if (decoLine)
+                tl.from(
+                    decoLine,
+                    { scaleX: 0, duration: 0.5, ease: "power1.out" },
+                    "-=0.1",
+                );
+        },
+    }));
+});
+
+// ── Animated stat counter (impact section) ──
+document.addEventListener("alpine:init", () => {
+    Alpine.data("animatedStat", (rawValue) => ({
+        shown: false,
+        count: 0,
+        targetRaw: rawValue,
+        parsedTarget: 0,
+        suffix: "",
+        init() {
+            const raw = String(this.targetRaw).trim();
+            const numericOnly = raw
+                .replace(/\s+/g, "")
+                .match(/^(\d+(?:[.,]\d+)?)/);
+            if (numericOnly) {
+                this.parsedTarget = Number(numericOnly[1].replace(",", "."));
+                const suffixMatch = raw.match(/^[\d\s,.]+(.*)$/);
+                this.suffix = suffixMatch ? suffixMatch[1].trim() : "";
+            } else {
+                this.suffix = raw;
+            }
+        },
+        formatValue(value) {
+            if (!this.parsedTarget) {
+                return this.targetRaw;
+            }
+            return `${Math.round(value).toLocaleString("fr-FR")}${this.suffix ? " " + this.suffix : ""}`;
+        },
+        animate() {
+            if (!this.parsedTarget || this.count) return;
+            const start = performance.now();
+            const duration = 1100;
+            const target = this.parsedTarget;
+            const tick = (timestamp) => {
+                const progress = Math.min((timestamp - start) / duration, 1);
+                this.count = target * progress;
+                if (progress < 1) {
+                    window.requestAnimationFrame(tick);
+                } else {
+                    this.count = target;
+                }
+            };
+            window.requestAnimationFrame(tick);
         },
     }));
 });

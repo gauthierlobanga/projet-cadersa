@@ -3,6 +3,7 @@
 use Livewire\Component;
 use App\Models\Post;
 use App\Models\PostCategory;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
@@ -12,49 +13,89 @@ new #[Layout('layouts::main')] class extends Component {
 
     protected $scrollToTop = false;
 
-    #[Url(as: 'q')]
+    private const SORT_OPTIONS = [
+        'newest' => 'Plus récents',
+        'oldest' => 'Plus anciens',
+        'popular' => 'Plus vus',
+        'name-asc' => 'Titre A→Z',
+        'name-desc' => 'Titre Z→A',
+    ];
+
+    #[Url(as: 'q', except: '')]
     public string $search = '';
 
-    #[Url(as: 'cat')]
+    #[Url(as: 'cat', except: null)]
     public ?string $category = null;
 
-    #[Url(as: 'sort')]
+    #[Url(as: 'sort', except: 'newest')]
     public string $sort = 'newest';
+
+    public function mount(): void
+    {
+        $this->category = $this->normalizedCategory();
+        $this->sort = $this->validSort();
+    }
 
     public function with(): array
     {
+        $search = trim($this->search);
+        $category = $this->normalizedCategory();
+        $sort = $this->validSort();
+
         $query = Post::query()
             ->with(['user', 'categories', 'media'])
             ->published();
 
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('title', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('content', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('excerpt', 'LIKE', '%' . $this->search . '%');
+        if ($search !== '') {
+            $query->where(function (Builder $query) use ($search): void {
+                $query
+                    ->where('title', 'LIKE', '%' . $search . '%')
+                    ->orWhere('content', 'LIKE', '%' . $search . '%')
+                    ->orWhere('excerpt', 'LIKE', '%' . $search . '%');
             });
         }
 
-        if ($this->category) {
-            $query->whereHas('categories', fn($q) => $q->where('slug', $this->category));
+        if ($category !== null) {
+            $query->whereHas('categories', fn (Builder $query): Builder => $query->where('slug', $category));
         }
 
-        $query
-            ->when($this->sort === 'oldest', fn($q) => $q->oldest('published_at'))
-            ->when($this->sort === 'popular', fn($q) => $q->orderBy('views_count', 'desc'))
-            ->when($this->sort === 'name-asc', fn($q) => $q->orderBy('title', 'asc'))
-            ->when($this->sort === 'name-desc', fn($q) => $q->orderBy('title', 'desc'))
-            ->when(!in_array($this->sort, ['oldest', 'popular', 'name-asc', 'name-desc']), fn($q) => $q->latest('published_at'));
+        match ($sort) {
+            'oldest' => $query->oldest('published_at'),
+            'popular' => $query->orderByDesc('views_count'),
+            'name-asc' => $query->orderBy('title'),
+            'name-desc' => $query->orderByDesc('title'),
+            default => $query->latest('published_at'),
+        };
 
         return [
-            'posts' => $query->paginate(9),
+            'posts' => $query->paginate(9)->withQueryString(),
             'categories' => PostCategory::actifs()->get(),
+            'sorts' => self::SORT_OPTIONS,
         ];
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedCategory(): void
+    {
+        $this->category = $this->normalizedCategory();
+        $this->resetPage();
+    }
+
+    public function updatedSort(): void
+    {
+        $this->sort = $this->validSort();
+        $this->resetPage();
     }
 
     public function clearFilters(): void
     {
-        $this->reset(['search', 'category', 'sort']);
+        $this->search = '';
+        $this->category = null;
+        $this->sort = 'newest';
         $this->resetPage();
     }
 
@@ -66,6 +107,20 @@ new #[Layout('layouts::main')] class extends Component {
             'categories' => PostCategory::whereHas('posts', fn($q) => $q->published())->count(),
             'views' => Post::published()->sum('views_count'),
         ];
+    }
+
+    private function normalizedCategory(): ?string
+    {
+        $category = trim((string) $this->category);
+
+        return $category === '' ? null : $category;
+    }
+
+    private function validSort(): string
+    {
+        return array_key_exists($this->sort, self::SORT_OPTIONS)
+            ? $this->sort
+            : 'newest';
     }
 };
 ?>
@@ -215,6 +270,12 @@ new #[Layout('layouts::main')] class extends Component {
             this.search = '';
             this.showFilters = false;
             this.$refs.filtersButton.focus();
+        },
+        clearSearch() {
+            this.search = '';
+            this.$nextTick(() => {
+                if (this.$refs.searchInput) this.$refs.searchInput.focus();
+            });
         }
     }" aria-label="Plugin search and listing"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
@@ -289,7 +350,8 @@ new #[Layout('layouts::main')] class extends Component {
                                     stroke-dasharray="4 4" />
                             </svg>
                         </div>
-                        <button type="button" @click="resetFilters()" :inert="activeFilterCount === 0"
+                        <button type="button" @click="resetFilters()" wire:click.preserve-scroll="clearFilters"
+                            :inert="activeFilterCount === 0"
                             :aria-hidden="activeFilterCount === 0"
                             class="group inline-flex h-10 items-center justify-center gap-1.5 border border-zinc-200 bg-white px-3 text-sm font-medium
                            text-zinc-600 shadow-sm transition-all duration-300 ease-out
@@ -326,10 +388,11 @@ new #[Layout('layouts::main')] class extends Component {
                     {{-- Champ de saisie --}}
                     <input autocomplete="off"
                         class="h-full w-full border-0 bg-transparent pl-10 pr-12 text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                        x-model.debounce.250ms="search" x-ref="searchInput" placeholder="Rechercher un article...">
+                        x-model.debounce.250ms="search" wire:model.live.debounce.250ms.preserve-scroll="search"
+                        x-ref="searchInput" placeholder="Rechercher un article...">
 
                     {{-- Bouton d'effacement --}}
-                    <button x-cloak x-show="search.length > 0" @click="search = ''; $refs.searchInput.focus()"
+                    <button x-cloak x-show="search.length > 0" @click="clearSearch()"
                         x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 scale-75" x-transition:enter-end="opacity-100 scale-100"
                         x-transition:leave="transition ease-in duration-150"
@@ -368,7 +431,7 @@ new #[Layout('layouts::main')] class extends Component {
                             Toutes
                         </label>
                         <input type="radio" id="cat-all" name="category-filter" value=""
-                            class="sr-only peer" x-model="category" />
+                            class="sr-only peer" x-model="category" wire:model.live.preserve-scroll="category" />
 
                         @foreach ($categories as $cat)
                             <label for="cat-{{ $cat->slug }}"
@@ -382,7 +445,8 @@ new #[Layout('layouts::main')] class extends Component {
                                 {{ $cat->nom }}
                             </label>
                             <input type="radio" id="cat-{{ $cat->slug }}" name="category-filter"
-                                value="{{ $cat->slug }}" class="sr-only peer" x-model="category" />
+                                value="{{ $cat->slug }}" class="sr-only peer" x-model="category"
+                                wire:model.live.preserve-scroll="category" />
                         @endforeach
                     </div>
                 </fieldset>
@@ -422,10 +486,11 @@ new #[Layout('layouts::main')] class extends Component {
                         class="absolute top-full left-0 z-20 mt-1 w-40 overflow-hidden border border-zinc-200/60 bg-white shadow-md shadow-zinc-200/20 backdrop-blur-sm dark:border-zinc-700/60 dark:bg-zinc-900 dark:shadow-zinc-950/50"
                         role="listbox">
                         <div class="py-1">
-                            @foreach (['newest' => 'Plus récents', 'oldest' => 'Plus anciens', 'popular' => 'Plus vus', 'name-asc' => 'Titre A→Z', 'name-desc' => 'Titre Z→A'] as $value => $label)
+                            @foreach ($sorts as $value => $label)
                                 <button type="button" role="option"
                                     :aria-selected="sortBy === '{{ $value }}'"
                                     @click="sortBy = '{{ $value }}'; open = false"
+                                    wire:click.preserve-scroll="$set('sort', '{{ $value }}')"
                                     class="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                                     :class="sortBy === '{{ $value }}' ?
                                         'bg-emerald-50 font-semibold text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :
@@ -456,29 +521,39 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
         </div>
 
-        {{-- Grille des articles avec chargement non‑perturbant --}}
-        <div x-data="{ loading: false }" x-on:livewire-loading.window="loading = true"
-            x-on:livewire-done.window="loading = false"
-            class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-7 relative"
-            x-init="autoAnimate($el, { duration: 250 })" aria-label="Liste des articles">
-            {{-- Indicateur de chargement (absolu, ne change pas la hauteur) --}}
-            <div x-show="loading" x-cloak class="absolute inset-0 z-10 flex items-start justify-center pt-16">
-                <div class="rounded-full bg-white/80 dark:bg-zinc-900/80 p-3 shadow-lg backdrop-blur-sm">
-                    <svg class="h-6 w-6 animate-spin text-emerald-500" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                            stroke-width="4" />
-                        <path class="opacity-75" fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
+        {{-- Grille des articles avec chargement non-perturbant --}}
+        <div class="relative mt-5 min-h-[34rem]" wire:loading.attr="aria-busy"
+            wire:target="search,category,sort,clearFilters,gotoPage,nextPage,previousPage">
+            <div wire:loading.delay
+                wire:target="search,category,sort,clearFilters,gotoPage,nextPage,previousPage"
+                class="pointer-events-none absolute inset-x-0 top-0 z-10">
+                <div class="grid grid-cols-1 items-start gap-7 md:grid-cols-2 lg:grid-cols-3">
+                    @for ($i = 0; $i < 6; $i++)
+                        <div
+                            class="min-h-[20rem] border border-zinc-200/70 bg-white/85 p-4 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/85">
+                            <div class="aspect-video w-full animate-pulse bg-zinc-200 dark:bg-zinc-800"></div>
+                            <div class="mt-5 h-4 w-3/4 animate-pulse bg-zinc-200 dark:bg-zinc-800"></div>
+                            <div class="mt-3 h-3 w-full animate-pulse bg-zinc-100 dark:bg-zinc-800/80"></div>
+                            <div class="mt-2 h-3 w-5/6 animate-pulse bg-zinc-100 dark:bg-zinc-800/80"></div>
+                            <div class="mt-6 flex items-center justify-between gap-4">
+                                <div class="h-8 w-28 animate-pulse rounded-full bg-zinc-100 dark:bg-zinc-800"></div>
+                                <div class="h-4 w-16 animate-pulse bg-zinc-100 dark:bg-zinc-800"></div>
+                            </div>
+                        </div>
+                    @endfor
                 </div>
             </div>
 
+            <div wire:loading.class.delay="opacity-40 blur-[1px] pointer-events-none"
+                wire:target="search,category,sort,clearFilters,gotoPage,nextPage,previousPage"
+                class="grid min-h-[34rem] grid-cols-1 items-start gap-7 transition duration-200 ease-out md:grid-cols-2 lg:grid-cols-3"
+                aria-label="Liste des articles">
             @forelse ($posts as $post)
-                <a href="{{ route('posts.show', $post) }}" wire:navigate
+                <a href="{{ route('posts.show', $post) }}" wire:navigate wire:transition.opacity.duration.200ms
                     class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
            hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
            dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20"
-                    wire:key="{{ $post->id }}" aria-label="{{ $post->title }}">
+                    wire:key="post-{{ $post->id }}" aria-label="{{ $post->title }}">
 
                     {{-- Image --}}
                     <div
@@ -604,7 +679,7 @@ new #[Layout('layouts::main')] class extends Component {
                                 filtres ou votre terme de recherche.
                             </p>
                             @if ($search || $category || $sort !== 'newest')
-                                <button wire:click="clearFilters"
+                                <button wire:click.preserve-scroll="clearFilters"
                                     class="mt-6 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm shadow-emerald-200 transition-all duration-200 hover:bg-emerald-700 hover:shadow-md dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:shadow-emerald-900/50">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -617,6 +692,7 @@ new #[Layout('layouts::main')] class extends Component {
                     </div>
                 </div>
             @endforelse
+            </div>
         </div>
 
         <!--Pagination-->
