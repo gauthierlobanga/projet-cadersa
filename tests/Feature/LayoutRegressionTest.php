@@ -27,12 +27,12 @@ it('keeps the authenticated mobile sidebar fixed to the viewport', function () {
         ->assertSee('sticky top-0 z-40', false);
 });
 
-it('scopes the mobile sidebar overlay hotfix to the sidebar element', function () {
+it('leaves the mobile sidebar layering to Flux', function () {
     $css = File::get(resource_path('css/app.css'));
 
     expect($css)
-        ->toMatch('/(?m)^\[data-flux-sidebar\]\[data-flux-sidebar-on-mobile\]:not\(\[data-flux-sidebar-collapsed-mobile\]\) \{/')
-        ->not->toMatch('/(?m)^\[data-flux-sidebar-on-mobile\]:not\(\[data-flux-sidebar-collapsed-mobile\]\) \{/');
+        ->not->toContain('[data-flux-sidebar-on-mobile]')
+        ->not->toContain('[data-flux-sidebar-backdrop]');
 });
 
 it('does not leave the old large copyright spacer in the footer', function () {

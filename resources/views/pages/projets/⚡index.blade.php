@@ -70,13 +70,84 @@ new #[Layout('layouts::main')] class extends Component {
 };
 ?>
 
+<?php
+
+use Livewire\Component;
+use App\Models\Project;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
+use Livewire\WithPagination;
+use App\Settings\SettingApp;
+
+new #[Layout('layouts::main')] class extends Component {
+    use WithPagination;
+    protected $scrollToTop = false;
+
+    #[Url(as: 'status')]
+    public string $filter = 'all';
+
+    #[Url(as: 'q')]
+    public string $search = '';
+
+    #[Url(as: 'sort')]
+    public string $sort = 'newest';
+
+    public function with(): array
+    {
+        $query = Project::query()
+            ->with(['media', 'tags'])
+            ->active();
+
+        if ($this->filter !== 'all') {
+            $query->where('status', $this->filter);
+        }
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('title', 'LIKE', '%' . $this->search . '%')->orWhere('location', 'LIKE', '%' . $this->search . '%');
+            });
+        }
+
+        $query
+            ->when($this->sort === 'oldest', fn($q) => $q->oldest('start_date'))
+            ->when($this->sort === 'name-asc', fn($q) => $q->orderBy('title', 'asc'))
+            ->when($this->sort === 'name-desc', fn($q) => $q->orderBy('title', 'desc'))
+            ->when(!in_array($this->sort, ['oldest', 'name-asc', 'name-desc']), fn($q) => $q->latest('start_date'));
+
+        return [
+            'projects' => $query->paginate(9),
+            'statuses' => ['all' => 'Tous', 'planned' => 'Planifiés', 'ongoing' => 'En cours', 'completed' => 'Terminés'],
+        ];
+    }
+
+    public function clearFilters(): void
+    {
+        $this->reset(['filter', 'search', 'sort']);
+        $this->resetPage();
+    }
+
+    public function getStatsProperty()
+    {
+        return [
+            'projets' => Project::active()->count(),
+            'en_cours' => Project::active()->where('status', 'ongoing')->count(),
+            'termines' => Project::active()->where('status', 'completed')->count(),
+        ];
+    }
+
+    public function getHeroImageProperty(): string
+    {
+        $settings = app(SettingApp::class);
+        return $settings->logoUrl() ?? asset('images/cadersa-logo.png');
+    }
+};
+?>
+
 <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
 
     {{-- ==================== HERO ==================== --}}
-    {{-- ==================== HERO ==================== --}}
     <section
         class="relative flex flex-col items-center gap-x-10 gap-y-5 border-b border-zinc-200 px-5 py-10 xs:px-8 sm:py-15 lg:flex-row lg:px-15 lg:gap-x-16 dark:border-zinc-800 max-w-7xl mx-auto"
-        x-cloak x-data="cspState()" x-intersect.once="shown = true">
+        x-cloak x-data="cspState" x-intersect.once="shown = true">
 
         {{-- Ambiance lumineuse de fond --}}
         <div class="pointer-events-none absolute inset-0 z-0">
@@ -134,7 +205,7 @@ new #[Layout('layouts::main')] class extends Component {
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'">
                 <div class="flex flex-wrap justify-start gap-5" aria-label="Statistiques des projets">
                     @foreach ($this->stats as $label => $value)
-                        <div x-data="hoverStatsCard()" class="group relative min-w-24 px-4 text-center xs:min-w-27 py-3">
+                        <div x-data="hoverStatsCard" class="group relative min-w-24 px-4 text-center xs:min-w-27 py-3">
 
                             <div x-ref="background"
                                 class="absolute inset-0 rounded-lg bg-zinc-100 transition duration-300 ease-out group-hover:bg-emerald-100/50 dark:bg-zinc-800 dark:group-hover:bg-emerald-900/20"
@@ -174,20 +245,40 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     </section>
 
-    {{-- ========== SECTION FILTRES + LISTE (identique au blog, adaptée aux projets) ========== --}}
-    <section x-cloak id="scroll-to-reference" x-data="projectSearchFilters()"
-        aria-label="Recherche et filtres des projets"
+    {{-- ========== SECTION FILTRES + LISTE ========== --}}
+    <section x-cloak id="scroll-to-reference" x-data="{
+        search: $wire.entangle('search').live,
+        filter: $wire.entangle('filter').live,
+        sortBy: $wire.entangle('sort').live,
+        showFilters: false,
+        sortOpen: false,
+        activeFilterCount: 0,
+        init() {
+            this.activeFilterCount = this.filter !== 'all' ? 1 : 0;
+            this.$watch('filter', val => this.activeFilterCount = val !== 'all' ? 1 : 0);
+        },
+        resetFilters() {
+            this.filter = 'all';
+            this.sortBy = 'newest';
+            this.search = '';
+            this.showFilters = false;
+            this.$refs.filtersButton.focus();
+        },
+        clearSearch() {
+            this.search = '';
+            this.$nextTick(() => { if (this.$refs.searchInput) this.$refs.searchInput.focus(); });
+        }
+    }" aria-label="Recherche et filtres des projets"
         class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
+
         <div class="mb-5">
             <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Tous les projets</h2>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">Parcourez les projets de CADERSA</p>
         </div>
 
-        {{-- Bandeau informatif sur les projets --}}
+        {{-- Bandeau informatif --}}
         <div class="mb-8 border border-zinc-200/70 bg-white px-6 py-5 dark:border-zinc-800/70 dark:bg-zinc-900/50">
             <div class="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
-
-                {{-- Texte --}}
                 <div class="flex items-start gap-4">
                     <div
                         class="flex h-10 w-10 shrink-0 items-center justify-center border border-zinc-200/60 bg-zinc-50/80 text-emerald-600 dark:border-zinc-800/60 dark:bg-zinc-900/50 dark:text-emerald-400">
@@ -203,25 +294,16 @@ new #[Layout('layouts::main')] class extends Component {
                             développement rural.</p>
                     </div>
                 </div>
-
-                {{-- Bouton avec animation corrigée --}}
-                <div x-data="buttonTextReveal()">
+                <div x-data="buttonTextReveal">
                     <a href="{{ route('contact') }}"
                         class="relative inline-flex h-11 items-center justify-center border border-zinc-200 bg-white px-5 text-sm font-medium text-zinc-700 transition-colors duration-200 hover:border-emerald-300 hover:bg-emerald-50/50 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-300">
-
-                        {{-- Icône (positionnée absolument pour glisser) --}}
                         <svg data-icon class="absolute left-4 h-4 w-4" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-
-                        {{-- Texte --}}
-                        <span data-text class="relative z-10 whitespace-nowrap" style="padding-left: 0;">
-                            Proposer un projet
-                        </span>
-
-                        {{-- Flèche --}}
+                        <span data-text class="relative z-10 whitespace-nowrap" style="padding-left: 0;">Proposer un
+                            projet</span>
                         <svg data-arrow
                             class="relative z-10 ml-1.5 h-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,7 +312,6 @@ new #[Layout('layouts::main')] class extends Component {
                         </svg>
                     </a>
                 </div>
-
             </div>
         </div>
 
@@ -240,15 +321,9 @@ new #[Layout('layouts::main')] class extends Component {
                 {{-- Bouton Filtres --}}
                 <button x-cloak type="button" x-ref="filtersButton" @click="showFilters = !showFilters"
                     :aria-expanded="showFilters" aria-controls="filters-panel"
-                    class="group inline-flex h-10 items-center cursor-pointer gap-2 border border-zinc-200 bg-white px-4 text-sm font-medium
-                           text-zinc-600 transition-all duration-300 ease-out
-                           hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-800
-                           dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-100
-                           focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:ring-offset-2
-                           active:scale-[0.97]"
-                    :class="showFilters
-                        ?
-                        'border-emerald-500! bg-emerald-50! text-emerald-700! shadow-emerald-100 hover:bg-emerald-100! dark:border-emerald-400! dark:bg-emerald-900/20! dark:text-emerald-300! dark:hover:bg-emerald-900/30!' :
+                    class="group inline-flex h-10 items-center cursor-pointer gap-2 border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-600 transition-all duration-300 ease-out hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:ring-offset-2 active:scale-[0.97]"
+                    :class="showFilters ?
+                        '!border-emerald-500 !bg-emerald-50 !text-emerald-700 !shadow-emerald-100 hover:!bg-emerald-100 dark:!border-emerald-400 dark:!bg-emerald-900/20 dark:!text-emerald-300 dark:hover:!bg-emerald-900/30' :
                         ''">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -286,11 +361,9 @@ new #[Layout('layouts::main')] class extends Component {
 
                 {{-- Bouton Reset --}}
                 <div x-show="activeFilterCount > 0" x-cloak x-transition:enter="transition ease-out duration-200"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                     x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100 scale-100"
-                    x-transition:leave-end="opacity-0 scale-95"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
                     class="grid transition-all duration-500 ease-out">
                     <div class="flex items-center overflow-hidden">
                         <div class="px-1 transition-opacity duration-500 ease-out opacity-100">
@@ -299,14 +372,9 @@ new #[Layout('layouts::main')] class extends Component {
                                     stroke-dasharray="4 4" />
                             </svg>
                         </div>
-                        <button type="button" @click="resetFilters()" wire:click="clearFilters" :inert="activeFilterCount === 0"
+                        <button type="button" @click="resetFilters()" :inert="activeFilterCount === 0"
                             :aria-hidden="activeFilterCount === 0"
-                            class="group inline-flex h-10 items-center justify-center gap-1.5 border border-zinc-200 bg-white px-3 text-sm font-medium
-                                   text-zinc-600 shadow-sm transition-all duration-300 ease-out
-                                   hover:border-red-300 hover:bg-red-50 hover:text-red-600
-                                   dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-800 dark:hover:bg-red-900/20 dark:hover:text-red-400
-                                   active:scale-[0.97] opacity-100"
-                            style="visibility: visible; pointer-events: auto;">
+                            class="group inline-flex h-10 items-center justify-center gap-1.5 border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-600 shadow-sm transition-all duration-300 ease-out hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-800 dark:hover:bg-red-900/20 dark:hover:text-red-400 active:scale-[0.97]">
                             <svg class="size-4 transition-transform duration-300 group-hover:rotate-180"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -333,7 +401,7 @@ new #[Layout('layouts::main')] class extends Component {
                     </div>
                     <input autocomplete="off"
                         class="h-full w-full border-0 bg-transparent pl-10 pr-12 text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                                            x-model.debounce.250ms="search" wire:model.debounce.250ms="search" x-ref="searchInput" placeholder="Rechercher un projet...">
+                        x-model.debounce.250ms="search" x-ref="searchInput" placeholder="Rechercher un projet...">
                     <button x-cloak x-show="search.length > 0" @click="clearSearch()"
                         x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 scale-75" x-transition:enter-end="opacity-100 scale-100"
@@ -358,20 +426,21 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="flex flex-wrap gap-2">
                         <label for="status-all"
                             class="cursor-pointer select-none px-4 py-2 text-sm font-medium transition-all duration-300 ease-out transform hover:scale-101 active:scale-95 bg-zinc-50 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-zinc-200"
-                            :class="{ 'bg-emerald-500! text-white! hover:bg-emerald-500! dark:bg-emerald-500! dark:hover:bg-emerald-400! shadow-emerald-500/20': filter === 'all' }">
+                            :class="{ '!bg-emerald-500 !text-white hover:!bg-emerald-500 dark:!bg-emerald-500 dark:hover:!bg-emerald-400 !shadow-emerald-500/20': filter === 'all' }">
                             Tous
                         </label>
                         <input type="radio" id="status-all" name="status-filter" value="all"
-                                                    class="sr-only peer" x-model="filter" wire:model="filter" />
+                            class="sr-only peer" x-model="filter" />
+
                         @foreach ($statuses as $key => $label)
                             @if ($key !== 'all')
                                 <label for="status-{{ $key }}"
                                     class="cursor-pointer select-none px-4 py-2 text-sm font-medium transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-zinc-200 shadow-sm hover:shadow-md"
-                                    :class="{ 'bg-emerald-500! text-white! hover:bg-emerald-600! dark:bg-emerald-500! dark:hover:bg-emerald-400! shadow-emerald-500/20': filter === '{{ $key }}' }">
+                                    :class="{ '!bg-emerald-500 !text-white hover:!bg-emerald-600 dark:!bg-emerald-500 dark:hover:!bg-emerald-400 !shadow-emerald-500/20': filter === '{{ $key }}' }">
                                     {{ $label }}
                                 </label>
                                 <input type="radio" id="status-{{ $key }}" name="status-filter"
-                                                                    value="{{ $key }}" class="sr-only peer" x-model="filter" wire:model="filter" />
+                                    value="{{ $key }}" class="sr-only peer" x-model="filter" />
                             @endif
                         @endforeach
                     </div>
@@ -379,13 +448,13 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
         </div>
 
-        {{-- Zone de tri --}}
+        {{-- Zone de tri (intégrée dans le même x-data) --}}
         <div class="custom-top-dashed-border mt-5 flex flex-wrap items-center justify-between gap-4 pt-5">
             <div class="flex flex-wrap items-center gap-4">
-                <div x-cloak class="relative flex items-center gap-1.5 text-xs" x-data="cspState()"
-                    @click.outside="open = false" @keydown.escape.window="open = false">
+                <div x-cloak class="relative flex items-center gap-1.5 text-xs" @click.outside="sortOpen = false"
+                    @keydown.escape.window="sortOpen = false">
                     <span class="text-zinc-500 dark:text-zinc-400">Trier par</span>
-                    <button type="button" @click="open = !open" :aria-expanded="open"
+                    <button type="button" @click="sortOpen = !sortOpen" :aria-expanded="sortOpen"
                         class="group inline-flex cursor-pointer h-8 items-center gap-1.5 bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition-all duration-300 ease-out hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50">
                         <span
                             x-text="{
@@ -394,12 +463,13 @@ new #[Layout('layouts::main')] class extends Component {
                             'name-asc': 'Titre A→Z',
                             'name-desc': 'Titre Z→A'
                         }[sortBy] || 'Plus récents'"></span>
-                        <svg class="size-3.5 transition-transform duration-300 ease-out" :class="open && 'rotate-180'"
-                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="size-3.5 transition-transform duration-300 ease-out"
+                            :class="sortOpen && 'rotate-180'" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
                         </svg>
                     </button>
-                    <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
+                    <div x-show="sortOpen" x-cloak x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 -translate-y-1 scale-95"
                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                         x-transition:leave="transition ease-in duration-150"
@@ -411,7 +481,7 @@ new #[Layout('layouts::main')] class extends Component {
                             @foreach (['newest' => 'Plus récents', 'oldest' => 'Plus anciens', 'name-asc' => 'Titre A→Z', 'name-desc' => 'Titre Z→A'] as $value => $label)
                                 <button type="button" role="option"
                                     :aria-selected="sortBy === '{{ $value }}'"
-                                    @click="sortBy = '{{ $value }}'; open = false" wire:click="$set('sort', '{{ $value }}')"
+                                    @click="sortBy = '{{ $value }}'; sortOpen = false"
                                     class="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                                     :class="sortBy === '{{ $value }}' ?
                                         'bg-emerald-50 font-semibold text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :
@@ -443,7 +513,7 @@ new #[Layout('layouts::main')] class extends Component {
         {{-- Grille des projets --}}
         <div wire:loading.class="opacity-50 pointer-events-none"
             class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-7 transition-opacity duration-300"
-            x-init="autoAnimate($el, { duration: 250 })" aria-label="Liste des projets">
+            x-data="autoAnimateGrid" aria-label="Liste des projets">
             @forelse($projects as $project)
                 <a wire:navigate href="{{ route('projects.show', $project) }}"
                     class="gsap-reveal group relative flex flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
@@ -451,7 +521,7 @@ new #[Layout('layouts::main')] class extends Component {
           dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20"
                     wire:key="project-{{ $project->id }}" aria-label="{{ $project->title }}">
 
-                    {{-- Image + badge statut (sur l'image, optionnel) --}}
+                    {{-- Image + badge statut --}}
                     <div
                         class="relative overflow-hidden ring-1 ring-zinc-200 transition duration-500 ease-out group-hover:ring-emerald-300 dark:ring-zinc-700 dark:group-hover:ring-emerald-700">
                         @if ($project->hasMedia('cover'))
@@ -474,7 +544,7 @@ new #[Layout('layouts::main')] class extends Component {
                         {{-- Titre avec animation de losanges --}}
                         <div
                             class="relative transition duration-300 ease-out will-change-transform group-hover:translate-x-4.5">
-                            <div x-data="rotatingBadge()" class="absolute top-1/2 -left-4 -translate-y-1/2">
+                            <div x-data="rotatingBadge" class="absolute top-1/2 -left-4 -translate-y-1/2">
                                 <div
                                     class="translate-x-0.5 opacity-0 transition duration-300 ease-out will-change-transform group-hover:translate-x-0 group-hover:opacity-100">
                                     <div data-rotating class="flex items-center gap-0.75">
@@ -559,7 +629,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </a>
             @empty
                 <div class="col-span-full py-16 lg:py-24">
-                    <div x-data="cspState()" x-intersect="shown = true"
+                    <div x-data="cspState" x-intersect="shown = true"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                         class="transition-all duration-700 ease-out">
                         <div
@@ -596,4 +666,3 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     </section>
 </div>
-

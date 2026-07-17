@@ -7,8 +7,7 @@
 
 <body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
     <flux:header class="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
-        <flux:sidebar.toggle
-            class="lg:hidden mr-2 border! border-emerald-200! hover:bg-emerald-50! dark:border-emerald-800! dark:hover:bg-emerald-900/20! text-zinc-600! hover:text-emerald-600! dark:text-zinc-400! dark:hover:text-emerald-400! rounded! transition! duration-200!"
+        <flux:sidebar.toggle variant="ghost" class="lg:hidden mr-2 hover:!bg-emerald-50 dark:hover:!bg-emerald-900/20"
             icon="bars-3" inset="left" />
         <a href="{{ route('home') }}" wire:navigate
             class="group inline-flex items-center gap-3 rounded-lg py-1.5 transition duration-300 ease-out
@@ -82,36 +81,47 @@
         </flux:sidebar.header>
 
         <flux:sidebar.nav>
-            <flux:sidebar.item :href="route('home')" :current="request()->routeIs('home')" wire:navigate
-                :accent="false"
-                class="!text-zinc-600 !border !border-emerald-200 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
-                {{ __('Accueil') }}
-            </flux:sidebar.item>
-            <flux:sidebar.item :href="route('services.index')" :current="request()->routeIs('services.*')"
-                wire:navigate :accent="false"
-                class="!text-zinc-600 !border !border-emerald-200 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
-                {{ __('Services') }}
-            </flux:sidebar.item>
-            <flux:sidebar.item :href="route('projects.index')" :current="request()->routeIs('projects.*')"
-                wire:navigate :accent="false"
-                class="!text-zinc-600 !border !border-emerald-200 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
-                {{ __('Projets') }}
-            </flux:sidebar.item>
-            <flux:sidebar.item :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate
-                :accent="false"
-                class="!text-zinc-600 !border !border-emerald-200 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
-                {{ __('Blog') }}
-            </flux:sidebar.item>
-            <flux:sidebar.item :href="route('about')" :current="request()->routeIs('about')" wire:navigate
-                :accent="false"
-                class="!text-zinc-600 !border !border-emerald-200 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
-                {{ __('À propos') }}
-            </flux:sidebar.item>
-            <flux:sidebar.item :href="route('contact')" :current="request()->routeIs('contact')" wire:navigate
-                :accent="false"
-                class="!text-zinc-600 !border !border-emerald-200 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
-                {{ __('Contact') }}
-            </flux:sidebar.item>
+            <flux:sidebar.group :heading="__('Navigation')">
+                @php
+                    $links = [
+                        ['route' => 'home', 'label' => __('Accueil')],
+                        ['route' => 'services.index', 'label' => __('Services')],
+                        ['route' => 'projects.index', 'label' => __('Projets')],
+                        ['route' => 'posts.index', 'label' => __('Blog')],
+                        ['route' => 'about', 'label' => __('À propos')],
+                        ['route' => 'contact', 'label' => __('Contact')],
+                    ];
+                @endphp
+
+                @foreach ($links as $link)
+                    <a href="{{ route($link['route']) }}" wire:navigate
+                        class="group relative flex items-center gap-3 h-10 lg:h-8 rounded-lg px-3
+                      !text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600
+                      dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400
+                      !transition-colors !duration-200
+                      focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500
+                      @if (request()->routeIs($link['route'])) !text-emerald-600 dark:!text-emerald-400
+                          !bg-emerald-50 dark:!bg-emerald-900/20 @endif">
+                        {{-- Losange animé --}}
+                        <span
+                            class="absolute left-1 opacity-0 scale-50 -rotate-90
+                             transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                             group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0
+                             group-hover:left-3 text-emerald-500
+                             @if (request()->routeIs($link['route'])) opacity-100 scale-100 rotate-0 left-3 @endif">
+                            <svg aria-hidden="true" class="size-2" viewBox="0 0 8 8" fill="none">
+                                <path d="M4 0L8 4L4 8L0 4L4 0Z" class="fill-current" />
+                            </svg>
+                        </span>
+                        {{-- Texte --}}
+                        <span
+                            class="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-3
+                             @if (request()->routeIs($link['route'])) translate-x-3 @endif">
+                            {{ $link['label'] }}
+                        </span>
+                    </a>
+                @endforeach
+            </flux:sidebar.group>
         </flux:sidebar.nav>
 
         <flux:sidebar.spacer />
@@ -136,9 +146,9 @@
                             <flux:radio value="system" icon="computer-desktop" class="!border-0 !shadow-none" />
                         </flux:radio.group>
 
-                        {{-- Lien Connexion --}}
                         <flux:sidebar.item href="{{ route('login') }}" icon="arrow-right-start-on-rectangle"
-                            class="!text-emerald-600 !border !border-emerald-200 hover:!bg-emerald-50 dark:!text-emerald-400 dark:!border-emerald-800 dark:hover:!bg-emerald-900/20 !transition !duration-200 !rounded">
+                            :accent="false"
+                            class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
                             {{ __('Connexion') }}
                         </flux:sidebar.item>
                     </div>

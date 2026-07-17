@@ -166,7 +166,7 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
 
             <div class="relative">
-                <div x-cloak x-data="cspState()" x-intersect.once="shown = true">
+                <div x-cloak x-data="cspState" x-intersect.once="shown = true">
                     {{-- Badge --}}
                     <span
                         class="inline-flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] dark:text-emerald-400"
@@ -281,7 +281,7 @@ new #[Layout('layouts::main')] class extends Component {
             <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
 
                 {{-- GAUCHE : Engagements --}}
-                <div x-data="cspState()" x-intersect="visible = true"
+                <div x-data="cspState" x-intersect="visible = true"
                     :class="visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'"
                     style="transition: opacity 0.7s ease-out, transform 0.7s ease-out;">
                     <div class="space-y-8">
@@ -370,7 +370,7 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
 
                 {{-- DROITE : Formulaire --}}
-                <div x-data="cspState()" x-intersect="visible = true"
+                <div x-data="cspState" x-intersect="visible = true"
                     :class="visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'"
                     style="transition: opacity 0.7s ease-out, transform 0.7s ease-out;">
                     <div class="border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
@@ -566,7 +566,7 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     </section>
 
-    {{-- ==================== FAQ (déjà existant) ==================== --}}
+    {{-- ==================== FAQ ==================== --}}
     <livewire:faq.faq />
 </div>
 

@@ -1,9 +1,9 @@
 <section class="border-t border-slate-200 bg-slate-50 px-4 py-16 lg:py-20 dark:border-slate-800 dark:bg-slate-900/50">
     <div class="mx-auto max-w-6xl">
-        
+
         {{-- Header --}}
         <div class="mb-10 text-center"
-             x-data="cspState()"
+             x-data="cspState"
              x-intersect="visible = true"
              :class="{ 'opacity-100 translate-y-0': visible, 'opacity-0 translate-y-4': !visible }"
              class="transition-all duration-700">
@@ -18,7 +18,7 @@
         {{-- Accordéon --}}
         <div class="space-y-3">
             @forelse ($this->faqs as $faq)
-                <div x-data="cspState()"
+                <div x-data="cspState"
                      x-intersect="$el.classList.add('opacity-100', 'translate-y-0')"
                      class="opacity-0 translate-y-4 transition-all duration-500 rounded border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900 overflow-hidden">
 
@@ -57,6 +57,6 @@
                 </div>
             @endforelse
         </div>
-        
+
     </div>
 </section>

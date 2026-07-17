@@ -333,28 +333,3 @@ select:focus[data-flux-control] {
         display: inline-block !important;
     }
 }
-
-/* Mobile sidebar overlay: only apply fixed overlay styles when the sidebar is
-   actually open (i.e., not in the collapsed state). This avoids forcing overlays
-   or global overflow while the sidebar should be hidden. */
-[data-flux-sidebar][data-flux-sidebar-on-mobile]:not([data-flux-sidebar-collapsed-mobile]) {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    height: 100dvh !important;
-    z-index: 9999 !important;
-    box-shadow: 0 8px 40px rgba(2,6,23,0.2) !important;
-    overflow-y: auto !important;
-}
-
-/* Backdrop shown when mobile sidebar is open. Do NOT force display:block here;
-   the component toggles visibility via classes. For safety, do not override the
-   'hidden' class globally to avoid blocking interactions. */
-[data-flux-sidebar-backdrop] {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 9998 !important;
-    background: rgba(0,0,0,0.12) !important;
-}
-
-/* Do not force html overflow hidden globally; rely on component behaviour. */
