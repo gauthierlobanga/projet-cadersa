@@ -9,7 +9,7 @@ use Livewire\Component;
 
 new #[Layout('layouts::main')] class extends Component
 {
-    public string $appName = 'Gauthier Lobanga';
+    public string $appName = '';
 
     public ?string $logoUrl = null;
 
@@ -23,7 +23,7 @@ new #[Layout('layouts::main')] class extends Component
 
     public array $addresses = [];
 
-    public string $developerName = 'Gauthier Lobanga';
+    public string $developerName = '';
 
     public string $developerUrl = 'https://github.com/gauthierlobanga';
 
@@ -36,7 +36,7 @@ new #[Layout('layouts::main')] class extends Component
 
     public function boot(SettingApp $appSettings): void
     {
-        $this->appName = $appSettings->name ?: 'Gauthier Lobanga';
+        $this->appName = $appSettings->name ?: '';
         $this->logoUrl = $appSettings->logoUrl();
         $this->socialLinks = $this->buildSocialLinks($appSettings);
         $this->phone = $appSettings->phone;
@@ -68,7 +68,7 @@ new #[Layout('layouts::main')] class extends Component
         });
 
         if ($githubData) {
-            $this->developerName = $githubData['name'] ?? $githubData['login'] ?? 'Gauthier Lobanga';
+            $this->developerName = $githubData['name'] ?? $githubData['login'] ?? '';
             $this->developerUrl = $githubData['html_url'] ?? 'https://github.com/gauthierlobanga';
             if (! empty($githubData['email'])) {
                 $this->developerEmail = $githubData['email'];

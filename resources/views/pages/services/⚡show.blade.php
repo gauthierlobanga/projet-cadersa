@@ -18,7 +18,7 @@ new #[Layout('layouts::main')] class extends Component {
     {
         $view->title($this->service->title);
 
-        $imageUrl = $this->service->getFirstMediaUrl('featured') ?: asset('images/logo-app.svg');
+        $imageUrl = $this->service->getFirstMediaUrl('featured') ?: asset('images/cadersa-logo.png');
         $description = $this->service->getPlainTextContent(160);
 
         $schema = [
@@ -30,7 +30,7 @@ new #[Layout('layouts::main')] class extends Component {
             'url' => route('services.show', $this->service->slug),
             'provider' => [
                 '@type' => 'Person',
-                'name' => 'Gauthier Lobanga',
+                'name' => '',
                 'url' => url('/'),
             ],
         ];

@@ -26,15 +26,15 @@ return new class extends SettingsMigration
             'about.project_banner_subtitle' => 'Des cas concrets qui mettent en lumière des solutions pensées pour le terrain.',
 
             'about.blog_hero_badge' => 'Blog & Actualités',
-            'about.blog_hero_title' => 'Le pouls de CADERSA ASBL',
+            'about.blog_hero_title' => 'Plongez au cœur de nos actions',
             'about.blog_hero_subtitle' => 'Retrouvez des articles, des nouvelles et des ressources pour mieux comprendre nos actions et nos engagements.',
             'about.blog_content_title' => 'Actualités et savoir-faire',
             'about.blog_content_subtitle' => 'Des contenus pensés pour partager nos retours d’expérience et nos apprentissages.',
             'about.blog_banner_title' => 'Ressources utiles',
             'about.blog_banner_subtitle' => 'Des billets et des guides pour appuyer vos projets de développement et d’agriculture durable.',
 
-            'about.author_home' => 'Full-Stack Web Developer',
-            'about.auteur_about' => 'Gauthier Lobanga',
+            'about.author_home' => '',
+            'about.auteur_about' => '',
             'about.citation_footer' => 'Vivre c’est reconnaître ses semblables créés à l’image de Dieu. — Prof. Dr Bernard HANGI',
 
             // Contact page dynamic content

@@ -9,7 +9,7 @@ $appSettings = app(\App\Settings\SettingApp::class);
 $aboutSettings = app(\App\Settings\AboutSettings::class);
 
 // Logo de l'application (dynamique)
-    $appLogo = $appSettings->logoUrl() ?: asset('images/logo-app.svg');
+    $appLogo = $appSettings->logoUrl() ?: asset('images/cadersa-logo.png');
 
     // Image SEO (utilisée à la fois pour Open Graph et le schéma)
     $seoImage = $seoImage ?? $appLogo;
@@ -116,12 +116,12 @@ $schema = [
                 if (mutation.attributeName === 'class' && !isTransitioning) {
                     const oldDark = mutation.oldValue ? mutation.oldValue.includes('dark') : false;
                     const newDark = document.documentElement.classList.contains('dark');
-                    
+
                     // Si la classe 'dark' a été ajoutée ou retirée
                     if (oldDark !== newDark) {
                         isTransitioning = true;
                         document.documentElement.classList.add('no-transition');
-                        
+
                         // Attendre un peu que le navigateur applique les nouvelles couleurs sans animation
                         setTimeout(() => {
                             document.documentElement.classList.remove('no-transition');

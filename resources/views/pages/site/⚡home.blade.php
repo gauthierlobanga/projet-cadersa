@@ -91,16 +91,16 @@ new #[Layout('layouts::main')] class extends Component {
         $schema = [
             '@context' => 'https://schema.org',
             '@type' => 'Person',
-            'name' => 'Gauthier Lobanga',
+            'name' => '',
             'url' => url('/'),
             'image' => $this->about->hero_image_url ? $this->imageUrl($this->about->hero_image_url) : $this->imageUrl('images/gaudev-hero.png'),
-            'description' => 'Gauthier Lobanga – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Architecture moderne avec Filament, API robustes et interfaces performantes. Découvrez mon portfolio, mes projets et mon savoir‑faire.',
+            'description' => ' – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Architecture moderne avec Filament, API robustes et interfaces performantes. Découvrez mon portfolio, mes projets et mon savoir‑faire.',
             'sameAs' => $sameAs,
         ];
 
         $view->layoutData([
-            'seoDescription' => 'Gauthier Lobanga – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Bienvenue sur mon portfolio professionnel.',
-            'seoKeywords' => ['Gauthier Lobanga', 'portfolio', 'développeur web', 'TALL stack', 'Filament', 'Laravel', 'Livewire', 'RDC', 'React', 'Inertia.js', 'développement web', 'projets web', 'services web', 'front-end', 'back-end', 'full-stack', 'web design', 'web development', 'web applications', 'web solutions', 'web services', 'formation web', 'web tutorials', 'web resources', 'web technologies', 'web programming', 'web frameworks', 'web tools', 'web optimization', 'web performance', 'web security', 'web accessibility'],
+            'seoDescription' => ' – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Bienvenue sur mon portfolio professionnel.',
+            'seoKeywords' => ['', 'portfolio', 'développeur web', 'TALL stack', 'Filament', 'Laravel', 'Livewire', 'RDC', 'React', 'Inertia.js', 'développement web', 'projets web', 'services web', 'front-end', 'back-end', 'full-stack', 'web design', 'web development', 'web applications', 'web solutions', 'web services', 'formation web', 'web tutorials', 'web resources', 'web technologies', 'web programming', 'web frameworks', 'web tools', 'web optimization', 'web performance', 'web security', 'web accessibility'],
             'schema' => '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>',
         ]);
     }
@@ -148,18 +148,20 @@ new #[Layout('layouts::main')] class extends Component {
 
         {{-- Image en arrière-plan avec overlay --}}
         <div class="absolute inset-0 z-0">
-            <img x-ref="bgImage" src="{{ $heroImage }}" alt="" class="absolute inset-0 w-full h-full object-cover object-center"
-                loading="eager" fetchpriority="high" />
+            <img x-ref="bgImage" src="{{ $heroImage }}" alt=""
+                class="absolute inset-0 w-full h-full object-cover object-center" loading="eager" fetchpriority="high" />
             {{-- Overlay : dégradé sombre pour la lisibilité --}}
             <div
-                class="absolute inset-0 bg-linear-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40 dark:from-zinc-950/90 dark:via-zinc-950/70 dark:to-zinc-950/40">
+                class="absolute inset-0 bg-linear-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40 dark:from-zinc-950 dark:via-zinc-950/95 dark:to-zinc-950/80">
             </div>
             {{-- Effet supplémentaire de halo lumineux autour de l'image --}}
             <div class="absolute inset-0 bg-emerald-500/10 dark:bg-emerald-400/10 blur-3xl"></div>
         </div>
 
         {{-- Contenu texte (par-dessus l'image) --}}
-        <div class="relative z-10 w-full max-w-7xl mx-auto px-6 py-12 lg:py-16 lg:px-12">
+        <div x-data="{ shown: false }" x-intersect="shown = true"
+            :class="{ 'opacity-100 translate-y-0': shown, 'opacity-0 translate-y-6': !shown }"
+            class="relative z-10 w-full max-w-7xl mx-auto px-6 py-12 lg:py-16 lg:px-12 transition duration-500 ease-out opacity-0 translate-y-6">
             <div class="w-full max-w-3xl">
                 <h1 x-ref="title"
                     class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-['Plus_Jakarta_Sans'] tracking-tight text-white leading-tight">
@@ -170,7 +172,7 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="h-px w-16 bg-emerald-500/80"></div>
                     <p
                         class="text-2xl font-extrabold font-['Plus_Jakarta_Sans'] tracking-tight text-emerald-300 lg:text-3xl">
-                        {{ $this->about->author_home ?: 'Full-Stack Web Developer' }}
+                        {{ $this->about->author_home ?: '' }}
                     </p>
                     <div class="h-px w-16 bg-emerald-500/80 hidden sm:block"></div>
                 </div>
@@ -344,24 +346,26 @@ new #[Layout('layouts::main')] class extends Component {
                             @endif
 
                             {{-- Email --}}
-                            <li x-ref="social_6" class="group relative flex flex-col items-center">
-                                <a href="mailto:{{ $this->settings->email }}"
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white/80 backdrop-blur-sm transition-all duration-300 hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-500/25 dark:bg-white/5 dark:hover:bg-red-500"
-                                    aria-label="Email">
-                                    <svg fill="currentColor" viewBox="0 0 24 24" class="h-5 w-5">
-                                        <path
-                                            d="M12 12.713l-11.985-9.713h23.971l-11.986 9.713zm-5.425-1.822l-6.575-5.329v12.501l6.575-7.172zm10.85 0l6.575 7.172v-12.501l-6.575 5.329zm-1.557 1.261l-3.868 3.135-3.868-3.135-8.11 8.848h23.956l-8.11-8.848z" />
-                                    </svg>
-                                </a>
-                                <div
-                                    class="absolute top-full mt-2 flex flex-col items-center opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
-                                    <svg class="h-3 w-3 text-emerald-400/70 rotate-180" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                    <span class="mt-0.5 text-xs font-medium text-white/70">Email</span>
-                                </div>
-                            </li>
+                            @if ($this->settings->email)
+                                <li x-ref="social_6" class="group relative flex flex-col items-center">
+                                    <a href="mailto:{{ $this->settings->email }}"
+                                        class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white/80 backdrop-blur-sm transition-all duration-300 hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-500/25 dark:bg-white/5 dark:hover:bg-red-500"
+                                        aria-label="Email">
+                                        <svg fill="currentColor" viewBox="0 0 24 24" class="h-5 w-5">
+                                            <path
+                                                d="M12 12.713l-11.985-9.713h23.971l-11.986 9.713zm-5.425-1.822l-6.575-5.329v12.501l6.575-7.172zm10.85 0l6.575 7.172v-12.501l-6.575 5.329zm-1.557 1.261l-3.868 3.135-3.868-3.135-8.11 8.848h23.956l-8.11-8.848z" />
+                                        </svg>
+                                    </a>
+                                    <div
+                                        class="absolute top-full mt-2 flex flex-col items-center opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
+                                        <svg class="h-3 w-3 text-emerald-400/70 rotate-180" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                        <span class="mt-0.5 text-xs font-medium text-white/70">Email</span>
+                                    </div>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

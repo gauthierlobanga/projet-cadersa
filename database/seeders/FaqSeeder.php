@@ -11,7 +11,7 @@ class FaqSeeder extends Seeder
     {
         $faqs = [
             [
-                'question' => 'Qui est Gauthier Lobanga ?',
+                'question' => 'Qui est  ?',
                 'answer' => 'Je suis développeur web full‑stack spécialisé Laravel, TALL stack (Tailwind, Alpine.js, Livewire, Laravel), Filament, React et Inertia.js. Je crée des applications web modernes, des APIs robustes et des panneaux d’administration sur mesure.',
                 'sort_order' => 1,
             ],

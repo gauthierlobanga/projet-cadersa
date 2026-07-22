@@ -14,7 +14,7 @@
         $appLogo = null;
     }
     $appName = $appName ?: config('app.name', 'Gaudev');
-    $appLogo = $appLogo ?: asset('images/logo-app.svg');
+    $appLogo = $appLogo ?: asset('images/cadersa-logo.png');
     $homeUrl = url('/');
     $refreshUrl = request()->fullUrl();
     $previousUrl = url()->previous();

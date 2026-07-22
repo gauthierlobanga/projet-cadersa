@@ -25,7 +25,7 @@
                               focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900">
                         <div class="h-16 w-auto max-w-full shrink-0 overflow-hidden">
                             <img loading="eager" decoding="async"
-                                src="{{ $this->logoUrl ?? Storage::url('images/logo-app.svg') }}"
+                                src="{{ $this->logoUrl ?? Storage::url('images/cadersa-logo.png') }}"
                                 alt="{{ $this->appName }}" class="h-full w-auto object-contain object-left" />
                         </div>
                     </a>
@@ -99,7 +99,7 @@
                             @endswitch
                             {{-- Tooltip --}}
                             <div
-                                class="pointer-events-none absolute inset-y-0 hidden items-center gap-3 md:flex left-[calc(100%+(--spacing(4)))] flex-row-reverse">
+                                class="pointer-events-none absolute inset-y-0 hidden items-center gap-3 lg:flex left-[calc(100%+(--spacing(4)))] flex-row-reverse">
                                 <div
                                     class="text-base font-medium text-zinc-400 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2">
                                     {{ ucfirst($network) }}</div>

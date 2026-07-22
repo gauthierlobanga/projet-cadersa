@@ -58,6 +58,31 @@ class ProjectsTable
                     ->icon('heroicon-m-map-pin')
                     ->toggleable(),
 
+                TextColumn::make('meta_title')
+                    ->label('Titre SEO')
+                    ->limit(30)
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('meta_description')
+                    ->label('Description SEO')
+                    ->limit(40)
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('problematic')
+                    ->label('Problématique')
+                    ->formatStateUsing(fn ($state): string => filled($state) ? 'Oui' : 'Non')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('solution')
+                    ->label('Solution')
+                    ->formatStateUsing(fn ($state): string => filled($state) ? 'Oui' : 'Non')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('results')
+                    ->label('Résultats')
+                    ->formatStateUsing(fn ($state): string => filled($state) ? 'Oui' : 'Non')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('status')
                     ->label('Statut')
                     ->badge()

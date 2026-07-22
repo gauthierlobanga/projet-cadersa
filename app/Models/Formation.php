@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Image\Enums\Fit;
@@ -25,7 +26,7 @@ use Spatie\Tags\HasTags;
 class Formation extends Model implements Feedable, HasMedia, HasRichContent, Sitemapable
 {
     use HasComments, HasUuids;
-    use HasFactory, HasTags, InteractsWithMedia, SoftDeletes;
+    use HasFactory, HasTags, InteractsWithMedia, Searchable, SoftDeletes;
     use InteractsWithRichContent;
 
     /**
@@ -68,8 +69,43 @@ class Formation extends Model implements Feedable, HasMedia, HasRichContent, Sit
         'end_date' => 'date',
         'published_at' => 'datetime',
         'meta' => 'array',
+        'excerpt' => 'array',
         'content' => 'array',
     ];
+
+    public function setUpRichContent(): void
+    {
+        $this->registerRichContent('content')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('excerpt')
+            ->fileAttachmentsDisk('media');
+    }
+
+    /**
+     * Define the columns used by Scout's database search engine.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'subtitle' => $this->subtitle,
+            'excerpt' => $this->getRawOriginal('excerpt'),
+            'content' => $this->getRawOriginal('content'),
+            'location' => $this->location,
+            'status' => $this->status,
+            'meta' => $this->getRawOriginal('meta'),
+            'duration' => $this->duration,
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return (bool) $this->is_active;
+    }
 
     /**
      * Convertit un article en élément de flux.
@@ -82,8 +118,8 @@ class Formation extends Model implements Feedable, HasMedia, HasRichContent, Sit
             ->summary($this->getPlainTextContent(200) ?: $this->title)
             ->updated($this->updated_at)
             ->link(route('formations.show', $this->slug)) // Votre route de détail
-            ->authorName($this->user?->name ?? 'Gaudev')
-            ->authorEmail($this->user?->email ?? 'gauthierlobanga914@gmail.com');
+            ->authorName($this->user?->name ?? 'CADERSA')
+            ->authorEmail($this->user?->email ?? 'cadersa.asbl@gmail.com');
     }
 
     /**
@@ -282,6 +318,46 @@ class Formation extends Model implements Feedable, HasMedia, HasRichContent, Sit
         }
 
         return Str::limit($text, $limit);
+    }
+
+    public function getPlainTextExcerpt(int $limit = 200): string
+    {
+        $excerpt = $this->excerpt;
+        if (is_array($excerpt)) {
+            $text = $this->extractTextFromTiptap($excerpt);
+        } else {
+            $text = strip_tags((string) $excerpt);
+        }
+
+        return Str::limit($text, $limit);
+    }
+
+    public function setContentAttribute($value): void
+    {
+        if (is_null($value) || $value === '') {
+            $value = ['type' => 'doc', 'content' => []];
+        }
+        if (is_string($value)) {
+            $value = ['type' => 'doc', 'content' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $value]]],
+            ]];
+        }
+
+        $this->attributes['content'] = json_encode($value);
+    }
+
+    public function setExcerptAttribute($value): void
+    {
+        if (is_null($value) || $value === '') {
+            $value = ['type' => 'doc', 'content' => []];
+        }
+        if (is_string($value)) {
+            $value = ['type' => 'doc', 'content' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $value]]],
+            ]];
+        }
+
+        $this->attributes['excerpt'] = json_encode($value);
     }
 
     public function duration(): Attribute

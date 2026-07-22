@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
@@ -39,7 +39,7 @@ class PostCategory extends Model implements Sitemapable
 
     public function toSitemapTag(): Url|string|array
     {
-        return Url::create(route('blog.category', $this->slug))
+        return Url::create(route('posts.index', ['cat' => $this->slug]))
             ->setLastModificationDate($this->updated_at)
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
             ->setPriority(0.6);
@@ -105,7 +105,7 @@ class PostCategory extends Model implements Sitemapable
     // Accessors
     public function getUrlAttribute(): string
     {
-        return route('blog.category', $this->slug);
+        return route('posts.index', ['cat' => $this->slug]);
     }
 
     public function getFullPathAttribute(): string
@@ -164,7 +164,7 @@ class PostCategory extends Model implements Sitemapable
     {
         return $query->where('est_active', true);
     }
- 
+
     public function scopeVisiblesDansMenu(Builder $query): Builder
     {
         return $query->where('est_visible_dans_menu', true);
@@ -175,46 +175,46 @@ class PostCategory extends Model implements Sitemapable
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeParents(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
     }
- 
+
     /**
      * scopeEnfants.
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeEnfants(Builder $query): Builder
     {
         return $query->whereNotNull('parent_id');
     }
- 
+
     /**
      * scopeOrdonnes.
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeOrdonnes(Builder $query): Builder
     {
         return $query->orderBy('ordre');
     }
- 
+
     /**
      * scopeRecherche.
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeRecherche(Builder $query, string $term): Builder

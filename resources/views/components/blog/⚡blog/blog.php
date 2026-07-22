@@ -13,6 +13,7 @@ new class extends Component
     {
         return Post::with(['user', 'categories'])
             ->published()
+            ->whereHas('categories', fn ($query) => $query->where('slug', 'formation'))
             ->latest('published_at')
             ->limit(6)
             ->get();

@@ -25,7 +25,8 @@
                 {{ __('Projets') }}
             </flux:navbar.item>
 
-            <flux:navbar.item :href="route('formations.index')" :current="request()->routeIs('formations.index')" wire:navigate
+            <flux:navbar.item :href="route('formations.index')" :current="request()->routeIs('formations.index')"
+                wire:navigate
                 class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
                 {{ __('Formations') }}
             </flux:navbar.item>
@@ -77,7 +78,7 @@
     </flux:header>
 
     <flux:sidebar sticky collapsible="mobile"
-        class="lg:hidden h-dvh max-h-dvh overflow-y-auto border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+        class="lg:hidden z-50 fixed! h-dvh max-h-dvh overflow-y-auto border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
             <a href="{{ route('home') }}" wire:navigate
                 class="group inline-flex items-center gap-3 rounded-lg py-1.5 transition duration-300 ease-out

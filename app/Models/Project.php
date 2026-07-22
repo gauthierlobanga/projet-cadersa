@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Image\Enums\Fit;
@@ -24,7 +25,7 @@ use Tiptap\Nodes\Image;
 
 class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitemapable
 {
-    use HasFactory, HasTags, HasUuids, InteractsWithMedia, InteractsWithRichContent, SoftDeletes;
+    use HasFactory, HasTags, HasUuids, InteractsWithMedia, InteractsWithRichContent, Searchable, SoftDeletes;
 
     public function setUpRichContent(): void
     {
@@ -84,6 +85,33 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         'results' => 'array',
     ];
 
+    /**
+     * Define the columns used by Scout's database search engine.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'excerpt' => $this->getRawOriginal('excerpt'),
+            'content' => $this->getRawOriginal('content'),
+            'problematic' => $this->getRawOriginal('problematic'),
+            'solution' => $this->getRawOriginal('solution'),
+            'results' => $this->getRawOriginal('results'),
+            'location' => $this->location,
+            'status' => $this->status,
+            'meta_title' => $this->meta_title,
+            'meta_description' => $this->meta_description,
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return (bool) $this->is_active;
+    }
+
     // --------------------------------------------------------------
     //  Feed
     // --------------------------------------------------------------
@@ -96,7 +124,7 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
             ->updated($this->updated_at)
             ->link(route('projects.show', $this->slug))
             ->authorName('CADERSA')
-            ->authorEmail('contact@cadersa.org');
+            ->authorEmail('cadersa.asbl@gmail.com');
     }
 
     public static function getFeedItems()
@@ -348,15 +376,29 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
      */
     public function getPlainTextContent(?int $limit = null): string
     {
-        $content = $this->content;
+        $content = $this->content; // déjà casté en array normalement
+
+        // Si pour une raison quelconque c'est une chaîne (ex: double encodage),
+        // on tente de la décoder en tableau.
+        if (is_string($content)) {
+            $decoded = json_decode($content, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $content = $decoded;
+            } else {
+                // Pas de JSON valide : on nettoie et on limite
+                $text = strip_tags($content);
+
+                return $limit ? Str::limit($text, $limit) : $text;
+            }
+        }
+
         if (is_array($content)) {
             $text = $this->extractTextFromTiptap($content);
         } else {
-            $text = strip_tags((string) ($content ?? ''));
+            $text = '';
         }
-        $plainText = strip_tags($text);
 
-        return $limit ? Str::limit($plainText, $limit) : $plainText;
+        return $limit ? Str::limit($text, $limit) : $text;
     }
 
     // --------------------------------------------------------------

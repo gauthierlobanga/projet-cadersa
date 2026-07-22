@@ -6,9 +6,11 @@ namespace App\Models;
 use App\Traits\HasComments;
 use Carbon\Carbon;
 use Database\Factories\PostFactory;
+use DateTimeInterface;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,12 +18,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use DateTimeInterface;
+use Laravel\Scout\Searchable;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Image\Enums\Fit;
@@ -66,6 +67,7 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
     use HasUuids;
     use InteractsWithMedia;
     use InteractsWithRichContent;
+    use Searchable;
     use SoftDeletes;
 
     public function setUpRichContent(): void
@@ -103,7 +105,7 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->updated($this->updated_at)
             ->link(route('posts.show', $this->slug)) // Votre route de détail
             ->authorName($this->user?->name ?? 'CADERSA')
-            ->authorEmail($this->user?->email ?? 'contact@cadersa.org');
+            ->authorEmail($this->user?->email ?? 'cadresa.asbl@gmail.com');
     }
 
     /**
@@ -146,6 +148,33 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Define the columns used by Scout's database search engine.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'excerpt' => $this->getRawOriginal('excerpt'),
+            'content' => $this->getRawOriginal('content'),
+            'metadata' => $this->getRawOriginal('metadata'),
+            'status' => $this->status,
+            'meta_title' => $this->getRawOriginal('meta_title'),
+            'meta_description' => $this->getRawOriginal('meta_description'),
+            'meta_keywords' => $this->getRawOriginal('meta_keywords'),
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->status === self::STATUS_PUBLISHED
+            && $this->published_at?->isPast() === true
+            && (! $this->expires_at || $this->expires_at->isFuture());
     }
 
     // Constantes de statut
@@ -198,6 +227,28 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->withPivot('est_principale', 'ordre')
             ->withTimestamps()
             ->orderByPivot('ordre');
+    }
+
+    public function getPrimaryCategoryId(): ?string
+    {
+        return $this->categories()
+            ->wherePivot('est_principale', true)
+            ->value('posts_categories.id');
+    }
+
+    public function syncPrimaryCategory(?string $categoryId): void
+    {
+        $this->categories()->newPivotStatement()
+            ->where('post_id', $this->id)
+            ->update(['est_principale' => false]);
+
+        if (! $categoryId) {
+            return;
+        }
+
+        if ($this->categories()->where('posts_categories.id', $categoryId)->exists()) {
+            $this->categories()->updateExistingPivot($categoryId, ['est_principale' => true]);
+        }
     }
 
     // Ajoutez dans la classe

@@ -205,7 +205,7 @@ class ProjectForm
                     ->icon('heroicon-o-academic-cap')
                     ->collapsed()
                     ->schema([
-                        RichEditor::make('case_study_problem')
+                        RichEditor::make('problematic')
                             ->label('Problématique')
                             ->columnSpanFull()
                             ->json()
@@ -215,7 +215,7 @@ class ProjectForm
                                 ['blockquote', 'bulletList', 'orderedList'],
                                 ['undo', 'redo'],
                             ]),
-                        RichEditor::make('case_study_solution')
+                        RichEditor::make('solution')
                             ->label('Solution apportée')
                             ->columnSpanFull()
                             ->json()
@@ -225,7 +225,7 @@ class ProjectForm
                                 ['blockquote', 'bulletList', 'orderedList'],
                                 ['undo', 'redo'],
                             ]),
-                        RichEditor::make('case_study_results')
+                        RichEditor::make('results')
                             ->label('Résultats obtenus')
                             ->columnSpanFull()
                             ->json()
@@ -241,10 +241,10 @@ class ProjectForm
                     ->icon('heroicon-o-globe-alt')
                     ->collapsed()
                     ->schema([
-                        TextInput::make('seo_title')
+                        TextInput::make('meta_title')
                             ->label('Titre SEO')
                             ->maxLength(255),
-                        TextInput::make('seo_description')
+                        TextInput::make('meta_description')
                             ->label('Description SEO')
                             ->maxLength(255),
                     ]),

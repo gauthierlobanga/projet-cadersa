@@ -30,13 +30,13 @@ new #[Layout('layouts::main')] class extends Component {
     <section x-cloak class="relative overflow-hidden bg-slate-900 dark:bg-zinc-950 min-h-[80svh] flex items-center"
         x-data="aboutHeroReveal">
         @php
-            $heroImage = $this->imageUrl($this->about->hero_image_url) ?: $this->imageUrl('images/gaudev-hero.png');
+            $heroImage = $this->imageUrl($this->about->hero_image_url) ?: $this->imageUrl('images/cadersa-logo.png');
         @endphp
 
         {{-- Image en arrière-plan avec overlay --}}
         <div class="absolute inset-0 z-0">
-            <img x-ref="bgImage" src="{{ $heroImage }}" alt="" class="absolute inset-0 w-full h-full object-cover object-center"
-                loading="eager" fetchpriority="high" />
+            <img x-ref="bgImage" src="{{ $heroImage }}" alt=""
+                class="absolute inset-0 w-full h-full object-cover object-center" loading="eager" fetchpriority="high" />
             {{-- Overlay : dégradé sombre pour lisibilité --}}
             <div
                 class="absolute inset-0 bg-linear-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40 dark:from-zinc-950/90 dark:via-zinc-950/70 dark:to-zinc-950/40">
@@ -50,19 +50,19 @@ new #[Layout('layouts::main')] class extends Component {
             <div class="w-full max-w-2xl">
                 <h1 x-ref="title"
                     class="mt-8 text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                    {{ $this->about->hero_title ?: 'À propos de moi' }}
+                    {{ $this->about->hero_title ?: '' }}
                 </h1>
 
                 <div x-ref="author" class="mt-4 flex items-center gap-3">
                     <div class="h-px w-16 bg-emerald-500/80"></div>
                     <p class="text-2xl font-extrabold tracking-tight text-emerald-300 lg:text-3xl">
-                        {{ $this->about->auteur_about ?: 'Gauthier Lobanga' }}
+                        {{ $this->about->auteur_about ?: '' }}
                     </p>
                     <div class="h-px w-16 bg-emerald-500/80 hidden sm:block"></div>
                 </div>
 
                 <p x-ref="subtitle" class="mt-8 text-xl leading-7 text-zinc-300 md:text-2xl">
-                    {{ $this->about->hero_subtitle ?: 'Développeur web passionné, spécialisé TALL stack, React, Inertia.js et Filament.' }}
+                    {{ $this->about->hero_subtitle ?: '' }}
                 </p>
 
                 <div x-ref="buttons" class="mt-10 flex flex-col sm:flex-row items-center gap-5">
@@ -220,24 +220,26 @@ new #[Layout('layouts::main')] class extends Component {
                             @endif
 
                             {{-- Email --}}
-                            <li x-ref="social_6" class="group relative flex flex-col items-center">
-                                <a href="mailto:{{ $this->settings->email }}"
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white/80 backdrop-blur-sm transition-all duration-300 hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-500/25 dark:bg-white/5 dark:hover:bg-red-500"
-                                    aria-label="Email">
-                                    <svg fill="currentColor" viewBox="0 0 24 24" class="h-5 w-5">
-                                        <path
-                                            d="M12 12.713l-11.985-9.713h23.971l-11.986 9.713zm-5.425-1.822l-6.575-5.329v12.501l6.575-7.172zm10.85 0l6.575 7.172v-12.501l-6.575 5.329zm-1.557 1.261l-3.868 3.135-3.868-3.135-8.11 8.848h23.956l-8.11-8.848z" />
-                                    </svg>
-                                </a>
-                                <div
-                                    class="absolute top-full mt-2 flex flex-col items-center opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
-                                    <svg class="h-3 w-3 text-emerald-400/70 rotate-180" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                    <span class="mt-0.5 text-xs font-medium text-white/70">Email</span>
-                                </div>
-                            </li>
+                            @if ($this->settings->email)
+                                <li x-ref="social_6" class="group relative flex flex-col items-center">
+                                    <a href="mailto:{{ $this->settings->email }}"
+                                        class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white/80 backdrop-blur-sm transition-all duration-300 hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-500/25 dark:bg-white/5 dark:hover:bg-red-500"
+                                        aria-label="Email">
+                                        <svg fill="currentColor" viewBox="0 0 24 24" class="h-5 w-5">
+                                            <path
+                                                d="M12 12.713l-11.985-9.713h23.971l-11.986 9.713zm-5.425-1.822l-6.575-5.329v12.501l6.575-7.172zm10.85 0l6.575 7.172v-12.501l-6.575 5.329zm-1.557 1.261l-3.868 3.135-3.868-3.135-8.11 8.848h23.956l-8.11-8.848z" />
+                                        </svg>
+                                    </a>
+                                    <div
+                                        class="absolute top-full mt-2 flex flex-col items-center opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
+                                        <svg class="h-3 w-3 text-emerald-400/70 rotate-180" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                        <span class="mt-0.5 text-xs font-medium text-white/70">Email</span>
+                                    </div>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -296,7 +298,7 @@ new #[Layout('layouts::main')] class extends Component {
                         @php $aboutImage = $aboutBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
                         <img loading="eager" decoding="async"
                             src="{{ $aboutImage ? $this->imageUrl($aboutImage) : $this->imageUrl('images/gaudev-logo.png') }}"
-                            alt="Gauthier Lobanga" class="w-full h-full object-contain aspect-4/3" />
+                            alt="" class="w-full h-full object-contain aspect-4/3" />
                     </div>
                     <div class="absolute -bottom-6 -left-6 -z-10 transition-all duration-500 delay-500 ease-out"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
@@ -320,7 +322,7 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="overflow-hidden">
                         @php $visionImage = $visionBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
                         <img loading="eager" decoding="async"
-                            src="{{ $visionImage ? $this->imageUrl($visionImage) : $this->imageUrl('images/gauthier-lobanga.jpg') }}"
+                            src="{{ $visionImage ? $this->imageUrl($visionImage) : $this->imageUrl('images/cadersa-logo.png') }}"
                             alt="Vision" class="aspect-4/3 w-full object-cover">
                     </div>
                 </div>
@@ -419,7 +421,7 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="overflow-hidden">
                         @php $missionImage = $missionBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
                         <img loading="eager" decoding="async"
-                            src="{{ $missionImage ? $this->imageUrl($missionImage) : $this->imageUrl('images/gauthier-lobanga.jpg') }}"
+                            src="{{ $missionImage ? $this->imageUrl($missionImage) : $this->imageUrl('images/cadersa-logo.png') }}"
                             alt="Mission" class="aspect-4/3 w-full object-cover">
                     </div>
                 </div>

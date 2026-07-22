@@ -51,7 +51,7 @@ class BlogCategorySeeder extends Seeder
                     'ordre' => $index * 10,
                     'est_active' => true,
                     'est_visible_dans_menu' => true,
-                    'meta_title' => $catData['nom'].' | Gauthier Lobanga',
+                    'meta_title' => $catData['nom'].' | ',
                     'meta_description' => 'Articles sur '.strtolower($catData['nom']).' : tutoriels, conseils, actualités.',
                     'meta_keywords' => explode(' ', strtolower($catData['nom'])),
                 ]
@@ -88,7 +88,7 @@ class BlogCategorySeeder extends Seeder
                         'ordre' => $index * 5,
                         'est_active' => true,
                         'est_visible_dans_menu' => ($index % 2 === 0),
-                        'meta_title' => $nomSousCat.' - '.$racineNom.' | Gauthier Lobanga',
+                        'meta_title' => $nomSousCat.' - '.$racineNom.' | ',
                         'meta_description' => 'Articles et astuces sur '.strtolower($nomSousCat).' dans la catégorie '.strtolower($racineNom).'.',
                         'meta_keywords' => array_merge(
                             explode(' ', strtolower($nomSousCat)),

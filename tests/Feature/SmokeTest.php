@@ -52,5 +52,7 @@ it('loads the legal pages', function () {
     get('/mentions-legales')->assertOk();
     get('/politique-confidentialite')->assertOk();
     get('/conditions-utilisation')->assertOk();
-    get('/cookies')->assertOk();
+    get('/cookies')
+        ->assertOk()
+        ->assertSee('lg:hidden z-50');
 });

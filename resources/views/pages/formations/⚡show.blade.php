@@ -55,7 +55,7 @@ new #[Layout('layouts::main')] class extends Component {
     public function rendering(\Illuminate\View\View $view): void
     {
         $view->title($this->formation->title);
-        $imageUrl = $this->formation->getFirstMediaUrl('cover') ?: asset('images/logo-app.svg');
+        $imageUrl = $this->formation->getFirstMediaUrl('cover') ?: asset('images/cadersa-logo.png');
         $description = $this->formation->getPlainTextContent(160);
         $schema = [
             '@context' => 'https://schema.org',
@@ -63,7 +63,7 @@ new #[Layout('layouts::main')] class extends Component {
             'name' => $this->formation->title,
             'image' => [$imageUrl],
             'description' => $description,
-            'provider' => ['@type' => 'Person', 'name' => 'Gauthier Lobanga'],
+            'provider' => ['@type' => 'Person', 'name' => ''],
         ];
         $view->layoutData([
             'seoDescription' => $description,
@@ -862,13 +862,13 @@ new #[Layout('layouts::main')] class extends Component {
                             <div
                                 class="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-white dark:ring-zinc-800">
                                 <img loading="eager"
-                                    src="{{ $formation->user?->avatar_url ?? asset('images/gauthier-lobanga.jpg') }}"
-                                    alt="{{ $formation->user?->name ?? 'Gauthier Lobanga' }}"
+                                    src="{{ $formation->user?->avatar_url ?? asset('images/cadersa-logo.png') }}"
+                                    alt="{{ $formation->user?->name ?? '' }}"
                                     class="h-full w-full object-cover">
                             </div>
                             <div>
                                 <h3 class="font-bold text-zinc-900 dark:text-white">
-                                    {{ $formation->user?->name ?? 'Gauthier Lobanga' }}</h3>
+                                    {{ $formation->user?->name ?? '' }}</h3>
                                 <p
                                     class="text-xs font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
                                     Formateur</p>

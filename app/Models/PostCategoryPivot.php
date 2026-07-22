@@ -21,6 +21,7 @@ class PostCategoryPivot extends Pivot
         'category_id',
         'est_principale',
         'is_primary',
+        'ordre',
         'order',
     ];
 

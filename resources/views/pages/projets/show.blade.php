@@ -17,7 +17,7 @@ new #[Layout('layouts::main')] class extends Component {
     {
         $view->title($this->project->title);
 
-        $imageUrl = $this->project->getFirstMediaUrl('featured') ?: asset('images/logo-app.svg');
+        $imageUrl = $this->project->getFirstMediaUrl('featured') ?: asset('images/cadersa-logo.png');
         $description = $this->project->getPlainTextContent(160);
 
         $schema = [
@@ -53,7 +53,6 @@ new #[Layout('layouts::main')] class extends Component {
         );
     }
 
-    // ===== M├ëTHODE POUR LES PDF =====
     #[Computed]
     public function pdfs()
     {
@@ -181,9 +180,9 @@ new #[Layout('layouts::main')] class extends Component {
                                 class="font-semibold text-zinc-900 dark:text-white">{{ $project->end_date->translatedFormat('F Y') }}</span></span>
                     </div>
                 @endif
- 
+
             </div>
- 
+
             @if ($project->website_url || $project->repository_url)
                 <div class="mt-8 flex flex-wrap justify-center gap-3">
                     @if ($project->website_url)
@@ -209,7 +208,7 @@ new #[Layout('layouts::main')] class extends Component {
                     @endif
                 </div>
             @endif
- 
+
         </div>
     </section>
     {{-- Contenu & Galerie --}}
@@ -228,7 +227,7 @@ new #[Layout('layouts::main')] class extends Component {
                 <div wire:cloak x-data="{ shown: false }" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                     class="mt-16 space-y-8 transition-all duration-1000 ease-out delay-100">
-                    
+
                     @if ($project->problematic)
                         <div class="rounded-2xl border border-rose-200/60 bg-rose-50/30 p-8 shadow-sm dark:border-rose-900/30 dark:bg-rose-900/10">
                             <h3 class="mb-4 flex items-center gap-3 text-xl font-bold text-rose-800 dark:text-rose-300">

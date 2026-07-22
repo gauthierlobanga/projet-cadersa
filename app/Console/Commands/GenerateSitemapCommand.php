@@ -28,6 +28,7 @@ class GenerateSitemapCommand extends Command
             ['url' => route('contact'), 'priority' => 0.7, 'frequency' => Url::CHANGE_FREQUENCY_MONTHLY],
             ['url' => route('services.index'), 'priority' => 0.9, 'frequency' => Url::CHANGE_FREQUENCY_WEEKLY],
             ['url' => route('projects.index'), 'priority' => 0.9, 'frequency' => Url::CHANGE_FREQUENCY_WEEKLY],
+            ['url' => route('formations.index'), 'priority' => 0.9, 'frequency' => Url::CHANGE_FREQUENCY_WEEKLY],
             ['url' => route('posts.index'), 'priority' => 0.9, 'frequency' => Url::CHANGE_FREQUENCY_DAILY],
         ];
 

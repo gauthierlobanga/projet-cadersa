@@ -15,6 +15,29 @@ class EditPost extends EditRecord
 {
     protected static string $resource = PostResource::class;
 
+    protected ?string $primaryCategoryId = null;
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['primary_category'] = $this->record->getPrimaryCategoryId();
+
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $this->primaryCategoryId = $data['primary_category'] ?? null;
+
+        unset($data['primary_category']);
+
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $this->record->syncPrimaryCategory($this->primaryCategoryId);
+    }
+
     protected function getHeaderActions(): array
     {
         return [

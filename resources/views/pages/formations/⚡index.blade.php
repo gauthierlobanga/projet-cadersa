@@ -7,6 +7,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Transition;
 use App\Settings\AboutSettings;
+use Illuminate\Database\Eloquent\Builder;
 
 new #[Layout('layouts::main')] class extends Component {
     use \Livewire\WithPagination;
@@ -24,32 +25,65 @@ new #[Layout('layouts::main')] class extends Component {
 
     public function with(): array
     {
-        $query = Formation::query()
-            ->with(['category', 'media', 'user'])
-            ->active();
+        $sorts = ['newest', 'oldest', 'name-asc', 'name-desc'];
+        $categories = FormationCategory::orderBy('sort_order')->get();
 
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('title', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('content', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('excerpt', 'LIKE', '%' . $this->search . '%');
-            });
+        if (! $categories->contains('slug', $this->category)) {
+            $this->category = null;
         }
 
-        if ($this->category) {
-            $query->whereHas('category', fn($q) => $q->where('slug', $this->category));
+        if (! in_array($this->sort, $sorts, true)) {
+            $this->sort = 'newest';
         }
 
-        $query
-            ->when($this->sort === 'oldest', fn($q) => $q->oldest('created_at'))
-            ->when($this->sort === 'name-asc', fn($q) => $q->orderBy('title', 'asc'))
-            ->when($this->sort === 'name-desc', fn($q) => $q->orderBy('title', 'desc'))
-            ->when(!in_array($this->sort, ['oldest', 'name-asc', 'name-desc']), fn($q) => $q->latest('created_at'));
+        $formations = $this->search === ''
+            ? $this->applyFormationFilters(Formation::query())->paginate(9)
+            : Formation::search($this->search)
+                ->query(fn (Builder $query): Builder => $this->applyFormationFilters($query))
+                ->paginate(9);
 
         return [
-            'formations' => $query->paginate(9),
-            'categories' => FormationCategory::orderBy('sort_order')->get(),
+            'formations' => $formations,
+            'categories' => $categories,
         ];
+    }
+
+    private function applyFormationFilters(Builder $query): Builder
+    {
+        return $query
+            ->with(['category', 'media', 'user'])
+            ->active()
+            ->when($this->category, fn (Builder $query): Builder => $query->whereHas(
+                'category',
+                fn (Builder $categoryQuery): Builder => $categoryQuery->where('slug', $this->category)
+            ))
+            ->when($this->sort === 'oldest', fn (Builder $query): Builder => $query->oldest('created_at'))
+            ->when($this->sort === 'name-asc', fn (Builder $query): Builder => $query->orderBy('title'))
+            ->when($this->sort === 'name-desc', fn (Builder $query): Builder => $query->orderByDesc('title'))
+            ->when($this->sort === 'newest', fn (Builder $query): Builder => $query->latest('created_at'));
+    }
+
+    public function updatedSearch(string $value): void
+    {
+        $this->search = $this->normalizeSearch($value);
+        $this->resetPage();
+    }
+
+    public function updatedCategory(?string $value = null): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSort(): void
+    {
+        $this->resetPage();
+    }
+
+    private function normalizeSearch(string $value): string
+    {
+        $value = preg_replace('/\s+/u', ' ', trim($value)) ?? '';
+
+        return mb_substr($value, 0, 120);
     }
 
     #[Transition(skip: true)]
@@ -59,7 +93,7 @@ new #[Layout('layouts::main')] class extends Component {
         $this->resetPage();
     }
 
-    public function getStatsProperty()
+    public function getStatsProperty(): array
     {
         return [
             'Formations' => Formation::published()->count(),
@@ -176,6 +210,7 @@ new #[Layout('layouts::main')] class extends Component {
     {{-- ========== SECTION FILTRES + LISTE ========== --}}
     @island
         <section id="scroll-to-reference" data-preserve-scroll x-data="{ showFilters: false, sortOpen: false }"
+            @keydown.window.slash="if (!$event.target.matches('input, textarea, select, [contenteditable]')) { $event.preventDefault(); $refs.searchInput.focus() }"
             aria-label="Recherche et filtres des formations"
             class="scroll-mt-11 px-5 py-8 xs:px-8 md:p-10 mx-auto max-w-7xl lg:px-12">
 
@@ -185,7 +220,8 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
 
             {{-- Barre de recherche + bouton filtres --}}
-            <section class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:items-center" role="search">
+            <section class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:items-center" role="search"
+                aria-label="Rechercher dans les formations">
                 <div class="flex items-center">
                     {{-- Bouton Filtres --}}
                     <button type="button" x-ref="filtersButton" @click="showFilters = !showFilters"
@@ -270,9 +306,10 @@ new #[Layout('layouts::main')] class extends Component {
                             </svg>
                         </div>
                         <input autocomplete="off"
+                            id="formation-search" type="search" enterkeyhint="search"
                             class="h-full w-full border-0 bg-transparent pl-10 pr-12 text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder:text-zinc-500"
                             wire:model.live.debounce.250ms.preserve-scroll="search" x-ref="searchInput"
-                            placeholder="Rechercher une formation...">
+                            placeholder="Rechercher une formation..." aria-label="Rechercher une formation">
                         <button x-cloak x-show="$wire.search !== ''"
                             @click="$wire.set('search', ''); $nextTick(() => $refs.searchInput?.focus())"
                             x-transition:enter="transition ease-out duration-200"
@@ -286,6 +323,13 @@ new #[Layout('layouts::main')] class extends Component {
                                     d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
+                        <span wire:loading.delay wire:target="search,category,sort,clearFilters,gotoPage,nextPage,previousPage"
+                            class="pointer-events-none absolute right-10 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400"
+                            aria-live="polite">
+                            <span class="size-3 animate-spin rounded-full border-2 border-current border-r-transparent"
+                                aria-hidden="true"></span>
+                            <span class="sr-only">Recherche en cours</span>
+                        </span>
                     </div>
                 </div>
             </section>
@@ -350,6 +394,7 @@ new #[Layout('layouts::main')] class extends Component {
 
             {{-- ========== SECTION GRILLE  ========== --}}
             <div wire:loading.class="opacity-50 pointer-events-none"
+                wire:target="search,category,sort,clearFilters,gotoPage,nextPage,previousPage"
                 class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-start gap-7 no-animate transition-opacity duration-300"
                 aria-label="Liste des formations">
                 @forelse ($formations as $formation)

@@ -15,7 +15,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class FormationsTable
 {
@@ -35,7 +34,7 @@ class FormationsTable
                     ->label('Formation')
                     ->searchable()
                     ->sortable()
-                    ->description(fn ($record) => Str::limit(strip_tags($record->excerpt ?? ''), 30)),
+                    ->description(fn ($record) => $record->getPlainTextExcerpt(30)),
 
                 TextColumn::make('category.name')
                     ->label('Catégorie')

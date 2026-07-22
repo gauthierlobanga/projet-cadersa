@@ -12,7 +12,7 @@
 
             <h2 class="mt-6 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white transition-all duration-500 delay-100 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                {{ $this->about->blog_hero_title ?: 'Blog & Actualités' }}
+                {{ $this->about->blog_hero_title ?: 'Plongez au cœur de nos actions' }}
             </h2>
             <p class="mt-4 sm:mt-6 text-base sm:text-lg leading-8 text-zinc-600 dark:text-zinc-400 transition-all duration-500 delay-200 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
@@ -90,11 +90,11 @@
 
                         <div class="mt-3 flex items-center justify-between gap-3">
                             <div class="flex min-w-0 items-center gap-2">
-                                <img src="{{ $post->user?->avatar_url ?? asset('images/gauthier-lobanga.jpg') }}"
-                                    alt="{{ $post->user?->name ?? 'Gauthier Lobanga' }}"
+                                <img src="{{ $post->user?->avatar_url ?? asset('images/cadersa-logo.png') }}"
+                                    alt="{{ $post->user?->name ?? '' }}"
                                     class="h-6 w-6 rounded-full object-cover" />
                                 <span class="max-w-40 truncate text-sm text-zinc-600 dark:text-zinc-400">
-                                    <strong>{{ $post->user?->name ?? 'Gauthier Lobanga' }}</strong>
+                                    <strong>{{ $post->user?->name ?? '' }}</strong>
                                 </span>
                             </div>
                             <span class="flex items-center gap-1 text-sm text-zinc-500 dark:text-zinc-400">

@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="relative z-20 mx-auto -mt-12 max-w-4xl px-6 pb-24 lg:px-8">
+    <div class="relative z-0 mx-auto -mt-12 max-w-4xl px-6 pb-24 lg:px-8">
         <div
             class="overflow-hidden rounded-3xl border border-zinc-200/60 bg-white/80 p-8 shadow-xl shadow-zinc-200/20 backdrop-blur-xl sm:p-12 dark:border-zinc-800/60 dark:bg-zinc-900/80 dark:shadow-none">
 

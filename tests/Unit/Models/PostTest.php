@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\PostCategory;
 use App\Models\User;
 
 it('can be created', function () {
@@ -28,4 +29,26 @@ it('has a renderRichContent method', function () {
 
     expect(method_exists($post, 'renderRichContent'))->toBeTrue();
     expect($post->renderRichContent('content'))->toBeString();
+});
+
+it('can sync a primary category for a post', function () {
+    $user = User::factory()->create();
+    $post = Post::factory()->create(['user_id' => $user->id]);
+    $categoryA = PostCategory::create(['nom' => 'Actualités', 'slug' => 'actualites']);
+    $categoryB = PostCategory::create(['nom' => 'Événements', 'slug' => 'evenements']);
+
+    $post->categories()->attach([
+        $categoryA->id => ['est_principale' => false, 'ordre' => 1],
+        $categoryB->id => ['est_principale' => false, 'ordre' => 2],
+    ]);
+
+    expect($post->refresh()->getPrimaryCategoryId())->toBeNull();
+
+    $post->syncPrimaryCategory($categoryB->id);
+
+    expect($post->refresh()->getPrimaryCategoryId())->toBe($categoryB->id);
+
+    $post->syncPrimaryCategory(null);
+
+    expect($post->refresh()->getPrimaryCategoryId())->toBeNull();
 });
