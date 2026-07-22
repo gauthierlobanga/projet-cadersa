@@ -6,6 +6,12 @@ use Spatie\LaravelSettings\Settings;
 
 class TermsSettings extends Settings
 {
+    public string $hero_badge = '';
+
+    public string $hero_title = '';
+
+    public string $hero_subtitle = '';
+
     /**
      * Terms content items
      *

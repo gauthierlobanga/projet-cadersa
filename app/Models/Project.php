@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,6 @@ use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
 use Spatie\Tags\HasTags;
 use Tiptap\Nodes\Image;
-use Illuminate\Database\Eloquent\Builder;
 
 class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitemapable
 {
@@ -32,6 +32,15 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
             ->fileAttachmentsDisk('media');
 
         $this->registerRichContent('excerpt')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('problematic')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('solution')
+            ->fileAttachmentsDisk('media');
+
+        $this->registerRichContent('results')
             ->fileAttachmentsDisk('media');
     }
 
@@ -60,6 +69,8 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
     protected $fillable = [
         'title', 'slug', 'excerpt', 'content', 'location',
         'status', 'start_date', 'end_date', 'is_active',
+        'website_url', 'repository_url',
+        'problematic', 'solution', 'results', 'meta_title', 'meta_description',
     ];
 
     protected $casts = [
@@ -68,6 +79,9 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         'is_active' => 'boolean',
         'excerpt' => 'array',
         'content' => 'array',
+        'problematic' => 'array',
+        'solution' => 'array',
+        'results' => 'array',
     ];
 
     // --------------------------------------------------------------
@@ -145,6 +159,45 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
         $this->attributes['excerpt'] = json_encode($value);
     }
 
+    public function setProblematicAttribute($value): void
+    {
+        if (is_null($value) || $value === '') {
+            $value = ['type' => 'doc', 'content' => []];
+        }
+        if (is_string($value)) {
+            $value = ['type' => 'doc', 'content' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $value]]],
+            ]];
+        }
+        $this->attributes['problematic'] = json_encode($value);
+    }
+
+    public function setSolutionAttribute($value): void
+    {
+        if (is_null($value) || $value === '') {
+            $value = ['type' => 'doc', 'content' => []];
+        }
+        if (is_string($value)) {
+            $value = ['type' => 'doc', 'content' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $value]]],
+            ]];
+        }
+        $this->attributes['solution'] = json_encode($value);
+    }
+
+    public function setResultsAttribute($value): void
+    {
+        if (is_null($value) || $value === '') {
+            $value = ['type' => 'doc', 'content' => []];
+        }
+        if (is_string($value)) {
+            $value = ['type' => 'doc', 'content' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $value]]],
+            ]];
+        }
+        $this->attributes['results'] = json_encode($value);
+    }
+
     // --------------------------------------------------------------
     //  Media Collections
     // --------------------------------------------------------------
@@ -215,7 +268,7 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
     /**
      * scopeActive.
      *
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeActive(Builder $query): Builder
@@ -228,7 +281,7 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeOrdered(Builder $query): Builder
@@ -241,7 +294,7 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeByStatus(Builder $query, $status): Builder
@@ -254,7 +307,7 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeOngoing(Builder $query): Builder
@@ -267,7 +320,7 @@ class Project extends Model implements Feedable, HasMedia, HasRichContent, Sitem
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeCompleted(Builder $query): Builder

@@ -26,6 +26,8 @@ class ProjectFactory extends Factory
             'status' => fake()->randomElement(['planned', 'ongoing', 'completed']),
             'start_date' => fake()->date(),
             'end_date' => fake()->optional()->date(),
+            'website_url' => fake()->optional()->url(),
+            'repository_url' => fake()->optional()->url(),
             'is_active' => fake()->boolean(80),
         ];
     }

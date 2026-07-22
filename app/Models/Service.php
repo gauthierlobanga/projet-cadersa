@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Traits\HasComments;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -178,7 +178,7 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->withResponsiveImages()
             ->performOnCollections('image')
             ->optimize();
- 
+
         // Carte (400x300) – pour les grilles de services, mise en avant
         $this->addMediaConversion('card')
             ->width(400)
@@ -190,7 +190,7 @@ class Service extends Model implements HasMedia, HasRichContent, Sitemapable
             ->withResponsiveImages()
             ->performOnCollections('image')
             ->optimize();
- 
+
         // Grande taille (1200x800) – pour la page détail, affichage principal
         $this->addMediaConversion('large')
             ->width(1200)

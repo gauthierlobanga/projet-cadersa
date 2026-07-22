@@ -95,7 +95,12 @@ class ServiceForm
                                     ->visibility('public')
                                     ->maxSize(5120)
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                                    ->helperText('Format 16:9 recommandé, max 5 Mo.'),
+                                    ->customProperties([
+                                        'title' => '',
+                                        'description' => '',
+                                        'alt' => '',
+                                    ])
+                                    ->helperText('Format 16:9 recommandé, max 5 Mo. Cliquez sur l\'image pour ajouter titre/alt.'),
 
                                 SpatieMediaLibraryFileUpload::make('service_icon')
                                     ->label('Icône (Image)')

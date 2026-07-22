@@ -11,7 +11,7 @@ class CreateAdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $name = 'CADERSA ASBL';
+        $name = 'Cadersa Admin';
         $email = 'bernardhangi@gmail.com';
 
         if (User::where('email', $email)->exists()) {

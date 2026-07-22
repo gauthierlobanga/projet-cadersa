@@ -8,7 +8,7 @@ use Spatie\LaravelSettings\Settings;
 
 class SettingApp extends Settings
 {
-    public string $name = 'CADERSAASBL';
+    public string $name = '';
 
     public string $address = '';
 
@@ -20,7 +20,23 @@ class SettingApp extends Settings
 
     public string $phone = '';
 
-    public string $email = 'c';
+    public string $email = '';
+
+    public string $contact_hero_badge = '';
+
+    public string $contact_hero_title = '';
+
+    public string $contact_hero_subtitle = '';
+
+    public string $contact_form_heading = '';
+
+    public string $contact_form_description = '';
+
+    public string $contact_support_title = '';
+
+    public string $contact_support_description = '';
+
+    public string $contact_offices_title = '';
 
     // Réseaux sociaux
     public ?string $facebook_url = null;

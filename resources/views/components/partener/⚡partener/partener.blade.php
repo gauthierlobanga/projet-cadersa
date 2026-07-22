@@ -1,4 +1,4 @@
-<section class="border-b border-zinc-200 px-6 pt-16 sm:px-8 sm:pt-20 lg:px-16 lg:pt-28 dark:border-zinc-800">
+<section class="mb-8 px-6 pt-16 sm:px-8 sm:pt-20 lg:px-16 lg:pt-28 dark:border-zinc-800">
     <header class="flex flex-col items-center justify-center text-center">
         <div x-data="cspState" x-intersect="shown = true"
             :class="shown ? 'opacity-100 scale-100' : 'opacity-0 scale-90'" class="transition-all duration-700 ease-out">

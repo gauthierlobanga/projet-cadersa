@@ -30,11 +30,6 @@
                     </div>
                 @endif
             </div>
-            <div class="flex flex-col gap-3">
-                <h2 class="text-lg font-semibold text-gray-950 dark:text-white" style="line-height: 1.2;">
-                    {{ $name }}
-                </h2>
-            </div>
         </div>
 
         <div class="mt-4 flex gap-x-4 ">

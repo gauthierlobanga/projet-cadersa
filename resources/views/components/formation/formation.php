@@ -1,69 +1,58 @@
 <?php
 
-use App\Models\Post;
-use App\Models\PostCategory;
+use App\Models\Formation;
+use App\Models\FormationCategory;
+use App\Settings\AboutSettings;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 new #[Layout('layouts::main')] class extends Component
 {
-    use WithPagination;
-
-    protected const FORMATION_CATEGORY_SLUG = 'formation';
-
-    protected $scrollToTop = false;
-
+    #[Url(as: 'q', history: true)]
     public string $search = '';
 
-    public ?string $category = self::FORMATION_CATEGORY_SLUG;
+    #[Url(as: 'cat', history: true)]
+    public ?string $categorySlug = null;
 
-    #[Url(as: 'sort')]
+    #[Url(as: 'sort', history: true)]
     public string $sort = 'newest';
 
-    public function with(): array
+    #[Computed]
+    public function formations()
     {
-        $query = Post::query()
-            ->with(['user', 'categories', 'media'])
-            ->published()
-            ->whereHas('categories', fn ($q) => $q->where('slug', self::FORMATION_CATEGORY_SLUG));
-
-        if (! empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('title', 'LIKE', '%'.$this->search.'%')
-                    ->orWhere('content', 'LIKE', '%'.$this->search.'%')
-                    ->orWhere('excerpt', 'LIKE', '%'.$this->search.'%');
-            });
-        }
-
-        $query
-            ->when($this->sort === 'oldest', fn ($q) => $q->oldest('published_at'))
-            ->when($this->sort === 'popular', fn ($q) => $q->orderBy('views_count', 'desc'))
+        return Formation::query()
+            ->with(['category', 'media', 'user'])
+            ->where('is_active', true)
+            ->when($this->search, fn ($q) => $q->where(function ($query) {
+                $query->where('title', 'like', '%'.$this->search.'%')
+                    ->orWhere('excerpt', 'like', '%'.$this->search.'%')
+                    ->orWhere('subtitle', 'like', '%'.$this->search.'%');
+            }))
+            ->when($this->categorySlug, fn ($q) => $q->whereHas('category', fn ($query) => $query->where('slug', $this->categorySlug)))
+            ->when($this->sort === 'oldest', fn ($q) => $q->oldest('start_date'))
             ->when($this->sort === 'name-asc', fn ($q) => $q->orderBy('title', 'asc'))
             ->when($this->sort === 'name-desc', fn ($q) => $q->orderBy('title', 'desc'))
-            ->when(! in_array($this->sort, ['oldest', 'popular', 'name-asc', 'name-desc']), fn ($q) => $q->latest('published_at'));
-
-        return [
-            'posts' => $query->paginate(9),
-            'categories' => PostCategory::actifs()->get(),
-        ];
+            ->when(! in_array($this->sort, ['oldest', 'name-asc', 'name-desc']), fn ($q) => $q->latest('start_date'))
+            ->paginate(9);
     }
 
-    public function clearFilters(): void
+    #[Computed]
+    public function categories()
     {
-        $this->reset(['search', 'category', 'sort']);
+        return FormationCategory::orderBy('sort_order')->get();
+    }
+
+    #[Computed]
+    public function about(): AboutSettings
+    {
+        return app(AboutSettings::class);
+    }
+
+    public function clearFilters()
+    {
+        $this->reset(['search', 'categorySlug', 'sort']);
         $this->resetPage();
-    }
-
-    public function getStatsProperty()
-    {
-        $publicationQuery = Post::published()->whereHas('categories', fn ($q) => $q->where('slug', self::FORMATION_CATEGORY_SLUG));
-
-        return [
-            'articles' => $publicationQuery->count(),
-            'authors' => $publicationQuery->distinct('user_id')->count('user_id'),
-            'categories' => PostCategory::whereHas('posts', fn ($q) => $q->published()->whereHas('categories', fn ($q) => $q->where('slug', self::FORMATION_CATEGORY_SLUG)))->count(),
-            'views' => $publicationQuery->sum('views_count'),
-        ];
     }
 };

@@ -27,12 +27,14 @@ it('keeps the authenticated mobile sidebar fixed to the viewport', function () {
         ->assertSee('sticky top-0 z-40', false);
 });
 
-it('leaves the mobile sidebar layering to Flux', function () {
+it('keeps the mobile sidebar layering targeted to Flux elements', function () {
     $css = File::get(resource_path('css/app.css'));
 
     expect($css)
-        ->not->toContain('[data-flux-sidebar-on-mobile]')
-        ->not->toContain('[data-flux-sidebar-backdrop]');
+        ->toContain('[data-flux-sidebar]')
+        ->toContain('[data-flux-sidebar-backdrop]')
+        ->toContain('z-index: 50 !important;')
+        ->toContain('z-index: 40 !important;');
 });
 
 it('does not leave the old large copyright spacer in the footer', function () {

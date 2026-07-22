@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->json('preferences')->nullable();
+            $table->text('app_authentication_secret')->nullable();
+            $table->text('app_authentication_recovery_codes')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

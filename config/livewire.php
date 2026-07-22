@@ -264,7 +264,7 @@ return [
     | strict CSP header is required.
     */
 
-    'csp_safe' => true,
+    'csp_safe' => false,
 
     /*
     |---------------------------------------------------------------------------

@@ -9,7 +9,6 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -22,11 +21,18 @@ class ProjectsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('cover')
+
+                SpatieMediaLibraryImageColumn::make('cover')
+                    ->collection('cover')
                     ->label('Couverture')
-                    ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('cover', 'thumb'))
+                    ->conversion('cover')
+                    ->disk('public')
+                    ->visibility('public')
                     ->imageSize(40)
-                    ->toggleable(),
+                    ->circular()
+                    ->stacked()
+                    ->limit(2)
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 SpatieMediaLibraryImageColumn::make('gallery')
                     ->collection('gallery')

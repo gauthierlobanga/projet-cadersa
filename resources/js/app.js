@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import intersect from "@alpinejs/intersect";
 // Import flowbite locally (avoid CDN / tracking prevention issues)
 import "flowbite";
 import autoAnimate from "@formkit/auto-animate";
@@ -9,16 +10,10 @@ import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
 
-// Rendre disponibles globalement (utile dans les données Alpine)
-const registerAlpineExtensions = () => {
-    if (typeof Alpine === "undefined") {
-        return;
-    }
-
-    Alpine.autoAnimate = Alpine.autoAnimate || autoAnimate;
-};
-
-registerAlpineExtensions();
+// Livewire 4 bundle son propre Alpine — ne jamais importer alpinejs séparément.
+// On enregistre le plugin Intersect et toutes les données Alpine via l'événement
+// alpine:init, qui est déclenché par l'Alpine de Livewire/Flux AVANT le start().
+// Cela garantit que $flux et les autres magics Flux sont déjà disponibles.
 
 globalThis.gsap = globalThis.gsap || gsap;
 globalThis.SplitText = globalThis.SplitText || SplitText;
@@ -32,9 +27,50 @@ if (typeof window !== "undefined") {
     window.autoAnimate = window.autoAnimate || autoAnimate;
 }
 
-document.addEventListener("alpine:init", registerAlpineExtensions, {
-    once: true,
+// Le plugin Intersect doit être enregistré sur l'instance Alpine de Livewire.
+// alpine:init est le bon moment : Alpine est prêt mais pas encore démarré.
+document.addEventListener("alpine:init", () => {
+    const Alpine = window.Alpine;
+    if (!Alpine) return;
+
+    // Plugin Intersect (x-intersect)
+    Alpine.plugin(intersect);
+
+    // Extension autoAnimate
+    Alpine.autoAnimate = Alpine.autoAnimate || autoAnimate;
 });
+
+// ---------- Livewire scroll-lock (préserve la position au filtre/tri) ----------
+// Active uniquement sur les pages ayant un élément [data-preserve-scroll].
+// Sauvegarde scrollY avant le commit, le restaure après le morph DOM.
+(() => {
+    let savedY = null;
+    let active = false;
+
+    document.addEventListener("livewire:init", () => {
+        Livewire.hook(
+            "commit",
+            ({ component, commit, respond, succeed, fail }) => {
+                // Déclenche seulement si la page a déclaré data-preserve-scroll
+                const anchor = document.querySelector("[data-preserve-scroll]");
+                if (!anchor) return;
+
+                // Sauvegarde avant le rendu
+                savedY = window.scrollY;
+                active = true;
+
+                succeed(({ snapshot, effect }) => {
+                    if (!active) return;
+                    active = false;
+                    // Restaure la position après le morph
+                    requestAnimationFrame(() => {
+                        window.scrollTo({ top: savedY, behavior: "instant" });
+                    });
+                });
+            },
+        );
+    });
+})();
 
 // ---------- Utilitaires sécurisés ----------
 const safeGsapFromTo = (target, fromVars, toVars) => {
@@ -59,8 +95,134 @@ const safeGsapTo = (target, vars) => {
     gsap.to(arr, vars);
 };
 
-// ---------- Scroll to top (Alpine data global) ----------
+// ---------- Alpine.data() registrations ----------
 document.addEventListener("alpine:init", () => {
+    const Alpine = window.Alpine;
+    if (!Alpine) return;
+
+    Alpine.data("buttonAnimation", () => ({
+        init() {
+            if (typeof gsap === "undefined" || typeof SplitText === "undefined")
+                return;
+            const button = this.$el.querySelector("a");
+            if (!button) return;
+            const textWrapper = button.querySelector("[data-text]");
+            const icon = button.querySelector("[data-icon] svg");
+            if (!textWrapper || !icon) return;
+
+            const split = new SplitText(textWrapper, { type: "chars" });
+            const chars = split.chars;
+            const tl = gsap.timeline({ paused: true });
+
+            // Brillance du texte
+            if (chars.length > 0) {
+                tl.to(
+                    chars,
+                    {
+                        keyframes: {
+                            opacity: [1, 0.4, 1],
+                        },
+                        duration: 0.15,
+                        ease: "sine.inOut",
+                        stagger: 0.02,
+                    },
+                    0.1,
+                );
+            }
+
+            // Flèche
+            tl.to(
+                icon,
+                {
+                    keyframes: [
+                        { x: 30, duration: 0.23, ease: "power2.in" },
+                        { x: -30, duration: 0 },
+                        { x: 0, duration: 0.23, ease: "power2.out" },
+                    ],
+                },
+                0,
+            );
+
+            button.addEventListener("mouseenter", () => tl.play());
+            button.addEventListener("mouseleave", () => tl.reverse());
+        },
+    }));
+    // scripts pour filament / site
+    // ===== Définitions pour les composants Filament =====
+
+    // filamentSchemaComponent (utilisé par les formulaires)
+    Alpine.data("filamentSchemaComponent", () => ({
+        init() {
+            // L'initialisation minimale requise pour éviter les erreurs
+        },
+    }));
+
+    // selectFormComponent (utilisé par les champs de type Select)
+    Alpine.data("selectFormComponent", (config) => ({
+        state: config.state,
+        init() {},
+    }));
+
+    // fileUploadFormComponent (utilisé par les champs d'upload de fichiers)
+    Alpine.data("fileUploadFormComponent", (config) => ({
+        state: config.state,
+        error: null,
+        isEditorOpen: false,
+        init() {},
+        closeEditor() {
+            this.isEditorOpen = false;
+        },
+    }));
+
+    // keyValueFormComponent (utilisé par les champs clé-valeur)
+    Alpine.data("keyValueFormComponent", (config) => ({
+        rows: [],
+        state: config.state,
+        init() {},
+        addRow() {
+            this.rows.push({ key: "", value: "" });
+            this.updateState();
+        },
+        updateState() {
+            const obj = {};
+            this.rows.forEach((row) => {
+                if (row.key) obj[row.key] = row.value;
+            });
+            this.state = obj;
+        },
+        reorderRows(event) {
+            // Réorganisation basique (peut être améliorée si nécessaire)
+        },
+    }));
+
+    // filamentSection (déjà présente, mais assurez-vous qu'elle est bien là)
+    // Si elle n'existe pas, ajoutez-la :
+    if (!Alpine.data("filamentSection")) {
+        Alpine.data(
+            "filamentSection",
+            (collapsed = false, persist = false, collapseId = null) => ({
+                isCollapsed: collapsed,
+                init() {
+                    if (persist) {
+                        try {
+                            const key = `section-${collapseId ?? this.$el.id}-isCollapsed`;
+                            const stored = localStorage.getItem(key);
+                            if (stored !== null) {
+                                this.isCollapsed = stored === "true";
+                            }
+                            this.$watch("isCollapsed", (value) => {
+                                localStorage.setItem(
+                                    key,
+                                    value ? "true" : "false",
+                                );
+                            });
+                        } catch (e) {}
+                    }
+                },
+            }),
+        );
+    }
+    // Fin scripts pour filament / site
     Alpine.data("scrollToTop", () => ({
         show: false,
         hovering: false,
@@ -208,205 +370,6 @@ document.addEventListener("alpine:init", () => {
                         this.copied = false;
                     }, 3000);
                 });
-        },
-    }));
-
-    Alpine.data("postSearchFilters", () => ({
-        showFilters: false,
-        sortOpen: false,
-
-        toggleFilters() {
-            this.showFilters = !this.showFilters;
-        },
-
-        resetFilters() {
-            if (this.$wire) this.$wire.clearFilters();
-            this.showFilters = false;
-        },
-
-        selectSort(value) {
-            if (this.$wire) this.$wire.sort = value;
-            this.sortOpen = false;
-        },
-
-        clearSearch() {
-            if (this.$wire) this.$wire.search = "";
-            this.$nextTick(() => this.$refs.searchInput?.focus());
-        },
-    }));
-
-    Alpine.data("projectSearchFilters", () => ({
-        search: "",
-        showFilters: false,
-        filter: "all",
-        sortBy: "newest",
-        // UI state for the sort dropdown (used in the Blade as sortOpen)
-        sortOpen: false,
-        activeFilterCount: 0,
-
-        init() {
-            // Synchroniser avec Livewire — faire une tentative immédiate, sinon attendre l'événement livewire:load
-            const tryBind = () => {
-                try {
-                    const wireSync = (w) => {
-                        try {
-                            // Read initial values
-                            const get = (name) =>
-                                typeof w.$get === "function"
-                                    ? w.$get(name)
-                                    : w[name];
-                            const set = (name, value) => {
-                                if (typeof w.$set === "function")
-                                    return w.$set(name, value);
-                                try {
-                                    w[name] = value;
-                                } catch (e) {
-                                    /* noop */
-                                }
-                            };
-                            this.search = get("search") ?? "";
-                            this.filter = get("filter") ?? "all";
-                            this.sortBy = get("sort") ?? "newest";
-
-                            // Wire -> Alpine updates
-                            if (typeof w.$watch === "function") {
-                                w.$watch("search", (v) => {
-                                    this.search = v;
-                                });
-                                w.$watch("filter", (v) => {
-                                    this.filter = v;
-                                });
-                                w.$watch("sort", (v) => {
-                                    this.sortBy = v;
-                                });
-                            }
-
-                            // Alpine -> Wire updates
-                            this.$watch("search", (v) => {
-                                set("search", v);
-                            });
-                            this.$watch("filter", (v) => {
-                                set("filter", v);
-                            });
-                            this.$watch("sortBy", (v) => {
-                                set("sort", v);
-                            });
-
-                            return true;
-                        } catch (e) {
-                            console.debug(
-                                "projectSearchFilters: wireSync failed",
-                                e,
-                            );
-                            return false;
-                        }
-                    };
-
-                    // 1) Si $wire est disponible sur le composant Alpine, l'utiliser (meilleure intégration)
-                    if (typeof this.$wire !== "undefined" && this.$wire) {
-                        return wireSync(this.$wire);
-                    }
-
-                    // 2) Sinon rechercher le composant Livewire le plus proche par wire:id
-                    if (typeof window.Livewire !== "undefined") {
-                        const closestEl = this.$el.closest("[wire\\:id]");
-                        const id = closestEl
-                            ? closestEl.getAttribute("wire:id")
-                            : null;
-                        if (id) {
-                            const component = window.Livewire.find(id);
-                            const w =
-                                component && component.$wire
-                                    ? component.$wire
-                                    : component;
-                            if (w) return wireSync(w);
-                        }
-                    }
-                } catch (e) {
-                    // Ne pas interrompre l'initialisation Alpine si entanglement échoue
-                    console.debug(
-                        "projectSearchFilters: entangle attempt failed",
-                        e,
-                    );
-                }
-
-                return false;
-            };
-
-            const bound = tryBind();
-            if (!bound) {
-                // attendre que Livewire soit prêt
-                document.addEventListener(
-                    "livewire:load",
-                    () => {
-                        tryBind();
-                    },
-                    { once: true },
-                );
-            }
-
-            this.activeFilterCount = this.filter !== "all" ? 1 : 0;
-            this.$watch("filter", (val) => {
-                this.activeFilterCount = val !== "all" ? 1 : 0;
-            });
-        },
-
-        resetFilters() {
-            this.filter = "all";
-            this.sortBy = "newest";
-            this.search = "";
-            this.showFilters = false;
-            if (this.$refs.filtersButton) this.$refs.filtersButton.focus();
-
-            // Try to call server-side clearFilters() if available on the Livewire component
-            try {
-                if (
-                    typeof this.$wire !== "undefined" &&
-                    this.$wire &&
-                    typeof this.$wire.clearFilters === "function"
-                ) {
-                    this.$wire.clearFilters();
-                    return;
-                }
-                if (typeof window.Livewire !== "undefined") {
-                    const closestEl = this.$el.closest("[wire\\:id]");
-                    const id = closestEl
-                        ? closestEl.getAttribute("wire:id")
-                        : null;
-                    if (id) {
-                        const comp = window.Livewire.find(id);
-                        if (comp) {
-                            if (typeof comp.clearFilters === "function")
-                                return comp.clearFilters();
-                            if (typeof comp.call === "function")
-                                return comp.call("clearFilters");
-                        }
-                    }
-                }
-            } catch (e) {
-                console.debug(
-                    "projectSearchFilters: failed to call clearFilters on server",
-                    e,
-                );
-            }
-        },
-
-        clearSearch() {
-            this.search = "";
-            this.$nextTick(() => {
-                if (this.$refs.searchInput) this.$refs.searchInput.focus();
-            });
-        },
-
-        selectSort(value) {
-            this.sortBy = value;
-            // close the sort dropdown (CSP-safe single call from Blade)
-            this.sortOpen = false;
-            if (this.$refs.filtersButton) this.$refs.filtersButton.focus();
-        },
-
-        toggleFilters() {
-            this.showFilters = !this.showFilters;
         },
     }));
 
@@ -839,54 +802,6 @@ document.addEventListener("alpine:init", () => {
         }),
     );
 
-    Alpine.data("formationSearchFilters", () => ({
-        search: "",
-        showFilters: false,
-        category: null,
-        sortBy: "newest",
-        sortDropdownOpen: false,
-        listeningMessages: [
-            "Whatcha looking for? 🔍",
-            "I'm listening... 👀",
-            "Go ahead, I'm ready 🎯",
-            "Type away! ⌨️",
-            "Searching is fun! 🤓",
-            "What can I find for you? 🕵️‍♂️",
-        ],
-        listeningIndex: 0,
-        get activeFilterCount() {
-            return this.category ? 1 : 0;
-        },
-        get listeningMessage() {
-            return this.listeningMessages[
-                this.listeningIndex % this.listeningMessages.length
-            ];
-        },
-        init() {
-            this.$watch("category", (value) => {
-                if (value) {
-                    this.showFilters = true;
-                }
-            });
-        },
-        resetFilters() {
-            this.category = null;
-            this.sortBy = "newest";
-            this.search = "";
-            this.showFilters = false;
-            if (this.$refs.filtersButton) {
-                this.$refs.filtersButton.focus();
-            }
-            const target = document.querySelector("#scroll-to-reference");
-            if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
-            }
-        },
-        rotateListeningMessage() {
-            this.listeningIndex++;
-        },
-    }));
-
     Alpine.data("animatedStat", (rawValue) => ({
         shown: false,
         count: 0,
@@ -1130,31 +1045,47 @@ document.addEventListener("alpine:init", () => {
             const articles = gsap.utils.toArray(
                 this.$el.querySelectorAll("article"),
             );
+
             articles.forEach((article, index) => {
+                // Déterminer le nombre de colonnes selon la largeur (sm: 640px = 2 cols, lg: 1024px = 3 cols)
+                let cols = 1;
+                if (window.innerWidth >= 1024) cols = 3;
+                else if (window.innerWidth >= 640) cols = 2;
+
+                // Sur mobile (1 colonne), on limite le délai.
+                // Sur grille, on crée un effet de cascade basé sur la ligne et la colonne.
+                const row = Math.floor(index / cols);
+                const col = index % cols;
+
+                // Délai plus court : 0.05s (au lieu de 0.1s)
+                const staggerDelay =
+                    cols === 1
+                        ? Math.min(index, 3) * 0.05 // Mobile : plafonner le délai après les 3 premières cartes
+                        : (row + col) * 0.05;
+
                 gsap.fromTo(
                     article,
-                    { opacity: 0, y: 30 },
+                    { opacity: 0, y: 20 },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 0.6,
+                        duration: 0.4, // Plus rapide (0.4s au lieu de 0.6s)
                         ease: "power2.out",
                         scrollTrigger: {
                             trigger: article,
-                            start: "top bottom-=80",
+                            start: "top bottom-=40", // Déclenchement plus tôt (40px au lieu de 80px)
                             toggleActions: "play none none none",
                         },
-                        delay: index * 0.1,
+                        delay: staggerDelay,
                     },
                 );
             });
         },
     }));
 
-    Alpine.data("homeHeroReveal", () => ({
+    Alpine.data("HeroReveal", () => ({
         init() {
-            if (typeof gsap === "undefined" || typeof SplitText === "undefined")
-                return;
+            if (typeof gsap === "undefined") return;
 
             const refs = this.$refs;
             if (
@@ -1164,32 +1095,194 @@ document.addEventListener("alpine:init", () => {
                 !refs.author &&
                 !refs.title &&
                 !refs.subtitle
+            ) {
+                return;
+            }
+
+            const getAuthorElement = () => {
+                if (!refs.author) {
+                    return null;
+                }
+
+                if (refs.author.querySelector) {
+                    return refs.author.querySelector("p") || refs.author;
+                }
+
+                return refs.author;
+            };
+
+            const runAnimation = () => {
+                const tl = gsap.timeline({
+                    defaults: { ease: "expo.out", duration: 0.75 },
+                });
+
+                if (refs.bgImage) {
+                    gsap.set(refs.bgImage, {
+                        transformOrigin: "center center",
+                        scale: 1.05,
+                    });
+
+                    tl.to(refs.bgImage, {
+                        scale: 1,
+                        duration: 1.2,
+                        ease: "power3.out",
+                    }, 0);
+                }
+
+                if (refs.title) {
+                    tl.from(refs.title, { y: 26, opacity: 0, duration: 0.5 }, 0.15);
+                }
+
+                const authorElement = getAuthorElement();
+                if (authorElement) {
+                    let authorSplit = null;
+                    try {
+                        if (typeof SplitText !== "undefined") {
+                            authorSplit = new SplitText(authorElement, { type: "words" });
+                        }
+                    } catch (error) {
+                        authorSplit = null;
+                    }
+
+                    if (authorSplit && authorSplit.words?.length > 0) {
+                        tl.from(
+                            authorSplit.words,
+                            {
+                                opacity: 0,
+                                y: 12,
+                                stagger: 0.02,
+                                duration: 0.35,
+                                ease: "power2.out",
+                            },
+                            "-=0.25",
+                        );
+                    } else {
+                        tl.from(
+                            refs.author,
+                            { opacity: 0, y: 12, duration: 0.35, ease: "power2.out" },
+                            "-=0.25",
+                        );
+                    }
+                }
+
+                if (refs.subtitle) {
+                    tl.from(
+                        refs.subtitle,
+                        { y: 20, opacity: 0, duration: 0.45 },
+                        "-=0.15",
+                    );
+                }
+
+                if (refs.buttons) {
+                    tl.from(
+                        refs.buttons,
+                        { opacity: 0, y: 10, duration: 0.35, ease: "power2.out" },
+                        "-=0.15",
+                    );
+                }
+
+                if (refs.decoLine) {
+                    tl.from(
+                        refs.decoLine,
+                        {
+                            scaleX: 0,
+                            transformOrigin: "left center",
+                            opacity: 0,
+                            duration: 0.35,
+                        },
+                        "-=0.25",
+                    );
+                }
+            };
+
+            const image = refs.bgImage;
+            if (image instanceof HTMLImageElement && !image.complete) {
+                image.addEventListener("load", runAnimation, { once: true });
+            } else {
+                runAnimation();
+            }
+        },
+    }));
+
+    Alpine.data("heroImageReveal", () => ({
+        init() {
+            const reducedMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
+            if (
+                reducedMotion ||
+                typeof gsap === "undefined" ||
+                typeof ScrollTrigger === "undefined"
             )
                 return;
 
+            const refs = this.$refs;
+            if (!refs.takeOff) return;
+
+            gsap.fromTo(
+                refs.takeOff,
+                { autoAlpha: 0, y: 30 },
+                {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: "circ.out",
+                    scrollTrigger: {
+                        trigger: this.$el,
+                        start: "top bottom-=100px",
+                    },
+                },
+            );
+        },
+    }));
+
+    Alpine.data("homeHeroReveal", () => ({
+        init() {
+            if (
+                typeof gsap === "undefined" ||
+                typeof SplitText === "undefined" ||
+                typeof ScrollTrigger === "undefined"
+            )
+                return;
             const tl = gsap.timeline({
-                defaults: { ease: "expo.out", duration: 1.2 },
+                defaults: { ease: "expo.out", duration: 0.8 },
+                scrollTrigger: {
+                    trigger: this.$el,
+                    start: "top 80%",
+                    once: true,
+                },
             });
+            const refs = this.$refs;
+            const addFrom = (target, vars, position) => {
+                if (!target) return;
+                tl.from(target, vars, position);
+            };
 
-            if (refs.bgImage)
-                tl.from(
-                    refs.bgImage,
-                    { scale: 1.1, duration: 2.5, ease: "power3.out" },
-                    0,
-                );
+            addFrom(
+                refs.bgImage,
+                { scale: 1.05, duration: 1.4, ease: "power3.out" },
+                0,
+            );
+            const authorElement = refs.author?.querySelector?.("p") || refs.author;
+            let authorSplit = null;
+            if (authorElement) {
+                try {
+                    if (typeof SplitText !== "undefined") {
+                        authorSplit = new SplitText(authorElement, { type: "words" });
+                    }
+                } catch (error) {
+                    authorSplit = null;
+                }
+            }
 
-            const authorSplit = refs.author
-                ? new SplitText(refs.author, { type: "words" })
-                : null;
+            addFrom(refs.badge, { y: 40, opacity: 0 }, 0.3);
+            addFrom(
+                refs.buttons,
+                { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" },
+                "-=0.15",
+            );
 
-            if (refs.badge) tl.from(refs.badge, { y: 40, opacity: 0 }, 0.3);
-            if (refs.buttons)
-                tl.from(
-                    refs.buttons,
-                    { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" },
-                    "-=0.15",
-                );
-            if (authorSplit)
+            if (authorSplit && authorSplit.words?.length > 0) {
                 tl.from(
                     authorSplit.words,
                     {
@@ -1201,9 +1294,21 @@ document.addEventListener("alpine:init", () => {
                     },
                     "-=0.25",
                 );
-            if (refs.title) tl.from(refs.title, { y: 50, opacity: 0 }, 0.5);
-            if (refs.subtitle)
-                tl.from(refs.subtitle, { y: 30, opacity: 0 }, 0.7);
+            } else if (refs.author) {
+                addFrom(
+                    refs.author,
+                    { opacity: 0, y: 10, duration: 0.35, ease: "power2.out" },
+                    "-=0.25",
+                );
+            }
+
+            addFrom(refs.title, { y: 50, opacity: 0 }, 0.5);
+            addFrom(refs.subtitle, { y: 30, opacity: 0 }, 0.7);
+            addFrom(
+                refs.decoLine,
+                { scaleX: 0, duration: 0.5, ease: "power1.out" },
+                "-=0.1",
+            );
         },
     }));
 
@@ -1216,28 +1321,45 @@ document.addEventListener("alpine:init", () => {
             )
                 return;
             const tl = gsap.timeline({
-                defaults: { ease: "expo.out", duration: 1.2 },
+                defaults: { ease: "expo.out", duration: 0.8 },
                 scrollTrigger: {
                     trigger: this.$el,
                     start: "top 80%",
                     once: true,
                 },
             });
-            tl.from(
-                this.$refs.bgImage,
-                { scale: 1.1, duration: 2.5, ease: "power3.out" },
+            const refs = this.$refs;
+            const addFrom = (target, vars, position) => {
+                if (!target) return;
+                tl.from(target, vars, position);
+            };
+
+            addFrom(
+                refs.bgImage,
+                { scale: 1.05, duration: 1.4, ease: "power3.out" },
                 0,
             );
-            const authorSplit = new SplitText(this.$refs.author, {
-                type: "words",
-            });
-            tl.from(this.$refs.badge, { y: 40, opacity: 0 }, 0.3)
-                .from(
-                    this.$refs.buttons,
-                    { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" },
-                    "-=0.15",
-                )
-                .from(
+            const authorElement = refs.author?.querySelector?.("p") || refs.author;
+            let authorSplit = null;
+            if (authorElement) {
+                try {
+                    if (typeof SplitText !== "undefined") {
+                        authorSplit = new SplitText(authorElement, { type: "words" });
+                    }
+                } catch (error) {
+                    authorSplit = null;
+                }
+            }
+
+            addFrom(refs.badge, { y: 40, opacity: 0 }, 0.3);
+            addFrom(
+                refs.buttons,
+                { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" },
+                "-=0.15",
+            );
+
+            if (authorSplit && authorSplit.words?.length > 0) {
+                tl.from(
                     authorSplit.words,
                     {
                         opacity: 0,
@@ -1247,15 +1369,22 @@ document.addEventListener("alpine:init", () => {
                         ease: "power2.out",
                     },
                     "-=0.25",
-                )
-                .from(this.$refs.title, { y: 50, opacity: 0 }, 0.5)
-                .from(this.$refs.subtitle, { y: 30, opacity: 0 }, 0.7)
-                // Ligne retirée : .from(this.$refs.cta, ...)
-                .from(
-                    this.$refs.decoLine,
-                    { scaleX: 0, duration: 0.5, ease: "power1.out" },
-                    "-=0.1",
                 );
+            } else if (refs.author) {
+                addFrom(
+                    refs.author,
+                    { opacity: 0, y: 10, duration: 0.35, ease: "power2.out" },
+                    "-=0.25",
+                );
+            }
+
+            addFrom(refs.title, { y: 50, opacity: 0 }, 0.5);
+            addFrom(refs.subtitle, { y: 30, opacity: 0 }, 0.7);
+            addFrom(
+                refs.decoLine,
+                { scaleX: 0, duration: 0.5, ease: "power1.out" },
+                "-=0.1",
+            );
         },
     }));
 
@@ -1387,7 +1516,7 @@ document.addEventListener("alpine:init", () => {
 
             tl.from(
                 this.$refs.bg,
-                { scale: 1.1, duration: 2.5, ease: "power3.out" },
+                { scale: 1.05, duration: 1.4, ease: "power3.out" },
                 0,
             );
 
@@ -1402,10 +1531,10 @@ document.addEventListener("alpine:init", () => {
                 title.chars,
                 {
                     opacity: 0,
-                    y: 60,
+                    y: 30,
                     rotateX: -15,
-                    stagger: 0.025,
-                    duration: 0.9,
+                    stagger: 0.015,
+                    duration: 0.6,
                     ease: "back.out(1.6)",
                 },
                 "-=0.4",
@@ -1413,9 +1542,9 @@ document.addEventListener("alpine:init", () => {
                 excerpt.lines,
                 {
                     opacity: 0,
-                    y: 30,
-                    stagger: 0.1,
-                    duration: 0.8,
+                    y: 20,
+                    stagger: 0.05,
+                    duration: 0.5,
                     ease: "power3.out",
                 },
                 "-=0.5",
@@ -1443,7 +1572,7 @@ document.addEventListener("alpine:init", () => {
 
             tl.from(
                 this.$refs.bg,
-                { scale: 1.1, duration: 2.5, ease: "power3.out" },
+                { scale: 1.05, duration: 1.4, ease: "power3.out" },
                 0,
             );
 
@@ -1662,7 +1791,7 @@ const initGlobalAnimations = () => {
 
     // 2. Content blocks batch fade-up
     const contentBlocks = window.gsap.utils.toArray(
-        "main p, main img, main ul, .flux-card, .prose > div, article, .rounded-3xl, .grid > a.group, .grid > div.group, .gsap-reveal",
+        "main p, main img, main ul, .flux-card, .prose > div, article, .rounded-3xl, .gsap-reveal",
     );
     const blocksToAnimate = contentBlocks.filter((block) => {
         if (
@@ -1755,3 +1884,9 @@ if (
 ) {
     initAnchorSmoothScroll();
 }
+
+// Ne pas appeler Alpine.start() manuellement.
+// Livewire 4 intègre Alpine et le démarre après que @fluxScripts a
+// enregistré le magic $flux. Appeler Alpine.start() ici provoquerait
+// une erreur « $flux is not defined » car Flux n'aurait pas encore
+// enregistré ses plugins Alpine.

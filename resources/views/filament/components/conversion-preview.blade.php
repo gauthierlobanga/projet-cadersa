@@ -5,7 +5,7 @@
 
 <div class="text-center p-2 border rounded-lg bg-gray-50 dark:bg-gray-800">
     @if($media && $media->hasGeneratedConversion($conversion))
-        <img src="{{ $media->getUrl($conversion) }}"
+        <img loading="eager" decoding="async" src="{{ $media->getUrl($conversion) }}"
              alt="{{ $label }}"
              class="w-full h-auto rounded shadow-sm">
         <div class="mt-2 text-xs">

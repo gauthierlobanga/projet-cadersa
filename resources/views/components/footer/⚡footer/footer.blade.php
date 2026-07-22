@@ -1,4 +1,5 @@
-<flux:footer class="border-t my-8 border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 font-outfit">
+<flux:footer
+    class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 font-outfit">
     {{-- Ambiance lumineuse de fond --}}
     <div class="pointer-events-none absolute inset-0 z-0">
         <div
@@ -8,7 +9,7 @@
             class="absolute -bottom-20 -left-20 h-125 w-125 rounded-full bg-linear-to-tr from-zinc-200/40 to-emerald-100/0 blur-3xl dark:from-zinc-900/50 dark:to-transparent">
         </div>
         <div
-            class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
+            class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
         </div>
     </div>
 
@@ -18,30 +19,37 @@
         <div class="flex flex-col items-start justify-between gap-8 sm:flex-row">
             <div class="flex flex-col items-start max-w-sm">
                 <div data-animate="enter-from-left">
-                    <a href="{{ route('home') }}" aria-label="{{ $this->appName }} - Retour à l'accueil"
+                    <a href="{{ route('home') }}" wire:navigate aria-label="{{ $this->appName }} - Retour à l'accueil"
                         class="group inline-flex items-center rounded-lg py-1.5 transition duration-300 ease-out
                               hover:-translate-x-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50
                               focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900">
                         <div class="h-16 w-auto max-w-full shrink-0 overflow-hidden">
-                            <img src="{{ $this->logoUrl ?? Storage::url('images/cadersa-logo.png') }}"
+                            <img loading="eager" decoding="async"
+                                src="{{ $this->logoUrl ?? Storage::url('images/logo-app.svg') }}"
                                 alt="{{ $this->appName }}" class="h-full w-auto object-contain object-left" />
                         </div>
                     </a>
                 </div>
-                <p data-animate="text-reveal-words"
-                    class="mt-4 max-w-xs text-pretty text-base leading-relaxed text-zinc-600 dark:text-zinc-300"
-                    role="note">
-                    Organisation engagée pour une <strong
-                        class="font-semibold text-zinc-900 dark:text-zinc-100">agriculture durable</strong>
-                    et la résilience des petits producteurs au <strong
-                        class="font-semibold text-zinc-900 dark:text-zinc-100">Kasaï Central</strong>.
-                </p>
+                @if ($footerText)
+                    <blockquote data-animate="text-reveal-words"
+                        class="relative mt-6 max-w-lg text-pretty text-[15px] md:text-[17px]
+               leading-8 tracking-[0.01em] font-light italic
+               text-zinc-600 dark:text-zinc-300 border-none! pl-0! bg-transparent!">
+                        <span
+                            class="absolute -left-3 -top-3 text-5xl leading-none font-serif
+                   text-emerald-500/30 select-none mb-0.5">
+                            “
+                        </span>
+
+                        {!! $footerText !!}
+                    </blockquote>
+                @endif
             </div>
         </div>
         {{-- Zone Intermédiaire : Réseaux sociaux + Les 3 Colonnes de Navigation --}}
         <div class="mt-8 flex flex-col md:flex-row items-start justify-between gap-6 w-full">
             <div data-animate="enter-from-left" class="shrink-0">
-                <nav class="inline-flex divide-x divide-zinc-100 dark:divide-white/10 border-zinc-200 md:w-13 md:flex-col md:divide-x-0 md:divide-y border dark:border-white/10 bg-white dark:bg-zinc-800/50"
+                <nav class="inline-flex flex-wrap divide-x divide-zinc-100 dark:divide-white/10 border-zinc-200 md:w-13 md:flex-col md:divide-x-0 md:divide-y border dark:border-white/10 bg-white dark:bg-zinc-800/50"
                     aria-label="Réseaux sociaux">
                     @foreach ($this->socialLinks as $network => $url)
                         <a href="{{ $url }}" target="_blank" rel="external noopener noreferrer"
@@ -132,7 +140,7 @@
                     <h3 class="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-white">Nos Actions
                     </h3>
                     <nav class="flex flex-col items-start space-y-2.5" aria-label="Liens d'activités">
-                        @foreach ([['route' => 'services.index', 'label' => 'Services'], ['route' => 'projects.index', 'label' => 'Projets'], ['route' => 'posts.index', 'label' => 'Actualités']] as $link)
+                        @foreach ([['route' => 'services.index', 'label' => 'Services'], ['route' => 'projects.index', 'label' => 'Projets'], ['route' => 'formations.index', 'label' => 'Formations'], ['route' => 'posts.index', 'label' => 'Actualités']] as $link)
                             <a href="{{ route($link['route']) }}" wire:navigate
                                 class="group relative flex items-center py-1 text-base text-zinc-600 transition-colors duration-300 hover:text-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 dark:text-zinc-400 dark:hover:text-emerald-400 rounded-sm">
                                 <span
@@ -170,29 +178,47 @@
                 </div>
             </div>
         </div>
-
         {{-- Copyright & Crédits --}}
         <div
-            class="mt-4 flex flex-col items-center justify-between gap-4 border-t border-zinc-200/60 pt-4 dark:border-zinc-700/60 sm:flex-row">
-            {{-- Citation --}}
-            <div x-data="footerCitationReveal"
-                class="relative w-full max-w-xl cursor-default overflow-hidden text-sm text-zinc-500 dark:text-zinc-400"
-                style="min-height: 2.75rem;">
-                <p x-ref="originalText" class="absolute inset-0 m-0 flex items-center">
-                    &copy; {{ date('Y') }} {{ $this->appName }}. Tous droits réservés.
+            class="mb-8 flex flex-col items-center justify-between gap-4 border-t border-zinc-200/60 pt-4 dark:border-zinc-700/60 sm:flex-row">
+
+            {{-- Copyright + citation affichée en permanence --}}
+            <div class="w-full max-w-xl text-sm text-zinc-500 dark:text-zinc-400">
+                <p>
+                    &copy; {{ date('Y') }} {{ $this->appName }}. {{ $footerCopyright }}
                 </p>
-                <div x-ref="warningText" class="absolute inset-0 m-0 flex items-center" style="opacity: 0;">
+                @php
+                    $aboutSettings = app(\App\Settings\AboutSettings::class);
+                    $footerCitation = trim(
+                        $aboutSettings->citation_footer ?:
+                        'Vivre c’est reconnaître ses semblables créés à l’image de Dieu. — Prof. Dr Bernard HANGI',
+                    );
+                    $citationParts = preg_split('/\s+—\s+/', $footerCitation, 2);
+                    $footerQuote = trim($citationParts[0] ?? $footerCitation);
+                    $footerAuthor = trim($citationParts[1] ?? '');
+                @endphp
+                @if ($footerQuote)
                     <blockquote
-                        class="border-l-4 border-emerald-500 pl-4 text-sm font-medium italic leading-snug text-emerald-700 dark:text-emerald-300">
-                        Vivre c’est reconnaître ses semblables créés à l’image de Dieu.
-                        <footer class="text-xs text-zinc-500 not-italic dark:text-zinc-400">— Prof. Dr Bernard HANGI
-                        </footer>
+                        class="mt-2 relative overflow-hidden rounded-2xl border border-zinc-200/70 dark:border-zinc-700/60 bg-white/60 dark:bg-zinc-900/40 backdrop-blur-sm p-6 text-pretty">
+                        <svg class="absolute right-5 top-5 h-10 w-10 text-emerald-500/10" fill="currentColor"
+                            viewBox="0 0 32 32">
+                            <path
+                                d="M9 8C5 8 3 11 3 15c0 4 2 7 6 9l2-2c-2-1-4-3-4-6h5V8H9zm14 0c-4 0-6 3-6 7 0 4 2 7 6 9l2-2c-2-1-4-3-4-6h5V8h-3z" />
+                        </svg>
+                        <p class="text-base leading-6 italic text-zinc-700 dark:text-zinc-300">
+                            {{ $footerQuote }}
+                        </p>
+                        @if ($footerAuthor)
+                            <footer class="mt-6 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                                — {{ $footerAuthor }}
+                            </footer>
+                        @endif
                     </blockquote>
-                </div>
+                @endif
             </div>
 
-            {{-- Crédits --}}
-            <p class="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400" role="contentinfo">
+            {{-- Crédits (à droite sur desktop) --}}
+            <p class="flex shrink-0 items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400" role="contentinfo">
                 <span class="flex items-center gap-1">
                     <span>Site réalisé </span>
                     <span>par</span>

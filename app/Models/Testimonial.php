@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,6 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Database\Eloquent\Builder;
 
 class Testimonial extends Model implements HasMedia
 {
@@ -29,6 +29,7 @@ class Testimonial extends Model implements HasMedia
 
     protected $fillable = [
         'name', 'role', 'company', 'content', 'is_active',
+        'profile_url', 'rating', 'platform',
     ];
 
     protected $casts = [
@@ -45,6 +46,10 @@ class Testimonial extends Model implements HasMedia
         $this->addMediaCollection('photo')
             ->singleFile()
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
+        $this->addMediaCollection('company_logo')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']);
     }
 
     // ========== MEDIA CONVERSIONS ==========
@@ -64,7 +69,7 @@ class Testimonial extends Model implements HasMedia
             ->sharpen(10)
             ->performOnCollections('photo')
             ->optimize();
- 
+
         // Photo principale (400x400) – pour la page témoignage, carte détaillée
         // Le nom 'webp' est conservé pour compatibilité avec l'accessor
         $this->addMediaConversion('webp')
@@ -85,7 +90,7 @@ class Testimonial extends Model implements HasMedia
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeActive(Builder $query): Builder
@@ -98,7 +103,7 @@ class Testimonial extends Model implements HasMedia
 
      *
 
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeOrdered(Builder $query): Builder

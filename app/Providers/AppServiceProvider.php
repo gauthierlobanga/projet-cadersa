@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
+use App\Settings\SettingApp;
 use Carbon\CarbonImmutable;
+use Filament\Notifications\Livewire\Notifications;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\VerticalAlignment;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -26,9 +32,18 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
 
-        if (! app()->isLocal()) {
-            Vite::usePreloadTag(false);
-        }
+        Model::shouldBeStrict();
+
+        Notifications::alignment(Alignment::Center);
+        Notifications::verticalAlignment(VerticalAlignment::Start);
+
+        /**
+         * Partage des données globales avec toutes les vues
+         */
+        View::composer('*', function ($view) {
+            $settings = app(SettingApp::class);
+            $view->with('settings', $settings);
+        });
     }
 
     /**

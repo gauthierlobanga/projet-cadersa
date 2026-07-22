@@ -10,19 +10,24 @@
         <flux:sidebar.toggle variant="ghost" class="lg:hidden mr-4 hover:bg-emerald-50! dark:hover:bg-emerald-900/20!"
             icon="bars-3" inset="left" />
         <a href="{{ route('home') }}" wire:navigate
-            class="group inline-flex items-center gap-3  py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50
+            class="hidden lg:inline-flex group items-center gap-3  py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50
           focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900">
             <x-app-logo />
         </a>
 
         <flux:navbar class="-mb-px max-lg:hidden ml-8">
             <flux:navbar.item :href="route('home')" :current="request()->routeIs('home')" wire:navigate
-                class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
+                class="text-zinc-600! hover:bg-emerald-50! hover:text-emerald-600! dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
                 {{ __('Accueil') }}
             </flux:navbar.item>
             <flux:navbar.item :href="route('projects.index')" :current="request()->routeIs('projects.*')" wire:navigate
                 class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
                 {{ __('Projets') }}
+            </flux:navbar.item>
+
+            <flux:navbar.item :href="route('formations.index')" :current="request()->routeIs('formations.index')" wire:navigate
+                class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
+                {{ __('Formations') }}
             </flux:navbar.item>
             <flux:navbar.item :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate
                 class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
@@ -44,11 +49,13 @@
         <flux:spacer />
 
         <flux:navbar class="me-4 gap-4">
-            <button x-cloak x-data aria-label="Changer le thème" x-on:click="$flux.dark = !$flux.dark"
-                class="relative flex h-9 w-9 items-center justify-center rounded-xl text-zinc-400 transition-none hover:bg-emerald-50 hover:text-emerald-600 dark:text-zinc-500 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400">
-                <flux:icon.sun x-show="!$flux.dark" variant="mini" class="h-5 w-5" />
-                <flux:icon.moon x-show="$flux.dark" variant="mini" class="h-5 w-5" />
-            </button>
+            <div class="flex items-center gap-4">
+                <button x-cloak x-data aria-label="Changer le thème" x-on:click="$flux.dark = !$flux.dark"
+                    class="relative flex h-9 w-9 items-center justify-center rounded-xl text-zinc-400 transition-none hover:bg-emerald-50 hover:text-emerald-600 dark:text-zinc-500 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400">
+                    <flux:icon.sun x-show="!$flux.dark" variant="mini" class="h-5 w-5" />
+                    <flux:icon.moon x-show="$flux.dark" variant="mini" class="h-5 w-5" />
+                </button>
+            </div>
             <flux:separator vertical variant="subtle" class="my-4" />
             @auth
                 <x-desktop-user-menu />
@@ -88,6 +95,7 @@
                         ['route' => 'services.index', 'label' => __('Services')],
                         ['route' => 'projects.index', 'label' => __('Projets')],
                         ['route' => 'posts.index', 'label' => __('Blog')],
+                        ['route' => 'formations.index', 'label' => __('Formation')],
                         ['route' => 'about', 'label' => __('À propos')],
                         ['route' => 'contact', 'label' => __('Contact')],
                     ];
@@ -143,12 +151,12 @@
                !gap-0 !p-0">
                             <flux:radio value="light" icon="sun" class="!border-0 !shadow-none" />
                             <flux:radio value="dark" icon="moon" class="!border-0 !shadow-none" />
-                            <flux:radio value="system" icon="computer-desktop" class="!border-0 !shadow-none" />
+                            <flux:radio value="system" icon="computer-desktop" class="border-0! !shadow-none" />
                         </flux:radio.group>
 
                         <flux:sidebar.item href="{{ route('login') }}" icon="arrow-right-start-on-rectangle"
                             :accent="false"
-                            class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
+                            class="text-zinc-600! hover:bg-emerald-50! hover:text-emerald-600! dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
                             {{ __('Connexion') }}
                         </flux:sidebar.item>
                     </div>
@@ -172,7 +180,6 @@
 
     @fluxScripts
     @livewireScripts
-    @filamentScripts
 </body>
 
 </html>

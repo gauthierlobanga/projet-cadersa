@@ -7,100 +7,97 @@ use Illuminate\Database\Seeder;
 
 class FaqSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $faqs = [
             [
-                'question' => 'Qu’est-ce que CADERSA ?',
-                'answer' => 'CADERSA (Centre d’Appui au Développement Rural et à la Sécurité Alimentaire) est une ONG congolaise qui œuvre pour renforcer la résilience des communautés rurales et périurbaines à travers des actions de sécurité alimentaire, nutrition, agriculture durable, élevage, formation et protection de l’environnement.',
+                'question' => 'Qui est Gauthier Lobanga ?',
+                'answer' => 'Je suis développeur web full‑stack spécialisé Laravel, TALL stack (Tailwind, Alpine.js, Livewire, Laravel), Filament, React et Inertia.js. Je crée des applications web modernes, des APIs robustes et des panneaux d’administration sur mesure.',
                 'sort_order' => 1,
             ],
             [
-                'question' => 'Quelles sont les principales zones d’intervention de CADERSA ?',
-                'answer' => 'CADERSA intervient dans six provinces de la RDC : Sud-Kivu, Nord-Kivu, Tanganyika, Ituri, Kasaï Central et Sud-Ubangi. Nous avons des bureaux dans les chefs-lieux et des bases dans les zones rurales pour être au plus proche des communautés.',
+                'question' => 'Quelles technologies maîtrisez‑vous ?',
+                'answer' => 'Mes technologies de prédilection sont Laravel, Livewire, Alpine.js, Tailwind CSS, FilamentPHP, React, Inertia.js, MySQL, PostgreSQL, Docker et Git. Je travaille également avec des outils comme Power BI pour l’analyse de données.',
                 'sort_order' => 2,
             ],
             [
-                'question' => 'Comment CADERSA lutte-t-il contre la malnutrition ?',
-                'answer' => 'Nous menons des programmes de nutrition directe (prise en charge de la malnutrition aiguë modérée et sévère) et de nutrition sensible (démonstrations culinaires, sensibilisation à l’alimentation équilibrée, promotion des 1000 premiers jours, jardinage potager, petits élevages).',
+                'question' => 'Proposez‑vous des services de développement sur mesure ?',
+                'answer' => 'Oui, je développe des applications web personnalisées : sites vitrines, plateformes e‑commerce, dashboards, APIs, applications monopages (SPA). Chaque projet est conçu pour répondre exactement à vos besoins.',
                 'sort_order' => 3,
             ],
             [
-                'question' => 'Quels sont les partenaires techniques et financiers de CADERSA ?',
-                'answer' => 'CADERSA travaille avec le Programme Alimentaire Mondial (PAM), la FAO, l’USAID, la MONUSCO, le gouvernement congolais (ministères de l’Agriculture, de la Santé, du Développement rural) et d’autres ONG locales et internationales.',
+                'question' => 'Comment se déroule une collaboration type ?',
+                'answer' => 'Après un premier échange pour comprendre votre besoin, je rédige un cahier des charges et un devis. Le développement suit une méthodologie agile avec des points réguliers. Je livre le projet testé, documenté et prêt à être déployé.',
                 'sort_order' => 4,
             ],
             [
-                'question' => 'Comment puis-je bénéficier des programmes de CADERSA ?',
-                'answer' => 'Les bénéficiaires sont généralement identifiés à travers les organisations paysannes (OP) locales, les comités de développement ou les relais communautaires. Si vous êtes dans une zone d’intervention, rapprochez-vous de votre chef de village ou de votre coopérative agricole.',
+                'question' => 'Travaillez‑vous à distance ?',
+                'answer' => 'Tout à fait. Je collabore avec des clients en RDC et à l’international via des outils comme Slack, Trello, GitHub et des réunions en visioconférence. La communication est fluide quel que soit le fuseau horaire.',
                 'sort_order' => 5,
             ],
             [
-                'question' => 'CADERSA propose-t-il des formations ?',
-                'answer' => 'Oui, nous organisons des formations en alphabétisation fonctionnelle, en gestion post-récolte, en techniques agricoles durables, en élevage, en entrepreneuriat, en nutrition et en gouvernance locale. Nous formons également les organisations paysannes à la gestion administrative et financière.',
+                'question' => 'Qu’est‑ce que le TALL stack ?',
+                'answer' => 'Le TALL stack désigne l’association de Tailwind CSS, Alpine.js, Laravel et Livewire. Cet ensemble permet de construire rapidement des applications web modernes, réactives et élégantes, sans quitter l’écosystème Laravel.',
                 'sort_order' => 6,
             ],
             [
-                'question' => 'Qu’est-ce que l’approche 4B de CADERSA ?',
-                'answer' => 'L’approche 4B est notre méthode phare : Bonne cuisson, Bonne alimentation, Bonne planification familiale pour la Bonne santé. Elle vise à améliorer les pratiques domestiques pour une meilleure nutrition et hygiène, en lien avec les Objectifs de Développement Durable.',
+                'question' => 'Pourquoi choisir FilamentPHP pour l’administration ?',
+                'answer' => 'FilamentPHP est un outil incroyablement productif pour créer des panneaux d’administration. Il permet de gérer les ressources, les utilisateurs, les tableaux de bord et bien plus, avec une interface intuitive et un code propre.',
                 'sort_order' => 7,
             ],
             [
-                'question' => 'CADERSA mène-t-il des actions de reboisement ?',
-                'answer' => 'Absolument. Nous plantons des arbres fruitiers et des essences agroforestières, nous construisons des foyers améliorés et nous fabriquons des briquettes combustibles pour réduire la pression sur les forêts et lutter contre le changement climatique.',
+                'question' => 'Proposez‑vous des formations en développement web ?',
+                'answer' => 'Oui, je donne des formations en présentiel ou à distance sur Laravel, Livewire, Tailwind CSS, Filament, React, ainsi que sur la suite bureautique (Word, Excel, Power BI). Les formations sont adaptées à tous les niveaux.',
                 'sort_order' => 8,
             ],
             [
-                'question' => 'Comment CADERSA soutient-il les femmes ?',
-                'answer' => 'Nous avons des programmes spécifiques d’autonomisation des femmes : activités génératrices de revenus (AGR), savonnerie, panification, petit élevage, accès aux machines agricoles, formations en alphabétisation et en leadership. Nous luttons également contre les violences basées sur le genre.',
+                'question' => 'Pouvez‑vous intervenir sur un projet existant ?',
+                'answer' => 'Absolument. Je réalise des audits de code, des optimisations de performances, des migrations de versions, des ajouts de fonctionnalités ou des refontes d’interfaces sur des projets Laravel ou React existants.',
                 'sort_order' => 9,
             ],
             [
-                'question' => 'Qu’est-ce que la gestion post-récolte ?',
-                'answer' => 'C’est un ensemble de techniques pour réduire les pertes après la récolte : séchage, stockage hermétique, lutte contre les ravageurs, transformation, commercialisation groupée. CADERSA forme les paysans à ces pratiques pour améliorer leurs revenus et leur sécurité alimentaire.',
+                'question' => 'Quels sont vos tarifs ?',
+                'answer' => 'Mes tarifs varient en fonction de la complexité et de la durée du projet. Je propose un devis détaillé après une analyse de votre besoin. Pour les petits projets, je peux également travailler au forfait. Contactez‑moi pour en discuter.',
                 'sort_order' => 10,
             ],
             [
-                'question' => 'Puis-je faire un don ou devenir bénévole chez CADERSA ?',
-                'answer' => 'Nous accueillons volontiers les dons et le bénévolat. Contactez-nous à cadersa.asbl@gmail.com ou par téléphone au +243 997 780 281 pour discuter des possibilités de collaboration.',
+                'question' => 'Comment garantissez‑vous la sécurité des applications ?',
+                'answer' => 'La sécurité est au cœur de mes développements. J’applique les bonnes pratiques OWASP, j’utilise les mécanismes d’authentification intégrés de Laravel (Sanctum, Passport), je protège contre les injections SQL, XSS, CSRF et je configure des pipelines CI/CD avec tests automatisés.',
                 'sort_order' => 11,
             ],
             [
-                'question' => 'CADERSA intervient-il en situation d’urgence ?',
-                'answer' => 'Oui, nous menons des actions d’aide humanitaire : distributions générales de vivres (GFD), transferts monétaires, soutien nutritionnel dans les zones touchées par les conflits ou les catastrophes naturelles (ex. éruptions volcaniques, inondations).',
+                'question' => 'Utilisez‑vous le versionnement de code ?',
+                'answer' => 'Oui, tous mes projets sont versionnés avec Git. J’utilise GitHub ou GitLab pour l’hébergement et la collaboration. Je mets en place une stratégie de branches claire (Git Flow) et des revues de code régulières.',
                 'sort_order' => 12,
             ],
             [
-                'question' => 'Quels types d’agriculture CADERSA promeut-il ?',
-                'answer' => 'Nous promouvons l’agroécologie paysanne, l’agriculture durable et le Plan Intégré du Paysan (PIP) qui associe cultures, élevage et gestion des ressources naturelles pour une production résiliente et respectueuse de l’environnement.',
+                'question' => 'Proposez‑vous la maintenance après livraison ?',
+                'answer' => 'Je propose des contrats de maintenance mensuels incluant la correction de bugs, les mises à jour de sécurité, l’hébergement (si nécessaire) et des évolutions mineures. Tout est défini dans une convention claire.',
                 'sort_order' => 13,
             ],
             [
-                'question' => 'Comment CADERSA implique-t-il les communautés locales ?',
-                'answer' => 'Nous utilisons une approche participative : les bénéficiaires sont associés à toutes les phases des projets (diagnostic, planification, mise en œuvre, suivi-évaluation). Nous renforçons les organisations paysannes et les mutuelles de solidarité (MUSO) pour une appropriation durable.',
+                'question' => 'Pouvez‑vous déployer une application en production ?',
+                'answer' => 'Oui, je m’occupe du déploiement sur votre serveur ou sur des services cloud (DigitalOcean, AWS, Heroku). Je configure également Docker pour garantir un environnement stable et reproductible.',
                 'sort_order' => 14,
             ],
             [
-                'question' => 'Quels sont les critères pour être bénéficiaire des projets de CADERSA ?',
-                'answer' => 'Les critères varient selon les projets, mais nous ciblons généralement les ménages vulnérables (femmes, enfants, personnes âgées, handicapés) vivant dans les zones d’intervention et membres d’organisations paysannes ou de groupements communautaires.',
+                'question' => 'Comment puis‑je vous contacter ?',
+                'answer' => 'Vous pouvez me joindre par email à gauthier@example.com, via le formulaire de contact de ce site, ou sur LinkedIn. Je réponds généralement dans les 24 heures.',
                 'sort_order' => 15,
             ],
             [
-                'question' => 'CADERSA travaille-t-il avec les écoles ?',
-                'answer' => 'Oui, nous mettons en place des jardins scolaires, des cantines scolaires et des séances de sensibilisation à la nutrition et à l’hygiène dans les écoles de nos zones d’intervention.',
+                'question' => 'Travaillez‑vous en équipe ou en solo ?',
+                'answer' => 'Je travaille principalement en solo, mais je peux m’intégrer dans une équipe existante. J’ai l’habitude de collaborer avec d’autres développeurs, designers et chefs de projet.',
                 'sort_order' => 16,
             ],
             [
-                'question' => 'Comment puis-je obtenir plus d’informations sur les activités de CADERSA ?',
-                'answer' => 'Vous pouvez consulter notre site web www.cadersa.org, suivre notre page Facebook (@cadersaasbl) ou nous contacter directement par email ou téléphone. Nous publions régulièrement des rapports d’activités et des actualités.',
+                'question' => 'Quels types de projets avez‑vous déjà réalisés ?',
+                'answer' => 'J’ai conçu des portfolios, des dashboards de gestion, des APIs REST, des sites e‑commerce, des blogs techniques, des systèmes de gestion de formations et des applications de suivi de projet freelance. Consultez la section “Projets” pour des exemples concrets.',
                 'sort_order' => 17,
             ],
             [
-                'question' => 'CADERSA contribue-t-il à l’accès aux marchés pour les petits producteurs ?',
-                'answer' => 'Oui, nous organisons des foires agricoles, nous facilitons la vente groupée et le warrantage, et nous mettons en relation les producteurs avec des acheteurs pour garantir des prix rémunérateurs.',
+                'question' => 'Acceptez‑vous les missions urgentes ?',
+                'answer' => 'Oui, selon ma disponibilité. Je peux intervenir rapidement pour des corrections critiques ou des petits projets à délai court. N’hésitez pas à me contacter avec votre urgence.',
                 'sort_order' => 18,
             ],
         ];

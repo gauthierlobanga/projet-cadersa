@@ -9,7 +9,7 @@ $appSettings = app(\App\Settings\SettingApp::class);
 $aboutSettings = app(\App\Settings\AboutSettings::class);
 
 // Logo de l'application (dynamique)
-    $appLogo = $appSettings->logoUrl() ?: asset('images/cadersa-logo.png');
+    $appLogo = $appSettings->logoUrl() ?: asset('images/logo-app.svg');
 
     // Image SEO (utilisée à la fois pour Open Graph et le schéma)
     $seoImage = $seoImage ?? $appLogo;
@@ -67,37 +67,22 @@ $schema = [
     <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}</script>
 </x-seo>
 
-{{-- Google Analytics (ne se chargera que si "Analytiques" est accepté) --}}
-<x-cookie-script type="analytics">
-    <!-- Remplacez G-XXXXXXX par votre vrai code Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXX');
-    </script>
-</x-cookie-script>
-
-{{-- Pixel Facebook / Autres trackers publicitaires (ne se chargera que si "Marketing" est accepté) --}}
-<x-cookie-script type="marketing">
-    <!-- Insérez ici votre code de suivi publicitaire (Pixel FB, LinkedIn Insight, etc.) -->
-    <script>
-        // Code de suivi marketing...
-    </script>
-</x-cookie-script>
-
 @include('feed::links')
+
+@if(app()->environment('production'))
+    <script defer data-domain="{{ parse_url(config('app.url'), PHP_URL_HOST) }}" src="https://plausible.io/js/script.js"></script>
+@endif
+
 {{-- Favicon --}}
 <link id="favicon" rel="icon" href="{{ $faviconUrl }}" data-favicon-href="{{ $faviconUrl }}">
 <link id="apple-touch-icon" rel="apple-touch-icon" href="{{ $faviconUrl }}">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..500&family=Playfair+Display:wght@600;700;800&display=swap">
 <style>
-    body {
-        font-family: 'Inter', sans-serif;
+    html, body {
         overflow-x: hidden;
     }
 
@@ -118,7 +103,35 @@ $schema = [
 </style>
 
 @fonts
-@vite(['resources/css/app.css', 'resources/js/app.js'], null, false)
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
 @livewireStyles
-@filamentStyles
+
+<script>
+    // Désactiver les transitions lors du changement de thème pour éviter les effets de "flash" blanc
+    document.addEventListener('DOMContentLoaded', () => {
+        let isTransitioning = false;
+        const observer = new MutationObserver((mutations) => {
+            for (let mutation of mutations) {
+                if (mutation.attributeName === 'class' && !isTransitioning) {
+                    const oldDark = mutation.oldValue ? mutation.oldValue.includes('dark') : false;
+                    const newDark = document.documentElement.classList.contains('dark');
+                    
+                    // Si la classe 'dark' a été ajoutée ou retirée
+                    if (oldDark !== newDark) {
+                        isTransitioning = true;
+                        document.documentElement.classList.add('no-transition');
+                        
+                        // Attendre un peu que le navigateur applique les nouvelles couleurs sans animation
+                        setTimeout(() => {
+                            document.documentElement.classList.remove('no-transition');
+                            // Petite pause pour éviter de re-déclencher
+                            setTimeout(() => { isTransitioning = false; }, 10);
+                        }, 50);
+                    }
+                }
+            }
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'], attributeOldValue: true });
+    });
+</script>

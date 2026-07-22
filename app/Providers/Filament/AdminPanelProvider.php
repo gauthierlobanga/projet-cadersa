@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\ManageAppSettings;
 use App\Http\Middleware\EnsureUserIsSuperAdmin;
+use App\Http\Middleware\RedirectAdminLogin;
 use App\Settings\SettingApp;
 use App\Support\Branding\Favicon;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -33,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->domain(app()->isProduction() ? 'cadersaasbl.com' : null)
             ->brandLogo(function () {
                 $settings = app(SettingApp::class);
                 $logoUrl = $settings->logoUrl();
@@ -40,12 +42,9 @@ class AdminPanelProvider extends PanelProvider
 
                 return view('filament.admin.logo', compact('logoUrl', 'name'));
             })
-            ->domain('cadersaasbl.com')
-            ->unsavedChangesAlerts()
             ->favicon(fn (): string => Favicon::centralUrl())
             ->brandLogoHeight('4rem')
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->login()
             ->colors([
                 'danger' => Color::Rose,
                 'gray' => Color::Slate,
@@ -67,6 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 FilamentInfoWidget::class,
             ])
             ->middleware([
+                RedirectAdminLogin::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,

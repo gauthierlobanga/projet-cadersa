@@ -9,7 +9,7 @@
 <div class="rounded-3xl border border-zinc-200/10 bg-white/5 p-4 shadow-sm">
     @if (! empty($block['image_url']))
         <div class="overflow-hidden rounded-3xl mb-4">
-            <img src="{{ Storage::url($block['image_url']) }}" alt="{{ $block['label'] ?? 'Carte d\'impact' }}" class="h-36 w-full object-cover" />
+            <img loading="eager" decoding="async" src="{{ Storage::url($block['image_url']) }}" alt="{{ $block['label'] ?? 'Carte d\'impact' }}" class="h-36 w-full object-cover" />
         </div>
     @endif
 

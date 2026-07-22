@@ -1,58 +1,94 @@
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="Pagination" class="flex items-center justify-between">
-        {{-- Informations --}}
-        <div class="hidden sm:block text-sm text-zinc-500 dark:text-zinc-400">
-            Affichage de <span class="font-medium text-zinc-700 dark:text-zinc-300">{{ $paginator->firstItem() }}</span> à <span class="font-medium text-zinc-700 dark:text-zinc-300">{{ $paginator->lastItem() }}</span> sur <span class="font-medium text-zinc-700 dark:text-zinc-300">{{ $paginator->total() }}</span> résultats
-        </div>
+    <div class="mt-8 flex flex-col-reverse items-center justify-between gap-4 sm:flex-row">
 
-        {{-- Boutons --}}
-        <div class="flex items-center gap-1">
+        <nav class="flex items-center gap-1.5" aria-label="Pagination" role="navigation">
+
             {{-- Précédent --}}
             @if ($paginator->onFirstPage())
-                <span class="inline-flex h-9 w-9 cursor-not-allowed items-center justify-center text-zinc-300 dark:text-zinc-600" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <span
+                    class="inline-flex h-9 w-9 shrink-0 cursor-not-allowed items-center justify-center bg-slate-100/50 text-slate-300 dark:bg-slate-800/40 dark:text-slate-600"
+                    aria-disabled="true" aria-label="@lang('pagination.previous')">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 18-6-6 6-6" />
                     </svg>
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" wire:click.prevent="setPage('{{ $paginator->currentPage() - 1 }}')" rel="prev" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400" aria-label="@lang('pagination.previous')">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <button type="button" wire:click.preserve-scroll="setPage('{{ $paginator->currentPage() - 1 }}')" rel="prev"
+                    class="inline-flex h-9 w-9 shrink-0 items-center justify-center bg-slate-100 text-slate-500 transition-all duration-300 hover:scale-105 hover:bg-slate-200 hover:text-slate-900 focus:outline-none focus-visible:ring focus-visible:ring-emerald-500/50 active:scale-95 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+                    aria-label="@lang('pagination.previous')">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 18-6-6 6-6" />
                     </svg>
-                </a>
+                </button>
             @endif
 
             {{-- Pages numériques --}}
-            @foreach ($elements as $element)
-                @if (is_string($element))
-                    <span class="inline-flex h-9 w-9 items-center justify-center text-sm text-zinc-400 dark:text-zinc-500">…</span>
-                @endif
+            <div class="flex items-center gap-1.5">
+                @foreach ($elements as $element)
+                    @if (is_string($element))
+                        <span
+                            class="inline-flex h-9 min-w-9 items-center justify-center bg-transparent px-3 text-sm font-medium text-slate-400 dark:text-slate-500">…</span>
+                    @endif
 
-                @if (is_array($element))
-                    @foreach ($element as $page => $url)
-                        @if ($page == $paginator->currentPage())
-                            <span class="inline-flex h-9 w-9 items-center justify-center bg-emerald-500 text-sm font-semibold text-white shadow dark:bg-emerald-400 dark:text-zinc-900" aria-current="page">{{ $page }}</span>
-                        @else
-                            <a href="{{ $url }}" wire:click.prevent="setPage('{{ $page }}')" class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-sm text-zinc-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400" aria-label="@lang('Go to page :page', ['page' => $page])">{{ $page }}</a>
-                        @endif
-                    @endforeach
-                @endif
-            @endforeach
+                    @if (is_array($element))
+                        @foreach ($element as $page => $url)
+                            @if ($page == $paginator->currentPage())
+                                {{-- Lien actif --}}
+                                <span
+                                    class="inline-flex h-9 min-w-9 items-center justify-center bg-emerald-50 px-3 text-sm font-bold text-emerald-700 transition-transform duration-300 hover:scale-105 dark:bg-emerald-900/30 dark:text-emerald-300"
+                                    aria-current="page">{{ $page }}</span>
+                            @else
+                                <button type="button" wire:click.preserve-scroll="setPage('{{ $page }}')"
+                                    class="inline-flex h-9 min-w-9 items-center justify-center bg-slate-100 px-3 text-sm font-medium text-slate-500 transition-all duration-300 hover:scale-105 hover:bg-slate-200 hover:text-slate-900 focus:outline-none focus-visible:ring focus-visible:ring-emerald-500/50 active:scale-95 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+                                    aria-label="@lang('Go to page :page', ['page' => $page])">{{ $page }}</button>
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
+            </div>
 
             {{-- Suivant --}}
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" wire:click.prevent="setPage('{{ $paginator->currentPage() + 1 }}')" rel="next" class="inline-flex h-9 w-9 items-center justify-center bg-zinc-100 text-zinc-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400" aria-label="@lang('pagination.next')">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <button type="button" wire:click.preserve-scroll="setPage('{{ $paginator->currentPage() + 1 }}')" rel="next"
+                    class="inline-flex h-9 w-9 shrink-0 items-center justify-center bg-slate-100 text-slate-500 transition-all duration-300 hover:scale-105 hover:bg-slate-200 hover:text-slate-900 focus:outline-none focus-visible:ring focus-visible:ring-emerald-500/50 active:scale-95 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+                    aria-label="@lang('pagination.next')">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6" />
                     </svg>
-                </a>
+                </button>
             @else
-                <span class="inline-flex h-9 w-9 cursor-not-allowed items-center justify-center text-zinc-300 dark:text-zinc-600" aria-disabled="true" aria-label="@lang('pagination.next')">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <span
+                    class="inline-flex h-9 w-9 shrink-0 cursor-not-allowed items-center justify-center bg-slate-100/50 text-slate-300 dark:bg-slate-800/40 dark:text-slate-600"
+                    aria-disabled="true" aria-label="@lang('pagination.next')">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6" />
                     </svg>
                 </span>
             @endif
-        </div>
-    </nav>
+        </nav>
+
+    </div>
 @endif
+
+@script
+<script>
+    /**
+     * Empêche le scrollTo automatique déclenché par WithPagination::setPage().
+     * Le trait dispatche un effet "scroll" via Livewire après chaque changement de page.
+     * On l'intercepte ici et on le supprime avant qu'il touche le DOM.
+     */
+    Livewire.hook('commit', ({ succeed }) => {
+        succeed(({ effect }) => {
+            if (Array.isArray(effect.dispatches)) {
+                effect.dispatches = effect.dispatches.filter(
+                    (dispatch) => dispatch.name !== 'scroll'
+                )
+            }
+        })
+    })
+</script>
+@endscript

@@ -13,15 +13,34 @@
         $appName = null;
         $appLogo = null;
     }
-    $appName = $appName ?: config('app.name', 'CADERSA ASBL');
-    $appLogo = $appLogo ?: asset('images/cadersa-logo.png');
+    $appName = $appName ?: config('app.name', 'Gaudev');
+    $appLogo = $appLogo ?: asset('images/logo-app.svg');
     $homeUrl = url('/');
     $refreshUrl = request()->fullUrl();
     $previousUrl = url()->previous();
     $canGoBack = $previousUrl && $previousUrl !== $refreshUrl;
-    $supportEmail = 'contact@cadersa.org';
+    $supportEmail = 'gauthierlobanga914@gmail.com';
 
-    $statusLabel = match ($statusCode) {
+    // --- Dynamic settings from Spatie (with graceful fallback) ---
+    $errorPageConfig = [];
+    $svgCode = '';
+    try {
+        $errorSettings = app(\App\Settings\ErrorPagesSettings::class);
+        $errorPageConfig = $errorSettings->pages[$statusCode] ?? [];
+        $svgCode = $errorPageConfig['svg_code'] ?? '';
+    } catch (\Throwable) {
+        $errorPageConfig = [];
+    }
+
+    // Use settings values when available, otherwise keep blade section values
+    if (!empty($errorPageConfig['message'])) {
+        $statusMessage = $errorPageConfig['message'];
+    }
+    if (!empty($errorPageConfig['description'])) {
+        $statusDescription = $errorPageConfig['description'];
+    }
+
+    $defaultLabels = [
         '401' => __('Accès sécurisé'),
         '402' => __('Paiement à finaliser'),
         '403' => __('Autorisation requise'),
@@ -30,10 +49,12 @@
         '429' => __('Rythme limité'),
         '500' => __('Incident serveur'),
         '503' => __('Maintenance active'),
-        default => __('État inattendu'),
-    };
+    ];
+    $statusLabel = !empty($errorPageConfig['title'])
+        ? $errorPageConfig['title']
+        : ($defaultLabels[$statusCode] ?? __('État inattendu'));
 
-    $nextSteps = match ($statusCode) {
+    $defaultNextSteps = match ($statusCode) {
         '401' => [
             __('Retournez à l’accueil pour relancer la connexion.'),
             __('Vérifiez le compte utilisé si cette page est privée.'),
@@ -80,31 +101,20 @@
             __('Contactez le support si le blocage persiste.'),
         ],
     };
+    $nextSteps = !empty($errorPageConfig['next_steps'])
+        ? $errorPageConfig['next_steps']
+        : $defaultNextSteps;
 
     $primaryLabel = $statusCode === '419' ? __('Actualiser') : __('Accueil');
     $primaryUrl = $statusCode === '419' ? $refreshUrl : $homeUrl;
     $primaryIcon = $statusCode === '419' ? 'refresh' : 'home';
 
-    // Thèmes dynamiques Tailwind selon le code
-    $gradientClass = match ($statusCode) {
-        '401', '403', '419', '429' => 'from-amber-50 to-orange-100 text-amber-600',
-        '402' => 'from-sky-50 to-blue-100 text-sky-600',
-        '500', '503' => 'from-rose-50 to-red-100 text-rose-600',
-        default => 'from-emerald-50 to-teal-100 text-emerald-600',
-    };
-
-    $btnPrimaryClass = match ($statusCode) {
-        '401', '403', '419', '429' => 'bg-amber-600 hover:bg-amber-700 focus:ring-amber-200',
-        '402' => 'bg-sky-600 hover:bg-sky-700 focus:ring-sky-200',
-        '500', '503' => 'bg-rose-600 hover:bg-rose-700 focus:ring-rose-200',
-        default => 'bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-200',
-    };
-
-    $badgeClass = match ($statusCode) {
-        '401', '403', '419', '429' => 'bg-amber-100 text-amber-700 border-amber-200',
-        '402' => 'bg-sky-100 text-sky-700 border-sky-200',
-        '500', '503' => 'bg-rose-100 text-rose-700 border-rose-200',
-        default => 'bg-emerald-100 text-emerald-700 border-emerald-200',
+    // Thèmes dynamiques Tailwind selon le code (Subtils)
+    $accentColor = match ($statusCode) {
+        '401', '403', '419', '429' => 'amber',
+        '402' => 'sky',
+        '500', '503' => 'rose',
+        default => 'emerald',
     };
 @endphp
 
@@ -116,191 +126,185 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
-<body
-    class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-8 antialiased selection:bg-slate-800 selection:text-white">
+<body class="bg-zinc-50 dark:bg-zinc-950 min-h-dvh flex antialiased selection:bg-zinc-200 selection:text-zinc-900 dark:selection:bg-zinc-800 dark:selection:text-white font-sans overflow-hidden">
 
-    <!-- Arrière-plan décoratif subtil -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-            class="absolute top-[-25%] left-[-10%] w-[50%] h-[50%] rounded-full mix-blend-multiply filter blur-3xl opacity-20 {{ explode(' ', $gradientClass)[0] }}">
-        </div>
-        <div
-            class="absolute top-[20%] right-[-10%] w-[40%] h-[60%] rounded-full mix-blend-multiply filter blur-3xl opacity-20 {{ explode(' ', $gradientClass)[1] }}">
-        </div>
-    </div>
+    <!-- Split Layout (No shadows, modern minimalist Figma pro) -->
+    <div class="flex flex-col md:flex-row w-full h-dvh">
 
-    <!-- Conteneur principal (Design Figma Split Card) -->
-    <div data-error-card
-        class="relative z-10 max-w-5xl w-full glass-panel rounded-[2rem] shadow-2xl border border-white/20 overflow-hidden flex flex-col md:flex-row">
+        <!-- Left Panel: Graphic & Code -->
+        <div class="relative w-full md:w-1/2 h-[40vh] md:h-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200 dark:border-zinc-800" data-panel-left>
+            <!-- Minimal grain overlay -->
+            {{-- <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.02]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div> --}}
 
-        <!-- Colonne Gauche : Code d'erreur et Visuel -->
-        <div
-            class="md:w-5/12 bg-linear-to-br {{ $gradientClass }} p-12 flex flex-col items-center justify-center text-center relative overflow-hidden">
-            <!-- Cercles décoratifs -->
-            <div
-                class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4xNSkiLz48L3N2Zz4=')] opacity-50 mask-image:linear-gradient(to_bottom,white,transparent)">
+            <!-- Animated shapes (very subtle) -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-lighten" data-shapes>
+                <div class="absolute w-[60vh] h-[60vh] bg-{{ $accentColor }}-300 rounded-full blur-[80px] top-[-10%] left-[-10%]"></div>
+                <div class="absolute w-[50vh] h-[50vh] bg-{{ $accentColor }}-400 rounded-full blur-[100px] bottom-[10%] right-[10%]"></div>
             </div>
 
-            <div class="relative z-10 w-full flex flex-col items-center">
-                <!-- SVG Animé -->
-                <div data-error-illustration class="mb-8 h-40 w-40 flex items-center justify-center">
-                    <div data-error-floating-svg class="w-full h-full text-current">
-                        @if($statusCode === '404')
-                            <!-- 404 Illustration: Lost Radar/Planet -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-                                <path d="M2 12h20"></path>
-                                <path d="M12 2v20"></path>
-                                <circle cx="16" cy="8" r="1" fill="currentColor"></circle>
-                            </svg>
-                        @elseif(in_array($statusCode, ['401', '403']))
-                            <!-- 403/401 Illustration: Locked -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                <circle cx="12" cy="16" r="1" fill="currentColor"></circle>
-                            </svg>
-                        @elseif(in_array($statusCode, ['500', '503']))
-                            <!-- 500/503 Illustration: Broken Server/Gears -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
-                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                                <path d="M12 8v4"></path>
-                                <path d="M12 16h.01"></path>
-                                <path d="M22 12H2"></path>
-                            </svg>
-                        @else
-                            <!-- Generic Alert -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full opacity-80">
-                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                                <line x1="12" y1="9" x2="12" y2="13"></line>
-                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                            </svg>
-                        @endif
-                    </div>
-                </div>
-
-                <span
-                    class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border {{ $badgeClass }} mb-4">
-                    <span class="w-1.5 h-1.5 rounded-full bg-current mr-2 animate-pulse"></span>
-                    {{ $statusLabel }}
-                </span>
-
-                <h1 data-error-code class="text-8xl font-black tracking-tighter mb-2 drop-shadow-sm">
-                    {{ $statusCode }}
+            <div class="relative z-10 flex flex-col items-center justify-center">
+                <!-- Code (Editorial Serif) -->
+                <h1 class="text-[8rem] md:text-[12rem] lg:text-[15rem] leading-none font-serif font-black text-zinc-900 dark:text-white tracking-tighter" data-code>
+                    <span class="inline-block overflow-hidden"><span class="inline-block" data-code-char>{{ $statusCode[0] ?? '4' }}</span></span>
+                    <span class="inline-block overflow-hidden"><span class="inline-block" data-code-char>{{ $statusCode[1] ?? '0' }}</span></span>
+                    <span class="inline-block overflow-hidden"><span class="inline-block" data-code-char>{{ $statusCode[2] ?? '4' }}</span></span>
                 </h1>
 
-                <p data-error-title class="font-medium text-lg opacity-80 max-w-62.5 mx-auto leading-tight">
-                    {{ $statusTitle }}
-                </p>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" data-svg>
+                    @if($svgCode)
+                        {{-- Dynamic SVG from Spatie settings --}}
+                        <div class="w-[35vw] h-[35vw] max-w-xs md:max-w-sm lg:max-w-md opacity-90">
+                            {!! $svgCode !!}
+                        </div>
+                    @else
+                        {{-- Fallback: subtle monochrome icon --}}
+                        <div class="text-zinc-900 dark:text-white opacity-5 mix-blend-overlay">
+                            @if($statusCode === '404')
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="w-[30vw] h-[30vw]"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path><path d="M12 2v20"></path></svg>
+                            @elseif(in_array($statusCode, ['500', '503']))
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="w-[30vw] h-[30vw]"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            @else
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="w-[30vw] h-[30vw]"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+
+                <div class="mt-4 px-4 py-1.5 rounded-full border border-zinc-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-800/50 backdrop-blur-md flex items-center gap-2" data-badge>
+                    <span class="w-1.5 h-1.5 rounded-full bg-{{ $accentColor }}-500 animate-pulse"></span>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-zinc-600 dark:text-zinc-300">{{ $statusLabel }}</span>
+                </div>
             </div>
         </div>
 
-        <!-- Colonne Droite : Message et Actions -->
-        <div data-error-content class="md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl">
-            <!-- En-tête marque -->
-            <div class="mb-10 flex items-center">
-                <a href="{{ $homeUrl }}" wire:navigate
-                    class="inline-block hover:opacity-80 transition-transform hover:scale-105 duration-300">
-                    <img src="{{ $appLogo }}" alt="{{ $appName }}" class="h-24 w-auto object-contain drop-shadow-xl">
+        <!-- Right Panel: Content -->
+        <div class="relative w-full md:w-1/2 h-[60vh] md:h-full bg-white dark:bg-zinc-950 flex flex-col justify-between overflow-y-auto" data-panel-right>
+
+            <!-- Logo Header -->
+            <div class="p-8 md:p-12 lg:p-16 pb-0" data-stagger>
+                <a href="{{ $homeUrl }}" wire:navigate class="inline-block hover:opacity-80 transition-opacity">
+                    <img src="{{ $appLogo }}" alt="{{ $appName }}" class="h-10 w-auto object-contain grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                 </a>
             </div>
 
-            <!-- Contenu d'erreur -->
-            <div class="grow">
-                <h2 class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight leading-tight">
+            <!-- Main Copy -->
+            <div class="p-8 md:p-12 lg:p-16 grow flex flex-col justify-center">
+                <h2 class="text-3xl md:text-5xl font-bold font-serif text-zinc-900 dark:text-zinc-50 tracking-tight leading-tight mb-4" data-stagger>
                     {{ $statusMessage }}
                 </h2>
-                <p class="text-slate-500 dark:text-zinc-400 text-lg sm:text-xl mb-12 leading-relaxed max-w-lg font-medium">
+
+                <p class="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-lg mb-10" data-stagger>
                     {{ $statusDescription }}
                 </p>
 
-                <!-- Prochaines étapes (si présentes) -->
                 @if (count($nextSteps) > 0)
-                    <div class="mb-10 bg-slate-50 border border-slate-100 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Prochaines actions
-                            possibles</h3>
+                    <div class="mb-10 space-y-4" data-stagger>
+                        <h3 class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Pistes de solution</h3>
                         <ul class="space-y-3">
                             @foreach ($nextSteps as $step)
-                                <li class="flex items-start text-sm text-slate-600">
-                                    <svg class="w-5 h-5 text-slate-400 mr-3 mt-0.5 shrink-0" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span>{{ $step }}</span>
+                                <li class="flex items-start text-zinc-600 dark:text-zinc-400">
+                                    <svg class="w-5 h-5 text-zinc-300 dark:text-zinc-600 mr-3 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                    <span class="text-[15px]">{{ $step }}</span>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
+
+                <!-- Actions (No shadow, border + minimal) -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 mt-2" data-stagger>
+                    <a href="{{ $primaryUrl }}"
+                        class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-md bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 font-medium text-sm transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none">
+                        @if ($primaryIcon === 'refresh')
+                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                        @endif
+                        {{ $primaryLabel }}
+                    </a>
+
+                    <a href="{{ $canGoBack ? $previousUrl : $homeUrl }}"
+                        class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-md bg-transparent border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium text-sm transition-all hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-100 active:scale-[0.98] focus:outline-none">
+                        {{ __('Retour') }}
+                    </a>
+                </div>
             </div>
 
-            <!-- Actions -->
-            <div class="flex flex-col sm:flex-row items-center gap-4 mt-8">
-                <a href="{{ $primaryUrl }}"
-                    class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-current/20 hover:-translate-y-0.5 focus:outline-none focus:ring-4 {{ $btnPrimaryClass }}">
-                    @if ($primaryIcon === 'refresh')
-                        <svg class="w-5 h-5 mr-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                    @else
-                        <svg class="w-5 h-5 mr-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                    @endif
-                    {{ $primaryLabel }}
+            <!-- Footer Link -->
+            <div class="p-8 md:p-12 lg:p-16 pt-0 mt-auto" data-stagger>
+                <a href="mailto:{{ $supportEmail }}" class="inline-flex items-center text-sm font-medium text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                    Support technique
                 </a>
-
-                <a href="{{ $canGoBack ? $previousUrl : $homeUrl }}"
-                    class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm transition-all duration-200 hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus:ring-4 focus:ring-slate-100">
-                    <svg class="w-5 h-5 mr-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    {{ __('Retour') }}
-                </a>
-
-                <a href="mailto:{{ $supportEmail }}"
-                    class="hidden sm:inline-flex ml-auto items-center justify-center p-3.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
-                    aria-label="Support">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                </a>
-            </div>
-
-            <div class="mt-8 sm:hidden text-center">
-                <a href="mailto:{{ $supportEmail }}"
-                    class="text-sm font-medium text-slate-500 hover:text-slate-800">Contacter le support</a>
             </div>
         </div>
     </div>
 
+    <!-- GSAP Animation Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const card = document.querySelector('[data-error-card]');
-            const illustration = document.querySelector('[data-error-illustration]');
-            const floatingSvg = document.querySelector('[data-error-floating-svg]');
-            const errorCode = document.querySelector('[data-error-code]');
-            const errorTitle = document.querySelector('[data-error-title]');
-            const content = document.querySelector('[data-error-content]');
+            gsap.config({ nullTargetWarn: false });
 
-            if (!card || !illustration || !floatingSvg || !errorCode || !errorTitle || !content) {
-                return;
-            }
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-            gsap.from(card, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' });
-            gsap.from(illustration, { scale: 0.8, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(1.5)' });
-            gsap.from(errorCode, { y: 20, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power2.out' });
-            gsap.from(errorTitle, { y: 20, opacity: 0, duration: 0.6, delay: 0.5, ease: 'power2.out' });
-            gsap.from(content, { x: 30, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
-            gsap.to(floatingSvg, { y: -15, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            // 1. Initial State Setup
+            gsap.set('[data-code-char]', { yPercent: 100 });
+            gsap.set('[data-badge], [data-svg], [data-shapes]', { autoAlpha: 0, scale: 0.95 });
+            gsap.set('[data-stagger]', { autoAlpha: 0, y: 20 });
+            gsap.set('[data-panel-left]', { xPercent: -5 });
+            gsap.set('[data-panel-right]', { xPercent: 5 });
+
+            // 2. Play Animation
+            tl.to(['[data-panel-left]', '[data-panel-right]'], {
+                xPercent: 0,
+                duration: 1.2,
+                ease: 'power4.out'
+            })
+            .to('[data-code-char]', {
+                yPercent: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'back.out(1.2)'
+            }, "-=0.8")
+            .to('[data-svg]', {
+                autoAlpha: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: 'power2.out'
+            }, "-=0.6")
+            .to('[data-shapes]', {
+                autoAlpha: 1,
+                scale: 1,
+                duration: 2
+            }, "-=1.5")
+            .to('[data-badge]', {
+                autoAlpha: 1,
+                scale: 1,
+                duration: 0.6,
+                ease: 'back.out(1.5)'
+            }, "-=1.2")
+            .to('[data-stagger]', {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.1
+            }, "-=1.2");
+
+            // 3. Continuous floating animation for the SVG background
+            gsap.to('[data-svg]', {
+                rotation: 5,
+                y: -15,
+                duration: 6,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+
+            // Continuous subtle shape movement
+            gsap.to('[data-shapes] div:first-child', {
+                x: 30, y: 30, duration: 8, repeat: -1, yoyo: true, ease: 'sine.inOut'
+            });
+            gsap.to('[data-shapes] div:last-child', {
+                x: -30, y: -30, duration: 10, repeat: -1, yoyo: true, ease: 'sine.inOut'
+            });
         });
     </script>
 </body>

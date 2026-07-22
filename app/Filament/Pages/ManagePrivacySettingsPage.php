@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Enums\NavigationGroup;
 use App\Settings\PrivacySettings;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -50,6 +51,15 @@ class ManagePrivacySettingsPage extends SettingsPage
                     ->icon('heroicon-o-shield-check')
                     ->columnSpanFull()
                     ->schema([
+                        TextInput::make('hero_badge')
+                            ->label('Badge du Hero')
+                            ->maxLength(100),
+                        TextInput::make('hero_title')
+                            ->label('Titre du Hero')
+                            ->maxLength(255),
+                        TextInput::make('hero_subtitle')
+                            ->label('Sous-titre du Hero')
+                            ->maxLength(255),
                         RichEditor::make('content')
                             ->label('Contenu')
                             ->required()

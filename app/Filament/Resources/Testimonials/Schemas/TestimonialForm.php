@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Testimonials\Schemas;
 
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -34,6 +35,26 @@ class TestimonialForm
                                 TextInput::make('company')
                                     ->maxLength(255)
                                     ->label('Entreprise / Organisation'),
+
+                                TextInput::make('profile_url')
+                                    ->url()
+                                    ->maxLength(255)
+                                    ->label('Lien vers le profil (LinkedIn, etc.)'),
+
+                                TextInput::make('platform')
+                                    ->maxLength(255)
+                                    ->label('Plateforme (ex: Malt, Upwork)'),
+
+                                Select::make('rating')
+                                    ->options([
+                                        1 => '1 étoile',
+                                        2 => '2 étoiles',
+                                        3 => '3 étoiles',
+                                        4 => '4 étoiles',
+                                        5 => '5 étoiles',
+                                    ])
+                                    ->default(5)
+                                    ->label('Évaluation (sur 5)'),
                             ]),
                     ]),
 
@@ -51,6 +72,16 @@ class TestimonialForm
                             ->maxSize(2048)
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->helperText('Format carré recommandé. Max 2 Mo.'),
+
+                        SpatieMediaLibraryFileUpload::make('company_logo')
+                            ->collection('company_logo')
+                            ->image()
+                            ->disk('public')
+                            ->directory('testimonials/logos')
+                            ->visibility('public')
+                            ->maxSize(2048)
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                            ->helperText('Logo de l\'entreprise. Max 2 Mo.'),
                     ]),
 
                 Section::make('Témoignage')

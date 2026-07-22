@@ -113,7 +113,12 @@ class ProjectForm
                             ->appendFiles()
                             ->panelLayout('grid')
                             ->columnSpanFull()
-                            ->helperText('Images supplémentaires (max 10 fichiers, 5MB chacun). Glissez pour réorganiser.'),
+                            ->customProperties([
+                                'title' => '',
+                                'description' => '',
+                                'alt' => '',
+                            ])
+                            ->helperText('Images supplémentaires (max 10 fichiers, 5MB chacun). Glissez pour réorganiser. Cliquez sur une image pour ajouter un titre, une description et un texte alternatif.'),
                     ]),
 
                 // ========== NOUVELLE SECTION : DOCUMENTS PDF ==========
@@ -169,6 +174,20 @@ class ProjectForm
                                     ->required()
                                     ->default('ongoing'),
 
+                                TextInput::make('website_url')
+                                    ->label('URL du site en ligne')
+                                    ->url()
+                                    ->maxLength(255)
+                                    ->placeholder('https://example.com'),
+
+                                TextInput::make('repository_url')
+                                    ->label('URL du code source')
+                                    ->url()
+                                    ->maxLength(255)
+                                    ->placeholder('https://github.com/username/repository'),
+                            ]),
+                        Grid::make(2)
+                            ->schema([
                                 DatePicker::make('start_date')
                                     ->label('Date de début')
                                     ->native(false)
@@ -180,6 +199,54 @@ class ProjectForm
                                     ->displayFormat('d/m/Y')
                                     ->after('start_date'),
                             ]),
+                    ]),
+
+                Section::make('Étude de cas')
+                    ->icon('heroicon-o-academic-cap')
+                    ->collapsed()
+                    ->schema([
+                        RichEditor::make('case_study_problem')
+                            ->label('Problématique')
+                            ->columnSpanFull()
+                            ->json()
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'strike', 'link'],
+                                [ToolbarButtonGroup::make('Heading', ['h2', 'h3'])->textualButtons()->icon('fi-o-heading')],
+                                ['blockquote', 'bulletList', 'orderedList'],
+                                ['undo', 'redo'],
+                            ]),
+                        RichEditor::make('case_study_solution')
+                            ->label('Solution apportée')
+                            ->columnSpanFull()
+                            ->json()
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'strike', 'link'],
+                                [ToolbarButtonGroup::make('Heading', ['h2', 'h3'])->textualButtons()->icon('fi-o-heading')],
+                                ['blockquote', 'bulletList', 'orderedList'],
+                                ['undo', 'redo'],
+                            ]),
+                        RichEditor::make('case_study_results')
+                            ->label('Résultats obtenus')
+                            ->columnSpanFull()
+                            ->json()
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'strike', 'link'],
+                                [ToolbarButtonGroup::make('Heading', ['h2', 'h3'])->textualButtons()->icon('fi-o-heading')],
+                                ['blockquote', 'bulletList', 'orderedList'],
+                                ['undo', 'redo'],
+                            ]),
+                    ]),
+
+                Section::make('SEO')
+                    ->icon('heroicon-o-globe-alt')
+                    ->collapsed()
+                    ->schema([
+                        TextInput::make('seo_title')
+                            ->label('Titre SEO')
+                            ->maxLength(255),
+                        TextInput::make('seo_description')
+                            ->label('Description SEO')
+                            ->maxLength(255),
                     ]),
 
                 Section::make('Paramètres')

@@ -34,85 +34,188 @@ class PostSeeder extends Seeder
         $categoryIds = PostCategory::pluck('id')->toArray();
 
         $themes = [
-            'agriculture' => [
+            // ---------- Développement Web (existant) ----------
+            'laravel' => [
                 'titles' => [
-                    'Techniques de culture du maïs en zone tropicale',
-                    'L\'agroécologie pour une production durable',
-                    'Gestion intégrée des sols agricoles',
-                    'Irrigation : systèmes économes pour petits producteurs',
-                    'Semences améliorées : atouts et précautions',
+                    'Pourquoi Laravel est le meilleur framework PHP en 2025',
+                    'Laravel 11 : découvrez les nouvelles fonctionnalités',
+                    'Comment organiser son code avec les Actions Laravel',
+                    'Les secrets des Jobs & Queues pour des applications performantes',
+                    'Créer une API RESTful avec Laravel Sanctum en 30 minutes',
                 ],
-                'tags' => ['agriculture', 'maïs', 'agroécologie', 'sol', 'irrigation'],
+                'tags' => ['Laravel', 'PHP', 'API', 'Queues', 'Sanctum'],
             ],
-            'elevage' => [
+            'livewire' => [
                 'titles' => [
-                    'Élevage de poules pondeuses en milieu rural',
-                    'Alimentation des bovins en saison sèche',
-                    'Prévention des maladies animales courantes',
-                    'Mise en place d\'un élevage caprin',
-                    'Production de fourrage de qualité',
+                    'Livewire 4 : ce qui change pour les développeurs',
+                    'Créer un formulaire multi‑étapes avec Livewire',
+                    'Optimiser les performances de vos composants Livewire',
+                    'Livewire vs React/Inertia : comment choisir ?',
+                    'Gestion d’état avancée avec Livewire',
                 ],
-                'tags' => ['élevage', 'bovins', 'caprins', 'aviculture', 'santé animale'],
+                'tags' => ['Livewire', 'TALL', 'Alpine.js', 'Performance', 'État'],
             ],
-            'nutrition' => [
+            'react-inertia' => [
                 'titles' => [
-                    'Alimentation des nourrissons : les bonnes pratiques',
-                    'Repas équilibrés pour femmes enceintes et allaitantes',
-                    'Valorisation des protéines végétales',
-                    'Démonstrations culinaires à base d\'aliments locaux',
-                    'L\'importance de la diversification alimentaire',
+                    'Démarrer avec React et Inertia dans Laravel',
+                    'Construire une SPA moderne avec React, Inertia et Tailwind',
+                    'Inertia 2.0 : les nouveautés à ne pas manquer',
+                    'Partager les données entre Laravel et React avec Inertia',
+                    'Authentification avec Inertia et Laravel Breeze',
                 ],
-                'tags' => ['nutrition', 'enfants', 'femmes enceintes', 'protéines', 'aliments locaux'],
+                'tags' => ['React', 'Inertia.js', 'SPA', 'Tailwind', 'Authentification'],
+            ],
+            'filament' => [
+                'titles' => [
+                    'FilamentPHP : l’outil ultime pour les panneaux d’administration',
+                    'Créer un plugin Filament en 5 étapes',
+                    'Personnaliser le tableau de bord Filament pour vos clients',
+                    'Gestion des médias avec Filament et Spatie Media Library',
+                    'Filament vs Nova : lequel choisir en 2025 ?',
+                ],
+                'tags' => ['Filament', 'Administration', 'Plugins', 'Media', 'Nova'],
+            ],
+            'tailwind' => [
+                'titles' => [
+                    'Tailwind CSS v4 : les nouveautés à connaître',
+                    'Créer un thème sombre avec Tailwind en 10 minutes',
+                    'Animations modernes avec Tailwind et Alpine.js',
+                    'Tailwind pour les débutants : guide complet',
+                    'Comment structurer son CSS avec @apply et @layer',
+                ],
+                'tags' => ['Tailwind CSS', 'CSS', 'Thème sombre', 'Animations', 'Débutant'],
+            ],
+            'alpine' => [
+                'titles' => [
+                    'Alpine.js : le couteau suisse du front‑end',
+                    'Alpine + Livewire : duo gagnant pour TALL stack',
+                    'Créer des composants réutilisables avec Alpine.data',
+                    'Animations avancées avec Alpine et GSAP',
+                    'Alpine.js 4 : qu’attendre de la prochaine version ?',
+                ],
+                'tags' => ['Alpine.js', 'JavaScript', 'TALL', 'GSAP', 'Composants'],
+            ],
+            'dev-web' => [
+                'titles' => [
+                    'Les bonnes pratiques de développement web en 2025',
+                    'Accessibilité web : pourquoi et comment s’y mettre',
+                    'Sécuriser son application Laravel : checklist',
+                    'Comprendre et utiliser Git comme un pro',
+                    'Docker pour les développeurs Laravel',
+                ],
+                'tags' => ['Bonnes pratiques', 'Accessibilité', 'Sécurité', 'Git', 'Docker'],
+            ],
+            'carriere' => [
+                'titles' => [
+                    'Devenir développeur freelance : les clés pour réussir',
+                    'Comment fixer ses tarifs en tant que développeur indépendant',
+                    'Organiser sa veille technologique efficacement',
+                    'Soft skills indispensables pour les développeurs',
+                    'Trouver ses premiers clients en développement web',
+                ],
+                'tags' => ['Freelance', 'Carrière', 'Tarifs', 'Veille', 'Clients'],
             ],
             'projets' => [
                 'titles' => [
-                    'Projet de renforcement de la résilience à Luiza',
-                    'Bilan du programme de nutrition sensible',
-                    'Construction d\'entrepôts communautaires à Gemena',
-                    'Formation des coopératives agricoles au Kasaï Central',
-                    'Distribution de kits AGR : impact sur les bénéficiaires',
+                    'Retour d’expérience sur la création de mon portfolio TALL',
+                    'Développer une application de gestion de projets avec Filament',
+                    'Comment j’ai migré une app React vers Inertia',
+                    'Réussir son projet de refonte de site avec Laravel',
+                    'Les leçons apprises en tant que développeur solo',
                 ],
-                'tags' => ['projets', 'résilience', 'nutrition', 'entrepôts', 'coopératives'],
+                'tags' => ['Projets', 'Portfolio', 'Migration', 'Refonte', 'Solo'],
             ],
-            'formation' => [
+
+            // ---------- NOUVEAUX THÈMES ----------
+            'office' => [
                 'titles' => [
-                    'Atelier sur la gestion post-récolte',
-                    'Formation en alphabétisation fonctionnelle',
-                    'Sensibilisation à la nutrition infantile',
-                    'Atelier de fabrication de foyers améliorés',
-                    'Formation en entrepreneurial agricole',
+                    'Maîtriser Word : des raccourcis aux modèles professionnels',
+                    'Excel avancé : tableaux croisés dynamiques et macros',
+                    'Excel pour les débutants : les bases incontournables',
+                    'Word et Excel : automatisez vos tâches avec VBA',
+                    'PowerPoint : créer des présentations impactantes',
                 ],
-                'tags' => ['formation', 'alphabétisation', 'nutrition', 'foyers améliorés', 'entrepreneuriat'],
+                'tags' => ['Word', 'Excel', 'Bureautique', 'VBA', 'PowerPoint'],
             ],
-            'temoignages' => [
+            'analyse-donnees' => [
                 'titles' => [
-                    'Histoire de Marie, productrice à Luiza',
-                    'Témoignage de Jean, bénéficiaire du projet',
-                    'Retour d\'expérience d\'une coopérative',
-                    'Impact du programme sur la vie des femmes',
-                    'Paroles de partenaires : PAM et CADERSA',
+                    'Introduction à l’analyse de données : concepts et méthodes',
+                    'Nettoyer et préparer vos données avec Python (Pandas)',
+                    'Visualisation de données avec Power BI : premiers pas',
+                    'Power BI Desktop : créer des rapports interactifs',
+                    'Analyse de données avec Excel : Power Query et Power Pivot',
                 ],
-                'tags' => ['témoignage', 'bénéficiaire', 'coopérative', 'femmes', 'partenaires'],
+                'tags' => ['Analyse de données', 'Power BI', 'Excel', 'Python', 'Visualisation'],
             ],
-            'environnement' => [
+            'uml' => [
                 'titles' => [
-                    'Reboisement communautaire : bilan de la campagne',
-                    'Lutte antiérosive : techniques efficaces',
-                    'Agroforesterie pour préserver la biodiversité',
-                    'Gestion durable des déchets agricoles',
-                    'Adaptation aux changements climatiques',
+                    'Modélisation UML : les diagrammes indispensables',
+                    'Diagramme de classes UML : guide complet',
+                    'Cas d’utilisation UML : capturer les besoins fonctionnels',
+                    'Diagramme de séquence UML : modéliser les interactions',
+                    'Outils UML gratuits pour développeurs',
                 ],
-                'tags' => ['environnement', 'reboisement', 'antiérosive', 'agroforesterie', 'climat'],
+                'tags' => ['UML', 'Modélisation', 'Diagrammes', 'Conception', 'Outils'],
             ],
-            'partenariats' => [
+            'web-semantique' => [
                 'titles' => [
-                    'Collaboration avec le PAM pour la sécurité alimentaire',
-                    'Appui de la FAO à l\'agriculture familiale',
-                    'Partenariat avec le gouvernement congolais',
-                    'Synergie avec les ONG locales',
-                    'Coopération internationale pour le développement rural',
+                    'Introduction au Web sémantique : au-delà du Web 2.0',
+                    'Comprendre RDF et les triplets sémantiques',
+                    'OWL et les ontologies : structurer les connaissances',
+                    'SPARQL : interroger le Web des données',
+                    'Applications du Web sémantique dans les entreprises',
                 ],
-                'tags' => ['partenariat', 'PAM', 'FAO', 'gouvernement', 'ONG'],
+                'tags' => ['Web sémantique', 'RDF', 'OWL', 'SPARQL', 'Ontologies'],
+            ],
+            'mysql' => [
+                'titles' => [
+                    'MySQL pour les débutants : installation et premiers pas',
+                    'Optimiser les requêtes MySQL : index et EXPLAIN',
+                    'MySQL et PHP : créer une application CRUD',
+                    'Sauvegardes et restaurations MySQL : les bonnes pratiques',
+                    'MySQL 8.0 : nouveautés et fonctionnalités avancées',
+                ],
+                'tags' => ['MySQL', 'Base de données', 'SQL', 'Optimisation', 'CRUD'],
+            ],
+            'postgresql' => [
+                'titles' => [
+                    'PostgreSQL : pourquoi et quand l’utiliser ?',
+                    'Installer et configurer PostgreSQL sur Linux',
+                    'PostgreSQL vs MySQL : lequel choisir ?',
+                    'Les fonctions de fenêtrage avancées avec PostgreSQL',
+                    'PostGIS : données géospatiales avec PostgreSQL',
+                ],
+                'tags' => ['PostgreSQL', 'Base de données', 'SQL', 'PostGIS', 'Comparatif'],
+            ],
+            'sqlserver' => [
+                'titles' => [
+                    'SQL Server pour les développeurs : prise en main',
+                    'T-SQL : les spécificités de SQL Server',
+                    'SQL Server Management Studio : guide complet',
+                    'Haute disponibilité avec SQL Server Always On',
+                    'Migrer de MySQL à SQL Server : ce qu’il faut savoir',
+                ],
+                'tags' => ['SQL Server', 'T-SQL', 'Base de données', 'Migration', 'SSMS'],
+            ],
+            'docker' => [
+                'titles' => [
+                    'Docker pour les débutants : conteneurisez vos applications',
+                    'Créer un fichier Docker Compose pour un projet Laravel',
+                    'Docker Swarm vs Kubernetes : quel orchestrateur choisir ?',
+                    'Docker en production : bonnes pratiques de sécurité',
+                    'Docker et les bases de données : conteneuriser MySQL/PostgreSQL',
+                ],
+                'tags' => ['Docker', 'Conteneurisation', 'Docker Compose', 'Kubernetes', 'Sécurité'],
+            ],
+            'git' => [
+                'titles' => [
+                    'Git : les commandes indispensables à connaître',
+                    'Git Flow : une stratégie de branches efficace',
+                    'Résoudre les conflits Git comme un pro',
+                    'GitHub Actions : automatisez vos workflows',
+                    'Git avancé : rebase interactif et cherry-pick',
+                ],
+                'tags' => ['Git', 'Versioning', 'GitHub', 'Git Flow', 'CI/CD'],
             ],
         ];
 
@@ -160,7 +263,7 @@ class PostSeeder extends Seeder
                     'excerpt' => $this->generateExcerpt($title),
                     'content' => $this->generateLongContent($themeKey),
                     'metadata' => [
-                        'author_bio' => 'Contributeur de CADERSA',
+                        'author_bio' => 'Développeur Full‑Stack TALL & React',
                         'difficulty' => ['Débutant', 'Intermédiaire', 'Avancé'][array_rand(['Débutant', 'Intermédiaire', 'Avancé'])],
                     ],
                     'status' => $status,
@@ -168,7 +271,7 @@ class PostSeeder extends Seeder
                     'views_count' => $status === 'published' ? rand(50, 50000) : 0,
                     'likes_count' => $status === 'published' ? rand(5, 200) : 0,
                     'comments_count' => $status === 'published' ? rand(0, 50) : 0,
-                    'meta_title' => $title.' | CADERSA',
+                    'meta_title' => $title.' | Gauthier Lobanga',
                     'meta_description' => Str::limit('Article traitant de '.strtolower($title), 160),
                     'meta_keywords' => implode(',', $theme['tags']),
                     'published_at' => $publishedAt,
@@ -210,7 +313,7 @@ class PostSeeder extends Seeder
             $remaining = 30 - Post::count();
             for ($i = 0; $i < $remaining; $i++) {
                 do {
-                    $title = 'Article complémentaire '.($i + 1);
+                    $title = 'Astuce & Ressource #'.($i + 1);
                 } while (in_array($title, $this->usedTitles));
                 $this->usedTitles[] = $title;
 
@@ -242,15 +345,15 @@ class PostSeeder extends Seeder
                     'views_count' => rand(10, 1000),
                     'likes_count' => rand(0, 20),
                     'comments_count' => rand(0, 5),
-                    'meta_title' => $title,
-                    'meta_description' => Str::limit('Article complémentaire '.($i + 1), 160),
-                    'meta_keywords' => implode(',', ['article', 'complémentaire', 'cadersa']),
+                    'meta_title' => $title.' | Gauthier Lobanga',
+                    'meta_description' => Str::limit('Astuce & Ressource #'.($i + 1), 160),
+                    'meta_keywords' => 'astuce,ressource,développement',
                     'published_at' => $publishedAt,
                     'scheduled_for' => null,
                     'expires_at' => null,
                 ]);
 
-                $tags = ['article', 'complémentaire', 'cadersa'];
+                $tags = ['Astuces', 'Ressources'];
                 $tagIds = [];
                 foreach ($tags as $tagName) {
                     $tagSlug = Str::slug($tagName);
@@ -285,12 +388,19 @@ class PostSeeder extends Seeder
 
     private function generateExcerpt(string $title): array
     {
-        $intros = ['Découvrez dans cet article', 'Guide complet sur', 'Tout ce qu\'il faut savoir sur', 'Analyse de', 'Nos conseils pour'];
+        $intros = [
+            'Dans cet article, je vous explique',
+            'Découvrez comment',
+            'Guide complet sur',
+            'Tout ce qu’il faut savoir sur',
+            'Retour d’expérience sur',
+            'Mes conseils pour',
+        ];
         $intro = $intros[array_rand($intros)];
         $subject = str_replace(['Comment ', 'Pourquoi ', 'Guide ', 'Les '], '', $title);
         $subject = strtolower($subject);
 
-        $text = $intro.' '.$subject.'. Un contenu riche et informatif pour mieux comprendre les enjeux du développement rural.';
+        $text = $intro.' '.$subject.'. Un contenu riche et pratique pour les développeurs web d’aujourd’hui.';
 
         return [
             'type' => 'doc',
@@ -311,27 +421,28 @@ class PostSeeder extends Seeder
         $numParagraphs = rand(8, 15);
 
         $leadTexts = [
-            'agriculture' => 'L\'agriculture reste le pilier fondamental de la sécurité alimentaire en République Démocratique du Congo.',
-            'elevage' => 'L\'élevage familial constitue une source essentielle de protéines et de revenus pour les communautés rurales.',
-            'nutrition' => 'Une alimentation équilibrée est la clé d\'une bonne santé, surtout pour les enfants et les femmes enceintes.',
-            'projets' => 'Les projets de développement rural visent à améliorer durablement les conditions de vie des populations.',
-            'formation' => 'Le renforcement des capacités permet aux communautés de s\'approprier les techniques innovantes.',
-            'temoignages' => 'Les témoignages des bénéficiaires illustrent l\'impact concret des actions sur le terrain.',
-            'environnement' => 'La protection de l\'environnement est indissociable du développement rural durable.',
-            'partenariats' => 'Les partenariats stratégiques permettent de mutualiser les ressources et les expertises.',
+            'laravel' => 'Laravel continue de s’imposer comme le framework PHP de choix pour les développeurs web exigeants.',
+            'livewire' => 'Livewire simplifie la création d’interfaces dynamiques sans quitter le confort de Laravel.',
+            'react-inertia' => 'L’association de React et Inertia offre une expérience de développement moderne et réactive.',
+            'filament' => 'FilamentPHP révolutionne la création de panneaux d’administration avec une élégance inégalée.',
+            'tailwind' => 'Tailwind CSS permet de créer des interfaces élégantes et maintenables sans effort.',
+            'alpine' => 'Alpine.js apporte la réactivité nécessaire à vos composants sans la lourdeur d’un framework complet.',
+            'dev-web' => 'Le développement web évolue constamment, et rester à jour est essentiel pour tout professionnel.',
+            'carriere' => 'Réussir sa carrière de développeur demande bien plus que des compétences techniques.',
+            'projets' => 'Chaque projet est une occasion d’apprendre et de repousser les limites de ses connaissances.',
         ];
 
         $nodes[] = [
             'type' => 'paragraph',
             'attrs' => ['class' => 'lead'],
             'content' => [
-                ['type' => 'text', 'text' => $leadTexts[$themeKey] ?? $leadTexts['agriculture']],
+                ['type' => 'text', 'text' => $leadTexts[$themeKey] ?? $leadTexts['dev-web']],
             ],
         ];
 
         for ($i = 0; $i < $numParagraphs; $i++) {
             if ($i % 3 === 0 && $i > 0) {
-                $headings = ['Contexte et enjeux', 'Méthodologie adoptée', 'Résultats obtenus', 'Leçons apprises', 'Perspectives d\'avenir', 'Recommandations', 'Facteurs clés de succès'];
+                $headings = ['Contexte', 'Mise en pratique', 'Résultats', 'Leçons apprises', 'Perspectives', 'Conseils', 'Pour aller plus loin'];
                 $nodes[] = [
                     'type' => 'heading',
                     'attrs' => ['level' => 2],
@@ -350,7 +461,7 @@ class PostSeeder extends Seeder
                             [
                                 'type' => 'paragraph',
                                 'content' => [
-                                    ['type' => 'text', 'text' => 'Point essentiel concernant '.$themeKey.' ('.($j + 1).')'],
+                                    ['type' => 'text', 'text' => 'Point clé n°'.($j + 1).' sur '.$themeKey],
                                 ],
                             ],
                         ],
@@ -363,11 +474,11 @@ class PostSeeder extends Seeder
             }
 
             $paragraphs = [
-                'Les actions menées dans ce domaine ont démontré leur efficacité sur le terrain, avec des résultats tangibles observés au sein des communautés bénéficiaires.',
-                'La participation active des populations locales constitue un facteur déterminant pour la réussite et la durabilité des interventions.',
-                'Les partenaires techniques et financiers ont apporté un soutien précieux, permettant de déployer des ressources adaptées aux besoins identifiés.',
-                'Les formations dispensées ont permis aux producteurs d\'acquérir des compétences nouvelles, directement applicables dans leurs activités quotidiennes.',
-                'Le suivi régulier des activités a permis d\'ajuster les stratégies en fonction des réalités du terrain et des retours des bénéficiaires.',
+                'J’ai pu constater que cette approche améliore significativement la qualité du code et la productivité de l’équipe.',
+                'Les retours de la communauté confirment l’efficacité de cette méthode, notamment sur des projets de grande envergure.',
+                'Une documentation claire et des exemples concrets facilitent la prise en main, même pour les débutants.',
+                'N’oubliez pas de tester vos composants de manière isolée, cela vous évitera bien des surprises en production.',
+                'L’écosystème Laravel (Forge, Vapor, Envoyer) simplifie le déploiement et la maintenance des applications modernes.',
             ];
             $nodes[] = [
                 'type' => 'paragraph',
@@ -378,9 +489,9 @@ class PostSeeder extends Seeder
 
             if ($i % 7 === 0) {
                 $quotes = [
-                    'Cette initiative a transformé notre façon de travailler la terre. — Témoignage d\'un bénéficiaire',
-                    'Grâce à cette formation, j\'ai pu diversifier mes cultures et améliorer mes rendements. — Producteur local',
-                    'Le soutien reçu nous a permis de créer une coopérative solide et autonome. — Membre d\'une OP',
+                    '“Ce framework a changé ma façon de développer.” — Un développeur passionné',
+                    '“Grâce à ces astuces, j’ai divisé mon temps de développement par deux.” — Freelance expérimenté',
+                    '“La communauté est incroyablement active et solidaire.” — Contributeur open source',
                 ];
                 $nodes[] = [
                     'type' => 'blockquote',
@@ -406,7 +517,7 @@ class PostSeeder extends Seeder
         $nodes[] = [
             'type' => 'paragraph',
             'content' => [
-                ['type' => 'text', 'text' => 'Les actions du CADERSA continuent de porter des fruits dans les communautés rurales. L\'engagement des équipes et le soutien des partenaires restent essentiels pour relever les défis à venir.'],
+                ['type' => 'text', 'text' => 'J’espère que cet article vous aidera dans vos projets. N’hésitez pas à partager vos retours en commentaire !'],
             ],
         ];
 
@@ -435,7 +546,7 @@ class PostSeeder extends Seeder
             $nodes[] = [
                 'type' => 'paragraph',
                 'content' => [
-                    ['type' => 'text', 'text' => 'Contenu informatif sur les activités de développement rural menées par le CADERSA.'],
+                    ['type' => 'text', 'text' => 'Contenu informatif sur le développement web, les outils modernes et les bonnes pratiques.'],
                 ],
             ];
         }

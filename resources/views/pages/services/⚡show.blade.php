@@ -1,3 +1,4 @@
+{{-- resources/views/pages/services/show.blade.php --}}
 <?php
 
 use Livewire\Component;
@@ -17,7 +18,7 @@ new #[Layout('layouts::main')] class extends Component {
     {
         $view->title($this->service->title);
 
-        $imageUrl = $this->service->getFirstMediaUrl('featured') ?: asset('images/cadersa-logo.png');
+        $imageUrl = $this->service->getFirstMediaUrl('featured') ?: asset('images/logo-app.svg');
         $description = $this->service->getPlainTextContent(160);
 
         $schema = [
@@ -28,8 +29,8 @@ new #[Layout('layouts::main')] class extends Component {
             'image' => $imageUrl,
             'url' => route('services.show', $this->service->slug),
             'provider' => [
-                '@type' => 'Organization',
-                'name' => 'CADERSA ASBL',
+                '@type' => 'Person',
+                'name' => 'Gauthier Lobanga',
                 'url' => url('/'),
             ],
         ];
@@ -45,13 +46,12 @@ new #[Layout('layouts::main')] class extends Component {
     #[Computed]
     public function relatedServices()
     {
-        return Service::active()->where('id', '!=', $this->service->id)->ordered()->limit(3)->get();
+        return Service::active()->with('media')->where('id', '!=', $this->service->id)->ordered()->limit(3)->get();
     }
 
     #[Computed]
     public function galleryImages()
     {
-        // Adaptez selon votre modèle
         return $this->service->getMedia('gallery')->map(
             fn($media) => [
                 'url' => $media->getUrl(),
@@ -60,7 +60,6 @@ new #[Layout('layouts::main')] class extends Component {
         );
     }
 
-    // ===== MÉTHODE POUR LES PDF =====
     #[Computed]
     public function pdfs()
     {
@@ -91,17 +90,13 @@ new #[Layout('layouts::main')] class extends Component {
 
     {{-- Hero Section Service --}}
     <section x-cloak class="relative flex min-h-[60vh] items-center overflow-hidden" x-data="serviceHeroReveal()">
-
-        {{-- Background Image --}}
         <div x-ref="bg" class="absolute inset-0">
             @if ($service->hasMedia('image'))
-                <img src="{{ $service->getFirstMediaUrl('image') }}" alt="{{ $service->title }}"
-                    class="h-full w-full object-cover origin-center" loading="eager">
+                <img loading="eager" fetchpriority="high" src="{{ $service->getFirstMediaUrl('image') }}"
+                    alt="{{ $service->title }}" class="h-full w-full object-cover origin-center">
             @else
                 <div class="h-full w-full bg-linear-to-br from-zinc-800 to-zinc-900"></div>
             @endif
-
-            {{-- Overlays identiques à l'accueil --}}
             <div class="absolute inset-0 bg-linear-to-br from-zinc-950/90 via-zinc-900/70 to-emerald-950/70"></div>
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,.20),transparent_45%)]">
             </div>
@@ -110,12 +105,11 @@ new #[Layout('layouts::main')] class extends Component {
             </div>
         </div>
 
-        {{-- Contenu --}}
         <div class="relative z-10 mx-auto max-w-4xl px-6 pt-20 pb-16 text-center lg:px-8">
-            <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-7xl leading-[1.1]">
+            <h1
+                class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tighter">
                 {{ $service->title }}
             </h1>
-
             @if ($service->excerpt)
                 <div x-ref="excerpt" class="mt-8 mx-auto max-w-2xl">
                     <div
@@ -126,36 +120,31 @@ new #[Layout('layouts::main')] class extends Component {
             @endif
         </div>
     </section>
+
     {{-- Contenu & Galerie --}}
     <section class="relative py-20 lg:py-32">
         <div class="mx-auto max-w-4xl px-6 lg:px-8">
-
-            {{-- Contenu Prose --}}
             <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                class="fi-prose max-w-none transition-all duration-1000 ease-out
+                class="fi-prose max-w-none transition-all duration-500 ease-out
                     bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl p-8 md:p-12 w-full">
                 {!! $service->renderRichContent('content') !!}
             </div>
 
-            {{-- Galerie --}}
             @if ($this->galleryImages->isNotEmpty())
                 <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                    class="mt-24 transition-all duration-1000 delay-200 ease-out">
-
+                    class="mt-24 transition-all duration-500 delay-200 ease-out">
                     <div
                         class="mb-10 flex items-center justify-between border-b border-zinc-200 pb-4 dark:border-zinc-800">
                         <h3 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Galerie</h3>
                     </div>
-
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6" x-data="cspState()">
                         @foreach ($this->galleryImages as $index => $image)
                             <div @click="lightbox = true; activeImage = '{{ $image['url'] }}'"
                                 class="group relative aspect-square cursor-zoom-in overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
-                                <img src="{{ $image['thumb'] }}" alt="Galerie"
-                                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    loading="lazy">
+                                <img loading="eager" decoding="async" src="{{ $image['thumb'] }}" alt="Galerie"
+                                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
                                 <div
                                     class="absolute inset-0 bg-linear-to-t from-zinc-900/60 via-zinc-900/0 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                 </div>
@@ -181,9 +170,7 @@ new #[Layout('layouts::main')] class extends Component {
                                 x-transition:leave-end="opacity-0 backdrop-blur-none"
                                 class="fixed inset-0 z-100 flex items-center justify-center bg-zinc-950/90 p-4 sm:p-6"
                                 @keydown.escape.window="lightbox = false" x-cloak>
-
                                 <div class="absolute inset-0" @click="lightbox = false"></div>
-
                                 <button @click="lightbox = false"
                                     class="absolute right-6 top-6 z-10 flex h-12 w-12 items-center justify-center bg-white/10 text-white backdrop-blur-md transition hover:bg-white/20 hover:scale-110">
                                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,7 +178,6 @@ new #[Layout('layouts::main')] class extends Component {
                                             d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
-
                                 <div class="relative z-0 mx-auto max-h-full max-w-7xl" x-show="lightbox"
                                     x-transition:enter="transition ease-out duration-400 delay-100"
                                     x-transition:enter-start="opacity-0 scale-95 translate-y-8"
@@ -209,12 +195,11 @@ new #[Layout('layouts::main')] class extends Component {
                 </div>
             @endif
 
-            {{-- ==================== DOCUMENTS PDF ==================== --}}
-            @if ($service->hasPdf())
+            {{-- Documents PDF --}}
+            @if ($this->hasPdf)
                 <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                    class="mt-24 transition-all duration-1000 delay-300 ease-out">
-
+                    class="mt-24 transition-all duration-500 delay-300 ease-out">
                     <div
                         class="mb-6 flex items-center justify-between border-b border-zinc-200 pb-3 dark:border-zinc-800">
                         <h3 class="text-lg font-semibold text-zinc-900 dark:text-white">
@@ -228,15 +213,12 @@ new #[Layout('layouts::main')] class extends Component {
                             </span>
                         </h3>
                         <span class="text-sm text-zinc-500 dark:text-zinc-400">
-                            {{ $service->getMedia('documents')->count() }} PDF
+                            {{ $this->pdfs->count() }} PDF
                         </span>
                     </div>
-
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                        @foreach ($service->getMedia('documents') as $pdf)
-                            <x-pdf-viewer :pdfUrl="$pdf->getUrl()"
-                                label="{{ $pdf->name ?? ($pdf->file_name ?? 'Lire la brochure') }}"
-                                modalTitle="{{ $pdf->name ?? ($pdf->file_name ?? 'Brochure PDF') }}"
+                        @foreach ($this->pdfs as $pdf)
+                            <x-pdf-viewer :pdfUrl="$pdf['url']" label="{{ $pdf['name'] }}" modalTitle="{{ $pdf['name'] }}"
                                 buttonClass="group flex items-center gap-3 border border-zinc-200/50 bg-white/30 p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300/50 hover:bg-emerald-50/30 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-emerald-700/50 dark:hover:bg-emerald-900/10">
                                 <template x-slot:icon>
                                     <svg class="h-5 w-5 text-emerald-600 dark:text-emerald-400" fill="none"
@@ -248,8 +230,8 @@ new #[Layout('layouts::main')] class extends Component {
                                     </svg>
                                 </template>
                                 <span
-                                    class="flex-1 text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate">{{ $pdf->name ?? ($pdf->file_name ?? 'Document') }}</span>
-                                <span class="text-xs text-zinc-400 dark:text-zinc-500">{{ round($pdf->size / 1024) }}
+                                    class="flex-1 text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate">{{ $pdf['name'] }}</span>
+                                <span class="text-xs text-zinc-400 dark:text-zinc-500">{{ round($pdf['size'] / 1024) }}
                                     KB</span>
                             </x-pdf-viewer>
                         @endforeach
@@ -259,15 +241,13 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     </section>
 
-
     {{-- Services similaires --}}
     @if ($this->relatedServices->isNotEmpty())
         <div class="border-t border-zinc-200 bg-zinc-50/40 py-16 dark:border-zinc-800 dark:bg-zinc-950/50">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
-
                 <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                    class="mb-12 flex flex-col items-center justify-between gap-6 sm:flex-row transition-all duration-700 ease-out">
+                    class="mb-12 flex flex-col items-center justify-between gap-6 sm:flex-row transition-all duration-300 ease-out">
                     <h2 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Découvrez aussi</h2>
                     <a href="{{ route('services.index') }}" wire:navigate
                         class="group inline-flex items-center gap-2 border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-300">
@@ -284,31 +264,26 @@ new #[Layout('layouts::main')] class extends Component {
                     @foreach ($this->relatedServices as $index => $related)
                         <div x-cloak x-data="cspState()" x-intersect.once="shown = true"
                             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                            class="transition-all duration-700 ease-out"
+                            class="transition-all duration-300 ease-out"
                             style="transition-delay: {{ $index * 150 }}ms">
-
                             <a href="{{ route('services.show', $related) }}" wire:navigate
                                 class="group relative flex h-full flex-col border border-zinc-200/50 bg-white transition-all duration-500 ease-out
                                    hover:-translate-y-1 hover:border-emerald-300 hover:shadow hover:shadow-emerald-100/30
                                    dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700 dark:hover:shadow-emerald-900/20">
-
-                                {{-- Image --}}
                                 @if ($related->hasMedia('image'))
                                     <div
                                         class="relative overflow-hidden ring-1 ring-zinc-200 transition duration-500 ease-out group-hover:ring-emerald-300 dark:ring-zinc-700 dark:group-hover:ring-emerald-700">
-                                        <img src="{{ $related->getFirstMediaUrl('image', 'card') }}"
+                                        <img loading="eager" decoding="async"
+                                            src="{{ $related->getFirstMediaUrl('image', 'card') }}"
                                             alt="{{ $related->title }}"
-                                            class="aspect-video w-full object-cover transition duration-700 ease-out group-hover:scale-105"
-                                            loading="lazy" />
+                                            class="aspect-video w-full object-cover transition duration-300 ease-out group-hover:scale-105">
                                     </div>
                                 @endif
-
-                                {{-- Corps --}}
                                 <div class="flex flex-1 flex-col gap-2 p-4">
-                                    {{-- Titre avec losange animé --}}
                                     <div
                                         class="relative transition duration-300 ease-out will-change-transform group-hover:translate-x-4.5">
-                                        <div x-data="rotatingBadge()" class="absolute top-1/2 -left-4 -translate-y-1/2">
+                                        <div x-data="rotatingBadge()"
+                                            class="absolute top-1/2 -left-4 -translate-y-1/2">
                                             <div
                                                 class="translate-x-0.5 opacity-0 transition duration-300 ease-out will-change-transform group-hover:translate-x-0 group-hover:opacity-100">
                                                 <div data-rotating class="flex items-center gap-0.75">
@@ -320,24 +295,19 @@ new #[Layout('layouts::main')] class extends Component {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <h3
                                             class="line-clamp-1 font-medium text-zinc-900 transition-colors duration-300
                                                group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                             {{ $related->title }}
                                         </h3>
                                     </div>
-
-                                    {{-- Extrait --}}
                                     <p class="line-clamp-2 text-sm text-zinc-500 dark:text-zinc-400">
                                         {{ $related->short_excerpt ?? $related->getPlainTextContent(120) }}
                                     </p>
                                 </div>
-
-                                {{-- Barre d'action --}}
                                 <div class="flex h-11 items-stretch text-sm font-medium">
                                     <div
-                                        class="inline-flex grow items-center justify-between gap-3 px-4 
+                                        class="inline-flex grow items-center justify-between gap-3 px-4
                                             bg-emerald-50 text-emerald-700 transition-all duration-300 ease-out
                                             group-hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:group-hover:bg-emerald-900/30">
                                         <span>Découvrir</span>
@@ -358,4 +328,3 @@ new #[Layout('layouts::main')] class extends Component {
         </div>
     @endif
 </div>
-
