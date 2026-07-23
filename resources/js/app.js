@@ -380,6 +380,9 @@ document.addEventListener("alpine:init", () => {
                     typeof gsap === "undefined" ||
                     typeof ScrollTrigger === "undefined"
                 ) {
+                    console.warn(
+                        "GSAP/ScrollTrigger non disponibles pour le footer",
+                    );
                     return;
                 }
 
@@ -421,15 +424,22 @@ document.addEventListener("alpine:init", () => {
                         animations[type] || animations["enter-from-left"];
 
                     if (type === "text-reveal-words") {
-                        const split = new SplitText(el, { type: "words" });
-                        gsap.from(split.words, {
-                            ...config,
-                            scrollTrigger: {
-                                trigger: el,
-                                start: "top 85%",
-                                toggleActions: "play none none none",
-                            },
-                        });
+                        try {
+                            const split = new SplitText(el, { type: "words" });
+                            gsap.from(split.words, {
+                                ...config,
+                                scrollTrigger: {
+                                    trigger: el,
+                                    start: "top 85%",
+                                    toggleActions: "play none none none",
+                                },
+                            });
+                        } catch (e) {
+                            console.warn(
+                                "SplitText failed on footer element",
+                                e,
+                            );
+                        }
                     } else {
                         gsap.from(el, {
                             ...config,
@@ -1122,15 +1132,23 @@ document.addEventListener("alpine:init", () => {
                         scale: 1.05,
                     });
 
-                    tl.to(refs.bgImage, {
-                        scale: 1,
-                        duration: 1.2,
-                        ease: "power3.out",
-                    }, 0);
+                    tl.to(
+                        refs.bgImage,
+                        {
+                            scale: 1,
+                            duration: 1.2,
+                            ease: "power3.out",
+                        },
+                        0,
+                    );
                 }
 
                 if (refs.title) {
-                    tl.from(refs.title, { y: 26, opacity: 0, duration: 0.5 }, 0.15);
+                    tl.from(
+                        refs.title,
+                        { y: 26, opacity: 0, duration: 0.5 },
+                        0.15,
+                    );
                 }
 
                 const authorElement = getAuthorElement();
@@ -1138,7 +1156,9 @@ document.addEventListener("alpine:init", () => {
                     let authorSplit = null;
                     try {
                         if (typeof SplitText !== "undefined") {
-                            authorSplit = new SplitText(authorElement, { type: "words" });
+                            authorSplit = new SplitText(authorElement, {
+                                type: "words",
+                            });
                         }
                     } catch (error) {
                         authorSplit = null;
@@ -1159,7 +1179,12 @@ document.addEventListener("alpine:init", () => {
                     } else {
                         tl.from(
                             refs.author,
-                            { opacity: 0, y: 12, duration: 0.35, ease: "power2.out" },
+                            {
+                                opacity: 0,
+                                y: 12,
+                                duration: 0.35,
+                                ease: "power2.out",
+                            },
                             "-=0.25",
                         );
                     }
@@ -1176,7 +1201,12 @@ document.addEventListener("alpine:init", () => {
                 if (refs.buttons) {
                     tl.from(
                         refs.buttons,
-                        { opacity: 0, y: 10, duration: 0.35, ease: "power2.out" },
+                        {
+                            opacity: 0,
+                            y: 10,
+                            duration: 0.35,
+                            ease: "power2.out",
+                        },
                         "-=0.15",
                     );
                 }
@@ -1263,12 +1293,15 @@ document.addEventListener("alpine:init", () => {
                 { scale: 1.05, duration: 1.4, ease: "power3.out" },
                 0,
             );
-            const authorElement = refs.author?.querySelector?.("p") || refs.author;
+            const authorElement =
+                refs.author?.querySelector?.("p") || refs.author;
             let authorSplit = null;
             if (authorElement) {
                 try {
                     if (typeof SplitText !== "undefined") {
-                        authorSplit = new SplitText(authorElement, { type: "words" });
+                        authorSplit = new SplitText(authorElement, {
+                            type: "words",
+                        });
                     }
                 } catch (error) {
                     authorSplit = null;
@@ -1339,12 +1372,15 @@ document.addEventListener("alpine:init", () => {
                 { scale: 1.05, duration: 1.4, ease: "power3.out" },
                 0,
             );
-            const authorElement = refs.author?.querySelector?.("p") || refs.author;
+            const authorElement =
+                refs.author?.querySelector?.("p") || refs.author;
             let authorSplit = null;
             if (authorElement) {
                 try {
                     if (typeof SplitText !== "undefined") {
-                        authorSplit = new SplitText(authorElement, { type: "words" });
+                        authorSplit = new SplitText(authorElement, {
+                            type: "words",
+                        });
                     }
                 } catch (error) {
                     authorSplit = null;
@@ -1871,6 +1907,10 @@ const initAnchorSmoothScroll = () => {
 document.addEventListener("livewire:navigated", () => {
     setTimeout(initGlobalAnimations, 50);
     setTimeout(initAnchorSmoothScroll, 50);
+
+    if (typeof ScrollTrigger !== "undefined") {
+        ScrollTrigger.refresh();
+    }
 });
 
 document.addEventListener("DOMContentLoaded", () => {

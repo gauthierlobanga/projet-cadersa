@@ -180,7 +180,7 @@
         </div>
         {{-- Copyright & Crédits --}}
         <div
-            class="mb-8 flex flex-col items-center justify-between gap-4 border-t border-zinc-200/60 pt-4 dark:border-zinc-700/60 sm:flex-row">
+            class="my-8 flex flex-col items-center justify-between gap-4 border-t border-zinc-200/60 pt-4 dark:border-zinc-700/60 sm:flex-row">
 
             {{-- Copyright + citation affichée en permanence --}}
             <div class="w-full max-w-xl text-sm text-zinc-500 dark:text-zinc-400">

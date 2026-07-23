@@ -78,11 +78,10 @@
     </flux:header>
 
     <flux:sidebar sticky collapsible="mobile"
-        class="lg:hidden z-50 fixed! h-dvh max-h-dvh overflow-y-auto border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+        class="lg:hidden z-50! z-50 fixed! h-dvh max-h-dvh overflow-y-auto border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
             <a href="{{ route('home') }}" wire:navigate
-                class="group inline-flex items-center gap-3 rounded-lg py-1.5 transition duration-300 ease-out
-                  hover:-translate-x-1 focus:outline-none">
+                class="group inline-flex items-center gap-3 rounded py-1.5 focus:outline-none">
                 <x-app-logo />
             </a>
             <flux:sidebar.collapse class="lg:hidden" />

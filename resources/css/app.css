@@ -548,17 +548,6 @@ select:focus[data-flux-control] {
     display: none !important;
 }
 
-/* Keep the mobile Flux sidebar and its backdrop above page content overlays. */
-@media (max-width: 63.999rem) {
-    [data-flux-sidebar] {
-        z-index: 50 !important;
-    }
-
-    [data-flux-sidebar-backdrop] {
-        z-index: 40 !important;
-    }
-}
-
 @media (min-width: 640px) {
     [x-data="scrollToTop()"] {
         right: 1.5rem !important;

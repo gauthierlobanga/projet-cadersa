@@ -14917,7 +14917,7 @@ on("effect", ({ component, effects }) => {
   queueMicrotask(() => {
     queueMicrotask(() => {
       queueMicrotask(() => {
-        dispatchEvents(component, effects.dispatches || []);
+        dispatchEvents(component, effects?.dispatches || []);
       });
     });
   });

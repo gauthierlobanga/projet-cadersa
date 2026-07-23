@@ -49,7 +49,7 @@ class FormationsTable
                         if (! $user) {
                             return '—';
                         }
-                        $avatarUrl = $user->avatar_url ?? Storage::url('images/gaudev-hero.png');
+                        $avatarUrl = $user->avatar_url ?? Storage::url('images/cadersa-logo.png');
                         $name = e($user->name);
                         $email = e($user->email);
 

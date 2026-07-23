@@ -15891,7 +15891,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     queueMicrotask(() => {
       queueMicrotask(() => {
         queueMicrotask(() => {
-          dispatchEvents(component, effects.dispatches || []);
+          dispatchEvents(component, effects?.dispatches || []);
         });
       });
     });

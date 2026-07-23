@@ -297,7 +297,7 @@ new #[Layout('layouts::main')] class extends Component {
                         :class="shown ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'">
                         @php $aboutImage = $aboutBlocks[0]['image_url'] ?? $this->about->about_image_url ?? null; @endphp
                         <img loading="eager" decoding="async"
-                            src="{{ $aboutImage ? $this->imageUrl($aboutImage) : $this->imageUrl('images/gaudev-logo.png') }}"
+                            src="{{ $aboutImage ? $this->imageUrl($aboutImage) : $this->imageUrl('images/cadersa-logo.png') }}"
                             alt="" class="w-full h-full object-contain aspect-4/3" />
                     </div>
                     <div class="absolute -bottom-6 -left-6 -z-10 transition-all duration-500 delay-500 ease-out"

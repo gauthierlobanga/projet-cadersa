@@ -93,7 +93,7 @@ new #[Layout('layouts::main')] class extends Component {
             '@type' => 'Person',
             'name' => '',
             'url' => url('/'),
-            'image' => $this->about->hero_image_url ? $this->imageUrl($this->about->hero_image_url) : $this->imageUrl('images/gaudev-hero.png'),
+            'image' => $this->about->hero_image_url ? $this->imageUrl($this->about->hero_image_url) : $this->imageUrl('images/cadersa-logo.png'),
             'description' => ' – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Architecture moderne avec Filament, API robustes et interfaces performantes. Découvrez mon portfolio, mes projets et mon savoir‑faire.',
             'sameAs' => $sameAs,
         ];
@@ -142,7 +142,7 @@ new #[Layout('layouts::main')] class extends Component {
         @php
             $heroImage = $this->about->hero_image_url
                 ? $this->imageUrl($this->about->hero_image_url)
-                : $this->imageUrl('images/gaudev-hero.png');
+                : $this->imageUrl('images/cadersa-logo.png');
             $settings = $this->settings;
         @endphp
 
