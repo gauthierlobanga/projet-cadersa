@@ -448,8 +448,14 @@ class AboutSettings extends Settings
             return $path;
         }
 
-        // Sinon, on génère l'URL à partir du disque public (local ou cloud selon la config)
-        return Storage::disk('public')->url(ltrim($path, '/'));
+        // Les anciens enregistrements peuvent déjà contenir le préfixe public `/storage`.
+        // Le disque public ajoute lui-même ce préfixe : le retirer évite une URL doublée.
+        $normalizedPath = ltrim($path, '/');
+        if (str_starts_with($normalizedPath, 'storage/')) {
+            $normalizedPath = substr($normalizedPath, strlen('storage/'));
+        }
+
+        return Storage::disk('public')->url($normalizedPath);
     }
 
     public ?string $about_image_url = null;

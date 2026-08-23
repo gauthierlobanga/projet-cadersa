@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PostLikes\Tables;
 
+use App\Filament\Resources\Posts\PostResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -19,7 +20,9 @@ class PostLikesTable
                     ->label('Post')
                     ->searchable()
                     ->sortable()
-                    ->url(fn ($record) => route('filament.admin.posts.resources.posts.edit', $record->post)),
+                    ->url(fn ($record): ?string => $record->post
+                        ? PostResource::getUrl('edit', ['record' => $record->post])
+                        : null),
 
                 TextColumn::make('user.name')
                     ->label('Utilisateur')

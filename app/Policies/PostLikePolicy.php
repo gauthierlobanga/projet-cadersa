@@ -17,7 +17,7 @@ class PostLikePolicy
      */
     public function before(AuthUser $user, string $ability): ?bool
     {
-        if ($user->hasRole('super_admin') || $user->hasRole('editeur')) {
+        if ($user->hasRole('super_admin') || $user->hasAnyRole(['editeur', 'editor'])) {
             return true;
         }
 
@@ -30,61 +30,61 @@ class PostLikePolicy
 
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny PostLike');
+        return $authUser->can('ViewAny:PostLike');
     }
 
     public function view(AuthUser $authUser, PostLike $postLike): bool
     {
-        return $authUser->can('View PostLike');
+        return $authUser->can('View:PostLike');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create PostLike');
+        return $authUser->can('Create:PostLike');
     }
 
     public function update(AuthUser $authUser, PostLike $postLike): bool
     {
-        return $authUser->can('Update PostLike');
+        return $authUser->can('Update:PostLike');
     }
 
     public function delete(AuthUser $authUser, PostLike $postLike): bool
     {
-        return $authUser->can('Delete PostLike');
+        return $authUser->can('Delete:PostLike');
     }
 
     public function deleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('DeleteAny PostLike');
+        return $authUser->can('DeleteAny:PostLike');
     }
 
     public function restore(AuthUser $authUser, PostLike $postLike): bool
     {
-        return $authUser->can('Restore PostLike');
+        return $authUser->can('Restore:PostLike');
     }
 
     public function forceDelete(AuthUser $authUser, PostLike $postLike): bool
     {
-        return $authUser->can('ForceDelete PostLike');
+        return $authUser->can('ForceDelete:PostLike');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny PostLike');
+        return $authUser->can('ForceDeleteAny:PostLike');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny PostLike');
+        return $authUser->can('RestoreAny:PostLike');
     }
 
     public function replicate(AuthUser $authUser, PostLike $postLike): bool
     {
-        return $authUser->can('Replicate PostLike');
+        return $authUser->can('Replicate:PostLike');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder PostLike');
+        return $authUser->can('Reorder:PostLike');
     }
 }

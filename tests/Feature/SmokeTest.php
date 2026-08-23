@@ -28,6 +28,22 @@ it('renders dynamic impact statistics from settings', function () {
         ->assertSee('999');
 });
 
+it('renders an impact card image when image_url is configured', function () {
+    app(AboutSettings::class)->impact_stats = [
+        [
+            'value' => '10',
+            'label' => 'Carte avec image',
+            'image_url' => '/storage/about/impact/carte.jpg',
+        ],
+    ];
+    app(AboutSettings::class)->save();
+
+    get('/about')
+        ->assertOk()
+        ->assertSee('about/impact/carte.jpg')
+        ->assertSee('alt="Carte avec image"', false);
+});
+
 it('loads the contact page', function () {
     get('/contact')->assertOk();
 });

@@ -17,7 +17,7 @@ class PostBookMarkPolicy
      */
     public function before(AuthUser $user, string $ability): ?bool
     {
-        if ($user->hasRole('super_admin') || $user->hasRole('editeur')) {
+        if ($user->hasRole('super_admin') || $user->hasAnyRole(['editeur', 'editor'])) {
             return true;
         }
 
@@ -30,61 +30,61 @@ class PostBookMarkPolicy
 
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny PostBookMark');
+        return $authUser->can('ViewAny:PostBookMark');
     }
 
     public function view(AuthUser $authUser, PostBookMark $postBookMark): bool
     {
-        return $authUser->can('View PostBookMark');
+        return $authUser->can('View:PostBookMark');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create PostBookMark');
+        return $authUser->can('Create:PostBookMark');
     }
 
     public function update(AuthUser $authUser, PostBookMark $postBookMark): bool
     {
-        return $authUser->can('Update PostBookMark');
+        return $authUser->can('Update:PostBookMark');
     }
 
     public function delete(AuthUser $authUser, PostBookMark $postBookMark): bool
     {
-        return $authUser->can('Delete PostBookMark');
+        return $authUser->can('Delete:PostBookMark');
     }
 
     public function deleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('DeleteAny PostBookMark');
+        return $authUser->can('DeleteAny:PostBookMark');
     }
 
     public function restore(AuthUser $authUser, PostBookMark $postBookMark): bool
     {
-        return $authUser->can('Restore PostBookMark');
+        return $authUser->can('Restore:PostBookMark');
     }
 
     public function forceDelete(AuthUser $authUser, PostBookMark $postBookMark): bool
     {
-        return $authUser->can('ForceDelete PostBookMark');
+        return $authUser->can('ForceDelete:PostBookMark');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny PostBookMark');
+        return $authUser->can('ForceDeleteAny:PostBookMark');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny PostBookMark');
+        return $authUser->can('RestoreAny:PostBookMark');
     }
 
     public function replicate(AuthUser $authUser, PostBookMark $postBookMark): bool
     {
-        return $authUser->can('Replicate PostBookMark');
+        return $authUser->can('Replicate:PostBookMark');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder PostBookMark');
+        return $authUser->can('Reorder:PostBookMark');
     }
 }

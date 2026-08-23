@@ -49,29 +49,49 @@
                     class="transition-all duration-300 ease-out" style="transition-delay: {{ $index * 100 }}ms">
 
                     <div
-                        class="group relative border border-zinc-200 bg-white p-5 md:p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-md hover:shadow-emerald-100/30 dark:border-zinc-700/60 dark:bg-zinc-900 dark:hover:border-emerald-700/60 dark:hover:shadow-emerald-900/20 rounded-xl">
-                        {{-- Icône --}}
-                        <div
-                            class="mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 transition group-hover:bg-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:group-hover:bg-emerald-500/20 dark:group-hover:text-emerald-300">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="{{ $stat['icon'] }}" />
-                            </svg>
+                        class="group relative h-full overflow-hidden rounded-2xl border border-zinc-200/80 bg-white/90 p-5 shadow-sm ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/40 hover:ring-emerald-100 dark:border-zinc-700/70 dark:bg-zinc-900/90 dark:hover:border-emerald-700/60 dark:hover:shadow-emerald-950/30 dark:hover:ring-emerald-900/40">
+                        <div class="pointer-events-none absolute -right-8 -top-8 size-24 rounded-full bg-emerald-400/10 blur-2xl transition-opacity duration-300 group-hover:opacity-100 dark:bg-emerald-400/10"></div>
+
+                        {{-- En-tête : visuel à gauche, valeur à droite --}}
+                        @php
+                            $statImageUrl = $this->about->imageUrl($stat['image_url'] ?? null);
+                        @endphp
+                        <div class="relative flex min-h-18 items-center justify-start gap-3 border-b border-zinc-200/80 pb-4 dark:border-zinc-700/70">
+                            @if ($statImageUrl)
+                                <div class="size-16 shrink-0 overflow-hidden rounded-xl bg-zinc-100 shadow-sm ring-1 ring-black/5 dark:bg-zinc-800 dark:ring-white/10">
+                                    <img src="{{ $statImageUrl }}" alt="{{ $stat['label'] }}"
+                                        class="h-full w-full object-cover" loading="lazy">
+                                </div>
+                            @else
+                                <div
+                                    class="flex size-16 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 shadow-sm ring-1 ring-emerald-100 transition group-hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-500/20 dark:group-hover:bg-emerald-500/20">
+                                    <svg class="size-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="{{ $stat['icon'] }}" />
+                                    </svg>
+                                </div>
+                            @endif
+
+                            <div class="min-w-0 text-left">
+                                <div class="mb-1 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
+                                    <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                    Impact
+                                </div>
+
+                                <div class="text-3xl font-black tracking-tight text-zinc-950 sm:text-4xl dark:text-white"
+                                    x-text="shown ? formatValue(count) : targetRaw"></div>
+                            </div>
                         </div>
 
-                        {{-- Valeur --}}
-                        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
-                            x-text="shown ? formatValue(count) : targetRaw"></div>
+                        {{-- Corps : titre et description --}}
+                        <div class="relative flex min-h-24 flex-1 flex-col justify-start pt-4">
+                            <div class="text-sm font-bold leading-snug text-zinc-800 dark:text-zinc-100">{{ $stat['label'] }}</div>
 
-                        {{-- Label --}}
-                        <div class="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">{{ $stat['label'] }}
+                            @if (!empty($stat['description']))
+                                <p class="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                                    {{ $stat['description'] }}</p>
+                            @endif
                         </div>
-
-                        {{-- Description (optionnelle) --}}
-                        @if (!empty($stat['description']))
-                            <p class="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-500">
-                                {{ $stat['description'] }}</p>
-                        @endif
                     </div>
                 </div>
             @endforeach
