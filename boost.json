@@ -8,14 +8,16 @@
     "nightwatch": false,
     "sail": false,
     "skills": [
+        "infer-conventions",
         "ai-sdk-development",
         "fortify-development",
         "laravel-best-practices",
+        "testing-best-practices",
         "scout-development",
         "socialite-development",
         "fluxui-development",
         "livewire-development",
         "volt-development",
-        "pest-testing"
+        "tailwindcss-development"
     ]
 }

@@ -34,6 +34,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $last_name
  * @property string $name (accessor)
  * @property string $email
+ * @property string|null $telephone
  * @property Carbon|null $email_verified_at
  * @property bool $email_verified
  * @property string $password
@@ -48,7 +49,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'first_name', 'last_name', 'email', 'password', 'is_active', 'preferences'])]
+#[Fillable(['name', 'first_name', 'last_name', 'email', 'telephone', 'email_verified_at', 'password', 'is_active', 'preferences'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia, HasName, PasskeyUser
 {

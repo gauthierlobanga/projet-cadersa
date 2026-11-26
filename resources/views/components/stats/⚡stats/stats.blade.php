@@ -73,7 +73,7 @@
                             @endif
 
                             <div class="min-w-0 text-left">
-                                <div class="mb-1 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
+                                <div class="mb-1 inline-flex items-center gap-1.5 text-2xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
                                     <span class="size-1.5 rounded-full bg-emerald-500"></span>
                                     Impact
                                 </div>

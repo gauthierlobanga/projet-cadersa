@@ -26,7 +26,6 @@ class SitemapController extends Controller
         $sitemap->add(Url::create(route('formations.index'))->setPriority(0.8));
         $sitemap->add(Url::create(route('contact'))->setPriority(0.6));
         $sitemap->add(Url::create(route('gallery'))->setPriority(0.6));
-
         // Articles
         foreach (Post::published()->latest()->get() as $post) {
             $sitemap->add($post->toSitemapTag());

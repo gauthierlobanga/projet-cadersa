@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-900 antialiased">
+<body class="min-h-screen bg-white font-sans subpixel-antialiased dark:bg-zinc-900">
     <flux:header container class="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
         <flux:sidebar.toggle variant="ghost" class="lg:hidden mr-4 hover:bg-emerald-50! dark:hover:bg-emerald-900/20!"
             icon="bars-3" inset="left" />
@@ -34,7 +34,6 @@
                 class="!text-zinc-600 hover:!bg-emerald-50 hover:!text-emerald-600 dark:!text-zinc-400 dark:hover:!bg-emerald-900/20 dark:hover:!text-emerald-400 !transition !duration-200 !rounded-lg">
                 {{ __('Blog') }}
             </flux:navbar.item>
-
             <flux:separator vertical variant="subtle" class="my-2" />
 
             <flux:navbar.item :href="route('about')" :current="request()->routeIs('about')" wire:navigate

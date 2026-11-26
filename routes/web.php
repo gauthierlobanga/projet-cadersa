@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Dashboard\DashboardOverviewController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\Reports\ReportFileController;
 use App\Http\Controllers\site\SitemapController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +18,8 @@ Route::livewire('/', 'pages::site.home')->name('home');
 Route::livewire('/about', 'pages::site.about')->name('about');
 Route::livewire('/contact', 'pages::site.contact')->name('contact');
 Route::livewire('/gallery', 'pages::site.gallery')->name('gallery');
+Route::get('/rapports/{report}/aperçu', [ReportFileController::class, 'preview'])->middleware(['auth', 'verified'])->name('reports.preview');
+Route::get('/rapports/{report}/télécharger', [ReportFileController::class, 'download'])->middleware(['auth', 'verified'])->name('reports.download');
 
 // ==================== Services ====================
 Route::livewire('/services', 'pages::services.index')->name('services.index');
@@ -50,7 +54,8 @@ Route::livewire('/search', 'pages::site.search')->name('search');
 
 // Tableau de bord
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', DashboardOverviewController::class)->name('dashboard');
+    Route::view('dashboard/rapports', 'dashboard.reports')->name('dashboard.reports');
 });
 
 Route::feeds();

@@ -134,7 +134,7 @@ new #[Layout('layouts::main')] class extends Component {
 };
 ?>
 
-<div class="bg-white text-zinc-700 antialiased dark:bg-zinc-950 dark:text-zinc-300">
+<div class="bg-white font-sans text-zinc-700 subpixel-antialiased dark:bg-zinc-950 dark:text-zinc-300">
 
     {{-- ========== HERO ACCUEIL UNIFIÉ – Image en arrière-plan moderne ========== --}}
     <section x-cloak class="relative overflow-hidden bg-slate-900 dark:bg-zinc-950 min-h-[80svh] flex items-center"
@@ -164,14 +164,14 @@ new #[Layout('layouts::main')] class extends Component {
             class="relative z-10 w-full max-w-7xl mx-auto px-6 py-12 lg:py-16 lg:px-12 transition duration-500 ease-out opacity-0 translate-y-6">
             <div class="w-full max-w-3xl">
                 <h1 x-ref="title"
-                    class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-['Plus_Jakarta_Sans'] tracking-tight text-white leading-tight">
+                    class="font-sans text-4xl leading-tight font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
                     {{ $this->about->hero_title }}
                 </h1>
 
                 <div x-ref="author" class="mt-4 flex items-center gap-3">
                     <div class="h-px w-16 bg-emerald-500/80"></div>
                     <p
-                        class="text-2xl font-extrabold font-['Plus_Jakarta_Sans'] tracking-tight text-emerald-300 lg:text-3xl">
+                        class="font-sans text-2xl font-bold tracking-tight text-emerald-300 lg:text-3xl">
                         {{ $this->about->author_home ?: '' }}
                     </p>
                     <div class="h-px w-16 bg-emerald-500/80 hidden sm:block"></div>
@@ -187,7 +187,7 @@ new #[Layout('layouts::main')] class extends Component {
                         class="rounded-full bg-emerald-600 dark:bg-emerald-500 shadow-lg shadow-emerald-500/20">
                         <a href="{{ route('projects.index') }}" wire:navigate
                             class="group inline-flex w-full items-center justify-between rounded-full font-semibold whitespace-nowrap text-white transition duration-300 ease-out will-change-transform hover:scale-y-102 focus:outline-none focus-visible:ring focus-visible:ring-emerald-500/50 focus-visible:ring-inset h-13 gap-2.5 pr-1.25 pl-5 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600">
-                            <span data-text class="grow">Découvrir mes projets</span>
+                            <span data-text class="grow">Découvrir nos projets</span>
                             <div data-icon
                                 class="relative isolate grid shrink-0 place-items-center overflow-hidden rounded-full size-11 bg-white text-emerald-600 dark:bg-zinc-800 dark:text-emerald-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.25" viewBox="0 0 28 22"

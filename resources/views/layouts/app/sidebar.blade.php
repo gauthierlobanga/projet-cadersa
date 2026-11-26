@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('partials.head')
 </head>
 
-<body class="min-h-dvh overflow-x-hidden bg-white antialiased dark:bg-zinc-800">
+<body class="min-h-dvh overflow-x-clip bg-white antialiased dark:bg-zinc-800 lg:overflow-hidden">
     <flux:sidebar sticky collapsible="mobile"
-        class="z-50! z-50 h-dvh max-h-dvh overflow-y-auto border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+        class="sticky top-0 z-50 self-start h-dvh max-h-dvh min-h-0 overflow-y-auto overscroll-contain border-e border-zinc-200 bg-zinc-50 p-0! dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header class="shrink-0">
             <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
 
-        <flux:sidebar.nav class="min-h-0 overflow-y-auto">
-            <flux:sidebar.group :heading="__('Platform')" class="grid">
-                <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
+        <flux:sidebar.nav class="min-h-0 flex-1 overflow-y-auto">
+            <flux:sidebar.group heading="Espace partenaire" class="grid">
+                <flux:sidebar.item icon="squares-2x2" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                     wire:navigate>
-                    {{ __('Dashboard') }}
+                    {{ __('Vue d’ensemble') }}
+                </flux:sidebar.item>
+                <flux:sidebar.item icon="document-text" :href="route('dashboard.reports')" :current="request()->routeIs('dashboard.reports')"
+                    wire:navigate>
+                    {{ __('Rapports') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
         </flux:sidebar.nav>

@@ -23,7 +23,7 @@
     // Description processing
     $defaultDescription = "CADERSA accompagne les communautés rurales et périurbaines à travers des projets agricoles, sociaux et environnementaux.";
     $pageDescription = filled($description) ? strip_tags($description) : $defaultDescription;
-    $pageDescription = Str::limit($pageDescription, 160);
+    $pageDescription = Str::limit(Str::squish($pageDescription), 160);
 
     // Image processing
     $defaultImage = asset('images/cadersa-logo.png');
@@ -35,9 +35,6 @@
 
 <title>{{ $pageTitle }}</title>
 <meta name="description" content="{{ $pageDescription }}">
-@if($keywords)
-<meta name="keywords" content="{{ is_array($keywords) ? implode(', ', $keywords) : $keywords }}">
-@endif
 <link rel="canonical" href="{{ $pageUrl }}">
 
 {{-- Advanced SEO & Crawling --}}
@@ -52,6 +49,7 @@
 <meta property="og:title" content="{{ $pageTitle }}">
 <meta property="og:description" content="{{ $pageDescription }}">
 <meta property="og:image" content="{{ $pageImage }}">
+<meta property="og:image:alt" content="{{ $appName }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="{{ $appName }}">
@@ -63,6 +61,7 @@
 <meta name="twitter:title" content="{{ $pageTitle }}">
 <meta name="twitter:description" content="{{ $pageDescription }}">
 <meta name="twitter:image" content="{{ $pageImage }}">
+<meta name="twitter:image:alt" content="{{ $appName }}">
 @php
     try {
         $twitterHandle = app(\App\Settings\SettingApp::class)->x_url;

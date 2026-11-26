@@ -955,6 +955,7 @@ class Post extends Model implements Feedable, HasMedia, HasRichContent, Sitemapa
             ->whereHas('categories', fn ($q) => $q->whereIn('posts_categories.id', $categoryIds))
             ->orderBy('published_at', 'desc')
             ->limit($limit)
+            ->with(['categories', 'media'])
             ->get();
     }
 

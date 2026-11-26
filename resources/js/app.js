@@ -3,6 +3,7 @@ import intersect from "@alpinejs/intersect";
 // Import flowbite locally (avoid CDN / tracking prevention issues)
 import "flowbite";
 import autoAnimate from "@formkit/auto-animate";
+import "./report-charts";
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -1774,6 +1775,8 @@ registerCookieConsentAlpineData();
 
 // ---------- Global Pro Animations (Filament style) ----------
 const initGlobalAnimations = () => {
+    if (document.querySelector("[data-disable-global-animations]")) return;
+
     if (
         typeof window.gsap === "undefined" ||
         typeof window.ScrollTrigger === "undefined"
@@ -1880,7 +1883,10 @@ const initGlobalAnimations = () => {
 };
 
 const initAnchorSmoothScroll = () => {
-    if (typeof document === "undefined") {
+    if (
+        typeof document === "undefined" ||
+        document.querySelector("[data-disable-global-animations]")
+    ) {
         return;
     }
 

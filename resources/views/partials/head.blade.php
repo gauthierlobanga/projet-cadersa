@@ -10,6 +10,12 @@ $aboutSettings = app(\App\Settings\AboutSettings::class);
 
 // Logo de l'application (dynamique)
     $appLogo = $appSettings->logoUrl() ?: asset('images/cadersa-logo.png');
+$contactPoint = array_filter([
+    '@type' => 'ContactPoint',
+    'telephone' => $appSettings->phone,
+    'contactType' => 'customer service',
+    'email' => $appSettings->email,
+], fn (mixed $value): bool => filled($value));
 
     // Image SEO (utilisée à la fois pour Open Graph et le schéma)
     $seoImage = $seoImage ?? $appLogo;
@@ -34,9 +40,14 @@ $aboutSettings = app(\App\Settings\AboutSettings::class);
 $schema = [
     '@context' => 'https://schema.org',
     '@type' => 'Organization',
+    '@id' => url('/#organization'),
     'name' => $appSettings->name ?? config('app.name', 'CADERSA ASBL'),
+    'legalName' => $appSettings->name ?? config('app.name', 'CADERSA ASBL'),
     'url' => url('/'),
-    'logo' => $appLogo,
+    'logo' => [
+        '@type' => 'ImageObject',
+        'url' => $appLogo,
+    ],
     'description' =>
         'Centre d’Appui au Développement Rural et à la Sécurité Alimentaire. CADERSA accompagne les communautés congolaises à travers des projets agricoles, sociaux et environnementaux.',
     'address' => [
@@ -46,25 +57,35 @@ $schema = [
         'addressRegion' => $region,
         'addressCountry' => $country,
     ],
-    'contactPoint' => [
-        '@type' => 'ContactPoint',
-        'telephone' => $appSettings->phone,
-        'contactType' => 'customer service',
-        'email' => $appSettings->email,
-    ],
     'sameAs' => array_values(
             array_filter([
                 $appSettings->facebook_url,
+                $appSettings->instagram_url,
                 $appSettings->x_url,
                 $appSettings->linkedin_url,
                 $appSettings->youtube_url,
             ]),
         ),
     ];
+
+if (filled($appSettings->phone) || filled($appSettings->email)) {
+    $schema['contactPoint'] = $contactPoint;
+}
+
+$websiteSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'WebSite',
+    '@id' => url('/#website'),
+    'url' => url('/'),
+    'name' => $appSettings->name ?? config('app.name', 'CADERSA ASBL'),
+    'publisher' => ['@id' => url('/#organization')],
+    'inLanguage' => str_replace('_', '-', app()->getLocale()),
+];
 @endphp
 
-<x-seo :title="$title ?? null" :description="$seoDescription ?? null" :image="$seoImage" :url="$seoUrl ?? null" :type="$seoType ?? 'website'" :keywords="$seoKeywords ?? null">
+<x-seo :title="$title ?? null" :description="$seoDescription ?? null" :image="$seoImage" :url="$seoUrl ?? null" :type="$seoType ?? 'website'" :keywords="$seoKeywords ?? null" :robots="$seoRobots ?? null">
     <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}</script>
+    <script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}</script>
 </x-seo>
 
 @include('feed::links')
@@ -76,11 +97,9 @@ $schema = [
 {{-- Favicon --}}
 <link id="favicon" rel="icon" href="{{ $faviconUrl }}" data-favicon-href="{{ $faviconUrl }}">
 <link id="apple-touch-icon" rel="apple-touch-icon" href="{{ $faviconUrl }}">
-<link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..500&family=Playfair+Display:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..800&family=Playfair+Display:wght@600;700;800&display=swap">
 <style>
     html, body {
         overflow-x: hidden;

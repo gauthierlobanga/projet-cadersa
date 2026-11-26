@@ -3,6 +3,12 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\ManageAppSettings;
+use App\Filament\Widgets\ReportStatsWidget;
+use App\Filament\Widgets\SiteAnalyticsOverview;
+use App\Filament\Widgets\SiteConversionFunnelChart;
+use App\Filament\Widgets\SiteDeviceBreakdownChart;
+use App\Filament\Widgets\SiteTopPagesChart;
+use App\Filament\Widgets\SiteVisitsChart;
 use App\Http\Middleware\EnsureUserIsSuperAdmin;
 use App\Http\Middleware\RedirectAdminLogin;
 use App\Settings\SettingApp;
@@ -62,6 +68,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+                SiteAnalyticsOverview::class,
+                ReportStatsWidget::class,
+                SiteVisitsChart::class,
+                SiteTopPagesChart::class,
+                SiteConversionFunnelChart::class,
+                SiteDeviceBreakdownChart::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
