@@ -36,7 +36,10 @@ test('users can not authenticate with invalid password', function () {
         'password' => 'wrong-password',
     ]);
 
-    $response->assertSessionHasErrorsIn('email');
+    $response->assertSessionHasErrorsIn('email')
+        ->assertSessionHasErrors([
+            'email' => 'Les identifiants fournis ne correspondent à aucun compte.',
+        ]);
 
     $this->assertGuest();
 });

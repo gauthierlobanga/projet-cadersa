@@ -131,6 +131,8 @@ new #[Layout('layouts::main')] class extends Component {
             'user_agent' => request()->userAgent(),
         ]);
 
+        app(\App\Services\SiteAnalyticsTracker::class)->completeConversion('contact');
+
         $this->reset(['nom', 'prenom', 'email', 'telephone', 'categorie', 'sujet', 'message']);
         $this->sent = true;
     }
@@ -181,14 +183,14 @@ new #[Layout('layouts::main')] class extends Component {
                     </span>
 
                     {{-- Titre --}}
-                    <h1 class="mt-6 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl transition-all duration-1000 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                    <h1 class="mt-6 text-3xl font-bold tracking-tight text-zinc-900 transition-all duration-1000 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)] dark:text-white sm:text-4xl lg:text-5xl"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                         Parlons de votre <span
                             class="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">projet</span>
                     </h1>
 
                     {{-- Description --}}
-                    <p class="mx-auto mt-4 transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] max-w-2xl text-lg text-zinc-600 dark:text-zinc-400"
+                    <p class="mx-auto mt-4 max-w-xl text-base leading-7 text-zinc-600 transition-all duration-1000 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] dark:text-zinc-400"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                         Notre équipe est disponible pour répondre à toutes vos questions et vous accompagner dans vos
                         projets de développement rural.
@@ -295,9 +297,9 @@ new #[Layout('layouts::main')] class extends Component {
                                 </svg>
                                 Support
                             </span>
-                            <h2 class="mt-4 text-3xl font-bold text-zinc-900 dark:text-white">Un accompagnement sur
+                            <h2 class="mt-4 text-2xl font-bold leading-tight text-zinc-900 dark:text-white sm:text-3xl">Un accompagnement sur
                                 mesure</h2>
-                            <p class="mt-2 text-zinc-600 dark:text-zinc-400">
+                            <p class="mt-2 text-base leading-7 text-zinc-600 dark:text-zinc-400">
                                 Notre équipe traite chaque demande avec attention. Réponse rapide, suivi personnalisé et
                                 solutions adaptées à vos besoins.
                             </p>
@@ -346,7 +348,7 @@ new #[Layout('layouts::main')] class extends Component {
                                     <div>
                                         <h3 class="font-semibold text-zinc-900 dark:text-white">{{ $item['title'] }}
                                         </h3>
-                                        <p class="text-sm text-zinc-600 dark:text-zinc-400">{{ $item['desc'] }}</p>
+                                        <p class="text-sm/6 text-zinc-600 dark:text-zinc-400">{{ $item['desc'] }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -377,7 +379,7 @@ new #[Layout('layouts::main')] class extends Component {
                     <div class="border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
                         <div
                             class="border-b border-zinc-200 bg-zinc-50 px-6 py-5 dark:border-zinc-800 dark:bg-zinc-900/50">
-                            <h2 class="flex items-center gap-2 text-xl font-semibold text-zinc-900 dark:text-white">
+                            <h2 class="flex items-center gap-2 text-lg font-semibold text-zinc-900 dark:text-white">
                                 <svg class="h-5 w-5 text-emerald-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -385,7 +387,7 @@ new #[Layout('layouts::main')] class extends Component {
                                 </svg>
                                 Envoyez-nous un message
                             </h2>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400">Remplissez le formulaire ci-dessous,
+                            <p class="text-sm/6 text-zinc-600 dark:text-zinc-400">Remplissez le formulaire ci-dessous,
                                 nous vous répondrons dans les plus brefs délais.</p>
                         </div>
 
@@ -400,7 +402,7 @@ new #[Layout('layouts::main')] class extends Component {
                                             d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <h3 class="mt-4 text-2xl font-bold text-zinc-900 dark:text-white">Message envoyé !</h3>
+                                <h3 class="mt-4 text-xl font-bold text-zinc-900 dark:text-white">Message envoyé !</h3>
                                 <p class="mt-2 text-zinc-600 dark:text-zinc-400">Nous avons bien reçu votre message et
                                     vous répondrons rapidement.</p>
                                 <button type="button" wire:click="$set('sent', false)"
@@ -451,7 +453,7 @@ new #[Layout('layouts::main')] class extends Component {
                                             class="block w-full border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-500"
                                             placeholder="Dupont" />
                                         @error('nom')
-                                            <p class="mt-0.5 text-xs text-red-500">{{ $message }}</p>
+                                            <p class="mt-0.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                         @enderror
                                     </div>
                                     <div>
@@ -462,7 +464,7 @@ new #[Layout('layouts::main')] class extends Component {
                                             class="block w-full border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-500"
                                             placeholder="Jean" />
                                         @error('prenom')
-                                            <p class="mt-0.5 text-xs text-red-500">{{ $message }}</p>
+                                            <p class="mt-0.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
@@ -477,7 +479,7 @@ new #[Layout('layouts::main')] class extends Component {
                                             class="block w-full border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-500"
                                             placeholder="jean@exemple.com" />
                                         @error('email')
-                                            <p class="mt-0.5 text-xs text-red-500">{{ $message }}</p>
+                                            <p class="mt-0.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                         @enderror
                                     </div>
                                     <div>
@@ -488,7 +490,7 @@ new #[Layout('layouts::main')] class extends Component {
                                             class="block w-full border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-500"
                                             placeholder="+33 6 12 34 56 78" />
                                         @error('telephone')
-                                            <p class="mt-0.5 text-xs text-red-500">{{ $message }}</p>
+                                            <p class="mt-0.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
@@ -511,7 +513,7 @@ new #[Layout('layouts::main')] class extends Component {
                                     <div class="flex justify-between items-center mb-1">
                                         <label for="message"
                                             class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Message</label>
-                                        <span class="text-xs text-zinc-400">{{ mb_strlen($message) }}/5000</span>
+                                        <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ mb_strlen($message) }}/5000</span>
                                     </div>
                                     <textarea id="message" rows="5" wire:model.live.debounce.300ms="message" wire:validate="message"
                                         class="block w-full border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-500"
@@ -557,7 +559,7 @@ new #[Layout('layouts::main')] class extends Component {
                                     class="w-full border border-emerald-600 bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 dark:border-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-600">
                                     Envoyer le message
                                 </flux:button>
-                                <p class="text-center text-xs text-zinc-400">Vos données sont traitées avec la plus
+                                <p class="text-center text-sm text-zinc-500 dark:text-zinc-400">Vos données sont traitées avec la plus
                                     grande confidentialité.</p>
                             </form>
                         </div>

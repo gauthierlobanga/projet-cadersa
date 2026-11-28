@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Newsletter;
+use App\Services\SiteAnalyticsTracker;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -11,6 +12,11 @@ new #[Layout('layouts::main')] class extends Component
     public string $email = '';
 
     public bool $subscribed = false;
+
+    public function mount(): void
+    {
+        app(SiteAnalyticsTracker::class)->startConversion('newsletter_subscription');
+    }
 
     public function submit()
     {
@@ -23,6 +29,8 @@ new #[Layout('layouts::main')] class extends Component
             'user_agent' => request()->userAgent(),
             'source' => 'formulaire',
         ]);
+
+        app(SiteAnalyticsTracker::class)->completeConversion('newsletter_subscription');
 
         $this->reset('email');
         $this->subscribed = true;

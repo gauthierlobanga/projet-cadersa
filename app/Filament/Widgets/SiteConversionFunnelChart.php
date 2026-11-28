@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Services\SiteAnalyticsDashboardData;
 use Filament\Widgets\ChartWidget;
-use Illuminate\Support\Facades\DB;
 
 class SiteConversionFunnelChart extends ChartWidget
 {
@@ -11,42 +11,65 @@ class SiteConversionFunnelChart extends ChartWidget
 
     protected ?string $heading = 'Parcours de conversion';
 
-    protected ?string $description = 'Étapes commencées et terminées sur 30 jours';
+    protected ?string $description = 'Étapes commencées et terminées · 30 derniers jours';
+
+    protected ?string $pollingInterval = '60s';
+
+    protected ?string $emptyStateHeading = 'Aucun parcours enregistré';
+
+    protected ?string $emptyStateDescription = 'Les étapes apparaîtront après les premières demandes, inscriptions et abonnements.';
+
+    protected ?string $maxHeight = '250px';
 
     protected int|string|array $columnSpan = 2;
 
     protected function getData(): array
     {
-        $steps = DB::table('conversion_events')
-            ->where('created_at', '>=', now()->subDays(30))
-            ->select('step')
-            ->selectRaw('COUNT(*) as started')
-            ->selectRaw('SUM(CASE WHEN completed = 1 THEN 1 ELSE 0 END) as completed')
-            ->groupBy('step')
-            ->orderBy('step')
-            ->get();
-
-        return [
-            'datasets' => [
-                [
-                    'label' => 'Étapes commencées',
-                    'data' => $steps->pluck('started')->map(fn (int|string $total): int => (int) $total)->all(),
-                    'backgroundColor' => '#64748b',
-                    'borderRadius' => 6,
-                ],
-                [
-                    'label' => 'Étapes terminées',
-                    'data' => $steps->pluck('completed')->map(fn (int|string|null $total): int => (int) $total)->all(),
-                    'backgroundColor' => '#059669',
-                    'borderRadius' => 6,
-                ],
-            ],
-            'labels' => $steps->pluck('step')->map(fn (?string $step): string => $step ?: 'Étape sans nom')->all(),
-        ];
+        return app(SiteAnalyticsDashboardData::class)->conversionFunnel();
     }
 
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'indexAxis' => 'y',
+            'maintainAspectRatio' => false,
+            'plugins' => [
+                'legend' => ['position' => 'bottom'],
+            ],
+            'scales' => [
+                'x' => ['beginAtZero' => true, 'grid' => ['display' => false], 'ticks' => ['precision' => 0]],
+                'y' => ['grid' => ['display' => false]],
+            ],
+        ];
+    }
+
+    public function getChartAssistiveContent(): string
+    {
+        $data = $this->getCachedData();
+        $labels = $data['labels'] ?? [];
+        $datasets = $data['datasets'] ?? [];
+        $startedDataset = is_array($datasets) && is_array($datasets[0] ?? null) ? ($datasets[0]['data'] ?? []) : [];
+        $completedDataset = is_array($datasets) && is_array($datasets[1] ?? null) ? ($datasets[1]['data'] ?? []) : [];
+
+        if (! is_array($labels) || ! is_array($startedDataset) || ! is_array($completedDataset)) {
+            return 'Étapes commencées et terminées au cours des 30 derniers jours.';
+        }
+
+        $summary = [];
+
+        foreach ($labels as $index => $label) {
+            if (is_string($label)) {
+                $started = is_numeric($startedDataset[$index] ?? null) ? (int) $startedDataset[$index] : 0;
+                $completed = is_numeric($completedDataset[$index] ?? null) ? (int) $completedDataset[$index] : 0;
+                $summary[] = $label.': '.$started.' commencées, '.$completed.' terminées.';
+            }
+        }
+
+        return implode(' ', $summary);
     }
 }

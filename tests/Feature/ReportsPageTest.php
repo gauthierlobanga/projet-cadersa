@@ -18,6 +18,52 @@ beforeEach(function (): void {
     Storage::fake(Report::FILE_DISK);
 });
 
+test('removing a report file deletes the stored file and its file metadata', function () {
+    $path = 'reports/removable.pdf';
+    Storage::disk(Report::FILE_DISK)->put($path, '%PDF-1.4 report');
+
+    $report = Report::factory()->create([
+        'file_path' => $path,
+        'original_filename' => 'rapport.pdf',
+    ]);
+
+    $report->update(['file_path' => null]);
+    $report->refresh();
+
+    Storage::disk(Report::FILE_DISK)->assertMissing($path);
+    expect($report->file_path)->toBeNull()
+        ->and($report->original_filename)->toBeNull()
+        ->and($report->mime_type)->toBeNull()
+        ->and($report->file_type)->toBeNull()
+        ->and($report->file_size)->toBe(0)
+        ->and(Report::published()->whereKey($report->getKey())->exists())->toBeFalse();
+
+    $this->actingAs(User::factory()->create(['email_verified_at' => now()]))
+        ->get(route('reports.preview', $report))
+        ->assertNotFound();
+});
+
+test('replacing a report file deletes only the previous stored file', function () {
+    $oldPath = 'reports/old.pdf';
+    $replacementPath = 'reports/replacement.pdf';
+    Storage::disk(Report::FILE_DISK)->put($oldPath, '%PDF-1.4 old');
+    Storage::disk(Report::FILE_DISK)->put($replacementPath, '%PDF-1.4 new');
+
+    $report = Report::factory()->create([
+        'file_path' => $oldPath,
+        'original_filename' => 'old.pdf',
+    ]);
+
+    $report->update([
+        'file_path' => $replacementPath,
+        'original_filename' => 'replacement.pdf',
+    ]);
+
+    Storage::disk(Report::FILE_DISK)->assertMissing($oldPath);
+    Storage::disk(Report::FILE_DISK)->assertExists($replacementPath);
+    expect($report->fresh()->file_path)->toBe($replacementPath);
+});
+
 test('reports are available in the authenticated dashboard and have no public index', function () {
     $publishedPath = 'reports/public-annual.pdf';
     Storage::disk(Report::FILE_DISK)->put($publishedPath, '%PDF-1.4 public report');
@@ -49,20 +95,26 @@ test('reports are available in the authenticated dashboard and have no public in
         ->assertDontSee('Télécharger');
 });
 
-test('the homepage metadata describes the organization instead of a developer portfolio', function () {
+test('the homepage metadata describes CADERSA ASBL', function () {
     $this->get(route('home'))
         ->assertOk()
         ->assertSee('<title>Développement rural et sécurité alimentaire - Cadersa-ASBL</title>', false)
         ->assertSee('name="description" content="CADERSA ASBL accompagne les communautés rurales', false)
-        ->assertSee('"@type": "Organization"', false)
-        ->assertDontSee('Développeur Web');
+        ->assertSee('"@type": "Organization"', false);
 });
 
-test('report filters narrow each period table by file format', function () {
+test('report search and format and year filters narrow every period table', function () {
     Report::factory()->create([
         'title' => 'Rapport PDF annuel',
         'report_year' => now()->year,
         'file_type' => Report::TYPE_PDF,
+    ]);
+
+    Report::factory()->create([
+        'title' => 'Rapport partenariat annuel',
+        'report_year' => now()->year,
+        'file_type' => Report::TYPE_WORD,
+        'original_filename' => 'rapport-annuel.docx',
     ]);
 
     Report::factory()->create([
@@ -71,7 +123,24 @@ test('report filters narrow each period table by file format', function () {
         'period_number' => 1,
         'report_year' => now()->year,
         'file_type' => Report::TYPE_WORD,
-        'original_filename' => 'rapport.docx',
+        'original_filename' => 'suivi.docx',
+        'description' => 'Évaluation du partenariat trimestriel.',
+    ]);
+
+    Report::factory()->create([
+        'title' => 'Bulletin mensuel',
+        'period_type' => Report::PERIOD_MONTHLY,
+        'period_number' => now()->month,
+        'report_year' => now()->year,
+        'file_type' => Report::TYPE_WORD,
+        'original_filename' => 'partenariat-mensuel.docx',
+    ]);
+
+    Report::factory()->create([
+        'title' => 'Rapport Word ancien',
+        'report_year' => now()->subYear()->year,
+        'file_type' => Report::TYPE_WORD,
+        'original_filename' => 'partenariat-ancien.docx',
     ]);
 
     $this->actingAs(User::factory()->create(['email_verified_at' => now()]));
@@ -79,8 +148,19 @@ test('report filters narrow each period table by file format', function () {
     Livewire::test(ReportDashboard::class)
         ->set('year', (string) now()->year)
         ->set('format', Report::TYPE_WORD)
+        ->set('search', 'PARTENARIAT')
+        ->assertSee('Rapport partenariat annuel')
         ->assertSee('Rapport Word trimestriel')
-        ->assertDontSee('Rapport PDF annuel');
+        ->assertSee('Bulletin mensuel')
+        ->assertDontSee('Rapport PDF annuel')
+        ->assertDontSee('Rapport Word ancien')
+        ->assertSee('Rechercher un rapport')
+        ->assertSee('Filtrer par format')
+        ->assertSee('Filtrer par année')
+        ->call('clearFilters')
+        ->assertSet('search', '')
+        ->assertSet('format', '')
+        ->assertSet('year', (string) now()->year);
 });
 
 test('user profile fields accept telephone and email verification mass assignment', function () {
@@ -230,8 +310,17 @@ test('filament can open the report management page for a super administrator', f
     $user = User::factory()->create(['email_verified_at' => now()]);
     $role = Role::query()->create(['name' => 'super_admin', 'guard_name' => 'web']);
     $user->assignRole($role);
+    $user->saveAppAuthenticationSecret('test-mfa-secret');
 
-    $this->actingAs($user)
+    $path = 'reports/removable-from-table.pdf';
+    Storage::disk(Report::FILE_DISK)->put($path, '%PDF-1.4 report');
+    Report::factory()->create([
+        'title' => 'Rapport avec fichier supprimable',
+        'file_path' => $path,
+        'original_filename' => 'rapport-supprimable.pdf',
+    ]);
+
+    $this->actingAs($user, 'admin')
         ->get('/admin/reports')
         ->assertOk()
         ->assertSee('Rapports')
@@ -243,7 +332,8 @@ test('filament can open the report management page for a super administrator', f
         ->assertSee('Annuels')
         ->assertSee('Trimestriels')
         ->assertSee('Mensuels')
-        ->assertSee('Espace utilisé');
+        ->assertSee('Espace utilisé')
+        ->assertSee('Supprimer le fichier');
 });
 
 test('role creation sanitizes resource permission fields before saving', function () {
@@ -275,8 +365,9 @@ test('filament site dashboard shows live analytics charts', function () {
     $user = User::factory()->create(['email_verified_at' => now()]);
     $role = Role::query()->create(['name' => 'super_admin', 'guard_name' => 'web']);
     $user->assignRole($role);
+    $user->saveAppAuthenticationSecret('test-mfa-secret');
 
-    $this->actingAs($user)
+    $this->actingAs($user, 'admin')
         ->get('/admin')
         ->assertOk()
         ->assertSee('Visites')

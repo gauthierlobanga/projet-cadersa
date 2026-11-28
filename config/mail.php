@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -111,8 +111,13 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
+        'address' => env('MAIL_FROM_ADDRESS', 'cadersaasbl@cadersaasbl.com'),
+        'name' => env('MAIL_FROM_NAME', 'CADERSA ASBL'),
     ],
+
+    'admin_notification_recipients' => array_values(array_filter(array_map(
+        'trim',
+        explode(',', (string) env('MAIL_NOTIFICATION_RECIPIENTS', 'cadersa.asbl@gmail.com,cadersaasbl@cadersaasbl.com')),
+    ))),
 
 ];

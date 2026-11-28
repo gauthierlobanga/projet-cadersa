@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Reports\Tables;
 
 use App\Models\Report;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -21,7 +22,7 @@ class ReportsTable
                     ->label('Rapport')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (Report $record): string => $record->original_filename),
+                    ->description(fn (Report $record): ?string => $record->original_filename),
                 TextColumn::make('period_type')
                     ->label('Période')
                     ->badge()
@@ -40,7 +41,7 @@ class ReportsTable
                 TextColumn::make('file_type')
                     ->label('Format')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn (?string $state): string => match ($state) {
                         Report::TYPE_PDF => 'success',
                         Report::TYPE_WORD => 'gray',
                         Report::TYPE_EXCEL => 'info',
@@ -85,6 +86,19 @@ class ReportsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('removeFile')
+                    ->label('Supprimer le fichier')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Supprimer le fichier du rapport ?')
+                    ->modalDescription('Le rapport sera conservé, mais son fichier sera supprimé définitivement.')
+                    ->modalSubmitActionLabel('Supprimer le fichier')
+                    ->visible(fn (Report $record): bool => filled($record->file_path))
+                    ->action(function (Report $record): void {
+                        $record->file_path = null;
+                        $record->save();
+                    }),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Report;
+use App\Services\SiteAnalyticsDashboardData;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,8 @@ class SiteAnalyticsOverview extends StatsOverviewWidget
     protected static bool $isLazy = false;
 
     protected int|string|array $columnSpan = 'full';
+
+    protected ?string $pollingInterval = '60s';
 
     protected function getStats(): array
     {
@@ -30,11 +33,15 @@ class SiteAnalyticsOverview extends StatsOverviewWidget
             Stat::make('Visites', number_format((clone $visits)->count()))
                 ->description('30 derniers jours')
                 ->descriptionIcon('heroicon-m-eye')
-                ->chart($this->dailyVisits())
+                ->chart(array_map(fn (int $visit): float => (float) $visit, $this->dailyVisits()))
                 ->color('success'),
             Stat::make('Visiteurs uniques', number_format((clone $visits)->whereNotNull('visitor_id')->distinct('visitor_id')->count('visitor_id')))
-                ->description('30 derniers jours')
+                ->description('Sessions anonymisées · 30 jours')
                 ->descriptionIcon('heroicon-m-users')
+                ->color('info'),
+            Stat::make('Visites attribuées', number_format(app(SiteAnalyticsDashboardData::class)->attributedVisitsCount()))
+                ->description('Référents et campagnes · 30 jours')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('info'),
             Stat::make('Pages consultées', number_format($pageViewsCount))
                 ->description('30 derniers jours')
@@ -75,8 +82,8 @@ class SiteAnalyticsOverview extends StatsOverviewWidget
             ->groupBy('visit_date')
             ->pluck('total', 'visit_date');
 
-        return collect(range(0, 6))
+        return array_values(collect(range(0, 6))
             ->map(fn (int $offset): int => (int) ($dailyTotals[now()->subDays(6 - $offset)->toDateString()] ?? 0))
-            ->all();
+            ->all());
     }
 }

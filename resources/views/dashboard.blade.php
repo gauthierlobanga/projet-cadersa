@@ -28,31 +28,31 @@
 <x-layouts::app :title="__('Vue d’ensemble')">
     <main data-disable-global-animations class="dashboard-overview min-h-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
         <div class="mx-auto flex w-full max-w-screen-2xl flex-col gap-7 px-4 py-7 sm:px-6 lg:px-8 xl:px-10">
-            <section class="relative isolate overflow-hidden rounded-2xl border border-emerald-900/30 bg-gradient-to-br from-slate-950 via-emerald-950 to-emerald-800 px-6 py-8 text-white sm:px-8 sm:py-10 lg:px-10">
-                <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-300/20 via-transparent to-transparent"></div>
+            <section class="relative isolate overflow-hidden rounded-2xl border border-emerald-200 bg-gradient-to-br from-white via-emerald-50 to-emerald-100 px-6 py-8 text-slate-900 shadow-sm dark:border-emerald-900/30 dark:from-slate-950 dark:via-emerald-950 dark:to-emerald-800 dark:text-white dark:shadow-none sm:px-8 sm:py-10 lg:px-10">
+                <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-300/40 via-transparent to-transparent dark:from-emerald-300/20"></div>
                 <div class="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end">
                     <div class="max-w-3xl">
-                        <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-100">
+                        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-100/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-900 dark:border-white/15 dark:bg-white/10 dark:text-emerald-100">
                             <flux:icon name="building-office-2" class="size-4" /> Espace partenaire · CADERSA ASBL
                         </span>
                         <h1 class="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">Bienvenue, {{ $firstName }}</h1>
-                        <p class="mt-3 max-w-2xl text-sm leading-6 text-emerald-50/85 sm:text-base sm:leading-7">
+                        <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-emerald-50/85 sm:text-base sm:leading-7">
                             Retrouvez en un seul endroit les actions, les actualités et les rapports de CADERSA. Votre espace vous aide à suivre les publications et à accéder rapidement aux documents de référence.
                         </p>
                         <div class="mt-6 flex flex-wrap items-center gap-3">
-                            <a href="{{ route('dashboard.reports') }}" class="inline-flex h-11 items-center gap-2 rounded-lg bg-white px-4 text-sm font-semibold text-emerald-950 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                            <a href="{{ route('dashboard.reports') }}" class="inline-flex h-11 items-center gap-2 rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:bg-white dark:text-emerald-950 dark:hover:bg-emerald-50 dark:focus-visible:outline-white">
                                 Consulter les rapports <flux:icon name="arrow-right" class="size-4" />
                             </a>
-                            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="inline-flex h-11 items-center gap-2 rounded-lg border border-white/20 px-4 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="inline-flex h-11 items-center gap-2 rounded-lg border border-emerald-300 px-4 text-sm font-semibold text-emerald-900 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:border-white/20 dark:text-white dark:hover:bg-white/10 dark:focus-visible:outline-white">
                                 Découvrir le site <flux:icon name="arrow-up-right" class="size-4" />
                             </a>
                         </div>
                     </div>
 
-                    <aside class="rounded-xl border border-white/15 bg-slate-950/25 p-5">
-                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200">En bref</p>
+                    <aside class="rounded-xl border border-emerald-200 bg-white/80 p-5 shadow-sm dark:border-white/15 dark:bg-slate-950/25 dark:shadow-none">
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800 dark:text-emerald-200">En bref</p>
                         <p class="mt-3 text-2xl font-semibold tracking-tight">Des actions suivies, des résultats partagés.</p>
-                        <p class="mt-2 text-sm leading-6 text-emerald-50/75">Consultez les publications officielles et les bilans périodiques depuis la bibliothèque des rapports.</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-emerald-50/75">Consultez les publications officielles et les bilans périodiques depuis la bibliothèque des rapports.</p>
                     </aside>
                 </div>
             </section>

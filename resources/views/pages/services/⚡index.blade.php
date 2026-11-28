@@ -56,7 +56,7 @@ new #[Layout('layouts::main')] class extends Component {
                     <h1 class="text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-950 font-serif dark:text-zinc-50 transition-all duration-500 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
                         <span>
-                            Mes services dans différents
+                            Nos domaines d’action
                         </span>
                         <span
                             class="relative inline-block bg-linear-to-r from-emerald-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-400">
@@ -65,9 +65,8 @@ new #[Layout('layouts::main')] class extends Component {
                     </h1>
                     <p class="max-w-2xl text-lg leading-relaxed text-zinc-600/90 dark:text-zinc-400 font-sans transition-all duration-500 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                        Découvrez mes services dans différents domaines, allant du développement web à la conception
-                        graphique, en passant par le marketing digital et bien plus encore. Je m'engage à fournir des
-                        solutions de qualité pour répondre à vos besoins spécifiques.
+                        CADERSA accompagne les communautés dans le développement rural, la sécurité alimentaire,
+                        l’agriculture durable, la nutrition et le renforcement des capacités locales.
                     </p>
                 </div>
                 <div class="w-full lg:col-span-5 lg:pt-4 transition-all duration-500 delay-300 ease-[cubic-bezier(0.16,1,0.3,1)]"

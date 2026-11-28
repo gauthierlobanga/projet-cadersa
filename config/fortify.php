@@ -2,6 +2,18 @@
 
 use Laravel\Fortify\Features;
 
+$configuredPasskeyOrigins = env('PASSKEYS_ALLOWED_ORIGINS') ?: config('app.url');
+
+$passkeyAllowedOrigins = array_values(array_filter(array_map(static function (string $origin): ?string {
+    $parts = parse_url(trim($origin));
+
+    if (! is_array($parts) || ! isset($parts['scheme'], $parts['host'])) {
+        return null;
+    }
+
+    return $parts['scheme'].'://'.$parts['host'].(isset($parts['port']) ? ':'.$parts['port'] : '');
+}, explode(',', (string) $configuredPasskeyOrigins))));
+
 return [
 
     /*
@@ -143,9 +155,9 @@ return [
     */
 
     'passkeys' => [
-        'relying_party_id' => parse_url(config('app.url'), PHP_URL_HOST),
-        'allowed_origins' => [config('app.url')],
-        'user_handle_secret' => env('PASSKEYS_USER_HANDLE_SECRET', config('app.key')),
+        'relying_party_id' => env('PASSKEYS_RELYING_PARTY_ID') ?: parse_url(config('app.url'), PHP_URL_HOST),
+        'allowed_origins' => $passkeyAllowedOrigins,
+        'user_handle_secret' => env('PASSKEYS_USER_HANDLE_SECRET') ?: config('app.key'),
         'timeout' => 60000,
     ],
 

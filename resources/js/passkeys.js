@@ -22,6 +22,16 @@ const getDefaultPasskeyName = () => {
     return [browser, os].filter(Boolean).join(" on ") || "";
 };
 
+const getPasskeyVerificationErrorMessage = (error) => {
+    const message = typeof error?.message === "string" ? error.message : "";
+
+    if (/passkey not recognized/i.test(message)) {
+        return "Cette clé d’accès n’est pas enregistrée sur ce site. Connectez-vous avec votre adresse e-mail et votre mot de passe, puis ajoutez une nouvelle clé dans Paramètres > Sécurité.";
+    }
+
+    return message || "Impossible de vérifier cette clé d’accès. Réessayez ou connectez-vous avec votre adresse e-mail.";
+};
+
 const registerPasskeyComponents = () => {
     if (!window.Alpine || window.__cadersaPasskeyComponentsRegistered) {
         return;
@@ -114,7 +124,7 @@ const registerPasskeyComponents = () => {
                 window.Livewire?.navigate(response.redirect || "/dashboard");
             } catch (error) {
                 if (error.constructor?.name !== "UserCancelledError") {
-                    this.error = error.message;
+                    this.error = getPasskeyVerificationErrorMessage(error);
                 }
             } finally {
                 this.loading = false;

@@ -13,13 +13,13 @@
         $appName = null;
         $appLogo = null;
     }
-    $appName = $appName ?: config('app.name', 'Gaudev');
+    $appName = $appName ?: config('app.name', 'CADERSA ASBL');
     $appLogo = $appLogo ?: asset('images/cadersa-logo.png');
     $homeUrl = url('/');
     $refreshUrl = request()->fullUrl();
     $previousUrl = url()->previous();
     $canGoBack = $previousUrl && $previousUrl !== $refreshUrl;
-    $supportEmail = 'gauthierlobanga914@gmail.com';
+    $supportEmail = config('mail.from.address', 'cadersa.asbl@gmail.com');
 
     // --- Dynamic settings from Spatie (with graceful fallback) ---
     $errorPageConfig = [];

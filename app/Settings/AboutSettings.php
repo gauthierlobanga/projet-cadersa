@@ -140,6 +140,8 @@ class AboutSettings extends Settings
 
     public ?string $hero_image_url = null;
 
+    public ?string $email_logo_url = null;
+
     /**
      * @return string[]
      */

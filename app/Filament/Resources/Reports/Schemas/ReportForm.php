@@ -104,7 +104,7 @@ class ReportForm
                             ->maxSize(51200)
                             ->storeFileNamesIn('original_filename')
                             ->required(fn (?Report $record): bool => $record === null)
-                            ->helperText('PDF, Word ou Excel · 50 Mo maximum.')
+                            ->helperText('PDF, Word ou Excel · 50 Mo maximum. Sur un rapport existant, retirez le fichier et enregistrez pour le supprimer définitivement sans supprimer le rapport.')
                             ->columnSpanFull(),
                     ]),
             ]);

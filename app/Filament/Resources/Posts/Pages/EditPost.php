@@ -7,9 +7,9 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
+use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Facades\Auth;
 
 class EditPost extends EditRecord
 {
@@ -64,6 +64,6 @@ class EditPost extends EditRecord
                     ->dispatch('undoEditingPost', [$post->id])
                     ->close(),
             ])
-            ->broadcast(Auth::user());
+            ->broadcast(Filament::auth()->user());
     }
 }

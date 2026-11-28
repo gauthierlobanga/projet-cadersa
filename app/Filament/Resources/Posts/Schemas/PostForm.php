@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Posts\Schemas;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\RichEditor\MentionProvider;
@@ -25,7 +26,6 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostForm
@@ -39,6 +39,26 @@ class PostForm
                 Group::make()
                     ->columnSpan(2)
                     ->schema([
+                        Section::make('Image principale')
+                            ->description('Cette image représente votre post dans la bibliothèque, les listes et les aperçus de partage.')
+                            ->icon('heroicon-m-photo')
+                            ->schema([
+                                SpatieMediaLibraryFileUpload::make('featured')
+                                    ->label('Image à la une')
+                                    ->collection('featured')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->responsiveImages()
+                                    ->disk('public')
+                                    ->visibility('public')
+                                    ->maxSize(10240)
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                    ->loadingIndicatorPosition('left')
+                                    ->panelLayout('integrated')
+                                    ->columnSpanFull()
+                                    ->helperText('JPEG, PNG ou WebP · 16:9 recommandé · 10 Mo maximum'),
+                            ]),
+
                         Tabs::make('Post')
                             ->tabs([
                                 Tab::make('Contenu')
@@ -143,25 +163,6 @@ class PostForm
                                 Tab::make('Média')
                                     ->icon('heroicon-m-photo')
                                     ->schema([
-                                        // IMAGE À LA UNE OPTIMISÉE
-                                        SpatieMediaLibraryFileUpload::make('featured')
-                                            ->label('Image à la une')
-                                            ->collection('featured')
-                                            ->image()
-                                            ->imageEditor()
-                                            ->responsiveImages()
-                                            ->conversion('card') // Aperçu avec la conversion card
-                                            ->disk('public')
-                                            ->directory('posts/featured')
-                                            ->visibility('public')
-                                            ->maxSize(10208) // 10MB
-                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                                            ->loadingIndicatorPosition('left')
-                                            ->panelLayout('integrated')
-                                            ->columnSpanFull()
-                                            ->helperText('Format 16:9 recommandé, poids max 5MB. Formats acceptés : JPEG, PNG, WebP')
-                                            ->hint('Haute résolution recommandée (min. 1600x900)'),
-
                                         // GALERIE D'IMAGES
                                         SpatieMediaLibraryFileUpload::make('gallery')
                                             ->label('Galerie d\'images')
@@ -248,7 +249,7 @@ class PostForm
                                     ->searchable()
                                     ->preload()
                                     ->required()
-                                    ->default(Auth::id()),
+                                    ->default(Filament::auth()->id()),
 
                                 ToggleButtons::make('status')
                                     ->label('Statut')

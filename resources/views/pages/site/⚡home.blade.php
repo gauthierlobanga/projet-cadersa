@@ -82,25 +82,27 @@ new #[Layout('layouts::main')] class extends Component {
 
     public function rendering(\Illuminate\View\View $view): void
     {
-        $view->title('Accueil');
+        $view->title('Développement rural et sécurité alimentaire');
 
         // Récupération des réseaux sociaux pour le schema
         $settings = $this->settings;
         $sameAs = array_filter([$settings->facebook_url, $settings->instagram_url, $settings->x_url, $settings->linkedin_url, $settings->youtube_url]);
+        $description = 'CADERSA ASBL accompagne les communautés rurales et périurbaines à travers des projets agricoles, sociaux et environnementaux.';
 
         $schema = [
             '@context' => 'https://schema.org',
-            '@type' => 'Person',
-            'name' => '',
+            '@type' => 'Organization',
+            'name' => $settings->name ?: 'CADERSA ASBL',
+            'legalName' => $settings->name ?: 'CADERSA ASBL',
             'url' => url('/'),
             'image' => $this->about->hero_image_url ? $this->imageUrl($this->about->hero_image_url) : $this->imageUrl('images/cadersa-logo.png'),
-            'description' => ' – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Architecture moderne avec Filament, API robustes et interfaces performantes. Découvrez mon portfolio, mes projets et mon savoir‑faire.',
+            'description' => $description,
             'sameAs' => $sameAs,
         ];
 
         $view->layoutData([
-            'seoDescription' => ' – Développeur Web Full‑Stack spécialisé Laravel, TALL stack (Tailwind CSS, Alpine.js, Livewire, Laravel), React (Starter Kit) et Inertia.js. Bienvenue sur mon portfolio professionnel.',
-            'seoKeywords' => ['', 'portfolio', 'développeur web', 'TALL stack', 'Filament', 'Laravel', 'Livewire', 'RDC', 'React', 'Inertia.js', 'développement web', 'projets web', 'services web', 'front-end', 'back-end', 'full-stack', 'web design', 'web development', 'web applications', 'web solutions', 'web services', 'formation web', 'web tutorials', 'web resources', 'web technologies', 'web programming', 'web frameworks', 'web tools', 'web optimization', 'web performance', 'web security', 'web accessibility'],
+            'seoDescription' => $description,
+            'seoKeywords' => ['CADERSA ASBL', 'développement rural', 'sécurité alimentaire', 'agriculture durable', 'communautés rurales', 'projets agricoles', 'formation rurale'],
             'schema' => '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>',
         ]);
     }

@@ -148,7 +148,7 @@ new #[Layout('layouts::main')] class extends Component {
             {{-- Sous-titre --}}
             @if ($project->excerpt)
                 <div x-ref="subtitle"
-                    class="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-300 dark:drop-shadow-md">
+                    class="mx-auto mt-5 max-w-2xl text-base font-normal leading-7 text-zinc-600 sm:text-lg dark:text-zinc-300 dark:drop-shadow-md">
                     {!! $project->renderRichContent('excerpt') !!}
                 </div>
             @endif

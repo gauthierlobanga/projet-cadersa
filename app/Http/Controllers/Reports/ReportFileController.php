@@ -15,6 +15,7 @@ class ReportFileController extends Controller
     {
         abort_unless($report->status === Report::STATUS_PUBLISHED && $report->published_at !== null, 404);
         abort_unless($report->file_type === Report::TYPE_PDF, 404);
+        abort_unless(filled($report->file_path), 404);
         abort_unless(Storage::disk(Report::FILE_DISK)->exists($report->file_path), 404);
 
         $response = response()->file(
@@ -37,6 +38,7 @@ class ReportFileController extends Controller
 
         abort_unless($user?->is_active && $user->hasVerifiedEmail() && $user->isAdmin(), 403);
         abort_unless($report->status === Report::STATUS_PUBLISHED && $report->published_at !== null, 404);
+        abort_unless(filled($report->file_path), 404);
         abort_unless(Storage::disk(Report::FILE_DISK)->exists($report->file_path), 404);
 
         return Storage::disk(Report::FILE_DISK)->download(

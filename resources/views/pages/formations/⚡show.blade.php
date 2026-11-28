@@ -632,7 +632,7 @@ new #[Layout('layouts::main')] class extends Component {
                 {{-- Sous‑titre --}}
                 @if ($formation->subtitle)
                     <div
-                        class="mb-10 text-xl sm:text-2xl font-light leading-relaxed text-slate-600 dark:text-slate-300 border-l-4 border-emerald-500 pl-6">
+                        class="mb-8 border-l-4 border-emerald-500 pl-5 text-base font-normal leading-7 text-slate-600 sm:text-lg dark:text-slate-300">
                         {{ $formation->subtitle }}
                     </div>
                 @endif
@@ -875,7 +875,7 @@ new #[Layout('layouts::main')] class extends Component {
                             </div>
                         </div>
                         <p class="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                            {{ $formation->user?->bio ?? 'Développeur Full‑Stack passionné par la transmission des connaissances.' }}
+                            {{ $formation->user?->bio ?? 'L’équipe de formation de CADERSA accompagne les participants avec des contenus pratiques et adaptés au terrain.' }}
                         </p>
                     </div>
 

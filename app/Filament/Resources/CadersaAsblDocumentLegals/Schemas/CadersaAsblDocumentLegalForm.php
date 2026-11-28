@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\CadersaAsblDocumentLegals\Schemas;
 
 use App\Models\TypeDocumentLegal;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
@@ -14,7 +15,6 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Auth;
 
 class CadersaAsblDocumentLegalForm
 {
@@ -108,7 +108,7 @@ class CadersaAsblDocumentLegalForm
                                     ->afterStateUpdated(function (Set $set, $state) {
                                         if ($state) {
                                             $set('verifie_le', now());
-                                            $set('verifie_par', Auth::id());
+                                            $set('verifie_par', Filament::auth()->id());
                                         } else {
                                             $set('verifie_le', null);
                                             $set('verifie_par', null);

@@ -41,8 +41,10 @@ class ReportDashboard extends Component
     public function mount(): void
     {
         $this->year = filled($this->year) ? $this->year : (string) now()->year;
-        $this->notificationsCheckedAt = now()->toDateTimeString();
+        $notificationsCheckedAt = Carbon::parse(now()->toDateTimeString());
+        $this->notificationsCheckedAt = $notificationsCheckedAt->toDateTimeString();
         $this->notifiedReportIds = Report::published()
+            ->where('published_at', '<', $notificationsCheckedAt)
             ->latest('published_at')
             ->limit(100)
             ->pluck('id')
@@ -228,9 +230,9 @@ class ReportDashboard extends Component
                 $search = trim($this->search);
 
                 return $query->where(function (Builder $query) use ($search): void {
-                    $query->where('title', 'like', '%'.$search.'%')
-                        ->orWhere('description', 'like', '%'.$search.'%')
-                        ->orWhere('original_filename', 'like', '%'.$search.'%');
+                    $query->whereLike('title', '%'.$search.'%')
+                        ->orWhereLike('description', '%'.$search.'%')
+                        ->orWhereLike('original_filename', '%'.$search.'%');
                 });
             });
     }

@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\Posts\Pages;
 
 use App\Filament\Resources\Posts\PostResource;
+use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Support\Facades\Auth;
 
 class CreatePost extends CreateRecord
 {
@@ -34,6 +34,6 @@ class CreatePost extends CreateRecord
             ->color('success')
             ->success()
             ->body('The post has been created successfully.')
-            ->broadcast(Auth::user());
+            ->broadcast(Filament::auth()->user());
     }
 }

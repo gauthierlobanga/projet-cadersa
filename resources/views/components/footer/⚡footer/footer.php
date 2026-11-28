@@ -2,8 +2,6 @@
 
 use App\Settings\AboutSettings;
 use App\Settings\SettingApp;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -22,12 +20,6 @@ new #[Layout('layouts::main')] class extends Component
     public ?string $secondaryEmail = null;
 
     public array $addresses = [];
-
-    public string $developerName = '';
-
-    public string $developerUrl = 'https://github.com/gauthierlobanga';
-
-    public string $developerEmail = 'gauthierlobanga914@gmail.com';
 
     // Nouvelles propriétés pour le footer
     public string $footerCopyright = 'Tous droits réservés.';
@@ -49,31 +41,6 @@ new #[Layout('layouts::main')] class extends Component
         $this->footerCopyright = $aboutSettings->footer_copyright ?: 'Tous droits réservés.';
         $this->footerText = $aboutSettings->footer_text ?: '';
 
-        $this->loadDeveloperInfo();
-    }
-
-    protected function loadDeveloperInfo(): void
-    {
-        $githubData = Cache::remember('github_developer_info', 86400, function () {
-            try {
-                $response = Http::timeout(3)->get('https://api.github.com/users/gauthierlobanga');
-                if ($response->successful()) {
-                    return $response->json();
-                }
-            } catch (Exception $e) {
-                // Ignore errors
-            }
-
-            return null;
-        });
-
-        if ($githubData) {
-            $this->developerName = $githubData['name'] ?? $githubData['login'] ?? '';
-            $this->developerUrl = $githubData['html_url'] ?? 'https://github.com/gauthierlobanga';
-            if (! empty($githubData['email'])) {
-                $this->developerEmail = $githubData['email'];
-            }
-        }
     }
 
     protected function buildSocialLinks(SettingApp $settings): array

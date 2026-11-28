@@ -10,3 +10,7 @@ Artisan::command('inspire', function () {
 
 // Planification de la génération du sitemap XML
 Schedule::command('sitemap:generate')->daily();
+
+Schedule::command('queue:work --stop-when-empty --tries=3 --max-time=50')
+    ->everyMinute()
+    ->withoutOverlapping(2);

@@ -61,6 +61,35 @@
             </flux:button>
         </form>
 
+        @if (filled(config('services.google.client_id')) && filled(config('services.google.client_secret')))
+            <div class="flex flex-col gap-4">
+                <div class="relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 border-t border-zinc-200 dark:border-zinc-700"></span>
+                    <span class="relative bg-white px-3 text-xs uppercase tracking-wide text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+                        {{ __('Ou continuer avec') }}
+                    </span>
+                </div>
+
+                <flux:button
+                    href="{{ route('auth.google.redirect') }}"
+                    class="w-full rounded-xl border border-zinc-200 bg-white py-3 text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                >
+                    <span class="inline-flex items-center justify-center gap-3">
+                        <span aria-hidden="true" class="grid size-7 shrink-0 place-items-center rounded-full bg-white">
+                            <img
+                                src="https://developers.google.com/static/identity/images/g-logo.png"
+                                alt=""
+                                width="20"
+                                height="20"
+                                class="size-5"
+                            >
+                        </span>
+                        <span>{{ __('Continuer avec Google') }}</span>
+                    </span>
+                </flux:button>
+            </div>
+        @endif
+
         {{-- Lien vers l'inscription --}}
         <div class="text-center text-sm text-zinc-500 dark:text-zinc-400">
             <span>{{ __('Pas encore de compte ?') }}</span>

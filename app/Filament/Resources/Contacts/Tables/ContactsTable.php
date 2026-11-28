@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Contacts\Tables;
 
+use App\Filament\Resources\Contacts\Actions\ReplyToContactAction;
 use App\Models\Contact;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -174,12 +175,7 @@ class ContactsTable
                                 ->send();
                         }),
 
-                    Action::make('reply')
-                        ->label('Répondre')
-                        ->icon(Heroicon::OutlinedEnvelope)
-                        ->color('success')
-                        ->url(fn ($record) => route('filament.admin.resources.contacts.edit', $record).'#reponse')
-                        ->visible(fn ($record) => ! in_array($record->status, ['repondu', 'archive'])),
+                    ReplyToContactAction::make(),
 
                     Action::make('mark_as_spam')
                         ->label('Spam')

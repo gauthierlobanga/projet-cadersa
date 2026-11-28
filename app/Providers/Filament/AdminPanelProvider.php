@@ -8,12 +8,16 @@ use App\Filament\Widgets\SiteAnalyticsOverview;
 use App\Filament\Widgets\SiteConversionFunnelChart;
 use App\Filament\Widgets\SiteDeviceBreakdownChart;
 use App\Filament\Widgets\SiteTopPagesChart;
+use App\Filament\Widgets\SiteTopPagesSummaryTable;
+use App\Filament\Widgets\SiteTrafficSourcesBarChart;
+use App\Filament\Widgets\SiteTrafficSourcesChart;
+use App\Filament\Widgets\SiteTrafficSourcesSummaryTable;
 use App\Filament\Widgets\SiteVisitsChart;
 use App\Http\Middleware\EnsureUserIsSuperAdmin;
-use App\Http\Middleware\RedirectAdminLogin;
 use App\Settings\SettingApp;
 use App\Support\Branding\Favicon;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -40,6 +44,14 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->authGuard('admin')
+            ->login()
+            ->profile()
+            ->multiFactorAuthentication([
+                AppAuthentication::make()
+                    ->recoverable()
+                    ->brandName('CADERSA ASBL'),
+            ], isRequired: true)
             ->domain(app()->isProduction() ? 'cadersaasbl.com' : null)
             ->brandLogo(function () {
                 $settings = app(SettingApp::class);
@@ -74,11 +86,14 @@ class AdminPanelProvider extends PanelProvider
                 SiteTopPagesChart::class,
                 SiteConversionFunnelChart::class,
                 SiteDeviceBreakdownChart::class,
+                SiteTrafficSourcesChart::class,
+                SiteTopPagesSummaryTable::class,
+                SiteTrafficSourcesSummaryTable::class,
+                SiteTrafficSourcesBarChart::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
             ->middleware([
-                RedirectAdminLogin::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,

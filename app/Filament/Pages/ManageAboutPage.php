@@ -40,10 +40,13 @@ class ManageAboutPage extends SettingsPage
 
     protected ?string $oldAboutImage = null;
 
+    protected ?string $oldEmailLogo = null;
+
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $this->oldHeroImage = $data['hero_image_url'] ?? null;
         $this->oldAboutImage = $data['about_image_url'] ?? null;
+        $this->oldEmailLogo = $data['email_logo_url'] ?? null;
 
         if (empty($data['impact_content'] ?? [])) {
             $data['impact_content'] = [[
@@ -117,6 +120,10 @@ class ManageAboutPage extends SettingsPage
             Storage::disk('public')->delete($this->oldAboutImage);
         }
 
+        if ($this->oldEmailLogo && $this->oldEmailLogo !== ($data['email_logo_url'] ?? null)) {
+            Storage::disk('public')->delete($this->oldEmailLogo);
+        }
+
         // Garantir la présence des clés
         $data['impact_content'] = $data['impact_content'] ?? [];
         $data['impact_stats'] = $data['impact_stats'] ?? [];
@@ -147,6 +154,7 @@ class ManageAboutPage extends SettingsPage
 
             'hero_image_url' => $settings->hero_image_url,
             'about_image_url' => $settings->about_image_url,
+            'email_logo_url' => $settings->email_logo_url,
             'contact_email' => $settings->contact_email ?? null,
             'contact_phone' => $settings->contact_phone ?? null,
             'address' => $settings->address ?? null,
@@ -231,6 +239,17 @@ class ManageAboutPage extends SettingsPage
                                             ->visibility('public')
                                             ->moveFiles()
                                             ->preserveFilenames(),
+                                        FileUpload::make('email_logo_url')
+                                            ->label('Logo des e-mails')
+                                            ->image()
+                                            ->imageEditor()
+                                            ->disk('public')
+                                            ->directory('about')
+                                            ->visibility('public')
+                                            ->moveFiles()
+                                            ->preserveFilenames()
+                                            ->maxSize(2048)
+                                            ->helperText('Ce logo sera intégré aux e-mails CADERSA. PNG transparent recommandé, 2 Mo maximum.'),
                                     ]),
                             ]),
 

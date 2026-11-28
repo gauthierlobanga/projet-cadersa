@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Services\SiteAnalyticsDashboardData;
 use Filament\Widgets\ChartWidget;
-use Illuminate\Support\Facades\DB;
 
 class SiteDeviceBreakdownChart extends ChartWidget
 {
@@ -11,33 +11,47 @@ class SiteDeviceBreakdownChart extends ChartWidget
 
     protected ?string $heading = 'Appareils des visiteurs';
 
-    protected ?string $description = 'Répartition des visites sur 30 jours';
+    protected ?string $description = 'Répartition des appareils · 30 derniers jours';
+
+    protected ?string $pollingInterval = '60s';
+
+    protected ?string $emptyStateHeading = 'Aucune visite mesurée';
+
+    protected ?string $emptyStateDescription = 'La répartition apparaîtra dès les premières visites.';
+
+    protected ?string $maxHeight = '240px';
 
     protected int|string|array $columnSpan = 1;
 
     protected function getData(): array
     {
-        $devices = DB::table('visits')
-            ->where('visited_at', '>=', now()->subDays(30))
-            ->selectRaw("COALESCE(NULLIF(device, ''), 'Non renseigné') as device_label, COUNT(*) as total")
-            ->groupBy('device_label')
-            ->orderByDesc('total')
-            ->get();
-
-        return [
-            'datasets' => [
-                [
-                    'data' => $devices->pluck('total')->map(fn (int|string $total): int => (int) $total)->all(),
-                    'backgroundColor' => ['#047857', '#475569', '#2dd4bf', '#94a3b8', '#f59e0b'],
-                    'borderWidth' => 0,
-                ],
-            ],
-            'labels' => $devices->pluck('device_label')->all(),
-        ];
+        return app(SiteAnalyticsDashboardData::class)->deviceBreakdown();
     }
 
     protected function getType(): string
     {
         return 'doughnut';
+    }
+
+    public function getChartAssistiveContent(): string
+    {
+        $data = $this->getCachedData();
+        $labels = $data['labels'] ?? [];
+        $datasets = $data['datasets'] ?? [];
+        $visits = is_array($datasets) && is_array($datasets[0] ?? null) ? ($datasets[0]['data'] ?? []) : [];
+
+        if (! is_array($labels) || ! is_array($visits)) {
+            return 'Répartition des visites selon les appareils au cours des 30 derniers jours.';
+        }
+
+        $summary = [];
+
+        foreach ($labels as $index => $label) {
+            if (is_string($label)) {
+                $summary[] = $label.': '.(is_numeric($visits[$index] ?? null) ? (int) $visits[$index] : 0).' visites.';
+            }
+        }
+
+        return implode(' ', $summary);
     }
 }

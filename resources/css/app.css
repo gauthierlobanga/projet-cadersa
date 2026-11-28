@@ -16,6 +16,14 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+body:has(.dashboard-overview) [data-flux-sidebar] {
+    z-index: 50 !important;
+}
+
+body:has(.dashboard-overview) [data-flux-sidebar-backdrop] {
+    z-index: 40 !important;
+}
+
 @theme {
     /* ── Polices ─────────────────────────────────────── */
     --font-sans:
@@ -322,8 +330,8 @@ select:focus[data-flux-control] {
 /* fi-prose: Contenu riche — articles, formations, services */
 .fi-prose {
     font-family: var(--font-sans);
-    font-size: 1.0625rem; /* 17px — légèrement supérieur pour la lisibilité */
-    line-height: 1.8;
+    font-size: 1rem;
+    line-height: 1.65;
     color: var(--color-zinc-700);
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
 }
@@ -332,11 +340,18 @@ select:focus[data-flux-control] {
     color: var(--color-zinc-300);
 }
 
-/* Paragraphe principal */
+.fi-prose > :first-child {
+    margin-top: 0;
+}
+
+.fi-prose > :last-child {
+    margin-bottom: 0;
+}
+
 .fi-prose > p:first-of-type {
-    font-size: 1.125rem; /* 18px — lead paragraph */
+    font-size: 1.0625rem;
     color: var(--color-zinc-600);
-    line-height: 1.7;
+    line-height: 1.65;
     font-weight: 400;
 }
 .dark .fi-prose > p:first-of-type {
@@ -344,46 +359,38 @@ select:focus[data-flux-control] {
 }
 
 .fi-prose p {
-    margin-bottom: 1.5em;
-    line-height: 1.8;
+    margin: 0.75rem 0;
+    line-height: 1.65;
 }
 
 /* Titres dans le contenu */
 .fi-prose h1 {
-    font-family: var(--font-serif);
-    font-size: 2.25rem;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-top: 2.5em;
-    margin-bottom: 1em;
-    letter-spacing: -0.03em;
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1.5rem 0 0.625rem;
+    letter-spacing: -0.025em;
     color: var(--color-zinc-950);
 }
 .dark .fi-prose h1 { color: var(--color-zinc-50); }
 
 .fi-prose h2 {
-    font-family: var(--font-serif);
-    font-size: 1.625rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    line-height: 1.25;
-    margin-top: 2em;
-    margin-bottom: 0.75em;
+    line-height: 1.3;
+    margin: 1.4rem 0 0.5rem;
     letter-spacing: -0.02em;
     color: var(--color-zinc-900);
-    padding-bottom: 0.4em;
-    border-bottom: 1px solid var(--color-zinc-100);
 }
 .dark .fi-prose h2 {
     color: var(--color-zinc-100);
-    border-bottom-color: var(--color-zinc-800);
 }
 
 .fi-prose h3 {
-    font-size: 1.25rem;
+    font-size: 1.1875rem;
     font-weight: 700;
     line-height: 1.35;
-    margin-top: 1.75em;
-    margin-bottom: 0.5em;
+    margin: 1.15rem 0 0.4rem;
     letter-spacing: -0.015em;
     color: var(--color-zinc-800);
 }
@@ -391,13 +398,11 @@ select:focus[data-flux-control] {
 
 .fi-prose h4 {
     font-size: 1.0625rem;
-    font-weight: 600;
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
+    font-weight: 650;
+    line-height: 1.4;
+    margin: 1rem 0 0.35rem;
     color: var(--color-zinc-800);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.8125rem; /* 13px */
+    letter-spacing: -0.01em;
 }
 .dark .fi-prose h4 { color: var(--color-zinc-300); }
 
@@ -432,14 +437,14 @@ select:focus[data-flux-control] {
 /* Citation */
 .fi-prose blockquote {
     position: relative;
-    padding: 1.25rem 1.5rem;
-    margin: 2.5em 0;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
     border-left: 3px solid var(--color-emerald-500);
     background-color: oklch(from var(--color-emerald-50) l c h / 0.6);
     border-radius: 0 0.5rem 0.5rem 0;
     font-style: italic;
-    font-size: 1.125rem;
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--color-zinc-700);
 }
 .dark .fi-prose blockquote {
@@ -451,16 +456,18 @@ select:focus[data-flux-control] {
 
 /* Listes */
 .fi-prose ul, .fi-prose ol {
-    padding-left: 1.75rem;
-    margin-bottom: 1.5em;
+    padding-left: 1.4rem;
+    margin: 0.75rem 0;
 }
 .fi-prose ul { list-style-type: disc; }
 .fi-prose ol { list-style-type: decimal; }
 .fi-prose li {
-    margin-top: 0.4em;
-    margin-bottom: 0.4em;
-    line-height: 1.7;
+    margin: 0.2em 0;
+    line-height: 1.6;
 }
+.fi-prose li > p { margin: 0.15em 0; }
+.fi-prose li > ul,
+.fi-prose li > ol { margin: 0.25em 0; }
 .fi-prose li::marker {
     color: var(--color-emerald-500);
 }
@@ -468,8 +475,7 @@ select:focus[data-flux-control] {
 /* Images */
 .fi-prose img {
     border-radius: 0.75rem;
-    margin-top: 2.5em;
-    margin-bottom: 2.5em;
+    margin: 1.25rem 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
     display: block;
 }
@@ -495,12 +501,11 @@ select:focus[data-flux-control] {
 .fi-prose table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1.75em;
-    margin-bottom: 1.75em;
+    margin: 1rem 0;
     font-size: 0.9375rem;
 }
 .fi-prose th, .fi-prose td {
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.75rem;
     border: 1px solid var(--color-zinc-200);
     text-align: left;
     line-height: 1.5;
@@ -522,7 +527,7 @@ select:focus[data-flux-control] {
 
 /* Séparateur horizontal */
 .fi-prose hr {
-    margin: 2.5em 0;
+    margin: 1.25rem 0;
     border: none;
     border-top: 1px solid var(--color-zinc-200);
 }

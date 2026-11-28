@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Dashboard\DashboardOverviewController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\Reports\ReportFileController;
@@ -12,8 +13,12 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 // ==================== Routes principales ====================
-// Rediriger l'ancienne URL de connexion Filament vers la page de connexion publique
-Route::redirect('/admin/login', '/login');
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])
+    ->middleware('throttle:10,1')
+    ->name('auth.google.redirect');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])
+    ->middleware('throttle:10,1')
+    ->name('auth.google.callback');
 Route::livewire('/', 'pages::site.home')->name('home');
 Route::livewire('/about', 'pages::site.about')->name('about');
 Route::livewire('/contact', 'pages::site.contact')->name('contact');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsSuperAdmin;
+use App\Http\Middleware\RecordSiteAnalytics;
 use App\Http\Middleware\RemoveCspHeader;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             RemoveCspHeader::class,
             SecurityHeaders::class,
+            RecordSiteAnalytics::class,
         ]);
 
         $middleware->alias([

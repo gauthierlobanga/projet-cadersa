@@ -2,9 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Services\SiteAnalyticsDashboardData;
 use Filament\Widgets\ChartWidget;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class SiteTopPagesChart extends ChartWidget
 {
@@ -12,36 +11,60 @@ class SiteTopPagesChart extends ChartWidget
 
     protected ?string $heading = 'Pages les plus consultées';
 
-    protected ?string $description = 'Consultations sur les 30 derniers jours';
+    protected ?string $description = 'Top pages · 30 derniers jours';
+
+    protected ?string $pollingInterval = '60s';
+
+    protected ?string $emptyStateHeading = 'Aucune page consultée';
+
+    protected ?string $emptyStateDescription = 'Les pages apparaîtront dès les premières visites.';
+
+    protected ?string $maxHeight = '260px';
 
     protected int|string|array $columnSpan = 1;
 
     protected function getData(): array
     {
-        $topPages = DB::table('page_views')
-            ->where('viewed_at', '>=', now()->subDays(30))
-            ->select('url')
-            ->selectRaw('COUNT(*) as total')
-            ->groupBy('url')
-            ->orderByDesc('total')
-            ->limit(8)
-            ->get();
-
-        return [
-            'datasets' => [
-                [
-                    'label' => 'Pages vues',
-                    'data' => $topPages->pluck('total')->map(fn (int|string $total): int => (int) $total)->all(),
-                    'backgroundColor' => '#059669',
-                    'borderRadius' => 6,
-                ],
-            ],
-            'labels' => $topPages->pluck('url')->map(fn (?string $url): string => Str::limit($url ?: '/', 28))->all(),
-        ];
+        return app(SiteAnalyticsDashboardData::class)->topPages();
     }
 
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'indexAxis' => 'y',
+            'maintainAspectRatio' => false,
+            'plugins' => ['legend' => ['display' => false]],
+            'scales' => [
+                'x' => ['beginAtZero' => true, 'grid' => ['display' => false], 'ticks' => ['precision' => 0]],
+                'y' => ['grid' => ['display' => false]],
+            ],
+        ];
+    }
+
+    public function getChartAssistiveContent(): string
+    {
+        $data = $this->getCachedData();
+        $labels = $data['labels'] ?? [];
+        $datasets = $data['datasets'] ?? [];
+        $views = is_array($datasets) && is_array($datasets[0] ?? null) ? ($datasets[0]['data'] ?? []) : [];
+
+        if (! is_array($labels) || ! is_array($views)) {
+            return 'Classement des pages consultées au cours des 30 derniers jours.';
+        }
+
+        $summary = [];
+
+        foreach ($labels as $index => $label) {
+            if (is_string($label)) {
+                $summary[] = $label.': '.(is_numeric($views[$index] ?? null) ? (int) $views[$index] : 0).' consultations.';
+            }
+        }
+
+        return implode(' ', $summary);
     }
 }

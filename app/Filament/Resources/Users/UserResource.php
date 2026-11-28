@@ -10,10 +10,10 @@ use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 // use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class UserResource extends Resource
@@ -52,7 +52,7 @@ class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        if (Auth::user()->hasRole('super_admin')) {
+        if (Filament::auth()->user()->hasRole('super_admin')) {
             return static::getModel()::count();
         }
 
@@ -61,7 +61,7 @@ class UserResource extends Resource
 
     public static function getNavigationBadgeColor(): string|array|null
     {
-        if (Auth::user()->hasRole('super_admin')) {
+        if (Filament::auth()->user()->hasRole('super_admin')) {
             return static::getModel()::count() > 10 ? 'success' : 'warning';
         }
 

@@ -53,16 +53,35 @@ class Report extends Model
     protected static function booted(): void
     {
         static::saving(function (Report $report): void {
-            if ($report->isDirty('file_path') && filled($report->file_path) && Storage::disk(self::FILE_DISK)->exists($report->file_path)) {
-                $report->file_size = Storage::disk(self::FILE_DISK)->size($report->file_path);
-                $report->mime_type = Storage::disk(self::FILE_DISK)->mimeType($report->file_path);
-                $report->file_type = self::typeForFilename($report->original_filename ?: $report->file_path);
+            if ($report->isDirty('file_path')) {
+                if (filled($report->file_path) && Storage::disk(self::FILE_DISK)->exists($report->file_path)) {
+                    $report->file_size = Storage::disk(self::FILE_DISK)->size($report->file_path);
+                    $report->mime_type = Storage::disk(self::FILE_DISK)->mimeType($report->file_path);
+                    $report->file_type = self::typeForFilename($report->original_filename ?: $report->file_path);
+                } elseif (blank($report->file_path)) {
+                    $report->original_filename = null;
+                    $report->mime_type = null;
+                    $report->file_type = null;
+                    $report->file_size = 0;
+                }
             }
 
             if ($report->status === self::STATUS_PUBLISHED) {
                 $report->published_at ??= now();
             } else {
                 $report->published_at = null;
+            }
+        });
+
+        static::updated(function (Report $report): void {
+            if (! $report->wasChanged('file_path')) {
+                return;
+            }
+
+            $previousFilePath = $report->getOriginal('file_path');
+
+            if (filled($previousFilePath) && $previousFilePath !== $report->file_path) {
+                Storage::disk(self::FILE_DISK)->delete($previousFilePath);
             }
         });
 
@@ -75,7 +94,11 @@ class Report extends Model
 
     public function scopePublished(Builder $query): Builder
     {
-        return $query->where('status', self::STATUS_PUBLISHED)->whereNotNull('published_at');
+        return $query
+            ->where('status', self::STATUS_PUBLISHED)
+            ->whereNotNull('published_at')
+            ->whereNotNull('file_path')
+            ->where('file_path', '!=', '');
     }
 
     public function project(): BelongsTo
@@ -85,6 +108,10 @@ class Report extends Model
 
     public function getFormatLabelAttribute(): string
     {
+        if (blank($this->file_path)) {
+            return 'Aucun fichier';
+        }
+
         return match ($this->file_type) {
             self::TYPE_PDF => 'PDF',
             self::TYPE_WORD => 'Word',
@@ -107,6 +134,10 @@ class Report extends Model
 
     public function getFormattedFileSizeAttribute(): string
     {
+        if (blank($this->file_path)) {
+            return '—';
+        }
+
         $bytes = (int) $this->file_size;
 
         if ($bytes >= 1_000_000_000) {

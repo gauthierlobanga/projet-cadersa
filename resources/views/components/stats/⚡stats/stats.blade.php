@@ -120,8 +120,8 @@
                                     {!! $highlightText !!}
                                 @endif
                             @else
-                                <p>Discutons de vos besoins en développement web, de vos idées d'application ou de votre
-                                    besoin de formation. Je vous réponds rapidement.</p>
+                                <p>Échangeons sur vos besoins en développement rural, sécurité alimentaire, nutrition
+                                    ou formation. Notre équipe vous répondra dans les meilleurs délais.</p>
                             @endif
                         </div>
                     </div>

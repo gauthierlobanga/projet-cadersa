@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Contacts\Pages;
 
+use App\Filament\Resources\Contacts\Actions\ReplyToContactAction;
 use App\Filament\Resources\Contacts\ContactResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
@@ -15,6 +16,7 @@ class EditContact extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ReplyToContactAction::make(),
             DeleteAction::make(),
             ForceDeleteAction::make(),
             RestoreAction::make(),

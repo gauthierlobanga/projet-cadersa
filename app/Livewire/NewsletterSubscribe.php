@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Newsletter;
+use App\Services\SiteAnalyticsTracker;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
@@ -19,6 +20,11 @@ class NewsletterSubscribe extends Component
     public string $origin = 'post_show';
 
     public bool $subscribed = false;
+
+    public function mount(): void
+    {
+        app(SiteAnalyticsTracker::class)->startConversion('newsletter_subscription');
+    }
 
     /**
      * Handle the newsletter subscription form submission.
@@ -38,6 +44,8 @@ class NewsletterSubscribe extends Component
             'source' => $this->source,
             'metadata' => ['origin' => $this->origin],
         ]);
+
+        app(SiteAnalyticsTracker::class)->completeConversion('newsletter_subscription');
 
         $this->reset('email');
         $this->subscribed = true;

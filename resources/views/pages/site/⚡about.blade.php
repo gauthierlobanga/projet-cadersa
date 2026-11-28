@@ -355,12 +355,10 @@ new #[Layout('layouts::main')] class extends Component {
                                 @endif
                             @endforeach
                         @else
-                            <p>Je crois fermement que le code bien écrit est un levier puissant pour résoudre des
-                                problèmes réels. Mon ambition est de rendre la technologie accessible à tous, en
-                                proposant des solutions sur mesure, durables et évolutives, quel que soit le budget ou
-                                le secteur d’activité.</p>
-                            <p>Je m’engage à rester à l’écoute, à communiquer de manière transparente et à livrer un
-                                travail de qualité qui dépasse les attentes.</p>
+                            <p>CADERSA ASBL œuvre avec les communautés pour améliorer durablement les conditions de
+                                vie en milieu rural et renforcer la sécurité alimentaire.</p>
+                            <p>Nos actions associent les savoirs locaux, l’accompagnement de proximité et des
+                                solutions adaptées aux réalités de chaque territoire.</p>
                         @endif
                     </div>
                 </div>
@@ -397,22 +395,20 @@ new #[Layout('layouts::main')] class extends Component {
                                 @endif
                             @endforeach
                         @else
-                            <p>Ma mission est d’aider les entrepreneurs, les PME et les ONG à se digitaliser
-                                efficacement. Je mets mes compétences en développement web au service de projets qui ont
-                                du sens, en apportant des solutions pragmatiques, sécurisées et esthétiques.</p>
-                            <p>À travers mes formations et mes articles de blog, je partage mes connaissances pour
-                                contribuer à l’émergence d’une nouvelle génération de développeurs en Afrique et
-                                au‑delà.</p>
+                            <p>Notre mission est d’accompagner les communautés rurales dans l’amélioration de la
+                                production agricole, de la nutrition et de l’accès aux services essentiels.</p>
+                            <p>Nous partageons des ressources et proposons des formations pratiques pour renforcer
+                                les capacités des producteurs, des familles et des organisations locales.</p>
                         @endif
                     </div>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4">
                         <a href="{{ route('projects.index') }}" wire:navigate
                             class="inline-flex h-14 items-center justify-center border-2 border-emerald-500 bg-emerald-500 px-8 font-semibold text-white transition hover:bg-emerald-600 active:scale-[0.97]">
-                            Voir mes projets
+                            Découvrir nos projets
                         </a>
                         <a href="{{ route('contact') }}" wire:navigate
                             class="inline-flex h-14 items-center justify-center border border-zinc-300 dark:border-zinc-600 px-8 font-semibold text-zinc-900 dark:text-white transition hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-[0.97]">
-                            Me contacter
+                            Nous contacter
                         </a>
                     </div>
                 </div>

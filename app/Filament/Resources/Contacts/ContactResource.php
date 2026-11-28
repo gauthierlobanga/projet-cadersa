@@ -6,6 +6,7 @@ use App\Enums\NavigationGroup;
 use App\Filament\Resources\Contacts\Pages\CreateContact;
 use App\Filament\Resources\Contacts\Pages\EditContact;
 use App\Filament\Resources\Contacts\Pages\ListContacts;
+use App\Filament\Resources\Contacts\RelationManagers\RepliesRelationManager;
 use App\Filament\Resources\Contacts\Schemas\ContactForm;
 use App\Filament\Resources\Contacts\Tables\ContactsTable;
 use App\Models\Contact;
@@ -47,7 +48,7 @@ class ContactResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RepliesRelationManager::class,
         ];
     }
 

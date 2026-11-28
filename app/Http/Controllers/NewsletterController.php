@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Newsletter;
+use App\Services\SiteAnalyticsTracker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,8 @@ class NewsletterController extends Controller
             'user_agent' => $request->userAgent(),
             'source' => 'formulaire',
         ]);
+
+        app(SiteAnalyticsTracker::class)->completeConversion('newsletter_subscription', $request);
 
         // Envoyer l'email de confirmation (à implémenter via Mailable)
 

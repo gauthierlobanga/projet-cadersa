@@ -14,7 +14,7 @@
             </h2>
             <p class="mt-4 sm:mt-6 text-base sm:text-lg leading-8 text-zinc-600 dark:text-zinc-400 transition-all duration-300 delay-200 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                {{ $this->about->project_hero_subtitle ?: 'De la conception à la mise en ligne, chaque réalisation illustre mon expertise en développement web full‑stack. Applications modernes, APIs robustes, interfaces soignées : voici un aperçu de mon savoir‑faire.' }}
+                {{ $this->about->project_hero_subtitle ?: 'Découvrez les initiatives menées avec les communautés pour renforcer leurs moyens d’existence et construire des solutions durables.' }}
             </p>
         </div>
 

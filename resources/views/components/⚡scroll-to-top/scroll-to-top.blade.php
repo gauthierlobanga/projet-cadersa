@@ -3,8 +3,7 @@
     x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
     x-transition:leave-end="opacity-0 translate-y-8 scale-90" class="fixed bottom-6 right-6 z-50 sm:bottom-8 sm:right-8">
-    <button type="button" aria-label="Remonter en haut de la page"
-        x-on:click="scrollToTop()"
+    <button type="button" aria-label="Remonter en haut de la page" x-on:click="scrollToTop()"
         class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 shadow shadow-emerald-500/10 transition-all duration-300 ease-out will-change-transform hover:scale-105 hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 dark:bg-zinc-800 dark:hover:bg-emerald-900 sm:w-auto sm:justify-start sm:rounded-full sm:pl-1.5 sm:pr-5">
         {{-- Icône --}}
         <span
@@ -16,7 +15,7 @@
         </span>
         {{-- Texte (masqué sur mobile) --}}
         <span
-            class="hidden overflow-hidden whitespace-nowrap text-sm font-medium text-zinc-900 dark:text-zinc-100 sm:block"
+            class="hidden overflow-hidden pl-2 whitespace-nowrap text-sm font-medium text-zinc-900 dark:text-zinc-100 sm:block"
             data-text>
             Retour en haut
         </span>

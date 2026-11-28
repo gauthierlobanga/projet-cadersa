@@ -78,6 +78,11 @@ class ReportStatsWidget extends StatsOverviewWidget
         ];
     }
 
+    protected function getColumns(): int
+    {
+        return 3;
+    }
+
     private function formatBytes(int $bytes): string
     {
         if ($bytes >= 1_000_000_000) {

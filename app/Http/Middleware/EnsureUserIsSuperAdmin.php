@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Filament\Facades\Filament;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,17 +13,16 @@ class EnsureUserIsSuperAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // 1. Si l'utilisateur n'est pas connecté
-        if (! Auth::check()) {
+        if (! Filament::auth()->check()) {
             Log::warning('Tentative d\'accès au panel admin par un utilisateur non authentifié.', [
                 'ip' => $request->ip(),
                 'url' => $request->fullUrl(),
             ]);
 
-            // Redirige vers la page de connexion globale
-            return redirect()->route('login');
+            return redirect()->to(Filament::getLoginUrl());
         }
 
-        $user = Auth::user();
+        $user = Filament::auth()->user();
 
         // 2. Si l'utilisateur est connecté mais n'est PAS super_admin
         if (! $user->hasRole('super_admin')) {

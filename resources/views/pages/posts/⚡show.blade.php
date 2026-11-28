@@ -322,7 +322,7 @@ new #[Layout('layouts::main')] class extends Component {
                 {{-- Extrait --}}
                 @if ($post->excerpt)
                     <div
-                        class="mb-6 sm:mb-10 fi-prose max-w-none text-lg sm:text-2xl font-light leading-relaxed text-slate-600 dark:text-slate-300">
+                        class="mb-6 sm:mb-8 fi-prose max-w-none text-base font-normal leading-7 text-slate-600 dark:text-slate-300">
                         {!! $post->renderRichContent('excerpt') !!}
                     </div>
                 @endif
@@ -457,10 +457,10 @@ new #[Layout('layouts::main')] class extends Component {
                                         {{ $post->user->name }}
                                     </h3>
                                     <p class="mt-1 text-sm font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                                        Développeur Full‑Stack
+                                        Équipe éditoriale
                                     </p>
                                     <p class="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                                        Expert et contributeur passionné par le développement web moderne.
+                                        Ressources et actualités de CADERSA ASBL.
                                     </p>
                                 </div>
                             </div>

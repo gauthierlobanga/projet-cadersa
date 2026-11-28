@@ -12,6 +12,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Facades\Filament;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -19,7 +20,6 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 class CadersaAsblDocumentLegalsTable
 {
@@ -114,7 +114,7 @@ class CadersaAsblDocumentLegalsTable
                         ->action(fn ($record) => $record->update([
                             'est_verifie' => true,
                             'verifie_le' => now(),
-                            'verifie_par' => Auth::id(),
+                            'verifie_par' => Filament::auth()->id(),
                         ]))
                         ->visible(fn ($record) => ! $record->est_verifie),
 
@@ -146,7 +146,7 @@ class CadersaAsblDocumentLegalsTable
                                 $record->update([
                                     'est_verifie' => true,
                                     'verifie_le' => now(),
-                                    'verifie_par' => Auth::id(),
+                                    'verifie_par' => Filament::auth()->id(),
                                 ]);
                             }
                         }),

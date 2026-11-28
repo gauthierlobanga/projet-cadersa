@@ -10,18 +10,18 @@ return new class extends SettingsMigration
             // Home page section titles and dynamic content
             'about.service_title' => '',
             'about.service_subtitle' => 'À travers notre approche 4B (Bonne cuisson, Bonne alimentation, Bonne planification familiale pour la Bonne santé), nous développons des solutions durables.',
-            'about.formation_title' => 'Plongez au cœur de mes formations',
-            'about.formation_subtitle' => 'En présentiel ou à distance, je vous accompagne dans la maîtrise du développement web moderne.',
+            'about.formation_title' => 'Renforcez vos compétences pratiques',
+            'about.formation_subtitle' => 'Des formations adaptées aux besoins des producteurs, des familles et des acteurs du développement local.',
             'about.partner_title' => 'Ensemble pour un impact durable',
             'about.partner_subtitle' => 'C’est grâce à la confiance et à l’engagement de nos partenaires que nous pouvons concrétiser nos actions sur le terrain.',
             'about.team_title' => 'Notre équipe',
-            'about.team_subtitle' => 'Nous réunissons des talents passionnés, animés par l’envie de créer de la valeur et d’accompagner nos clients vers le succès.',
+            'about.team_subtitle' => 'Une équipe engagée aux côtés des communautés pour des actions durables et adaptées au terrain.',
 
             'about.project_hero_badge' => 'Projets',
             'about.project_hero_title' => 'Des projets qui parlent d’eux-mêmes',
-            'about.project_hero_subtitle' => 'De la conception à la mise en ligne, chaque réalisation illustre mon expertise en développement web full‑stack.',
+            'about.project_hero_subtitle' => 'Découvrez les initiatives menées avec les communautés pour renforcer leurs moyens d’existence et construire des solutions durables.',
             'about.project_content_title' => 'Nos réalisations',
-            'about.project_content_subtitle' => 'Applications modernes, API robustes et interfaces soignées : voici un aperçu de notre savoir-faire.',
+            'about.project_content_subtitle' => 'Nos projets transforment les priorités locales en actions concrètes et mesurables.',
             'about.project_banner_title' => 'Projets sélectionnés',
             'about.project_banner_subtitle' => 'Des cas concrets qui mettent en lumière des solutions pensées pour le terrain.',
 

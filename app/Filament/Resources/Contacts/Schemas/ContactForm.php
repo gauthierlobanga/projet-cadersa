@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Contacts\Schemas;
 use App\Models\Contact;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -113,24 +112,17 @@ class ContactForm
                 Group::make()
                     ->columnSpanFull()
                     ->schema([
-                        Section::make('Réponse')
+                        Section::make('Dernière réponse')
                             ->icon(Heroicon::OutlinedEnvelopeOpen)
                             ->collapsible()
                             ->schema([
-                                MarkdownEditor::make('reponse')
-                                    ->label('Réponse')
-                                    ->toolbarButtons([
-                                        'bold',
-                                        'bulletList',
-                                        'heading',
-                                        'italic',
-                                        'link',
-                                        'orderedList',
-                                        'redo',
-                                        'undo',
-                                    ])
+                                Textarea::make('reponse')
+                                    ->label('Texte envoyé au contact')
+                                    ->rows(7)
+                                    ->disabled()
+                                    ->dehydrated(false)
                                     ->columnSpanFull()
-                                    ->helperText('Rédigez votre réponse ici. Elle sera envoyée par email au client.'),
+                                    ->helperText('Pour envoyer une nouvelle réponse, utilisez le bouton « Répondre par e-mail ». Toutes les réponses sont conservées dans l’historique ci-dessous.'),
 
                                 Grid::make(2)
                                     ->schema([

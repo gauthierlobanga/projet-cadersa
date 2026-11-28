@@ -16,7 +16,7 @@
             </h2>
             <p class="mt-4 sm:mt-6 text-base sm:text-lg leading-8 text-zinc-600 dark:text-zinc-400 transition-all duration-500 delay-200 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                {{ $this->about->blog_hero_subtitle ?: 'Retrouvez des articles, des nouvelles et des ressources sur le développement web moderne.' }}
+                {{ $this->about->blog_hero_subtitle ?: 'Retrouvez nos actualités, nos actions de terrain et des ressources sur le développement rural et la sécurité alimentaire.' }}
             </p>
         </div>
 

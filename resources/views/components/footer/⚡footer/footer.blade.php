@@ -217,26 +217,9 @@
                 @endif
             </div>
 
-            {{-- Crédits (à droite sur desktop) --}}
-            <p class="flex shrink-0 items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400" role="contentinfo">
-                <span class="flex items-center gap-1">
-                    <span>Site réalisé </span>
-                    <span>par</span>
-                </span>
-                <a href="{{ $this->developerUrl }}" target="_blank" rel="external noopener noreferrer"
-                    aria-label="{{ $this->developerName }}"
-                    class="group relative inline-flex items-center transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 rounded-sm">
-                    <span class="flex items-center gap-0.5 font-medium">
-                        <span
-                            class="text-amber-500 transition-transform duration-300 ease-out group-hover:-translate-x-0.5 group-hover:text-emerald-500">{</span>
-                        <span
-                            class="text-zinc-900 dark:text-zinc-200 transition-colors duration-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">{{ $this->developerName }}</span>
-                        <span
-                            class="text-amber-500 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:text-emerald-500">}</span>
-                    </span>
-                    <span
-                        class="absolute -bottom-1 left-0 h-[1.5px] w-full origin-right scale-x-0 bg-emerald-500 transition-transform duration-300 ease-out will-change-transform group-hover:origin-left group-hover:scale-x-100"></span>
-                </a>
+            {{-- Mentions de droits d’auteur --}}
+            <p style="min-height: 2.75rem;" class="flex shrink-0 items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400" role="contentinfo">
+                © {{ now()->year }} {{ $this->appName }}. Tous droits réservés.
             </p>
         </div>
     </div>

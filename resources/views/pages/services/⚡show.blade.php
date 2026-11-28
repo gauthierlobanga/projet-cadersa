@@ -113,7 +113,7 @@ new #[Layout('layouts::main')] class extends Component {
             @if ($service->excerpt)
                 <div x-ref="excerpt" class="mt-8 mx-auto max-w-2xl">
                     <div
-                        class="prose mt-6 text-lg leading-relaxed text-zinc-300 prose-lg prose-invert prose-headings:font-light prose-p:leading-relaxed prose-p:text-zinc-300 prose-strong:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 text-left mx-auto">
+                        class="prose mt-5 text-base leading-7 text-zinc-300 prose-invert prose-headings:font-semibold prose-p:my-3 prose-p:leading-7 prose-p:text-zinc-300 prose-strong:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 text-left mx-auto">
                         {!! $service->renderRichContent('excerpt') !!}
                     </div>
                 </div>

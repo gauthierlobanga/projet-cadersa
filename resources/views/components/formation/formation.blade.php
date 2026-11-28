@@ -7,11 +7,11 @@
         <div class="mb-8 max-w-3xl" x-data="cspState" x-intersect="shown = true">
             <h2 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-zinc-900 dark:text-white transition-all duration-300 delay-100 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                {{ $this->about->formation_title ?: 'Plongez au cœur de mes formations' }}
+                {{ $this->about->formation_title ?: 'Renforcez vos compétences pratiques' }}
             </h2>
             <p class="mt-4 sm:mt-6 text-base sm:text-lg leading-8 text-zinc-600 dark:text-zinc-400 transition-all duration-300 delay-200 ease-out"
                 :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-                {{ $this->about->formation_subtitle ?: 'En présentiel ou à distance, je vous accompagne dans la maîtrise du développement web moderne…' }}
+                {{ $this->about->formation_subtitle ?: 'Des formations adaptées aux besoins des producteurs, des familles et des acteurs du développement local.' }}
             </p>
         </div>
 
